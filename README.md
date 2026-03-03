@@ -22,6 +22,7 @@ as you type it: keyword, variable, class, string, function, and more.
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024-f7df1e?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c792ea?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-codetyper--eight.vercel.app-00c7b7?style=for-the-badge&logo=vercel&logoColor=white)](https://codetyper-eight.vercel.app)
 
 <br/>
 
