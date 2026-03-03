@@ -113,7 +113,7 @@ As you type, every character you complete lights up with its **semantic color** 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/codetyper.git
+git clone git https://github.com/HEO-80/CodeTyper.git
 cd codetyper
 
 # 2. Install dependencies
