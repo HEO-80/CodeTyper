@@ -33,6 +33,15 @@ as you type it: keyword, variable, class, string, function, and more.
 <div align="center">
 
 ## ✨ What is CodeTyper?
+[imagen: CodetyperFront-use.png] 
+
+## 🔄 How it works
+[imagen: codetyper flujo de programa.png] 
+
+## ⚙️ Technical Flow
+[imagen: codetyper programin flow.jpg] 
+
+[imagen: codetyper-flow.jpg]
 
 </div>
 

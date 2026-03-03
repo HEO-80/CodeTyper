@@ -1,0 +1,198 @@
+<svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" style="font-family: 'JetBrains Mono', 'Courier New', monospace;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0f16;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#161b22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1117;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#82aaff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c792ea;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="practiceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#82aaff" opacity="0.8"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#c792ea" opacity="0.8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ec994" opacity="0.8"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff5555" opacity="0.8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="620" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.03">
+    <line x1="0" y1="60" x2="900" y2="60" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="120" x2="900" y2="120" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="180" x2="900" y2="180" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="240" x2="900" y2="240" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="300" x2="900" y2="300" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="360" x2="900" y2="360" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="420" x2="900" y2="420" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="480" x2="900" y2="480" stroke="#82aaff" stroke-width="1"/>
+    <line x1="0" y1="540" x2="900" y2="540" stroke="#82aaff" stroke-width="1"/>
+    <line x1="60" y1="0" x2="60" y2="620" stroke="#82aaff" stroke-width="1"/>
+    <line x1="150" y1="0" x2="150" y2="620" stroke="#82aaff" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="620" stroke="#82aaff" stroke-width="1"/>
+    <line x1="450" y1="0" x2="450" y2="620" stroke="#82aaff" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="620" stroke="#82aaff" stroke-width="1"/>
+    <line x1="750" y1="0" x2="750" y2="620" stroke="#82aaff" stroke-width="1"/>
+  </g>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#82aaff" font-size="13" font-weight="700" letter-spacing="4" opacity="0.9">&gt;_ CODETYPER — APP FLOW</text>
+  <line x1="200" y1="48" x2="700" y2="48" stroke="url(#accentGrad)" stroke-width="1" opacity="0.3"/>
+
+  <!-- ─── NODE 1: MENU ─── -->
+  <rect x="325" y="68" width="250" height="64" rx="10" fill="url(#nodeGrad)" stroke="#82aaff" stroke-width="1.5" filter="url(#glow)"/>
+  <rect x="325" y="68" width="250" height="4" rx="2" fill="url(#accentGrad)" opacity="0.8"/>
+  <text x="450" y="98" text-anchor="middle" fill="#c9d1d9" font-size="14" font-weight="700">🖥️  MENÚ PRINCIPAL</text>
+  <text x="450" y="118" text-anchor="middle" fill="#546e7a" font-size="10">selecciona lenguaje + snippet</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="450" y1="132" x2="450" y2="158" stroke="#82aaff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)" opacity="0.7"/>
+
+  <!-- ─── NODE 2: LANGUAGE PILLS ─── -->
+  <g>
+    <!-- JS -->
+    <rect x="160" y="162" width="108" height="34" rx="6" fill="#1a1f2e" stroke="#82aaff" stroke-width="1.2"/>
+    <text x="214" y="183" text-anchor="middle" fill="#82aaff" font-size="11" font-weight="600">JavaScript</text>
+    <!-- Python -->
+    <rect x="282" y="162" width="88" height="34" rx="6" fill="#1a1f2e" stroke="#4ec994" stroke-width="1.2"/>
+    <text x="326" y="183" text-anchor="middle" fill="#4ec994" font-size="11" font-weight="600">Python</text>
+    <!-- TS -->
+    <rect x="384" y="162" width="108" height="34" rx="6" fill="#1a1f2e" stroke="#c792ea" stroke-width="1.2"/>
+    <text x="438" y="183" text-anchor="middle" fill="#c792ea" font-size="11" font-weight="600">TypeScript</text>
+    <!-- SQL -->
+    <rect x="506" y="162" width="64" height="34" rx="6" fill="#1a1f2e" stroke="#f78c6c" stroke-width="1.2"/>
+    <text x="538" y="183" text-anchor="middle" fill="#f78c6c" font-size="11" font-weight="600">SQL</text>
+    <!-- More -->
+    <rect x="584" y="162" width="80" height="34" rx="6" fill="#1a1f2e" stroke="#30363d" stroke-width="1.2" stroke-dasharray="4,2"/>
+    <text x="624" y="183" text-anchor="middle" fill="#30363d" font-size="11">+ más...</text>
+  </g>
+
+  <!-- Arrow 2→3 -->
+  <line x1="450" y1="196" x2="450" y2="226" stroke="#82aaff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)" opacity="0.7"/>
+
+  <!-- ─── NODE 3: PRACTICE ─── -->
+  <rect x="220" y="230" width="460" height="180" rx="12" fill="url(#practiceGrad)" stroke="#c792ea" stroke-width="1.5" filter="url(#glow)"/>
+  <rect x="220" y="230" width="460" height="4" rx="2" fill="#c792ea" opacity="0.6"/>
+  <text x="450" y="258" text-anchor="middle" fill="#c9d1d9" font-size="13" font-weight="700">⌨️  PANTALLA DE PRÁCTICA</text>
+
+  <!-- Code preview inside practice box -->
+  <rect x="240" y="268" width="420" height="80" rx="6" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+  <!-- Line numbers -->
+  <text x="258" y="285" fill="#30363d" font-size="10">1</text>
+  <text x="258" y="300" fill="#30363d" font-size="10">2</text>
+  <text x="258" y="315" fill="#30363d" font-size="10">3</text>
+  <text x="258" y="330" fill="#30363d" font-size="10">4</text>
+  <!-- Code tokens - typed (colored) -->
+  <text x="275" y="285" fill="#c792ea" font-size="10" font-weight="600">class</text>
+  <text x="308" y="285" fill="#ffcb6b" font-size="10"> Animal </text>
+  <text x="349" y="285" fill="#89ddff" font-size="10">{"{"}</text>
+  <!-- Cursor -->
+  <rect x="362" y="275" width="2" height="12" fill="#82aaff" opacity="0.9">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  <!-- Code tokens - not typed yet (gray) -->
+  <text x="275" y="300" fill="#2a3a4a" font-size="10">  constructor(nombre) {"{"}</text>
+  <text x="275" y="315" fill="#2a3a4a" font-size="10">    this.nombre = nombre;</text>
+  <text x="275" y="330" fill="#2a3a4a" font-size="10">  {"}"}</text>
+
+  <!-- Legend inside practice -->
+  <text x="248" y="366" fill="#546e7a" font-size="9">YA ESCRITO:</text>
+  <rect x="318" y="357" width="8" height="8" rx="2" fill="#c792ea"/>
+  <text x="330" y="366" fill="#c792ea" font-size="9">keyword</text>
+  <rect x="386" y="357" width="8" height="8" rx="2" fill="#ffcb6b"/>
+  <text x="398" y="366" fill="#ffcb6b" font-size="9">clase</text>
+  <rect x="432" y="357" width="8" height="8" rx="2" fill="#82aaff"/>
+  <text x="444" y="366" fill="#82aaff" font-size="9">variable</text>
+  <rect x="497" y="357" width="8" height="8" rx="2" fill="#f78c6c"/>
+  <text x="509" y="366" fill="#f78c6c" font-size="9">string</text>
+  <text x="248" y="398" fill="#546e7a" font-size="9">POR ESCRIBIR:</text>
+  <rect x="330" y="389" width="8" height="8" rx="2" fill="#2a3a4a" stroke="#30363d" stroke-width="1"/>
+  <text x="342" y="398" fill="#2a3a4a" font-size="9">gris tenue</text>
+
+  <!-- ─── DECISION NODE ─── -->
+  <!-- Arrow from practice down -->
+  <line x1="450" y1="410" x2="450" y2="438" stroke="#82aaff" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)" opacity="0.7"/>
+
+  <!-- Diamond -->
+  <polygon points="450,445 510,478 450,511 390,478" fill="#161b22" stroke="#ffcb6b" stroke-width="1.5" filter="url(#glow)"/>
+  <text x="450" y="474" text-anchor="middle" fill="#ffcb6b" font-size="11" font-weight="700">tecla</text>
+  <text x="450" y="488" text-anchor="middle" fill="#ffcb6b" font-size="11" font-weight="700">correcta?</text>
+
+  <!-- YES branch → right -->
+  <line x1="510" y1="478" x2="620" y2="478" stroke="#4ec994" stroke-width="1.5" marker-end="url(#arrowGreen)" opacity="0.8"/>
+  <text x="564" y="470" text-anchor="middle" fill="#4ec994" font-size="10" font-weight="600">✅ sí</text>
+  <!-- YES node -->
+  <rect x="622" y="456" width="130" height="44" rx="8" fill="#1a2e1a" stroke="#4ec994" stroke-width="1.2"/>
+  <text x="687" y="474" text-anchor="middle" fill="#4ec994" font-size="10" font-weight="600">avanza cursor</text>
+  <text x="687" y="489" text-anchor="middle" fill="#4ec994" font-size="9">color semántico 🎨</text>
+
+  <!-- NO branch → left -->
+  <line x1="390" y1="478" x2="280" y2="478" stroke="#ff5555" stroke-width="1.5" marker-end="url(#arrowRed)" opacity="0.8"/>
+  <text x="336" y="470" text-anchor="middle" fill="#ff5555" font-size="10" font-weight="600">❌ no</text>
+  <!-- NO node -->
+  <rect x="148" y="456" width="130" height="44" rx="8" fill="#2e1a1a" stroke="#ff5555" stroke-width="1.2"/>
+  <text x="213" y="474" text-anchor="middle" fill="#ff5555" font-size="10" font-weight="600">flash rojo</text>
+  <text x="213" y="489" text-anchor="middle" fill="#ff5555" font-size="9">espera corrección 🔴</text>
+
+  <!-- NO loops back up -->
+  <path d="M 213 500 Q 213 530 450 530 Q 560 530 560 415 Q 560 405 540 405" stroke="#ff5555" stroke-width="1.2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrowRed)" opacity="0.5"/>
+
+  <!-- YES continues down -->
+  <line x1="687" y1="500" x2="687" y2="530" stroke="#4ec994" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.6"/>
+  <line x1="687" y1="530" x2="560" y2="530" stroke="#4ec994" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.6"/>
+  <text x="624" y="524" fill="#546e7a" font-size="9">snippet completo</text>
+  <line x1="560" y1="530" x2="560" y2="545" stroke="#4ec994" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrowGreen)" opacity="0.6"/>
+
+  <!-- ─── NODE 4: RESULTS ─── -->
+  <rect x="325" y="548" width="270" height="56" rx="10" fill="url(#nodeGrad)" stroke="#ffcb6b" stroke-width="1.5" filter="url(#glow)"/>
+  <rect x="325" y="548" width="270" height="4" rx="2" fill="#ffcb6b" opacity="0.7"/>
+  <text x="460" y="572" text-anchor="middle" fill="#c9d1d9" font-size="13" font-weight="700">🏆  RESULTADOS</text>
+  <!-- Metrics -->
+  <text x="360" y="592" text-anchor="middle" fill="#82aaff" font-size="10">CPM</text>
+  <text x="420" y="592" text-anchor="middle" fill="#ffcb6b" font-size="10">PRECISIÓN</text>
+  <text x="490" y="592" text-anchor="middle" fill="#f78c6c" font-size="10">ERRORES</text>
+  <text x="554" y="592" text-anchor="middle" fill="#c792ea" font-size="10">NOTA S/A/B</text>
+
+  <!-- ─── BOTTOM ACTIONS ─── -->
+  <!-- Repeat arrow -->
+  <path d="M 325 576 Q 200 576 200 400 Q 200 290 325 290" stroke="#c792ea" stroke-width="1.2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrowPurple)" opacity="0.4"/>
+  <text x="186" y="440" fill="#c792ea" font-size="9" text-anchor="middle" transform="rotate(-90, 186, 440)">↺ repetir snippet</text>
+
+  <!-- New snippet arrow -->
+  <path d="M 595 576 Q 760 576 760 100 Q 760 80 700 80" stroke="#546e7a" stroke-width="1.2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrow)" opacity="0.35"/>
+  <text x="774" y="340" fill="#546e7a" font-size="9" text-anchor="middle" transform="rotate(90, 774, 340)">nuevo snippet →</text>
+
+  <!-- Bottom credit -->
+  <text x="450" y="612" text-anchor="middle" fill="#21262d" font-size="9" letter-spacing="2">codetyper-eight.vercel.app</text>
+</svg>
