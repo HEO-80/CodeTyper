@@ -37,12 +37,12 @@ as you type it: keyword, variable, class, string, function, and more.
 <img src="img/CodetyperFront-use.png" alt="CodeTyper Practice Screen" width="90%" />
 ## 🔄 How it works
 [imagen: codetyper flujo de programa.png] 
-<img src="img/codetyper flujo de programa.png" alt="CodeTyper Practice Screen" width="90%" />
+<img src="img/codetyper flujo de programa.png" alt="CodeTyper Practice Screen2" width="90%" />
 ## ⚙️ Technical Flow
 [imagen: codetyper programin flow.jpg] 
-<img src="img/codetyper programin flow.png" alt="CodeTyper Practice Screen" width="90%" />
+<img src="img/codetyper programin flow.jpg" alt="CodeTyper Practice Screen3" width="90%" />
 [imagen: codetyper-flow.jpg]
-<img src="img/codetyper-flow.jpg" alt="CodeTyper Practice Screen" width="90%" />
+<img src="img/codetyper-flow.svg" alt="CodeTyper Practice Screen4" width="90%" />
 </div>
 
 Most typing trainers give you *words*. CodeTyper gives you **real code**.  
