@@ -125,6 +125,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser and start typing.
+Or try the **[live demo →](https://codetyper-eight.vercel.app)** directly.
 
 ---
 
