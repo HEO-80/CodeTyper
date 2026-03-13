@@ -1,0 +1,232 @@
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bgQuiz" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080810"/>
+      <stop offset="100%" style="stop-color:#0e0818"/>
+    </linearGradient>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#111120"/>
+      <stop offset="100%" style="stop-color:#0d0d1e"/>
+    </linearGradient>
+    <filter id="gQ">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGQ">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="qArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#7effa0"/>
+    </marker>
+    <marker id="qArrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3df5ff"/>
+    </marker>
+    <marker id="qArrowYellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ffca3a"/>
+    </marker>
+    <marker id="qArrowRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ff4757"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="520" fill="url(#bgQuiz)" rx="16"/>
+  <pattern id="dotsQ" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="0.9" fill="#ffffff" opacity="0.03"/>
+  </pattern>
+  <rect width="800" height="520" fill="url(#dotsQ)" rx="16"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffca3a" filter="url(#gQ)" letter-spacing="0.1em">QUIZ GAME FLOW</text>
+  <text x="400" y="53" text-anchor="middle" font-size="9" fill="#444466" letter-spacing="0.18em">QUIZZAPP PRO · GAME SESSION LIFECYCLE</text>
+  <line x1="160" y1="61" x2="640" y2="61" stroke="#ffca3a" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- ── NODE HELPER: reusable styled boxes ── -->
+
+  <!-- 1. LAUNCH APP -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.2s" fill="freeze"/>
+    <rect x="330" y="75" width="140" height="50" rx="10" fill="url(#stepGrad)" stroke="#7effa0" stroke-width="1.5" filter="url(#gQ)"/>
+    <text x="400" y="97" text-anchor="middle" font-size="11" fill="#7effa0">🚀 Launch App</text>
+    <text x="400" y="114" text-anchor="middle" font-size="9" fill="#446633">MainActivity</text>
+  </g>
+  <!-- down arrow -->
+  <line x1="400" y1="125" x2="400" y2="153" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.45s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="0.45s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 2. LOGIN CHECK -->
+  <!-- Diamond -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.55s" fill="freeze"/>
+    <polygon points="400,155 445,185 400,215 355,185" fill="url(#stepGrad)" stroke="#ffca3a" stroke-width="1.5" filter="url(#gQ)"/>
+    <text x="400" y="182" text-anchor="middle" font-size="9" fill="#ffca3a">Token</text>
+    <text x="400" y="194" text-anchor="middle" font-size="9" fill="#ffca3a">valid?</text>
+  </g>
+
+  <!-- YES → right -->
+  <line x1="445" y1="185" x2="520" y2="185" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.8s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="0.8s" repeatCount="indefinite"/>
+  </line>
+  <text x="483" y="178" text-anchor="middle" font-size="9" fill="#7effa0" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.85s" fill="freeze"/>
+    YES
+  </text>
+
+  <!-- NO → left -->
+  <line x1="355" y1="185" x2="270" y2="185" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrowRed)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.8s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="0.8s" repeatCount="indefinite"/>
+  </line>
+  <text x="313" y="178" text-anchor="middle" font-size="9" fill="#ff4757" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.85s" fill="freeze"/>
+    NO
+  </text>
+
+  <!-- 3. LOGIN SCREEN (left branch) -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="0.95s" fill="freeze"/>
+    <rect x="165" y="160" width="105" height="50" rx="10" fill="url(#stepGrad)" stroke="#ff4757" stroke-width="1.5"/>
+    <text x="218" y="181" text-anchor="middle" font-size="10" fill="#ff4757">🔐 Login</text>
+    <text x="218" y="197" text-anchor="middle" font-size="8" fill="#883333">POST /auth/login</text>
+  </g>
+  <!-- Login → JWT returned → back up to quiz -->
+  <path d="M218,210 Q218,240 310,240 Q370,240 400,220" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2" fill="none" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="0.7" dur="0.4s" begin="1.2s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="100" to="0" dur="1.5s" begin="1.2s" repeatCount="indefinite"/>
+  </path>
+  <text x="300" y="255" text-anchor="middle" font-size="8" fill="#886633" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.25s" fill="freeze"/>
+    store JWT
+  </text>
+
+  <!-- 4. HOME SCREEN -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.05s" fill="freeze"/>
+    <rect x="520" y="160" width="120" height="50" rx="10" fill="url(#stepGrad)" stroke="#3df5ff" stroke-width="1.5"/>
+    <text x="580" y="181" text-anchor="middle" font-size="10" fill="#3df5ff">🏠 Home</text>
+    <text x="580" y="197" text-anchor="middle" font-size="8" fill="#336688">Select category</text>
+  </g>
+  <!-- Home → down -->
+  <line x1="580" y1="210" x2="580" y2="248" stroke="#3df5ff" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrowCyan)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.3s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="1.3s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 5. FETCH QUESTIONS from API -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.4s" fill="freeze"/>
+    <rect x="510" y="250" width="140" height="50" rx="10" fill="url(#stepGrad)" stroke="#7effa0" stroke-width="1.5" filter="url(#gQ)"/>
+    <text x="580" y="270" text-anchor="middle" font-size="10" fill="#7effa0">🌐 Fetch Questions</text>
+    <text x="580" y="287" text-anchor="middle" font-size="8" fill="#336633">GET /api/questions</text>
+  </g>
+  <!-- → down -->
+  <line x1="580" y1="300" x2="580" y2="338" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.65s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="1.65s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 6. SHOW QUESTION -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.75s" fill="freeze"/>
+    <rect x="510" y="340" width="140" height="50" rx="10" fill="url(#stepGrad)" stroke="#ffca3a" stroke-width="1.5"/>
+    <text x="580" y="360" text-anchor="middle" font-size="10" fill="#ffca3a">❓ Show Question</text>
+    <text x="580" y="377" text-anchor="middle" font-size="8" fill="#886633">QuizActivity</text>
+  </g>
+  <!-- → left to answer check -->
+  <line x1="510" y1="365" x2="445" y2="365" stroke="#ffca3a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrowYellow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.0s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="2.0s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 7. ANSWER DIAMOND -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.1s" fill="freeze"/>
+    <polygon points="400,340 445,365 400,390 355,365" fill="url(#stepGrad)" stroke="#ffca3a" stroke-width="1.5"/>
+    <text x="400" y="362" text-anchor="middle" font-size="9" fill="#ffca3a">User</text>
+    <text x="400" y="374" text-anchor="middle" font-size="9" fill="#ffca3a">answers</text>
+  </g>
+
+  <!-- Correct → left -->
+  <line x1="355" y1="365" x2="280" y2="365" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.35s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="2.35s" repeatCount="indefinite"/>
+  </line>
+  <text x="318" y="358" text-anchor="middle" font-size="9" fill="#7effa0" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.4s" fill="freeze"/>
+    ✓ correct
+  </text>
+
+  <!-- Wrong → down -->
+  <line x1="400" y1="390" x2="400" y2="435" stroke="#ff4757" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrowRed)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.35s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="2.35s" repeatCount="indefinite"/>
+  </line>
+  <text x="412" y="415" font-size="9" fill="#ff4757" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.4s" fill="freeze"/>
+    ✗ wrong
+  </text>
+
+  <!-- 8. SCORE++ -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.5s" fill="freeze"/>
+    <rect x="175" y="340" width="105" height="50" rx="10" fill="url(#stepGrad)" stroke="#7effa0" stroke-width="1.5"/>
+    <text x="228" y="360" text-anchor="middle" font-size="10" fill="#7effa0">➕ score++</text>
+    <text x="228" y="377" text-anchor="middle" font-size="8" fill="#336633">update counter</text>
+  </g>
+
+  <!-- 9. MORE QUESTIONS diamond -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.75s" fill="freeze"/>
+    <polygon points="228,420 268,445 228,470 188,445" fill="url(#stepGrad)" stroke="#3df5ff" stroke-width="1.5"/>
+    <text x="228" y="442" text-anchor="middle" font-size="9" fill="#3df5ff">more?</text>
+  </g>
+  <!-- Score → more? -->
+  <line x1="228" y1="390" x2="228" y2="418" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.8s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="2.8s" repeatCount="indefinite"/>
+  </line>
+  <!-- YES → back to show question (loop) -->
+  <path d="M268,445 Q480,445 510,365" stroke="#3df5ff" stroke-width="1" stroke-dasharray="3,2" fill="none" marker-end="url(#qArrowCyan)" opacity="0">
+    <animate attributeName="opacity" from="0" to="0.7" dur="0.4s" begin="3.0s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="120" to="0" dur="1.5s" begin="3.0s" repeatCount="indefinite"/>
+  </path>
+  <text x="400" y="458" text-anchor="middle" font-size="9" fill="#336688" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="3.05s" fill="freeze"/>
+    YES · next question
+  </text>
+
+  <!-- NO → Score Screen -->
+  <line x1="188" y1="445" x2="110" y2="445" stroke="#ffca3a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#qArrowYellow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="3.1s" fill="freeze"/>
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.8s" begin="3.1s" repeatCount="indefinite"/>
+  </line>
+  <text x="148" y="438" text-anchor="middle" font-size="9" fill="#886633" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="3.15s" fill="freeze"/>
+    NO
+  </text>
+
+  <!-- 10. RESULTS SCREEN -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.25s" fill="freeze"/>
+    <rect x="30" y="420" width="80" height="50" rx="10" fill="url(#stepGrad)" stroke="#ffca3a" stroke-width="2" filter="url(#bigGQ)"/>
+    <text x="70" y="440" text-anchor="middle" font-size="10" fill="#ffca3a">🏆</text>
+    <text x="70" y="457" text-anchor="middle" font-size="8" fill="#886633">Results</text>
+  </g>
+
+  <!-- 11. SAVE RESULT TO API (from results screen) -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="3.5s" fill="freeze"/>
+    <rect x="30" y="340" width="120" height="50" rx="10" fill="url(#stepGrad)" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="90" y="360" text-anchor="middle" font-size="10" fill="#a78bfa">💾 Save Result</text>
+    <text x="90" y="377" text-anchor="middle" font-size="8" fill="#664499">POST /api/results</text>
+  </g>
+  <line x1="70" y1="420" x2="90" y2="392" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#qArrow)" opacity="0">
+    <animate attributeName="opacity" from="0" to="0.8" dur="0.3s" begin="3.55s" fill="freeze"/>
+  </line>
+
+  <!-- Wrong answer → add to wrong counter (from wrong arrow down) -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.6s" fill="freeze"/>
+    <rect x="340" y="437" width="120" height="46" rx="10" fill="url(#stepGrad)" stroke="#ff4757" stroke-width="1"/>
+    <text x="400" y="455" text-anchor="middle" font-size="10" fill="#ff4757">➖ wrong++</text>
+    <text x="400" y="472" text-anchor="middle" font-size="8" fill="#883333">feedback shown</text>
+  </g>
+  <!-- wrong → more? -->
+  <path d="M340,460 Q290,460 268,468" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2" fill="none" marker-end="url(#qArrowRed)" opacity="0">
+    <animate attributeName="opacity" from="0" to="0.7" dur="0.3s" begin="2.8s" fill="freeze"/>
+  </path>
+
+  <!-- Footer -->
+  <text x="400" y="500" text-anchor="middle" font-size="9" fill="#222240" letter-spacing="0.1em">RETROFIT 2 · ANDROID SDK · JWT AUTH · ASYNC CALLBACKS</text>
+</svg>

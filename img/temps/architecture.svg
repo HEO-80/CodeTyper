@@ -1,0 +1,185 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="'Courier New', monospace">
+  <defs>
+    <linearGradient id="bgArch" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080810"/>
+      <stop offset="100%" style="stop-color:#0c0c1c"/>
+    </linearGradient>
+    <linearGradient id="androidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2e1a"/>
+      <stop offset="100%" style="stop-color:#0f1f0f"/>
+    </linearGradient>
+    <linearGradient id="springGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2e1a"/>
+      <stop offset="100%" style="stop-color:#0a1a0a"/>
+    </linearGradient>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f1030"/>
+      <stop offset="100%" style="stop-color:#120820"/>
+    </linearGradient>
+    <filter id="glowArch">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="aGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3DDC84"/>
+    </marker>
+    <marker id="aCyan" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3df5ff"/>
+    </marker>
+    <marker id="aPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgArch)" rx="16"/>
+  <pattern id="dotsA" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="0.9" fill="#ffffff" opacity="0.03"/>
+  </pattern>
+  <rect width="800" height="500" fill="url(#dotsA)" rx="16"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="15" font-weight="bold" fill="#7effa0" filter="url(#glowArch)" letter-spacing="0.1em">SYSTEM ARCHITECTURE</text>
+  <text x="400" y="53" text-anchor="middle" font-size="9" fill="#444466" letter-spacing="0.18em">QUIZAPP PRO · CLIENT-SERVER OVERVIEW</text>
+  <line x1="160" y1="61" x2="640" y2="61" stroke="#7effa0" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- ══ ANDROID CLIENT BLOCK ══ -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.6s" begin="0.2s" fill="freeze"/>
+    <rect x="30" y="80" width="195" height="340" rx="14" fill="url(#androidGrad)" stroke="#3DDC84" stroke-width="1.5" filter="url(#glowArch)"/>
+    <text x="127" y="104" text-anchor="middle" font-size="12" font-weight="bold" fill="#3DDC84" letter-spacing="0.08em">📱 ANDROID</text>
+    <text x="127" y="119" text-anchor="middle" font-size="9" fill="#448844">quizzapp-pro · Java</text>
+    <line x1="50" y1="127" x2="205" y2="127" stroke="#3DDC84" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Inner components -->
+    <rect x="50" y="140" width="155" height="36" rx="7" fill="#0a1a0a" stroke="#3DDC84" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="127" y="154" text-anchor="middle" font-size="10" fill="#7effa0">MainActivity</text>
+    <text x="127" y="168" text-anchor="middle" font-size="8" fill="#336633">Quiz Screen · Score Screen</text>
+
+    <rect x="50" y="190" width="155" height="36" rx="7" fill="#0a1a0a" stroke="#3DDC84" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="127" y="204" text-anchor="middle" font-size="10" fill="#7effa0">RetrofitClient</text>
+    <text x="127" y="218" text-anchor="middle" font-size="8" fill="#336633">API Interface · Interceptors</text>
+
+    <rect x="50" y="240" width="155" height="36" rx="7" fill="#0a1a0a" stroke="#3DDC84" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="127" y="254" text-anchor="middle" font-size="10" fill="#7effa0">AuthService</text>
+    <text x="127" y="268" text-anchor="middle" font-size="8" fill="#336633">JWT Token Storage</text>
+
+    <rect x="50" y="290" width="155" height="36" rx="7" fill="#0a1a0a" stroke="#3DDC84" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="127" y="304" text-anchor="middle" font-size="10" fill="#7effa0">QuizAdapter</text>
+    <text x="127" y="318" text-anchor="middle" font-size="8" fill="#336633">RecyclerView · Answers</text>
+
+    <rect x="50" y="340" width="155" height="36" rx="7" fill="#0a1a0a" stroke="#3DDC84" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="127" y="354" text-anchor="middle" font-size="10" fill="#7effa0">ScoreActivity</text>
+    <text x="127" y="368" text-anchor="middle" font-size="8" fill="#336633">Results · Feedback</text>
+  </g>
+
+  <!-- ══ SPRING BOOT BLOCK ══ -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.6s" begin="0.6s" fill="freeze"/>
+    <rect x="305" y="80" width="210" height="340" rx="14" fill="url(#springGrad)" stroke="#6DB33F" stroke-width="1.5" filter="url(#glowArch)"/>
+    <text x="410" y="104" text-anchor="middle" font-size="12" font-weight="bold" fill="#6DB33F" letter-spacing="0.08em">⚡ SPRING BOOT</text>
+    <text x="410" y="119" text-anchor="middle" font-size="9" fill="#448833">quiz-api · Java 17</text>
+    <line x1="325" y1="127" x2="495" y2="127" stroke="#6DB33F" stroke-width="0.5" opacity="0.3"/>
+
+    <rect x="325" y="140" width="170" height="36" rx="7" fill="#0a140a" stroke="#6DB33F" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="410" y="154" text-anchor="middle" font-size="10" fill="#85ea2d">SecurityConfig</text>
+    <text x="410" y="168" text-anchor="middle" font-size="8" fill="#336622">JWT Filter · CORS</text>
+
+    <rect x="325" y="190" width="170" height="36" rx="7" fill="#0a140a" stroke="#6DB33F" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="410" y="204" text-anchor="middle" font-size="10" fill="#85ea2d">@RestControllers</text>
+    <text x="410" y="218" text-anchor="middle" font-size="8" fill="#336622">Auth · Question · Result</text>
+
+    <rect x="325" y="240" width="170" height="36" rx="7" fill="#0a140a" stroke="#6DB33F" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="410" y="254" text-anchor="middle" font-size="10" fill="#85ea2d">@Services</text>
+    <text x="410" y="268" text-anchor="middle" font-size="8" fill="#336622">Business Logic · Validation</text>
+
+    <rect x="325" y="290" width="170" height="36" rx="7" fill="#0a140a" stroke="#6DB33F" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="410" y="304" text-anchor="middle" font-size="10" fill="#85ea2d">@Repositories</text>
+    <text x="410" y="318" text-anchor="middle" font-size="8" fill="#336622">Spring Data JPA</text>
+
+    <rect x="325" y="340" width="170" height="36" rx="7" fill="#0a140a" stroke="#6DB33F" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="410" y="354" text-anchor="middle" font-size="10" fill="#85ea2d">Swagger UI</text>
+    <text x="410" y="368" text-anchor="middle" font-size="8" fill="#336622">/swagger-ui/index.html</text>
+  </g>
+
+  <!-- ══ DATABASE BLOCK ══ -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.6s" begin="1.0s" fill="freeze"/>
+    <rect x="580" y="80" width="190" height="340" rx="14" fill="url(#dbGrad)" stroke="#a78bfa" stroke-width="1.5" filter="url(#glowArch)"/>
+    <text x="675" y="104" text-anchor="middle" font-size="12" font-weight="bold" fill="#a78bfa" letter-spacing="0.08em">🗄️ POSTGRESQL</text>
+    <text x="675" y="119" text-anchor="middle" font-size="9" fill="#7755cc">Persistent Layer</text>
+    <line x1="600" y1="127" x2="750" y2="127" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+
+    <rect x="598" y="140" width="155" height="36" rx="7" fill="#100818" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="675" y="154" text-anchor="middle" font-size="10" fill="#c4b5fd">users</text>
+    <text x="675" y="168" text-anchor="middle" font-size="8" fill="#664499">id · username · password · role</text>
+
+    <rect x="598" y="190" width="155" height="36" rx="7" fill="#100818" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="675" y="204" text-anchor="middle" font-size="10" fill="#c4b5fd">questions</text>
+    <text x="675" y="218" text-anchor="middle" font-size="8" fill="#664499">id · text · category · difficulty</text>
+
+    <rect x="598" y="240" width="155" height="36" rx="7" fill="#100818" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="675" y="254" text-anchor="middle" font-size="10" fill="#c4b5fd">answers</text>
+    <text x="675" y="268" text-anchor="middle" font-size="8" fill="#664499">id · text · is_correct · question_id</text>
+
+    <rect x="598" y="290" width="155" height="36" rx="7" fill="#100818" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="675" y="304" text-anchor="middle" font-size="10" fill="#c4b5fd">results</text>
+    <text x="675" y="318" text-anchor="middle" font-size="8" fill="#664499">id · user_id · score · date</text>
+
+    <!-- DB cylinder decoration -->
+    <ellipse cx="675" cy="355" rx="52" ry="14" fill="#1a0a28" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.6"/>
+    <rect x="623" y="355" width="104" height="30" fill="#1a0a28" stroke="none"/>
+    <ellipse cx="675" cy="385" rx="52" ry="14" fill="#1a0a28" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.6"/>
+    <text x="675" y="373" text-anchor="middle" font-size="9" fill="#a78bfa">Hibernate ORM</text>
+  </g>
+
+  <!-- ══ CONNECTING ARROWS ══ -->
+  <!-- Android → Spring: request -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.4s" fill="freeze"/>
+    <line x1="225" y1="218" x2="303" y2="218" stroke="#3df5ff" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#aCyan)"/>
+    <animate attributeName="stroke-dashoffset" attributeType="XML" from="60" to="0" dur="1.2s" begin="1.4s" repeatCount="indefinite"/>
+  </g>
+  <text x="264" y="211" text-anchor="middle" font-size="9" fill="#3df5ff" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.5s" fill="freeze"/>
+    HTTP + JWT
+  </text>
+
+  <!-- Spring → Android: response -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.7s" fill="freeze"/>
+    <line x1="303" y1="240" x2="225" y2="240" stroke="#7effa0" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#aGreen)"/>
+    <animate attributeName="stroke-dashoffset" attributeType="XML" from="60" to="0" dur="1.2s" begin="1.7s" repeatCount="indefinite"/>
+  </g>
+  <text x="264" y="258" text-anchor="middle" font-size="9" fill="#7effa0" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.8s" fill="freeze"/>
+    JSON
+  </text>
+
+  <!-- Spring → DB: query -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.0s" fill="freeze"/>
+    <line x1="515" y1="265" x2="578" y2="265" stroke="#a78bfa" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#aPurple)"/>
+    <animate attributeName="stroke-dashoffset" attributeType="XML" from="60" to="0" dur="1.2s" begin="2.0s" repeatCount="indefinite"/>
+  </g>
+  <text x="547" y="258" text-anchor="middle" font-size="9" fill="#a78bfa" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.1s" fill="freeze"/>
+    SQL
+  </text>
+
+  <!-- DB → Spring: result -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.3s" fill="freeze"/>
+    <line x1="578" y1="285" x2="515" y2="285" stroke="#f97316" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#aCyan)"/>
+    <animate attributeName="stroke-dashoffset" attributeType="XML" from="60" to="0" dur="1.2s" begin="2.3s" repeatCount="indefinite"/>
+  </g>
+  <text x="547" y="302" text-anchor="middle" font-size="9" fill="#f97316" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.4s" fill="freeze"/>
+    rows
+  </text>
+
+  <!-- Internet cloud icon in center between android and spring -->
+  <g opacity="0"><animate attributeName="opacity" from="0" to="0.8" dur="0.6s" begin="2.6s" fill="freeze"/>
+    <text x="264" y="230" text-anchor="middle" font-size="16">☁</text>
+    <text x="264" y="225" text-anchor="middle" font-size="8" fill="#3df5ff">HTTPS</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="468" text-anchor="middle" font-size="9" fill="#222240" letter-spacing="0.1em">REST · JWT · JPA · RETROFIT 2 · POSTGRESQL</text>
+</svg>

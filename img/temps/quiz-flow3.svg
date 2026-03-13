@@ -1,0 +1,299 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 760" role="img" aria-label="CodeTyper flowchart dark">
+  <defs>
+    <style>
+      :root{
+        --bg:#0d1117;
+        --text:#e6edf3;
+        --muted:#9aa4b2;
+
+        --node:#0f172a;
+        --border:#1f2a44;
+
+        --accent:#82aaff;      /* primary accent */
+        --arrow:#c792ea;       /* connecting arrows */
+        --potential:#ffca3a;   /* highlight/potential */
+        --danger:#ff4757;      /* wrong key */
+        --ok:#22c55e;          /* correct */
+
+        --shadow: drop-shadow(0 18px 28px rgba(0,0,0,.45));
+      }
+
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .title { font-weight: 900; letter-spacing: 0.12em; }
+      .h { font-weight: 900; }
+      .node { fill: var(--node); stroke: var(--border); stroke-width: 2; }
+      .nodeShadow { filter: var(--shadow); }
+      .sub { fill: var(--muted); font-size: 14px; }
+      .label { fill: var(--text); font-size: 16px; }
+      .small { fill: var(--muted); font-size: 13px; }
+
+      .chip { fill: rgba(130,170,255,0.12); stroke: rgba(130,170,255,0.55); stroke-width: 1.5; }
+      .chipText { fill: var(--text); font-size: 12px; font-weight: 800; letter-spacing: .06em; }
+
+      /* Arrow animation */
+      .flowPath{
+        fill: none;
+        stroke: var(--arrow);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 8 10;
+        animation: dash 2.4s linear infinite;
+        opacity: 0.95;
+      }
+      @keyframes dash {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -90; }
+      }
+
+      /* Moving dot */
+      .dot { fill: var(--accent); filter: drop-shadow(0 0 10px rgba(130,170,255,0.65)); }
+
+      /* Potential pulse + blink */
+      .pulseRing{
+        fill: none;
+        stroke: rgba(255,202,58,0.85);
+        stroke-width: 3;
+        stroke-dasharray: 6 8;
+        animation: ring 1.8s ease-in-out infinite;
+        transform-origin: center;
+      }
+      @keyframes ring{
+        0%   { opacity: 0.18; transform: scale(0.985); }
+        50%  { opacity: 0.95; transform: scale(1.02); }
+        100% { opacity: 0.18; transform: scale(0.985); }
+      }
+
+      .blinkBadge{
+        animation: blink 1.25s steps(2, end) infinite;
+      }
+      @keyframes blink{
+        0%, 45% { opacity: 1; }
+        55%, 100% { opacity: 0.3; }
+      }
+
+      /* Mini syntax palette swatches */
+      .swatch { rx: 10; ry: 10; }
+      .kw { fill: #c792ea; }        /* purple keywords */
+      .cls { fill: #ffca3a; }       /* yellow class names */
+      .var { fill: #82aaff; }       /* blue variables */
+      .str { fill: #f78c6c; }       /* orange strings */
+
+      /* Feedback indicators */
+      .okDot { fill: rgba(34,197,94,0.12); stroke: rgba(34,197,94,0.75); stroke-width: 1.5; }
+      .badDot { fill: rgba(255,71,87,0.10); stroke: rgba(255,71,87,0.85); stroke-width: 1.5; }
+      .badFlash{ animation: badflash 1.2s ease-in-out infinite; }
+      @keyframes badflash{
+        0%, 100% { opacity: 0.25; }
+        50% { opacity: 1; }
+      }
+
+      /* Callouts */
+      .callStroke{
+        stroke: rgba(255,202,58,0.8);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        fill: none;
+        stroke-dasharray: 5 9;
+      }
+      .callBox{
+        fill: rgba(255,202,58,0.14);
+        stroke: rgba(255,202,58,0.65);
+        stroke-width: 1.5;
+      }
+      .callText{
+        fill: rgba(255,202,58,0.95);
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        font-size: 12px;
+      }
+    </style>
+
+    <!-- Arrow head marker -->
+    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L0,12 L12,6 z" fill="#c792ea"></path>
+    </marker>
+
+    <!-- Soft grid glow (subtle) -->
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="rgba(130,170,255,0.06)" stroke-width="1"></path>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1280" height="760" fill="#0d1117"></rect>
+  <rect x="0" y="0" width="1280" height="760" fill="url(#grid)"></rect>
+
+  <!-- Title -->
+  <text class="mono title" x="640" y="56" text-anchor="middle" font-size="18" fill="#e6edf3">
+    CODETYPER · DEVELOPER FLOW
+  </text>
+  <text class="mono" x="640" y="82" text-anchor="middle" font-size="13" fill="#9aa4b2">
+    Dark UI · animated flow · highlighted potential zones
+  </text>
+
+  <!-- 1) Menu -->
+  <g class="nodeShadow">
+    <rect class="node" x="80" y="150" width="280" height="122" rx="18"></rect>
+    <text class="mono h label" x="112" y="188">Menu Screen</text>
+    <text class="mono sub" x="112" y="214">Start · settings · quick</text>
+
+    <rect class="chip" x="112" y="232" width="132" height="24" rx="12"></rect>
+    <text class="mono chipText" x="178" y="249" text-anchor="middle">CodeTyper</text>
+  </g>
+
+  <!-- 2) Select language (a bit wider & lower padding) -->
+  <g class="nodeShadow">
+    <rect class="node" x="430" y="130" width="350" height="190" rx="18"></rect>
+    <text class="mono h label" x="462" y="170">Select language</text>
+    <text class="mono small" x="462" y="194">JavaScript · Python · TypeScript · SQL</text>
+
+    <g>
+      <rect class="chip" x="462" y="214" width="132" height="30" rx="15"></rect>
+      <text class="mono chipText" x="528" y="235" text-anchor="middle">JavaScript</text>
+
+      <rect class="chip" x="612" y="214" width="132" height="30" rx="15"></rect>
+      <text class="mono chipText" x="678" y="235" text-anchor="middle">Python</text>
+
+      <rect class="chip" x="462" y="252" width="132" height="30" rx="15"></rect>
+      <text class="mono chipText" x="528" y="273" text-anchor="middle">TypeScript</text>
+
+      <rect class="chip" x="612" y="252" width="132" height="30" rx="15"></rect>
+      <text class="mono chipText" x="678" y="273" text-anchor="middle">SQL</text>
+    </g>
+  </g>
+
+  <!-- 3) Select snippet -->
+  <g class="nodeShadow">
+    <rect class="node" x="900" y="150" width="300" height="122" rx="18"></rect>
+    <text class="mono h label" x="932" y="188">Select snippet</text>
+    <text class="mono sub" x="932" y="214">difficulty · topic · length</text>
+
+    <rect class="chip" x="932" y="232" width="180" height="24" rx="12"></rect>
+    <text class="mono chipText" x="1022" y="249" text-anchor="middle">Snippet Library</text>
+  </g>
+
+  <!-- 4) Practice screen (POTENTIAL) - moved slightly down + more width -->
+  <g class="nodeShadow" transform="translate(230,372)">
+    <!-- ring bigger to avoid touching -->
+    <rect class="pulseRing" x="-18" y="-18" width="786" height="244" rx="26"></rect>
+    <rect class="node" x="0" y="0" width="750" height="208" rx="20"></rect>
+
+    <g class="blinkBadge">
+      <rect x="578" y="16" width="154" height="28" rx="14" fill="rgba(255,202,58,0.16)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+      <text class="mono" x="655" y="35" text-anchor="middle" font-size="12" fill="rgba(255,202,58,0.95)" font-weight="900" letter-spacing="0.10em">
+        POTENTIAL
+      </text>
+    </g>
+
+    <text class="mono h label" x="30" y="44">Practice Screen</text>
+    <text class="mono small" x="30" y="70">Target code in gray · typed chars light up with semantic colors</text>
+
+    <!-- syntax palette -->
+    <g transform="translate(30,92)">
+      <rect class="swatch kw" x="0" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="24" y="13" fill="#e6edf3">keywords</text>
+
+      <rect class="swatch cls" x="134" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="158" y="13" fill="#e6edf3">class names</text>
+
+      <rect class="swatch var" x="310" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="334" y="13" fill="#e6edf3">variables</text>
+
+      <rect class="swatch str" x="462" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="486" y="13" fill="#e6edf3">strings</text>
+    </g>
+
+    <!-- mini code preview -->
+    <g transform="translate(30,124)">
+      <rect x="0" y="0" width="690" height="54" rx="14" fill="#0b1220" stroke="#1f2a44" stroke-width="2"></rect>
+      <text class="mono" x="18" y="34" font-size="14" fill="#77839a">function</text>
+      <text class="mono" x="98" y="34" font-size="14" fill="#82aaff">greet</text>
+      <text class="mono" x="150" y="34" font-size="14" fill="#77839a">(name) { const msg = </text>
+      <text class="mono" x="352" y="34" font-size="14" fill="#f78c6c">"Hello"</text>
+      <text class="mono" x="418" y="34" font-size="14" fill="#77839a">; }</text>
+
+      <!-- cursor -->
+      <rect x="94" y="16" width="2" height="22" fill="#82aaff">
+        <animate attributeName="opacity" values="1;0.25;1" dur="0.9s" repeatCount="indefinite"></animate>
+      </rect>
+    </g>
+
+    <!-- correct/wrong behavior -->
+    <g transform="translate(30,192)">
+      <circle class="okDot" cx="12" cy="0" r="10"></circle>
+      <text class="mono small" x="28" y="4" fill="#e6edf3">Correct key advances cursor</text>
+
+      <circle class="badDot badFlash" cx="372" cy="0" r="10"></circle>
+      <text class="mono small" x="388" y="4" fill="#e6edf3">Wrong key flashes red</text>
+    </g>
+  </g>
+
+  <!-- 5) Results screen (POTENTIAL) - bigger to avoid text overflow -->
+  <g class="nodeShadow">
+    <rect class="pulseRing" x="900" y="560" width="300" height="160" rx="20"></rect>
+    <rect class="node" x="900" y="560" width="300" height="160" rx="18"></rect>
+
+    <g class="blinkBadge">
+      <rect x="952" y="574" width="196" height="28" rx="14" fill="rgba(255,202,58,0.16)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+      <text class="mono" x="1050" y="593" text-anchor="middle" font-size="12" fill="rgba(255,202,58,0.95)" font-weight="900" letter-spacing="0.10em">
+        FEEDBACK LOOP
+      </text>
+    </g>
+
+    <text class="mono h label" x="932" y="628">Results Screen</text>
+    <text class="mono small" x="932" y="654">CPM · accuracy % · grade S/A/B/C/D</text>
+
+    <rect class="chip" x="932" y="672" width="96" height="28" rx="14"></rect>
+    <text class="mono chipText" x="980" y="692" text-anchor="middle">Repeat</text>
+
+    <rect class="chip" x="1040" y="672" width="150" height="28" rx="14"></rect>
+    <text class="mono chipText" x="1115" y="692" text-anchor="middle">New snippet</text>
+  </g>
+
+  <!-- FLOW ARROWS (re-routed to avoid overlaps) -->
+  <!-- Menu -> Select language -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M360 211 C395 211, 405 211, 430 211"></path>
+  <!-- Select language -> Select snippet -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M780 211 C825 211, 855 211, 900 211"></path>
+  <!-- Select snippet -> Practice -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M1050 272 C1050 332, 900 372, 605 372"></path>
+  <!-- Practice -> Results -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M605 580 C760 650, 845 655, 900 655"></path>
+
+  <!-- MOVING DOT (updated path) -->
+  <circle class="dot" r="6">
+    <animateMotion dur="6.2s" repeatCount="indefinite" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" calcMode="spline" keyTimes="0;0.26;0.52;0.82;1" path="M360 211 C395 211 405 211 430 211
+            C540 211 670 211 780 211
+            C825 211 855 211 900 211
+            C980 230 1080 300 1050 272
+            C1050 332 900 372 605 372
+            C520 372 420 390 320 450
+            C260 486 300 560 605 580
+            C760 650 845 655 900 655"></animateMotion>
+  </circle>
+
+  <!-- CALLOUTS (moved so they don't collide with nodes) -->
+  <!-- Callout 1: onboarding -->
+  <g class="mono">
+    <path class="callStroke" d="M240 292 C185 310, 150 320, 118 330">
+      <animate attributeName="stroke-dashoffset" values="0;-44" dur="2s" repeatCount="indefinite"></animate>
+    </path>
+    <rect class="callBox" x="64" y="324" width="270" height="36" rx="18"></rect>
+    <text class="callText" x="199" y="347" text-anchor="middle">Hook: onboarding → retention</text>
+  </g>
+
+  <!-- Callout 2: loop -->
+  <g class="mono">
+    <path class="callStroke" d="M900 655 C820 710, 735 720, 640 720">
+      <animate attributeName="stroke-dashoffset" values="0;-44" dur="2s" repeatCount="indefinite"></animate>
+    </path>
+    <rect class="callBox" x="438" y="706" width="410" height="38" rx="19"></rect>
+    <text class="callText" x="643" y="730" text-anchor="middle">Loop: results → repeat/new → progression</text>
+  </g>
+
+  <!-- Footer -->
+  <text class="mono" x="640" y="744" text-anchor="middle" font-size="12" fill="#9aa4b2">
+    Background #0d1117 · Accent #82aaff · Arrows #c792ea · Monospace
+  </text>
+</svg>

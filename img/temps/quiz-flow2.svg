@@ -1,0 +1,276 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="CodeTyper flowchart">
+  <defs>
+    <!-- Colors -->
+    <style>
+      :root{
+        --bg:#ffffff;
+        --text:#0d1117;
+        --muted:#6b7280;
+        --node:#f8fafc;
+        --border:#d1d5db;
+
+        --accent:#82aaff;      /* primary accent */
+        --arrow:#c792ea;       /* connecting arrows */
+        --potential:#ffca3a;   /* highlight/potential */
+        --danger:#ff4757;      /* wrong key */
+        --ok:#22c55e;          /* correct */
+      }
+
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .title { font-weight: 800; letter-spacing: 0.08em; }
+      .h { font-weight: 800; }
+      .node { fill: var(--node); stroke: var(--border); stroke-width: 2; }
+      .nodeShadow { filter: drop-shadow(0 10px 20px rgba(2,6,23,0.10)); }
+      .sub { fill: var(--muted); font-size: 14px; }
+      .label { fill: var(--text); font-size: 16px; }
+      .small { fill: var(--muted); font-size: 13px; }
+      .chip { fill: rgba(130,170,255,0.12); stroke: rgba(130,170,255,0.45); stroke-width: 1.5; }
+      .chipText { fill: #1f2a44; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+
+      /* Arrow animation */
+      .flowPath{
+        fill: none;
+        stroke: var(--arrow);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 8 10;
+        animation: dash 2.4s linear infinite;
+        opacity: 0.95;
+      }
+      @keyframes dash {
+        from { stroke-dashoffset: 0; }
+        to { stroke-dashoffset: -90; }
+      }
+
+      /* Moving dot */
+      .dot { fill: var(--accent); filter: drop-shadow(0 0 10px rgba(130,170,255,0.55)); }
+
+      /* Potential pulse + blink */
+      .pulseRing{
+        fill: none;
+        stroke: rgba(255,202,58,0.85);
+        stroke-width: 3;
+        stroke-dasharray: 6 8;
+        animation: ring 1.8s ease-in-out infinite;
+      }
+      @keyframes ring{
+        0%   { opacity: 0.15; transform: scale(0.985); }
+        50%  { opacity: 0.95; transform: scale(1.015); }
+        100% { opacity: 0.15; transform: scale(0.985); }
+      }
+
+      .blinkBadge{
+        animation: blink 1.2s steps(2, end) infinite;
+      }
+      @keyframes blink{
+        0%, 45% { opacity: 1; }
+        55%, 100% { opacity: 0.25; }
+      }
+
+      /* Mini syntax palette swatches */
+      .swatch { rx: 10; ry: 10; }
+      .kw { fill: #c792ea; }        /* purple keywords */
+      .cls { fill: #ffca3a; }       /* yellow class names */
+      .var { fill: #82aaff; }       /* blue variables */
+      .str { fill: #f78c6c; }       /* orange strings */
+
+      /* Feedback indicators */
+      .okDot { fill: rgba(34,197,94,0.12); stroke: rgba(34,197,94,0.7); stroke-width: 1.5; }
+      .badDot { fill: rgba(255,71,87,0.10); stroke: rgba(255,71,87,0.75); stroke-width: 1.5; }
+      .badFlash{
+        animation: badflash 1.2s ease-in-out infinite;
+      }
+      @keyframes badflash{
+        0%, 100% { opacity: 0.25; }
+        50% { opacity: 1; }
+      }
+    </style>
+
+    <!-- Arrow head marker -->
+    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L0,12 L12,6 z" fill="#c792ea"></path>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="720" fill="#ffffff"></rect>
+
+  <!-- Title -->
+  <text class="mono title" x="600" y="56" text-anchor="middle" font-size="18" fill="#0d1117">
+    CODETYPER · DEVELOPER FLOW
+  </text>
+  <text class="mono" x="600" y="80" text-anchor="middle" font-size="13" fill="#6b7280">
+    Minimal UI · animated flow · highlighted potential zones
+  </text>
+
+  <!-- Nodes -->
+  <!-- 1) Menu -->
+  <g class="nodeShadow">
+    <rect class="node" x="80" y="140" width="260" height="110" rx="16"></rect>
+    <text class="mono h label" x="110" y="178">Menu Screen</text>
+    <text class="mono sub" x="110" y="205">Start · settings · quick</text>
+    <rect class="chip" x="110" y="220" width="120" height="22" rx="11"></rect>
+    <text class="mono chipText" x="170" y="236" text-anchor="middle">CodeTyper</text>
+  </g>
+
+  <!-- 2) Select language -->
+  <g class="nodeShadow">
+    <rect class="node" x="430" y="120" width="320" height="170" rx="16"></rect>
+    <text class="mono h label" x="460" y="158">Select language</text>
+    <text class="mono small" x="460" y="182">JavaScript · Python · TypeScript · SQL</text>
+
+    <!-- chips -->
+    <g>
+      <rect class="chip" x="460" y="202" width="120" height="28" rx="14"></rect>
+      <text class="mono chipText" x="520" y="221" text-anchor="middle">JavaScript</text>
+
+      <rect class="chip" x="600" y="202" width="120" height="28" rx="14"></rect>
+      <text class="mono chipText" x="660" y="221" text-anchor="middle">Python</text>
+
+      <rect class="chip" x="460" y="238" width="120" height="28" rx="14"></rect>
+      <text class="mono chipText" x="520" y="257" text-anchor="middle">TypeScript</text>
+
+      <rect class="chip" x="600" y="238" width="120" height="28" rx="14"></rect>
+      <text class="mono chipText" x="660" y="257" text-anchor="middle">SQL</text>
+    </g>
+  </g>
+
+  <!-- 3) Select snippet -->
+  <g class="nodeShadow">
+    <rect class="node" x="860" y="140" width="260" height="110" rx="16"></rect>
+    <text class="mono h label" x="890" y="178">Select snippet</text>
+    <text class="mono sub" x="890" y="205">difficulty · topic · length</text>
+    <rect class="chip" x="890" y="220" width="160" height="22" rx="11"></rect>
+    <text class="mono chipText" x="970" y="236" text-anchor="middle">Snippet Library</text>
+  </g>
+
+  <!-- 4) Practice screen (POTENTIAL) -->
+  <g class="nodeShadow" transform="translate(260,350)">
+    <!-- pulsing ring around the node group -->
+    <rect class="pulseRing" x="-14" y="-14" width="708" height="220" rx="22"></rect>
+    <rect class="node" x="0" y="0" width="680" height="192" rx="18"></rect>
+
+    <!-- badge -->
+    <g class="blinkBadge">
+      <rect x="520" y="14" width="144" height="26" rx="13" fill="rgba(255,202,58,0.18)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+      <text class="mono" x="592" y="32" text-anchor="middle" font-size="12" fill="#8a5b00" font-weight="800" letter-spacing="0.08em">
+        POTENTIAL ZONE
+      </text>
+    </g>
+
+    <text class="mono h label" x="28" y="40">Practice Screen</text>
+    <text class="mono small" x="28" y="64">Target code in gray · typed chars light up with semantic colors</text>
+
+    <!-- syntax palette -->
+    <g transform="translate(28,86)">
+      <rect class="swatch kw" x="0" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="24" y="13" fill="#0d1117">keywords</text>
+
+      <rect class="swatch cls" x="120" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="144" y="13" fill="#0d1117">class names</text>
+
+      <rect class="swatch var" x="270" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="294" y="13" fill="#0d1117">variables</text>
+
+      <rect class="swatch str" x="400" y="0" width="16" height="16"></rect>
+      <text class="mono small" x="424" y="13" fill="#0d1117">strings</text>
+    </g>
+
+    <!-- mini code preview -->
+    <g transform="translate(28,120)">
+      <rect x="0" y="0" width="624" height="46" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"></rect>
+      <text class="mono" x="16" y="29" font-size="14" fill="#9ca3af">
+        function
+      </text>
+      <text class="mono" x="92" y="29" font-size="14" fill="#82aaff">
+        greet
+      </text>
+      <text class="mono" x="140" y="29" font-size="14" fill="#9ca3af">
+        (name) { const msg = "Hello"; }
+      </text>
+      <!-- cursor -->
+      <rect x="88" y="14" width="2" height="18" fill="#82aaff">
+        <animate attributeName="opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"></animate>
+      </rect>
+    </g>
+
+    <!-- correct/wrong behavior -->
+    <g transform="translate(28,172)">
+      <circle class="okDot" cx="12" cy="0" r="10"></circle>
+      <text class="mono small" x="28" y="4" fill="#0d1117">Correct key advances cursor</text>
+
+      <circle class="badDot badFlash" cx="340" cy="0" r="10"></circle>
+      <text class="mono small" x="356" y="4" fill="#0d1117">Wrong key flashes red</text>
+    </g>
+  </g>
+
+  <!-- 5) Results screen (POTENTIAL) -->
+  <g class="nodeShadow">
+    <rect class="pulseRing" x="860" y="540" width="260" height="140" rx="18"></rect>
+    <rect class="node" x="860" y="540" width="260" height="140" rx="16"></rect>
+    <g class="blinkBadge">
+      <rect x="900" y="552" width="180" height="24" rx="12" fill="rgba(255,202,58,0.18)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+      <text class="mono" x="990" y="569" text-anchor="middle" font-size="12" fill="#8a5b00" font-weight="800" letter-spacing="0.08em">
+        FEEDBACK LOOP
+      </text>
+    </g>
+
+    <text class="mono h label" x="890" y="598">Results Screen</text>
+    <text class="mono small" x="890" y="624">CPM · accuracy % · grade S/A/B/C/D</text>
+
+    <rect class="chip" x="890" y="636" width="88" height="26" rx="13"></rect>
+    <text class="mono chipText" x="934" y="654" text-anchor="middle">Repeat</text>
+
+    <rect class="chip" x="988" y="636" width="132" height="26" rx="13"></rect>
+    <text class="mono chipText" x="1054" y="654" text-anchor="middle">New snippet</text>
+  </g>
+
+  <!-- Flow arrows -->
+  <!-- Menu -> Select language -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M340 195 C380 195, 390 195, 430 195"></path>
+  <!-- Select language -> Select snippet -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M750 195 C790 195, 820 195, 860 195"></path>
+  <!-- Select snippet -> Practice -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M990 250 C990 320, 840 350, 600 350"></path>
+  <!-- Practice -> Results -->
+  <path class="flowPath" marker-end="url(#arrowHead)" d="M600 542 C760 600, 820 610, 860 610"></path>
+
+  <!-- Moving dot along the whole flow (motion) -->
+  <circle class="dot" r="6">
+    <animateMotion dur="6s" repeatCount="indefinite" keyTimes="0;0.25;0.5;0.8;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1;0.4 0 0.2 1" calcMode="spline" path="M340 195 C380 195 390 195 430 195
+            C520 195 660 195 750 195
+            C790 195 820 195 860 195
+            C950 210 1010 280 990 250
+            C990 320 840 350 600 350
+            C540 350 420 360 300 420
+            C260 440 300 520 600 542
+            C760 600 820 610 860 610"></animateMotion>
+  </circle>
+
+  <!-- "Potential" callout arrows -->
+  <g class="mono">
+    <path d="M260 340 C200 320, 160 300, 120 250" fill="none" stroke="rgba(255,202,58,0.75)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 8">
+      <animate attributeName="stroke-dashoffset" values="0;-40" dur="2s" repeatCount="indefinite"></animate>
+    </path>
+    <rect x="64" y="210" width="250" height="34" rx="17" fill="rgba(255,202,58,0.14)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+    <text x="189" y="232" text-anchor="middle" font-size="12" fill="#8a5b00" font-weight="800" letter-spacing="0.08em">
+      Hook: onboarding → retention
+    </text>
+  </g>
+
+  <g class="mono">
+    <path d="M860 610 C780 640, 700 660, 620 660" fill="none" stroke="rgba(255,202,58,0.75)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 8">
+      <animate attributeName="stroke-dashoffset" values="0;-40" dur="2s" repeatCount="indefinite"></animate>
+    </path>
+    <rect x="410" y="646" width="420" height="38" rx="19" fill="rgba(255,202,58,0.14)" stroke="rgba(255,202,58,0.7)" stroke-width="1.5"></rect>
+    <text x="620" y="670" text-anchor="middle" font-size="12" fill="#8a5b00" font-weight="800" letter-spacing="0.08em">
+      Loop: results → repeat/new → progression
+    </text>
+  </g>
+
+  <!-- Footer note -->
+  <text class="mono" x="600" y="704" text-anchor="middle" font-size="12" fill="#9ca3af">
+    Background: #ffffff · Accent: #82aaff · Arrows: #c792ea · Font: monospace
+  </text>
+</svg>
