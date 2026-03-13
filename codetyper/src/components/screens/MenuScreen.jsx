@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { CATEGORIES, getSnippets } from "@/data/snippets";
-import { DIFFICULTIES } from "@/lib/constants";
-import LanguageSelector from "@/components/ui/LanguageSelector";
-import SnippetCard from "@/components/ui/SnippetCard";
+import { CATEGORIES, getSnippets } from "../../data/snippets";
+import { DIFFICULTIES } from "../../lib/constants";
+import LanguageSelector from "../ui/LanguageSelector";
+import SnippetCard from "../ui/SnippetCard";
 
 export default function MenuScreen({ onStart, showComments, onToggleComments }) {
   const [selectedCategory, setSelectedCategory] = useState("programming");

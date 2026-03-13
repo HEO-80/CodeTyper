@@ -2,29 +2,43 @@
 // Para añadir un nuevo lenguaje: importarlo aquí y añadirlo al objeto SNIPPETS
 
 import javascript from "./programming/javascript";
-import typescript from "./programming/typescript";
-import python from "./programming/python";
 import sql from "./programming/sql";
 import solidity from "./programming/solidity";
-import java from "./programming/java";
-import csharp from "./programming/csharp";
 import english from "./languages/english";
 import mindsetSpanish from "./mindset/spanish";
 
+// 🚧 Próximamente:
+// import typescript from "./programming/typescript";
+// import python from "./programming/python";
+// import java from "./programming/java";
+// import csharp from "./programming/csharp";
+
 // ─── MAPA PRINCIPAL ───────────────────────────────────────────────────────────
+// export const SNIPPETS = {
+//   // Lenguajes de programación
+//   javascript,
+//   typescript,
+//   python,
+//   sql,
+//   solidity,
+//   java,
+//   csharp,
+//   // Idiomas
+//   english,
+//   // Mentalidad
+//   mindset: mindsetSpanish,
+// };
+
 export const SNIPPETS = {
-  // Lenguajes de programación
   javascript,
-  typescript,
-  python,
   sql,
   solidity,
-  java,
-  csharp,
-  // Idiomas
   english,
-  // Mentalidad
   mindset: mindsetSpanish,
+   typescript,  // ← borrar o comentar
+  // python,       ← borrar o comentar
+  // java,         ← borrar o comentar
+  // csharp,       ← borrar o comentar
 };
 
 // ─── CATEGORÍAS PARA EL MENÚ ──────────────────────────────────────────────────

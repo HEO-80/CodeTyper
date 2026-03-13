@@ -11,7 +11,7 @@ export const TOKEN_COLORS = {
   operator:     "#89ddff",
   punctuation:  "#89ddff",
   space:        "#607b96",
-  newline:      "#607b96",
+  newline:      "#b1bbc6",
 };
 
 // ─── KEYWORDS PER LANGUAGE ────────────────────────────────────────────────────

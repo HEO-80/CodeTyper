@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
-import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
+import { ProgressBar, TopBar, BottomBar } from "../ui/SharedComponents";
 
 // ─── Inyectar comentarios en inglés encima de bloques relevantes ──────────────
 function injectComments(code, language) {
@@ -155,12 +155,22 @@ export default function PracticeScreen({
           return next;
         });
       } else {
-        if (typedChar.length === 1 || typedChar === "\n") {
-          setTotalErrors((p) => p + 1);
-          setErrors((prev) => new Set([...prev, cursor]));
-          setErrorFlash(true);
-          setTimeout(() => setErrorFlash(false), 150);
-        }
+        // DESPUÉS - falla y avanza:
+if (typedChar.length === 1 || typedChar === "\n") {
+  setTotalErrors((p) => p + 1);
+  setErrors((prev) => new Set([...prev, cursor]));
+  setErrorFlash(true);
+  setTimeout(() => setErrorFlash(false), 150);
+  // Avanza igualmente
+  setCursor((prev) => {
+    const next = prev + 1;
+    if (next >= tokens.length) {
+      clearInterval(timerRef.current);
+      setTimeout(() => onFinish(buildResult()), 300);
+    }
+    return next;
+  });
+}
       }
     },
     [tokens, cursor, startTime, buildResult, onFinish]
@@ -240,7 +250,7 @@ export default function PracticeScreen({
                     const isError = errors.has(idx);
                     const color = isTyped
                       ? isError ? "#ff5555" : getTokenColor(type)
-                      : isCommentLine ? "#1e3a2a" : "#1e2d3d";
+                      : isCommentLine ? "#518763" : "#959ca9";
 
                     return (
                       <span key={idx} style={{ position: "relative", display: "inline-block" }}>
