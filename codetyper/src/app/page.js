@@ -1,19 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MenuScreen from "@/components/screens/MenuScreen";
 import PracticeScreen from "@/components/screens/PracticeScreen";
 import ResultsScreen from "@/components/screens/ResultsScreen";
 
-// Importar fuentes
-import { useEffect } from "react";
-
 export default function Home() {
-  const [screen, setScreen] = useState("menu"); // menu | practice | results
-  const [session, setSession] = useState(null); // { snippet, language, difficulty }
-  const [result, setResult] = useState(null);   // datos al terminar
+  const [screen, setScreen] = useState("menu");
+  const [session, setSession] = useState(null);
+  const [result, setResult] = useState(null);
+  const [showComments, setShowComments] = useState(false);
 
-  // Cargar fuentes JetBrains Mono + Syne
   useEffect(() => {
     const link = document.createElement("link");
     link.href =
@@ -32,9 +29,7 @@ export default function Home() {
     setScreen("results");
   };
 
-  const handleRepeat = () => {
-    setScreen("practice");
-  };
+  const handleRepeat = () => setScreen("practice");
 
   const handleMenu = () => {
     setSession(null);
@@ -42,21 +37,27 @@ export default function Home() {
     setScreen("menu");
   };
 
-  return (
-    <main style={styles.main}>
-      {screen === "menu" && (
-        <MenuScreen onStart={handleStart} />
-      )}
+  const toggleComments = () => setShowComments((prev) => !prev);
 
+  return (
+    <main style={{ minHeight: "100vh", background: "#0d1117", color: "#c9d1d9" }}>
+      {screen === "menu" && (
+        <MenuScreen
+          onStart={handleStart}
+          showComments={showComments}
+          onToggleComments={toggleComments}
+        />
+      )}
       {screen === "practice" && session && (
         <PracticeScreen
           snippet={session.snippet}
           language={session.language}
+          showComments={showComments}
           onFinish={handleFinish}
           onBack={handleMenu}
+          onToggleComments={toggleComments}
         />
       )}
-
       {screen === "results" && result && (
         <ResultsScreen
           result={result}
@@ -67,11 +68,3 @@ export default function Home() {
     </main>
   );
 }
-
-const styles = {
-  main: {
-    minHeight: "100vh",
-    background: "#0d1117",
-    color: "#c9d1d9",
-  },
-};

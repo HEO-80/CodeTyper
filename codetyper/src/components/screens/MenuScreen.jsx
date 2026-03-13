@@ -1,26 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { CATEGORIES, SNIPPETS, getSnippets } from "@/data/snippets";
-import { LANGUAGE_LABELS, LANGUAGE_COLORS, DIFFICULTIES } from "@/lib/constants";
+import { CATEGORIES, getSnippets } from "@/data/snippets";
+import { DIFFICULTIES } from "@/lib/constants";
 import LanguageSelector from "@/components/ui/LanguageSelector";
 import SnippetCard from "@/components/ui/SnippetCard";
 
-export default function MenuScreen({ onStart }) {
+export default function MenuScreen({ onStart, showComments, onToggleComments }) {
   const [selectedCategory, setSelectedCategory] = useState("programming");
   const [selectedLang, setSelectedLang] = useState("javascript");
   const [selectedDifficulty, setSelectedDifficulty] = useState("beginner");
 
   const currentCategory = CATEGORIES[selectedCategory];
-  const snippets = getSnippets(selectedLang, selectedDifficulty);
 
-  // Mapear dificultades según categoría (idiomas usan b1/b2/c1)
   const difficulties =
     selectedCategory === "languages"
       ? ["b1", "b2", "c1"]
-      : selectedCategory === "mindset"
-      ? ["beginner", "intermediate", "advanced"]
       : DIFFICULTIES;
+
+  const snippets = getSnippets(selectedLang, selectedDifficulty);
 
   const handleLangChange = (lang) => {
     setSelectedLang(lang);
@@ -31,13 +29,12 @@ export default function MenuScreen({ onStart }) {
     setSelectedCategory(cat);
     const firstLang = CATEGORIES[cat].languages[0];
     setSelectedLang(firstLang);
-    const firstDiff =
-      cat === "languages" ? "b1" : "beginner";
-    setSelectedDifficulty(firstDiff);
+    setSelectedDifficulty(cat === "languages" ? "b1" : "beginner");
   };
 
   return (
     <div style={styles.root}>
+
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.logo}>
@@ -47,6 +44,28 @@ export default function MenuScreen({ onStart }) {
         <p style={styles.tagline}>
           Aprende sintaxis con los dedos, no solo con los ojos
         </p>
+      </div>
+
+      {/* Comments toggle */}
+      <div style={styles.toggleRow}>
+        <span style={styles.toggleLabel}>Comentarios en inglés</span>
+        <button
+          style={{
+            ...styles.toggleBtn,
+            background: showComments ? "#1a2a1a" : "transparent",
+            borderColor: showComments ? "#4ec994" : "#30363d",
+            color: showComments ? "#4ec994" : "#546e7a",
+          }}
+          onClick={onToggleComments}
+          title="Añade comentarios explicativos en inglés sobre cada bloque"
+        >
+          {showComments ? "// ON — los escribo" : "// OFF — sin comentarios"}
+        </button>
+        <span style={styles.toggleHint}>
+          {showComments
+            ? "practicarás también los comentarios"
+            : "solo el código puro"}
+        </span>
       </div>
 
       {/* Category tabs */}
@@ -75,7 +94,7 @@ export default function MenuScreen({ onStart }) {
         onChange={handleLangChange}
       />
 
-      {/* Difficulty selector */}
+      {/* Difficulty */}
       <div style={styles.section}>
         <div style={styles.sectionLabel}>// dificultad</div>
         <div style={styles.diffRow}>
@@ -94,7 +113,7 @@ export default function MenuScreen({ onStart }) {
         </div>
       </div>
 
-      {/* Snippets grid */}
+      {/* Snippets */}
       <div style={styles.section}>
         <div style={styles.sectionLabel}>
           // elige un snippet{" "}
@@ -111,9 +130,7 @@ export default function MenuScreen({ onStart }) {
                 key={snippet.id}
                 snippet={snippet}
                 language={selectedLang}
-                onClick={() =>
-                  onStart(snippet, selectedLang, selectedDifficulty)
-                }
+                onClick={() => onStart(snippet, selectedLang, selectedDifficulty)}
               />
             ))}
           </div>
@@ -122,7 +139,7 @@ export default function MenuScreen({ onStart }) {
 
       <div style={styles.footer}>
         <span style={{ color: "#546e7a" }}>
-          Usa el teclado · Tab desactivado · Enter para nueva línea
+          Usa el teclado · Tab = indentación automática · Enter para nueva línea
         </span>
       </div>
     </div>
@@ -137,7 +154,7 @@ const styles = {
     padding: "48px 24px",
     fontFamily: "'JetBrains Mono', monospace",
   },
-  header: { marginBottom: "48px", textAlign: "center" },
+  header: { marginBottom: "36px", textAlign: "center" },
   logo: {
     fontFamily: "'Syne', sans-serif",
     fontSize: "36px",
@@ -148,6 +165,29 @@ const styles = {
   logoAccent: { color: "#82aaff", marginRight: "8px" },
   logoText: { color: "#c9d1d9" },
   tagline: { color: "#546e7a", fontSize: "13px", letterSpacing: "0.05em" },
+  toggleRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    marginBottom: "32px",
+    padding: "12px 16px",
+    background: "#0d1117",
+    border: "1px solid #21262d",
+    borderRadius: "8px",
+    flexWrap: "wrap",
+  },
+  toggleLabel: { color: "#8b949e", fontSize: "12px" },
+  toggleBtn: {
+    padding: "5px 14px",
+    border: "1px solid",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "11px",
+    fontFamily: "'JetBrains Mono', monospace",
+    transition: "all 0.15s",
+    letterSpacing: "0.04em",
+  },
+  toggleHint: { color: "#30363d", fontSize: "11px", fontStyle: "italic" },
   section: { marginBottom: "28px" },
   sectionLabel: {
     color: "#546e7a",
