@@ -204,7 +204,7 @@ export default function PracticeScreen({
                     } else if (isTyped) {
                       color = getTokenColor(type);
                     } else {
-                      color = isCommentLine ? "#2d5a3d" : "#4a5568";
+                      color = isCommentLine ? "#4f9567" : "#b7bbcd";
                     }
 
                     const display = isCursor && wrongChar !== null ? wrongChar : char;
@@ -255,7 +255,7 @@ const styles = {
     minHeight: "28px", lineHeight: "28px",
   },
   lineNum: {
-    color: "#30363d", fontSize: "12px", minWidth: "36px",
+    color: "#717a85", fontSize: "12px", minWidth: "36px",
     userSelect: "none", paddingRight: "16px", textAlign: "right", paddingTop: "1px",
   },
   lineContent: {
