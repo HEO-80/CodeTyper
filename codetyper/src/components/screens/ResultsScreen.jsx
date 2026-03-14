@@ -1,6 +1,8 @@
 "use client";
 
+
 import { LANGUAGE_LABELS } from "@/lib/constants";
+import "./ResultsScreen.css";
 
 export default function ResultsScreen({ result, onRepeat, onMenu }) {
   const { tokens, totalErrors, startTime, endTime, snippet, language } = result;

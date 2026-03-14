@@ -1,0 +1,93 @@
+/* ── MenuScreen.css ──────────────────────────────────────────────────────────── */
+
+/* Pulse animations */
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(130,170,255,0); border-color: #82aaff; }
+  50%       { box-shadow: 0 0 8px 2px rgba(130,170,255,0.3); border-color: rgba(130,170,255,0.6); }
+}
+@keyframes pulse-yellow {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); border-color: #ffcb6b; }
+  50%       { box-shadow: 0 0 8px 2px rgba(255,203,107,0.3); border-color: rgba(255,203,107,0.6); }
+}
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(78,201,148,0); border-color: #4ec994; }
+  50%       { box-shadow: 0 0 8px 2px rgba(78,201,148,0.3); border-color: rgba(78,201,148,0.6); }
+}
+
+/* Category buttons */
+.cat-btn {
+  padding: 8px 18px;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d1117;
+  color: #8b949e;
+  transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
+}
+.cat-btn:hover {
+  background: #161b22;
+  color: #82aaff;
+  border-color: #82aaff;
+  transform: translateY(-2px);
+}
+.cat-btn.active {
+  background: #1c2333;
+  color: #82aaff;
+  border-color: #82aaff;
+  font-weight: 500;
+  animation: pulse-blue 2s ease-in-out infinite;
+}
+
+/* Difficulty buttons */
+.diff-btn {
+  padding: 5px 16px;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d1117;
+  color: #546e7a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
+}
+.diff-btn:hover {
+  background: #1a1a0d;
+  color: #ffcb6b;
+  border-color: #ffcb6b;
+  transform: translateY(-2px);
+}
+.diff-btn.active {
+  background: #1a2333;
+  color: #ffcb6b;
+  border-color: #ffcb6b;
+  font-weight: 500;
+  animation: pulse-yellow 2s ease-in-out infinite;
+}
+
+/* Comments toggle */
+.toggle-comments-btn {
+  padding: 5px 14px;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+  background: transparent;
+  color: #546e7a;
+  transition: all 0.15s;
+}
+.toggle-comments-btn:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+.toggle-comments-btn.active {
+  background: #1a2a1a;
+  color: #4ec994;
+  border-color: #4ec994;
+  animation: pulse-green 2s ease-in-out infinite;
+}

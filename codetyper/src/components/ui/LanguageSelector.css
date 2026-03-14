@@ -1,0 +1,87 @@
+/* ── LanguageSelector.css ────────────────────────────────────────────────────── */
+
+/* Base button — compartido por todos los lenguajes */
+.lang-btn {
+  padding: 7px 18px;
+  border: 1px solid #21262d;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d1117;
+  color: #546e7a;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+/* ── JavaScript ── */
+@keyframes pulse-javascript {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(255,203,107,0.3); }
+}
+.lang-btn.javascript:hover  { background: #1a1a0a; color: #ffcb6b; border-color: #ffcb6b; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,203,107,0.2); }
+.lang-btn.javascript.active { background: #1a1a0a; color: #ffcb6b; border-color: #ffcb6b; font-weight: 500; animation: pulse-javascript 2s ease-in-out infinite; }
+
+/* ── TypeScript ── */
+@keyframes pulse-typescript {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(130,170,255,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(130,170,255,0.3); }
+}
+.lang-btn.typescript:hover  { background: #0a0f1a; color: #82aaff; border-color: #82aaff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(130,170,255,0.2); }
+.lang-btn.typescript.active { background: #0a0f1a; color: #82aaff; border-color: #82aaff; font-weight: 500; animation: pulse-typescript 2s ease-in-out infinite; }
+
+/* ── Python ── */
+@keyframes pulse-python {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(78,201,148,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(78,201,148,0.3); }
+}
+.lang-btn.python:hover  { background: #0a1a14; color: #4ec994; border-color: #4ec994; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(78,201,148,0.2); }
+.lang-btn.python.active { background: #0a1a14; color: #4ec994; border-color: #4ec994; font-weight: 500; animation: pulse-python 2s ease-in-out infinite; }
+
+/* ── SQL ── */
+@keyframes pulse-sql {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(247,140,108,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(247,140,108,0.3); }
+}
+.lang-btn.sql:hover  { background: #1a0e0a; color: #f78c6c; border-color: #f78c6c; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(247,140,108,0.2); }
+.lang-btn.sql.active { background: #1a0e0a; color: #f78c6c; border-color: #f78c6c; font-weight: 500; animation: pulse-sql 2s ease-in-out infinite; }
+
+/* ── Solidity ── */
+@keyframes pulse-solidity {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(199,146,234,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(199,146,234,0.3); }
+}
+.lang-btn.solidity:hover  { background: #140a1a; color: #c792ea; border-color: #c792ea; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(199,146,234,0.2); }
+.lang-btn.solidity.active { background: #140a1a; color: #c792ea; border-color: #c792ea; font-weight: 500; animation: pulse-solidity 2s ease-in-out infinite; }
+
+/* ── Java ── */
+@keyframes pulse-java {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(255,85,85,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(255,85,85,0.3); }
+}
+.lang-btn.java:hover  { background: #1a0a0a; color: #ff5555; border-color: #ff5555; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,85,85,0.2); }
+.lang-btn.java.active { background: #1a0a0a; color: #ff5555; border-color: #ff5555; font-weight: 500; animation: pulse-java 2s ease-in-out infinite; }
+
+/* ── C# ── */
+@keyframes pulse-csharp {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(130,170,255,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(130,170,255,0.3); }
+}
+.lang-btn.csharp:hover  { background: #0a0f1a; color: #82aaff; border-color: #82aaff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(130,170,255,0.2); }
+.lang-btn.csharp.active { background: #0a0f1a; color: #82aaff; border-color: #82aaff; font-weight: 500; animation: pulse-csharp 2s ease-in-out infinite; }
+
+/* ── English ── */
+@keyframes pulse-english {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(78,201,148,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(78,201,148,0.3); }
+}
+.lang-btn.english:hover  { background: #0a1a14; color: #4ec994; border-color: #4ec994; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(78,201,148,0.2); }
+.lang-btn.english.active { background: #0a1a14; color: #4ec994; border-color: #4ec994; font-weight: 500; animation: pulse-english 2s ease-in-out infinite; }
+
+/* ── Mindset ── */
+@keyframes pulse-mindset {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(255,203,107,0.3); }
+}
+.lang-btn.mindset:hover  { background: #1a1a0a; color: #ffcb6b; border-color: #ffcb6b; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,203,107,0.2); }
+.lang-btn.mindset.active { background: #1a1a0a; color: #ffcb6b; border-color: #ffcb6b; font-weight: 500; animation: pulse-mindset 2s ease-in-out infinite; }

@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
-import { ProgressBar, TopBar, BottomBar } from "../ui/SharedComponents";
+import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
+import "./PracticeScreen.css";
 
-// ─── Inyectar comentarios en inglés encima de bloques relevantes ──────────────
+// ─── Inyectar comentarios en inglés ──────────────────────────────────────────
 function injectComments(code, language) {
   const lines = code.split("\n");
   const result = [];
-
-  const commentChar = ["sql"].includes(language) ? "--" : "//";
+  const commentChar = language === "sql" ? "--" : "//";
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -22,45 +22,27 @@ function injectComments(code, language) {
       continue;
     }
 
-    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed))
-      comment = "Define a function";
-    else if (/^class\s+/.test(trimmed))
-      comment = "Define a class";
-    else if (/^export default/.test(trimmed))
-      comment = "Export as default";
-    else if (/^constructor/.test(trimmed))
-      comment = "Initialize the instance";
-    else if (/^return\s*[\({]/.test(trimmed))
-      comment = "Return the result";
-    else if (/^(if|} else if)\s*\(/.test(trimmed))
-      comment = "Check the condition";
-    else if (/^for[\s(]/.test(trimmed))
-      comment = "Iterate over items";
-    else if (/^try\s*\{/.test(trimmed))
-      comment = "Handle errors safely";
-    else if (/^catch\s*\(/.test(trimmed))
-      comment = "Catch and handle the error";
-    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed))
-      comment = "SQL statement";
-    else if (/^pragma solidity/.test(trimmed))
-      comment = "Set the Solidity compiler version";
-    else if (/^contract\s+/.test(trimmed))
-      comment = "Define the smart contract";
-    else if (/^event\s+/.test(trimmed))
-      comment = "Declare an on-chain event";
-    else if (/^modifier\s+/.test(trimmed))
-      comment = "Define an access modifier";
-    else if (/^emit\s+/.test(trimmed))
-      comment = "Emit the event to the blockchain";
-    else if (/^mapping\s*\(/.test(trimmed))
-      comment = "Mapping: key => value store";
-    else if (/^interface\s+/.test(trimmed))
-      comment = "Define the interface";
+    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed))       comment = "Define a function";
+    else if (/^class\s+/.test(trimmed))                                            comment = "Define a class";
+    else if (/^export default/.test(trimmed))                                      comment = "Export as default";
+    else if (/^constructor/.test(trimmed))                                         comment = "Initialize the instance";
+    else if (/^return\s*[\({]/.test(trimmed))                                      comment = "Return the result";
+    else if (/^(if|} else if)\s*\(/.test(trimmed))                                comment = "Check the condition";
+    else if (/^for[\s(]/.test(trimmed))                                            comment = "Iterate over items";
+    else if (/^try\s*\{/.test(trimmed))                                            comment = "Handle errors safely";
+    else if (/^catch\s*\(/.test(trimmed))                                          comment = "Catch and handle the error";
+    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed))   comment = "SQL statement";
+    else if (/^pragma solidity/.test(trimmed))                                     comment = "Set the Solidity compiler version";
+    else if (/^contract\s+/.test(trimmed))                                         comment = "Define the smart contract";
+    else if (/^event\s+/.test(trimmed))                                            comment = "Declare an on-chain event";
+    else if (/^modifier\s+/.test(trimmed))                                         comment = "Define an access modifier";
+    else if (/^emit\s+/.test(trimmed))                                             comment = "Emit the event to the blockchain";
+    else if (/^mapping\s*\(/.test(trimmed))                                        comment = "Mapping: key => value store";
+    else if (/^interface\s+/.test(trimmed))                                        comment = "Define the interface";
 
     if (comment) result.push(`${indent}${commentChar} ${comment}`);
     result.push(line);
   }
-
   return result.join("\n");
 }
 
@@ -74,22 +56,20 @@ export default function PracticeScreen({
 }) {
   const [tokens, setTokens] = useState([]);
   const [cursor, setCursor] = useState(0);
-  const [errors, setErrors] = useState(new Set());
+  // wrongChar: el carácter incorrecto que el usuario escribió en la posición actual
+  const [wrongChar, setWrongChar] = useState(null);
   const [totalErrors, setTotalErrors] = useState(0);
-  const [errorFlash, setErrorFlash] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [tick, setTick] = useState(0);
   const containerRef = useRef(null);
   const timerRef = useRef(null);
 
   useEffect(() => {
-    const code = showComments
-      ? injectComments(snippet.code, language)
-      : snippet.code;
+    const code = showComments ? injectComments(snippet.code, language) : snippet.code;
     const t = tokenize(code, language);
     setTokens(t);
     setCursor(0);
-    setErrors(new Set());
+    setWrongChar(null);
     setTotalErrors(0);
     setStartTime(null);
     clearInterval(timerRef.current);
@@ -103,85 +83,86 @@ export default function PracticeScreen({
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
-  const buildResult = useCallback(() => ({
-    snippet,
-    language,
-    tokens,
-    totalErrors,
-    startTime: startTime || Date.now(),
-    endTime: Date.now(),
-  }), [snippet, language, tokens, totalErrors, startTime]);
+  const handleKeyDown = useCallback((e) => {
+    if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"].includes(e.key)) return;
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"].includes(e.key)) return;
+    const expected = tokens[cursor];
+    if (!expected && cursor >= tokens.length) return;
 
-      const expected = tokens[cursor];
-      if (!expected) return;
-
-      // ── TAB: avanza automáticamente toda la indentación pendiente ───────────
-      if (e.key === "Tab") {
-        e.preventDefault();
-        if (!startTime) setStartTime(Date.now());
-
-        setCursor((prev) => {
-          let next = prev;
-          // Avanzar mientras sean espacios al inicio de línea
-          while (next < tokens.length && tokens[next].char === " ") {
-            next++;
-            // Parar si llegamos a un carácter no-espacio
-            if (tokens[next] && tokens[next].char !== " ") break;
-          }
-          if (next === prev) next = prev + 1; // fallback: avanzar 1
-          if (next >= tokens.length) {
-            clearInterval(timerRef.current);
-            setTimeout(() => onFinish(buildResult()), 300);
-          }
-          return next;
-        });
-        return;
+    // ── BACKSPACE ─────────────────────────────────────────────────────────────
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      if (wrongChar !== null) {
+        // Había un error en la posición actual → limpiar el error
+        setWrongChar(null);
+      } else if (cursor > 0) {
+        // Sin error → retroceder una posición
+        setCursor((prev) => prev - 1);
+        setWrongChar(null);
       }
-
-      if (!startTime) setStartTime(Date.now());
-      const typedChar = e.key === "Enter" ? "\n" : e.key;
-
-      if (typedChar === expected.char) {
-        setCursor((prev) => {
-          const next = prev + 1;
-          if (next >= tokens.length) {
-            clearInterval(timerRef.current);
-            setTimeout(() => onFinish(buildResult()), 300);
-          }
-          return next;
-        });
-      } else {
-        // DESPUÉS - falla y avanza:
-if (typedChar.length === 1 || typedChar === "\n") {
-  setTotalErrors((p) => p + 1);
-  setErrors((prev) => new Set([...prev, cursor]));
-  setErrorFlash(true);
-  setTimeout(() => setErrorFlash(false), 150);
-  // Avanza igualmente
-  setCursor((prev) => {
-    const next = prev + 1;
-    if (next >= tokens.length) {
-      clearInterval(timerRef.current);
-      setTimeout(() => onFinish(buildResult()), 300);
+      return;
     }
-    return next;
-  });
-}
+
+    // ── TAB: avanza toda la indentación automáticamente ───────────────────────
+    if (e.key === "Tab") {
+      e.preventDefault();
+      if (wrongChar !== null) return; // no avanzar si hay error pendiente
+      if (!startTime) setStartTime(Date.now());
+
+      setCursor((prev) => {
+        let next = prev;
+        while (next < tokens.length && tokens[next].char === " ") {
+          next++;
+          if (tokens[next] && tokens[next].char !== " ") break;
+        }
+        if (next === prev) next = prev + 1;
+        if (next >= tokens.length) {
+          clearInterval(timerRef.current);
+          setTimeout(() => onFinish({
+            snippet, language, tokens, totalErrors,
+            startTime: startTime || Date.now(), endTime: Date.now(),
+          }), 300);
+        }
+        return next;
+      });
+      return;
+    }
+
+    if (!startTime) setStartTime(Date.now());
+
+    const typedChar = e.key === "Enter" ? "\n" : e.key;
+    if (typedChar.length !== 1 && typedChar !== "\n") return;
+
+    // ── CARÁCTER CORRECTO ─────────────────────────────────────────────────────
+    if (typedChar === expected.char && wrongChar === null) {
+      setWrongChar(null);
+      setCursor((prev) => {
+        const next = prev + 1;
+        if (next >= tokens.length) {
+          clearInterval(timerRef.current);
+          setTimeout(() => onFinish({
+            snippet, language, tokens, totalErrors,
+            startTime: startTime || Date.now(), endTime: Date.now(),
+          }), 300);
+        }
+        return next;
+      });
+    } else {
+      // ── CARÁCTER INCORRECTO ─────────────────────────────────────────────────
+      // Solo contar error si no había ya uno (evitar spam de errores)
+      if (wrongChar === null) {
+        setTotalErrors((p) => p + 1);
       }
-    },
-    [tokens, cursor, startTime, buildResult, onFinish]
-  );
+      setWrongChar(typedChar);
+    }
+  }, [tokens, cursor, wrongChar, startTime, totalErrors, snippet, language, onFinish]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Agrupar en líneas
+  // Agrupar tokens en líneas
   const lines = [];
   let currentLine = [];
   tokens.forEach((token, idx) => {
@@ -195,10 +176,10 @@ if (typedChar.length === 1 || typedChar === "\n") {
   if (currentLine.length > 0) lines.push(currentLine);
 
   const elapsed = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
-  const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
+  const accuracy = cursor > 0
+    ? Math.round(((cursor - totalErrors) / cursor) * 100)
+    : 100;
   const currentToken = tokens[cursor];
-
-  // Detectar si el cursor está en indentación (para hint del Tab)
   const isOnIndent =
     currentToken?.char === " " &&
     cursor > 0 &&
@@ -207,10 +188,6 @@ if (typedChar.length === 1 || typedChar === "\n") {
   return (
     <div ref={containerRef} tabIndex={0} style={styles.root}>
       <style>{`
-        @keyframes errorFlash {
-          0%,100% { background: #0d1117; }
-          50% { background: #1a0d0d; }
-        }
         @keyframes blink {
           0%,100% { opacity: 1; }
           50% { opacity: 0; }
@@ -228,10 +205,7 @@ if (typedChar.length === 1 || typedChar === "\n") {
       />
       <ProgressBar value={cursor} max={tokens.length} />
 
-      <div style={{
-        ...styles.codeArea,
-        animation: errorFlash ? "errorFlash 0.15s ease" : "none",
-      }}>
+      <div style={styles.codeArea}>
         <div style={styles.codeBlock}>
           {lines.map((lineTokens, lineIdx) => {
             const isCommentLine =
@@ -241,30 +215,40 @@ if (typedChar.length === 1 || typedChar === "\n") {
               <div key={lineIdx} style={styles.codeLine}>
                 <span style={styles.lineNum}>{lineIdx + 1}</span>
                 <span style={styles.lineContent}>
-                  {isCommentLine && (
-                    <span style={styles.commentTag}>EN</span>
-                  )}
+                  {isCommentLine && <span style={styles.commentTag}>EN</span>}
                   {lineTokens.map(({ char, type, idx }) => {
                     const isTyped = idx < cursor;
                     const isCursor = idx === cursor;
-                    const isError = errors.has(idx);
-                    const color = isTyped
-                      ? isError ? "#ff5555" : getTokenColor(type)
-                      : isCommentLine ? "#518763" : "#959ca9";
+                    const isCommentChar = isCommentLine;
+
+                    // Color del carácter
+                    let color;
+                    if (isCursor && wrongChar !== null) {
+                      color = "#ff5555"; // error en posición actual
+                    } else if (isTyped) {
+                      color = getTokenColor(type); // ya escrito correctamente
+                    } else {
+                      color = isCommentChar ? "#1e3a2a" : "#1e2d3d"; // pendiente
+                    }
+
+                    // Qué mostrar: si es el cursor con error, mostrar el char incorrecto
+                    const displayChar = isCursor && wrongChar !== null
+                      ? wrongChar
+                      : char;
 
                     return (
                       <span key={idx} style={{ position: "relative", display: "inline-block" }}>
-                        {isCursor && <span style={styles.cursor} />}
+                        {/* Cursor (solo si no hay error) */}
+                        {isCursor && wrongChar === null && (
+                          <span style={styles.cursor} />
+                        )}
                         <span style={{
                           color,
                           fontWeight: isTyped && type === "keyword" ? "500" : "300",
+                          fontStyle: isCommentChar ? "italic" : "normal",
                           transition: "color 0.04s",
-                          fontStyle: isCommentLine ? "italic" : "normal",
-                          ...(isError
-                            ? { textDecoration: "underline", textDecorationColor: "#ff5555" }
-                            : {}),
                         }}>
-                          {char === " " ? "\u00A0" : char}
+                          {displayChar === " " ? "\u00A0" : displayChar}
                         </span>
                       </span>
                     );
@@ -280,8 +264,9 @@ if (typedChar.length === 1 || typedChar === "\n") {
         errors={totalErrors}
         accuracy={accuracy}
         elapsed={elapsed}
-        nextChar={currentToken?.char}
-        isOnIndent={isOnIndent}
+        nextChar={wrongChar !== null ? null : currentToken?.char}
+        isOnIndent={isOnIndent && wrongChar === null}
+        typedWrong={wrongChar !== null}
       />
     </div>
   );

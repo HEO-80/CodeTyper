@@ -1,5 +1,7 @@
 "use client";
 
+import "./SharedComponents.css";
+
 // ─── ProgressBar ──────────────────────────────────────────────────────────────
 export function ProgressBar({ value, max }) {
   const pct = max > 0 ? (value / max) * 100 : 0;
