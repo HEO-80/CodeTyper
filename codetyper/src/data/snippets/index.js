@@ -6,7 +6,8 @@ import sql from "./programming/sql";
 import solidity from "./programming/solidity";
 import english from "./languages/english";
 import mindsetSpanish from "./mindset/spanish";
-
+import typescript from "./programming/typescript";
+import python from "./programming/python";
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
 // import python from "./programming/python";
@@ -35,8 +36,8 @@ export const SNIPPETS = {
   solidity,
   english,
   mindset: mindsetSpanish,
-  // typescript,   ← borrar o comentar
-  // python,       ← borrar o comentar
+  typescript,   //← borrar o comentar
+   python,     //  ← borrar o comentar
   // java,         ← borrar o comentar
   // csharp,       ← borrar o comentar
 };
