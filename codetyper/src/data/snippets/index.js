@@ -8,6 +8,8 @@ import english from "./languages/english";
 import mindsetSpanish from "./mindset/spanish";
 import typescript from "./programming/typescript";
 import python from "./programming/python";
+import java from "./programming/java";
+
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
 // import python from "./programming/python";
@@ -38,7 +40,7 @@ export const SNIPPETS = {
   mindset: mindsetSpanish,
   typescript,   //← borrar o comentar
    python,     //  ← borrar o comentar
-  // java,         ← borrar o comentar
+   java,        // ← borrar o comentar
   // csharp,       ← borrar o comentar
 };
 

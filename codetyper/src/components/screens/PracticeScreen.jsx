@@ -5,68 +5,67 @@ import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
 import "./PracticeScreen.css";
 
-// ─── Inyectar comentarios en inglés ──────────────────────────────────────────
+const SCROLL_KEYS = [" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"];
+const IGNORE_KEYS = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape",
+  "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"];
+
 function injectComments(code, language) {
   const lines = code.split("\n");
   const result = [];
-  const commentChar = language === "sql" ? "--" : "//";
-
+  const ch = language === "sql" ? "--" : "//";
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const trimmed = line.trim();
-    const indent = line.match(/^(\s*)/)[1];
+    const t = line.trim();
+    const ind = line.match(/^(\s*)/)[1];
     let comment = null;
-
-    if (!trimmed || trimmed.startsWith("//") || trimmed.startsWith("--") || trimmed.startsWith("#")) {
-      result.push(line);
-      continue;
-    }
-
-    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed))       comment = "Define a function";
-    else if (/^class\s+/.test(trimmed))                                            comment = "Define a class";
-    else if (/^export default/.test(trimmed))                                      comment = "Export as default";
-    else if (/^constructor/.test(trimmed))                                         comment = "Initialize the instance";
-    else if (/^return\s*[\({]/.test(trimmed))                                      comment = "Return the result";
-    else if (/^(if|} else if)\s*\(/.test(trimmed))                                comment = "Check the condition";
-    else if (/^for[\s(]/.test(trimmed))                                            comment = "Iterate over items";
-    else if (/^try\s*\{/.test(trimmed))                                            comment = "Handle errors safely";
-    else if (/^catch\s*\(/.test(trimmed))                                          comment = "Catch and handle the error";
-    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed))   comment = "SQL statement";
-    else if (/^pragma solidity/.test(trimmed))                                     comment = "Set the Solidity compiler version";
-    else if (/^contract\s+/.test(trimmed))                                         comment = "Define the smart contract";
-    else if (/^event\s+/.test(trimmed))                                            comment = "Declare an on-chain event";
-    else if (/^modifier\s+/.test(trimmed))                                         comment = "Define an access modifier";
-    else if (/^emit\s+/.test(trimmed))                                             comment = "Emit the event to the blockchain";
-    else if (/^mapping\s*\(/.test(trimmed))                                        comment = "Mapping: key => value store";
-    else if (/^interface\s+/.test(trimmed))                                        comment = "Define the interface";
-
-    if (comment) result.push(`${indent}${commentChar} ${comment}`);
+    if (!t || t.startsWith("//") || t.startsWith("--") || t.startsWith("#")) { result.push(line); continue; }
+    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(t))     comment = "Define a function";
+    else if (/^class\s+/.test(t))                                           comment = "Define a class";
+    else if (/^export default/.test(t))                                     comment = "Export as default";
+    else if (/^constructor/.test(t))                                        comment = "Initialize the instance";
+    else if (/^return\s*[\({]/.test(t))                                     comment = "Return the result";
+    else if (/^(if|} else if)\s*\(/.test(t))                               comment = "Check the condition";
+    else if (/^for[\s(]/.test(t))                                           comment = "Iterate over items";
+    else if (/^try\s*\{/.test(t))                                           comment = "Handle errors safely";
+    else if (/^catch\s*\(/.test(t))                                         comment = "Catch and handle the error";
+    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(t))  comment = "SQL statement";
+    else if (/^pragma solidity/.test(t))                                    comment = "Set Solidity compiler version";
+    else if (/^contract\s+/.test(t))                                        comment = "Define the smart contract";
+    else if (/^event\s+/.test(t))                                           comment = "Declare an on-chain event";
+    else if (/^modifier\s+/.test(t))                                        comment = "Define an access modifier";
+    else if (/^emit\s+/.test(t))                                            comment = "Emit the event";
+    else if (/^mapping\s*\(/.test(t))                                       comment = "Mapping: key => value";
+    else if (/^interface\s+/.test(t))                                       comment = "Define the interface";
+    if (comment) result.push(`${ind}${ch} ${comment}`);
     result.push(line);
   }
   return result.join("\n");
 }
 
+// Strip trailing newlines from token array to avoid end-of-snippet freeze
+function stripTrailingNewlines(tokens) {
+  let end = tokens.length;
+  while (end > 0 && tokens[end - 1].char === "\n") end--;
+  return tokens.slice(0, end);
+}
+
 export default function PracticeScreen({
-  snippet,
-  language,
-  showComments,
-  onFinish,
-  onBack,
-  onToggleComments,
+  snippet, language, showComments,
+  onFinish, onBack, onToggleComments,
 }) {
-  const [tokens, setTokens] = useState([]);
-  const [cursor, setCursor] = useState(0);
-  // wrongChar: el carácter incorrecto que el usuario escribió en la posición actual
+  const [tokens, setTokens]       = useState([]);
+  const [cursor, setCursor]       = useState(0);
   const [wrongChar, setWrongChar] = useState(null);
   const [totalErrors, setTotalErrors] = useState(0);
   const [startTime, setStartTime] = useState(null);
-  const [tick, setTick] = useState(0);
+  const [tick, setTick]           = useState(0);
   const containerRef = useRef(null);
-  const timerRef = useRef(null);
+  const timerRef     = useRef(null);
 
   useEffect(() => {
     const code = showComments ? injectComments(snippet.code, language) : snippet.code;
-    const t = tokenize(code, language);
+    const raw  = tokenize(code, language);
+    const t    = stripTrailingNewlines(raw);
     setTokens(t);
     setCursor(0);
     setWrongChar(null);
@@ -78,121 +77,95 @@ export default function PracticeScreen({
 
   useEffect(() => {
     if (startTime) {
-      timerRef.current = setInterval(() => setTick((t) => t + 1), 1000);
+      timerRef.current = setInterval(() => setTick((n) => n + 1), 1000);
     }
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
+  const buildResult = useCallback(() => ({
+    snippet, language, tokens, totalErrors,
+    startTime: startTime || Date.now(),
+    endTime: Date.now(),
+  }), [snippet, language, tokens, totalErrors, startTime]);
+
+  const finish = useCallback(() => {
+    clearInterval(timerRef.current);
+    setTimeout(() => onFinish(buildResult()), 300);
+  }, [buildResult, onFinish]);
+
   const handleKeyDown = useCallback((e) => {
-    if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"].includes(e.key)) return;
+    if (SCROLL_KEYS.includes(e.key)) e.preventDefault();
+    if (IGNORE_KEYS.includes(e.key)) return;
 
     const expected = tokens[cursor];
-    if (!expected && cursor >= tokens.length) return;
 
-    // ── BACKSPACE ─────────────────────────────────────────────────────────────
+    // BACKSPACE
     if (e.key === "Backspace") {
       e.preventDefault();
       if (wrongChar !== null) {
-        // Había un error en la posición actual → limpiar el error
         setWrongChar(null);
       } else if (cursor > 0) {
-        // Sin error → retroceder una posición
-        setCursor((prev) => prev - 1);
-        setWrongChar(null);
+        setCursor((p) => p - 1);
       }
       return;
     }
 
-    // ── TAB: avanza toda la indentación automáticamente ───────────────────────
+    // TAB — skip indentation
     if (e.key === "Tab") {
       e.preventDefault();
-      if (wrongChar !== null) return; // no avanzar si hay error pendiente
+      if (wrongChar !== null) return;
       if (!startTime) setStartTime(Date.now());
-
       setCursor((prev) => {
         let next = prev;
-        while (next < tokens.length && tokens[next].char === " ") {
-          next++;
-          if (tokens[next] && tokens[next].char !== " ") break;
-        }
+        while (next < tokens.length && tokens[next].char === " ") next++;
         if (next === prev) next = prev + 1;
-        if (next >= tokens.length) {
-          clearInterval(timerRef.current);
-          setTimeout(() => onFinish({
-            snippet, language, tokens, totalErrors,
-            startTime: startTime || Date.now(), endTime: Date.now(),
-          }), 300);
-        }
-        return next;
+        if (next >= tokens.length) finish();
+        return Math.min(next, tokens.length);
       });
       return;
     }
 
+    if (!expected) return;
     if (!startTime) setStartTime(Date.now());
 
     const typedChar = e.key === "Enter" ? "\n" : e.key;
     if (typedChar.length !== 1 && typedChar !== "\n") return;
 
-    // ── CARÁCTER CORRECTO ─────────────────────────────────────────────────────
+    // CORRECT
     if (typedChar === expected.char && wrongChar === null) {
-      setWrongChar(null);
       setCursor((prev) => {
         const next = prev + 1;
-        if (next >= tokens.length) {
-          clearInterval(timerRef.current);
-          setTimeout(() => onFinish({
-            snippet, language, tokens, totalErrors,
-            startTime: startTime || Date.now(), endTime: Date.now(),
-          }), 300);
-        }
+        if (next >= tokens.length) finish();
         return next;
       });
     } else {
-      // ── CARÁCTER INCORRECTO ─────────────────────────────────────────────────
-      // Solo contar error si no había ya uno (evitar spam de errores)
-      if (wrongChar === null) {
-        setTotalErrors((p) => p + 1);
-      }
+      // WRONG
+      if (wrongChar === null) setTotalErrors((p) => p + 1);
       setWrongChar(typedChar);
     }
-  }, [tokens, cursor, wrongChar, startTime, totalErrors, snippet, language, onFinish]);
+  }, [tokens, cursor, wrongChar, startTime, finish]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Agrupar tokens en líneas
+  // Group into lines
   const lines = [];
-  let currentLine = [];
+  let current = [];
   tokens.forEach((token, idx) => {
-    if (token.char === "\n") {
-      lines.push(currentLine);
-      currentLine = [];
-    } else {
-      currentLine.push({ ...token, idx });
-    }
+    if (token.char === "\n") { lines.push(current); current = []; }
+    else current.push({ ...token, idx });
   });
-  if (currentLine.length > 0) lines.push(currentLine);
+  if (current.length > 0) lines.push(current);
 
-  const elapsed = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
-  const accuracy = cursor > 0
-    ? Math.round(((cursor - totalErrors) / cursor) * 100)
-    : 100;
+  const elapsed  = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+  const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
   const currentToken = tokens[cursor];
-  const isOnIndent =
-    currentToken?.char === " " &&
-    cursor > 0 &&
-    tokens[cursor - 1]?.char === "\n";
+  const isOnIndent   = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
 
   return (
     <div ref={containerRef} tabIndex={0} style={styles.root}>
-      <style>{`
-        @keyframes blink {
-          0%,100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-      `}</style>
 
       <TopBar
         language={language}
@@ -202,53 +175,50 @@ export default function PracticeScreen({
         onBack={onBack}
         showComments={showComments}
         onToggleComments={onToggleComments}
+        errors={totalErrors}
+        accuracy={accuracy}
+        elapsed={elapsed}
+        nextChar={wrongChar !== null ? null : currentToken?.char}
+        isOnIndent={isOnIndent && wrongChar === null}
+        typedWrong={wrongChar !== null}
       />
+
       <ProgressBar value={cursor} max={tokens.length} />
 
       <div style={styles.codeArea}>
         <div style={styles.codeBlock}>
           {lines.map((lineTokens, lineIdx) => {
-            const isCommentLine =
-              lineTokens.length > 0 && lineTokens[0]?.type === "comment";
-
+            const isCommentLine = lineTokens.length > 0 && lineTokens[0]?.type === "comment";
             return (
               <div key={lineIdx} style={styles.codeLine}>
                 <span style={styles.lineNum}>{lineIdx + 1}</span>
                 <span style={styles.lineContent}>
-                  {isCommentLine && <span style={styles.commentTag}>EN</span>}
+                  {isCommentLine && <span className="comment-tag">EN</span>}
                   {lineTokens.map(({ char, type, idx }) => {
-                    const isTyped = idx < cursor;
+                    const isTyped  = idx < cursor;
                     const isCursor = idx === cursor;
-                    const isCommentChar = isCommentLine;
 
-                    // Color del carácter
                     let color;
                     if (isCursor && wrongChar !== null) {
-                      color = "#ff5555"; // error en posición actual
+                      color = "#ff5555";
                     } else if (isTyped) {
-                      color = getTokenColor(type); // ya escrito correctamente
+                      color = getTokenColor(type);
                     } else {
-                      color = isCommentChar ? "#1e3a2a" : "#1e2d3d"; // pendiente
+                      color = isCommentLine ? "#2d5a3d" : "#4a5568";
                     }
 
-                    // Qué mostrar: si es el cursor con error, mostrar el char incorrecto
-                    const displayChar = isCursor && wrongChar !== null
-                      ? wrongChar
-                      : char;
+                    const display = isCursor && wrongChar !== null ? wrongChar : char;
 
                     return (
                       <span key={idx} style={{ position: "relative", display: "inline-block" }}>
-                        {/* Cursor (solo si no hay error) */}
-                        {isCursor && wrongChar === null && (
-                          <span style={styles.cursor} />
-                        )}
+                        {isCursor && wrongChar === null && <span className="code-cursor" />}
                         <span style={{
                           color,
-                          fontWeight: isTyped && type === "keyword" ? "500" : "300",
-                          fontStyle: isCommentChar ? "italic" : "normal",
-                          transition: "color 0.04s",
+                          fontWeight: isTyped && (type === "keyword" || type === "class") ? "500" : "300",
+                          fontStyle: isCommentLine ? "italic" : "normal",
+                          transition: "color 0.06s",
                         }}>
-                          {displayChar === " " ? "\u00A0" : displayChar}
+                          {display === " " ? "\u00A0" : display}
                         </span>
                       </span>
                     );
@@ -274,64 +244,22 @@ export default function PracticeScreen({
 
 const styles = {
   root: {
-    width: "100%",
-    minHeight: "100vh",
-    background: "#0d1117",
-    display: "flex",
-    flexDirection: "column",
-    outline: "none",
-    fontFamily: "'JetBrains Mono', monospace",
+    width: "100%", minHeight: "100vh", background: "#0d1117",
+    display: "flex", flexDirection: "column",
+    outline: "none", fontFamily: "'JetBrains Mono', monospace",
   },
-  codeArea: {
-    flex: 1,
-    padding: "32px 24px",
-    overflowY: "auto",
-    background: "#0d1117",
-  },
+  codeArea: { flex: 1, padding: "32px 24px", overflowY: "auto", background: "#0d1117" },
   codeBlock: { maxWidth: "780px", margin: "0 auto" },
   codeLine: {
-    display: "flex",
-    alignItems: "flex-start",
-    minHeight: "28px",
-    lineHeight: "28px",
+    display: "flex", alignItems: "flex-start",
+    minHeight: "28px", lineHeight: "28px",
   },
   lineNum: {
-    color: "#30363d",
-    fontSize: "12px",
-    minWidth: "36px",
-    userSelect: "none",
-    paddingRight: "16px",
-    textAlign: "right",
-    paddingTop: "1px",
+    color: "#30363d", fontSize: "12px", minWidth: "36px",
+    userSelect: "none", paddingRight: "16px", textAlign: "right", paddingTop: "1px",
   },
   lineContent: {
-    fontSize: "15px",
-    letterSpacing: "0.02em",
-    lineHeight: "28px",
-    whiteSpace: "pre",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-  },
-  commentTag: {
-    fontSize: "9px",
-    color: "#4ec994",
-    border: "1px solid #1e3a2a",
-    borderRadius: "3px",
-    padding: "1px 4px",
-    letterSpacing: "0.08em",
-    userSelect: "none",
-    flexShrink: 0,
-  },
-  cursor: {
-    position: "absolute",
-    left: 0,
-    top: "3px",
-    width: "2px",
-    height: "21px",
-    background: "#82aaff",
-    borderRadius: "1px",
-    zIndex: 10,
-    animation: "blink 1s step-end infinite",
+    fontSize: "15px", letterSpacing: "0.02em", lineHeight: "28px",
+    whiteSpace: "pre", display: "flex", alignItems: "center", gap: "6px",
   },
 };
