@@ -55,6 +55,7 @@ export default function MenuScreen({ onStart, showComments, onToggleComments }) 
             background: showComments ? "#1a2a1a" : "transparent",
             borderColor: showComments ? "#4ec994" : "#30363d",
             color: showComments ? "#4ec994" : "#546e7a",
+           
           }}
           onClick={onToggleComments}
           title="Añade comentarios explicativos en inglés sobre cada bloque"

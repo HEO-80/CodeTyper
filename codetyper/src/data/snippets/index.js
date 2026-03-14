@@ -35,7 +35,7 @@ export const SNIPPETS = {
   solidity,
   english,
   mindset: mindsetSpanish,
-   typescript,  // ← borrar o comentar
+  // typescript,   ← borrar o comentar
   // python,       ← borrar o comentar
   // java,         ← borrar o comentar
   // csharp,       ← borrar o comentar
