@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
 import "./PracticeScreen.css";
+import KeyboardOverlay from "@/components/ui/KeyboardOverlay";
 
 const SCROLL_KEYS = [" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"];
 const IGNORE_KEYS = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape",
@@ -51,7 +52,7 @@ function stripTrailingNewlines(tokens) {
 
 export default function PracticeScreen({
   snippet, language, showComments,
-  onFinish, onBack, onToggleComments,
+  onFinish, onBack, onToggleComments, onSwitchMode,
 }) {
   const [tokens, setTokens]       = useState([]);
   const [cursor, setCursor]       = useState(0);
@@ -204,7 +205,7 @@ export default function PracticeScreen({
                     } else if (isTyped) {
                       color = getTokenColor(type);
                     } else {
-                      color = isCommentLine ? "#4f9567" : "#b7bbcd";
+                      color = isCommentLine ? "#2d5a3d" : "#929aaa";
                     }
 
                     const display = isCursor && wrongChar !== null ? wrongChar : char;
@@ -238,6 +239,48 @@ export default function PracticeScreen({
         isOnIndent={isOnIndent && wrongChar === null}
         typedWrong={wrongChar !== null}
       />
+
+      {/* Switch mode button */}
+      {onSwitchMode && (
+        <button
+          onClick={onSwitchMode}
+          title="Switch to terminal mode"
+          style={{
+            position: "fixed",
+            bottom: "96px",
+            right: "24px",
+            zIndex: 200,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "4px",
+            background: "#0d1117",
+            border: "1px solid #21262d",
+            borderRadius: "12px",
+            padding: "10px 14px 8px",
+            cursor: "pointer",
+            fontFamily: "'JetBrains Mono', monospace",
+            transition: "border-color 0.2s, box-shadow 0.2s, transform 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = "#4ec994";
+            e.currentTarget.style.boxShadow = "0 0 16px rgba(78,201,148,0.25)";
+            e.currentTarget.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = "#21262d";
+            e.currentTarget.style.boxShadow = "none";
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >
+          <TerminalIcon />
+          <span style={{ fontSize: "9px", color: "#546e7a", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+            term
+          </span>
+        </button>
+      )}
+
+      <KeyboardOverlay />
     </div>
   );
 }
@@ -255,7 +298,7 @@ const styles = {
     minHeight: "28px", lineHeight: "28px",
   },
   lineNum: {
-    color: "#717a85", fontSize: "12px", minWidth: "36px",
+    color: "#30363d", fontSize: "12px", minWidth: "36px",
     userSelect: "none", paddingRight: "16px", textAlign: "right", paddingTop: "1px",
   },
   lineContent: {
@@ -263,3 +306,13 @@ const styles = {
     whiteSpace: "pre", display: "flex", alignItems: "center", gap: "6px",
   },
 };
+
+function TerminalIcon() {
+  return (
+    <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
+      <rect x="1" y="1" width="22" height="18" rx="3" stroke="#4ec994" strokeWidth="1.2" />
+      <polyline points="5,6 10,10 5,14" stroke="#4ec994" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="13" y1="14" x2="19" y2="14" stroke="#4ec994" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}

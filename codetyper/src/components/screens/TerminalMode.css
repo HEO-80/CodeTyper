@@ -1,0 +1,222 @@
+/* TerminalMode.css */
+
+/* ── Root ────────────────────────────────────────────────────────────────── */
+.tm-root {
+  width: 100%;
+  min-height: 100vh;
+  background: #080c10;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Title bar ───────────────────────────────────────────────────────────── */
+.tm-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #111820;
+  border-bottom: 1px solid #1a2233;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.tm-dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.tm-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.tm-dot:hover { filter: brightness(1.3); }
+.tm-dot.red    { background: #ff5555; }
+.tm-dot.yellow { background: #ffcb6b; }
+.tm-dot.green  { background: #4ec994; }
+
+.tm-title {
+  font-size: 12px;
+  color: #546e7a;
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tm-titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.tm-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.tm-stat-label {
+  font-size: 8px;
+  color: #30363d;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tm-mode-btn {
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  color: #546e7a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.tm-mode-btn:hover {
+  border-color: #ffcb6b;
+  color: #ffcb6b;
+}
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+.tm-progress-track {
+  width: 100%;
+  height: 2px;
+  background: #0d1117;
+}
+.tm-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ec994, #82aaff);
+  transition: width 0.12s ease;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.tm-body {
+  flex: 1;
+  padding: 20px 28px 40px;
+  overflow-y: auto;
+  background: #080c10;
+}
+
+/* ── Banner ──────────────────────────────────────────────────────────────── */
+.tm-banner {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #111820;
+}
+.tm-banner-text {
+  font-size: 11px;
+  color: #1e3a2a;
+  letter-spacing: 0.05em;
+}
+.tm-banner-text::before {
+  content: "// ";
+  color: #1a2a1a;
+}
+
+/* ── Lines ───────────────────────────────────────────────────────────────── */
+.tm-line {
+  display: flex;
+  align-items: flex-start;
+  min-height: 26px;
+  margin-bottom: 2px;
+  line-height: 26px;
+}
+.tm-active {
+  position: relative;
+}
+
+/* ── Prompt ──────────────────────────────────────────────────────────────── */
+.tm-prompt {
+  color: #4ec994;
+  font-size: 13px;
+  font-weight: 500;
+  margin-right: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* ── Line content ────────────────────────────────────────────────────────── */
+.tm-line-content {
+  font-size: 14px;
+  white-space: pre;
+  letter-spacing: 0.02em;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Cursor ──────────────────────────────────────────────────────────────── */
+@keyframes tm-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.tm-cursor {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 2px;
+  height: 18px;
+  background: #4ec994;
+  border-radius: 1px;
+  z-index: 10;
+  animation: tm-blink 1s step-end infinite;
+}
+.tm-cursor-end {
+  position: relative;
+  display: inline-block;
+  width: 2px;
+  height: 18px;
+  margin-left: 1px;
+  vertical-align: middle;
+}
+
+/* ── Done line ───────────────────────────────────────────────────────────── */
+.tm-done-line {
+  margin-top: 8px;
+  animation: tm-blink 1.5s ease-in-out infinite;
+}
+
+/* ── Status bar ──────────────────────────────────────────────────────────── */
+.tm-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 20px;
+  background: #0a1520;
+  border-top: 1px solid #1a2233;
+  font-size: 11px;
+  color: #30363d;
+  flex-shrink: 0;
+}
+.tm-status-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #546e7a;
+}
+.tm-status-dot {
+  width: 6px;
+  height: 6px;
+  background: #4ec994;
+  border-radius: 50%;
+  animation: tm-blink 2s ease-in-out infinite;
+}
+.tm-status-center {
+  font-size: 12px;
+  font-weight: 500;
+}
+.tm-status-right {
+  color: #30363d;
+  font-size: 11px;
+}

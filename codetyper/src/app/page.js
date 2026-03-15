@@ -4,13 +4,17 @@ import { useState, useEffect } from "react";
 import MenuScreen from "@/components/screens/MenuScreen";
 import PracticeScreen from "@/components/screens/PracticeScreen";
 import ResultsScreen from "@/components/screens/ResultsScreen";
+import CodeTyperTerminal from "@/components/ui/CodeTyperTerminal";
+import { SNIPPETS } from "@/data/snippets";
 
 export default function Home() {
-  const [screen, setScreen] = useState("menu");
-  const [session, setSession] = useState(null);
-  const [result, setResult] = useState(null);
+  const [screen,       setScreen]       = useState("menu");
+  const [session,      setSession]      = useState(null);
+  const [result,       setResult]       = useState(null);
   const [showComments, setShowComments] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
 
+  // Fuentes
   useEffect(() => {
     const link = document.createElement("link");
     link.href =
@@ -19,9 +23,22 @@ export default function Home() {
     document.head.appendChild(link);
   }, []);
 
+  // Alt+T — toggle terminal desde cualquier pantalla
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.altKey && e.key.toLowerCase() === "t") {
+        e.preventDefault();
+        setTerminalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   const handleStart = (snippet, language, difficulty) => {
     setSession({ snippet, language, difficulty });
     setScreen("practice");
+    setTerminalOpen(false);
   };
 
   const handleFinish = (resultData) => {
@@ -29,15 +46,11 @@ export default function Home() {
     setScreen("results");
   };
 
-  const handleRepeat = () => setScreen("practice");
-
   const handleMenu = () => {
     setSession(null);
     setResult(null);
     setScreen("menu");
   };
-
-  const toggleComments = () => setShowComments((prev) => !prev);
 
   return (
     <main style={{ minHeight: "100vh", background: "#0d1117", color: "#c9d1d9" }}>
@@ -45,7 +58,9 @@ export default function Home() {
         <MenuScreen
           onStart={handleStart}
           showComments={showComments}
-          onToggleComments={toggleComments}
+          onToggleComments={() => setShowComments((p) => !p)}
+          onOpenTerminal={() => setTerminalOpen(true)}
+          terminalOpen={terminalOpen}
         />
       )}
       {screen === "practice" && session && (
@@ -55,16 +70,23 @@ export default function Home() {
           showComments={showComments}
           onFinish={handleFinish}
           onBack={handleMenu}
-          onToggleComments={toggleComments}
+          onToggleComments={() => setShowComments((p) => !p)}
         />
       )}
       {screen === "results" && result && (
         <ResultsScreen
           result={result}
-          onRepeat={handleRepeat}
+          onRepeat={() => setScreen("practice")}
           onMenu={handleMenu}
         />
       )}
+
+      <CodeTyperTerminal
+        open={terminalOpen}
+        onClose={() => setTerminalOpen(false)}
+        onLaunchSnippet={handleStart}
+        snippetsData={SNIPPETS}
+      />
     </main>
   );
 }

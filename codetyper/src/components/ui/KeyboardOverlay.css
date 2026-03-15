@@ -1,0 +1,246 @@
+/* KeyboardOverlay.css */
+
+/* ── Floating trigger button ─────────────────────────────────────────────── */
+.kb-trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 10px 14px 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  font-family: 'JetBrains Mono', monospace;
+}
+.kb-trigger:hover {
+  border-color: #82aaff;
+  box-shadow: 0 0 16px rgba(130,170,255,0.25);
+  transform: translateY(-2px);
+}
+.kb-trigger-label {
+  font-size: 9px;
+  color: #546e7a;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Overlay backdrop ────────────────────────────────────────────────────── */
+.kb-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: kb-fade-in 0.15s ease;
+}
+@keyframes kb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Panel ───────────────────────────────────────────────────────────────── */
+.kb-panel {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(130,170,255,0.1);
+  animation: kb-slide-up 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes kb-slide-up {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.kb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.kb-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.kb-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #c9d1d9;
+  letter-spacing: -0.02em;
+}
+.kb-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #546e7a;
+}
+.kb-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kb-ctrl-btn {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  color: #546e7a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.kb-ctrl-btn:hover { border-color: #82aaff; color: #82aaff; }
+.kb-ctrl-btn.active {
+  background: #1c2333;
+  border-color: #82aaff;
+  color: #82aaff;
+}
+.kb-close {
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  color: #546e7a;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.kb-close:hover { border-color: #ff5555; color: #ff5555; }
+
+/* ── Legend ──────────────────────────────────────────────────────────────── */
+.kb-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.kb-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #546e7a;
+}
+.kb-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.kb-legend-dot.prog    { background: #1c2f3f; border: 1px solid #82aaff; }
+.kb-legend-dot.special { background: #1a1a2a; border: 1px solid #c792ea; }
+.kb-legend-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #30363d;
+  margin-left: auto;
+}
+
+/* ── Keyboard ────────────────────────────────────────────────────────────── */
+.kb-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.kb-row {
+  display: flex;
+  gap: 5px;
+  align-items: stretch;
+}
+
+/* ── Key ─────────────────────────────────────────────────────────────────── */
+.kb-key {
+  position: relative;
+  min-width: 44px;
+  height: 44px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 4px 6px;
+  cursor: default;
+  transition: background 0.1s, border-color 0.1s;
+  flex: 1;
+}
+.kb-key:hover {
+  background: #1c2333;
+  border-color: #30363d;
+}
+
+/* Programming symbol highlight */
+.kb-key.kb-prog {
+  background: #0d1f2d;
+  border-color: #1a3a5c;
+}
+.kb-key.kb-prog:hover {
+  background: #1c2f3f;
+  border-color: #82aaff;
+  box-shadow: 0 0 8px rgba(130,170,255,0.15);
+}
+
+/* Special keys */
+.kb-key.kb-special {
+  background: #1a1a2a;
+  border-color: #2a2a3a;
+}
+.kb-key.kb-wide  { flex: 1.7; }
+.kb-key.kb-space { flex: 5; justify-content: center; align-items: center; }
+
+/* Key text */
+.kb-main {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: #8b949e;
+  line-height: 1;
+  user-select: none;
+}
+.kb-key.kb-prog .kb-main   { color: #82aaff; font-weight: 500; }
+.kb-key.kb-special .kb-main { color: #546e7a; font-size: 11px; }
+.kb-key.kb-space .kb-main  { font-size: 10px; color: #30363d; letter-spacing: 0.1em; }
+
+/* Shift label — top right */
+.kb-shift {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #ffcb6b;
+  font-weight: 500;
+  user-select: none;
+  line-height: 1;
+}
+
+/* AltGr label — bottom right */
+.kb-alt {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: #4ec994;
+  font-weight: 400;
+  user-select: none;
+  line-height: 1;
+}
