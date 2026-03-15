@@ -1,4 +1,4 @@
-// src/data/snippets/programming/sql/index.js
+// src/data/snippets/programming/csharp/index.js
 
 import beginner from "./beginner/index.js";
 import intermediate from "./intermediate/index.js";

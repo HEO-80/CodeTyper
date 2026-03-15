@@ -9,7 +9,7 @@ import mindsetSpanish from "./mindset/spanish";
 import typescript from "./programming/typescript";
 import python from "./programming/python";
 import java from "./programming/java";
-
+import csharp from "./programming/csharp";
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
 // import python from "./programming/python";
@@ -37,11 +37,11 @@ export const SNIPPETS = {
   sql,
   solidity,
   english,
+   typescript,   
+   python,     
+   java,       
+  csharp,  
   mindset: mindsetSpanish,
-  typescript,   //← borrar o comentar
-   python,     //  ← borrar o comentar
-   java,        // ← borrar o comentar
-  // csharp,       ← borrar o comentar
 };
 
 // ─── CATEGORÍAS PARA EL MENÚ ──────────────────────────────────────────────────
