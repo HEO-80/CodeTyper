@@ -3,9 +3,18 @@
 import "./LanguageSelector.css";
 
 const LANG_LABELS = {
-  javascript: "JavaScript", typescript: "TypeScript", python: "Python",
-  sql: "SQL", solidity: "Solidity", java: "Java", csharp: "C#",
-  english: "English", mindset: "Mindset",
+  javascript: "JavaScript",
+  typescript: "TypeScript",
+  python:     "Python",
+  sql:        "SQL",
+  solidity:   "Solidity",
+  java:       "Java",
+  csharp:     "C#",
+  powershell: "PowerShell",
+  bash:       "Bash",
+  cloud:      "Cloud",
+  english:    "English",
+  mindset:    "Mindset",
 };
 
 export default function LanguageSelector({ languages, selected, onChange }) {
