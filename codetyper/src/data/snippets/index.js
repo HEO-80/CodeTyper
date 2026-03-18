@@ -10,6 +10,10 @@ import typescript from "./programming/typescript";
 import python from "./programming/python";
 import java from "./programming/java";
 import csharp from "./programming/csharp";
+import bash      from "./programming/bash";
+import powershell from "./programming/powershell";
+import cloud from "./programming/cloud";
+
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
 // import python from "./programming/python";
@@ -41,6 +45,9 @@ export const SNIPPETS = {
    python,     
    java,       
   csharp,  
+  bash,
+  powershell,
+  cloud,
   mindset: mindsetSpanish,
 };
 
@@ -48,7 +55,7 @@ export const SNIPPETS = {
 export const CATEGORIES = {
   programming: {
     label: "💻 Programación",
-    languages: ["javascript", "typescript", "python", "sql", "solidity", "java", "csharp"],
+    languages: ["javascript", "typescript", "python", "sql", "solidity", "java", "csharp","powershell","bash", "cloud"],
   },
   languages: {
     label: "🌍 Idiomas",

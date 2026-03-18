@@ -6,86 +6,85 @@ const exam = [
     title: "PowerShell Full — System Health Monitor",
     difficulty: "advanced",
     description: "Variables, funciones, pipeline, error handling, REST y módulo en un script real",
-    code: `# ── System Health Monitor Script ──────────────────────────────────────────
-# Checks CPU, memory, disk, services and reports to a REST endpoint
-
-param(
-    [string]$ReportUrl   = "https://monitor.myapp.io/api/report",
-    [string]$LogPath     = "C:\Logs\health.log",
-    [int]$CpuThreshold   = 90,
-    [int]$DiskThreshold  = 85
-)
-
-# 1. Logging function
-function Write-Log {
-    param([string]$Message, [string]$Level = "INFO")
-    $ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $line = "$ts [$Level] $Message"
-    Add-Content -Path $LogPath -Value $line
-    $color = switch ($Level) {
-        "WARN"  { "Yellow" }
-        "ERROR" { "Red"    }
-        default { "Cyan"   }
-    }
-    Write-Host $line -ForegroundColor $color
-}
-
-# 2. Collect system metrics
-function Get-HealthReport {
-    $os   = Get-CimInstance Win32_OperatingSystem
-    $cpu  = (Get-CimInstance Win32_Processor).LoadPercentage
-    $disk = Get-PSDrive C | Select-Object Used, Free
-
-    $usedGB  = [math]::Round($disk.Used / 1GB, 2)
-    $totalGB = [math]::Round(($disk.Used + $disk.Free) / 1GB, 2)
-    $diskPct = [math]::Round(($usedGB / $totalGB) * 100, 1)
-
-    $freeMemGB  = [math]::Round($os.FreePhysicalMemory  / 1MB, 2)
-    $totalMemGB = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
-    $memPct     = [math]::Round((1 - $freeMemGB / $totalMemGB) * 100, 1)
-
-    return [PSCustomObject]@{
-        Hostname  = $env:COMPUTERNAME
-        Timestamp = (Get-Date -Format "o")
-        CPU_Pct   = $cpu
-        Mem_Pct   = $memPct
-        Disk_Pct  = $diskPct
-        Status    = if ($cpu -gt $CpuThreshold -or $diskPct -gt $DiskThreshold)
-                        { "WARNING" } else { "OK" }
-    }
-}
-
-# 3. Check critical services
-function Test-Services {
-    $critical = @("wuauserv", "Spooler", "LanmanServer")
-    $critical | ForEach-Object {
-        $svc = Get-Service -Name $_ -ErrorAction SilentlyContinue
-        if (-not $svc -or $svc.Status -ne "Running") {
-            Write-Log "Service $_ is NOT running!" -Level "WARN"
-        }
-    }
-}
-
-# 4. Send report to REST API
-function Send-Report {
-    param([PSCustomObject]$Report)
-    try {
-        $json = $Report | ConvertTo-Json
-        Invoke-RestMethod -Uri $ReportUrl -Method POST `
-            -Body $json -ContentType "application/json" `
-            -ErrorAction Stop
-        Write-Log "Report sent. Status: $($Report.Status)"
-    } catch {
-        Write-Log "Failed to send report: $_" -Level "ERROR"
-    }
-}
-
-# 5. Main execution
-Write-Log "Starting health check on $env:COMPUTERNAME"
-$report = Get-HealthReport
-Test-Services
-Send-Report -Report $report
-Write-Log "Health check complete. CPU: $($report.CPU_Pct)% | Disk: $($report.Disk_Pct)%"`,
+    code: [
+      "# System Health Monitor Script",
+      "# Checks CPU, memory, disk, services and reports to a REST endpoint",
+      "",
+      "param(",
+      '    [string]$ReportUrl   = "https://monitor.myapp.io/api/report",',
+      '    [string]$LogPath     = "C:\\Logs\\health.log",',
+      "    [int]$CpuThreshold   = 90,",
+      "    [int]$DiskThreshold  = 85",
+      ")",
+      "",
+      "# 1. Logging function",
+      "function Write-Log {",
+      '    param([string]$Message, [string]$Level = "INFO")',
+      '    $ts = Get-Date -Format "yyyy-MM-dd HH:mm:ss"',
+      '    $line = "$ts [$Level] $Message"',
+      "    Add-Content -Path $LogPath -Value $line",
+      "    $color = switch ($Level) {",
+      '        "WARN"  { "Yellow" }',
+      '        "ERROR" { "Red"    }',
+      '        default { "Cyan"   }',
+      "    }",
+      "    Write-Host $line -ForegroundColor $color",
+      "}",
+      "",
+      "# 2. Collect system metrics",
+      "function Get-HealthReport {",
+      "    $os   = Get-CimInstance Win32_OperatingSystem",
+      "    $cpu  = (Get-CimInstance Win32_Processor).LoadPercentage",
+      "    $disk = Get-PSDrive C | Select-Object Used, Free",
+      "",
+      "    $usedGB  = [math]::Round($disk.Used / 1GB, 2)",
+      "    $totalGB = [math]::Round(($disk.Used + $disk.Free) / 1GB, 2)",
+      "    $diskPct = [math]::Round(($usedGB / $totalGB) * 100, 1)",
+      "",
+      "    $freeMemGB  = [math]::Round($os.FreePhysicalMemory / 1MB, 2)",
+      "    $totalMemGB = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)",
+      "    $memPct     = [math]::Round((1 - $freeMemGB / $totalMemGB) * 100, 1)",
+      "",
+      "    return [PSCustomObject]@{",
+      "        Hostname  = $env:COMPUTERNAME",
+      '        Timestamp = (Get-Date -Format "o")',
+      "        CPU_Pct   = $cpu",
+      "        Mem_Pct   = $memPct",
+      "        Disk_Pct  = $diskPct",
+      "        Status    = if ($cpu -gt $CpuThreshold -or $diskPct -gt $DiskThreshold) { 'WARNING' } else { 'OK' }",
+      "    }",
+      "}",
+      "",
+      "# 3. Check critical services",
+      "function Test-Services {",
+      '    $critical = @("wuauserv", "Spooler", "LanmanServer")',
+      "    $critical | ForEach-Object {",
+      "        $svc = Get-Service -Name $_ -ErrorAction SilentlyContinue",
+      '        if (-not $svc -or $svc.Status -ne "Running") {',
+      '            Write-Log "Service $_ is NOT running!" -Level "WARN"',
+      "        }",
+      "    }",
+      "}",
+      "",
+      "# 4. Send report to REST API",
+      "function Send-Report {",
+      "    param([PSCustomObject]$Report)",
+      "    try {",
+      "        $json = $Report | ConvertTo-Json",
+      "        Invoke-RestMethod -Uri $ReportUrl -Method POST -Body $json -ContentType 'application/json' -ErrorAction Stop",
+      '        Write-Log "Report sent. Status: $($Report.Status)"',
+      "    } catch {",
+      '        Write-Log "Failed to send report: $_" -Level "ERROR"',
+      "    }",
+      "}",
+      "",
+      "# 5. Main execution",
+      'Write-Log "Starting health check on $env:COMPUTERNAME"',
+      "$report = Get-HealthReport",
+      "Test-Services",
+      "Send-Report -Report $report",
+      'Write-Log "Health check complete. CPU: $($report.CPU_Pct)% | Disk: $($report.Disk_Pct)%"',
+    ].join("\n"),
   },
 ];
 

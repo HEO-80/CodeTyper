@@ -12,7 +12,7 @@ set -euo pipefail   # exit on error, unbound vars, pipe failures
 # ── Config ─────────────────────────────────────────────────────────────────
 APP_DIR="/var/www/myapp"
 LOG_FILE="/var/log/deploy.log"
-BRANCH="${1:-main}"
+BRANCH="\${1:-main}"
 SERVICE="myapp"
 
 # ── Logging ────────────────────────────────────────────────────────────────

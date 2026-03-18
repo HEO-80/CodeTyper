@@ -89,6 +89,9 @@ export const LANGUAGE_LABELS = {
   solidity:   "Solidity",
   java:       "Java",
   csharp:     "C#",
+  powershell: "PowerShell",
+  bash:       "Bash",
+  cloud:      "Cloud",
   english:    "English",
   mindset:    "Mindset",
 };
@@ -102,6 +105,9 @@ export const LANGUAGE_COLORS = {
   solidity:   { border: "#c792ea", color: "#c792ea", bg: "#150a1a" },
   java:       { border: "#f89820", color: "#f89820", bg: "#1a1000" },
   csharp:     { border: "#9b4993", color: "#9b4993", bg: "#150a15" },
+  powershell: { border: "#5391FE", color: "#5391FE", bg: "#0a0f1e" },
+  bash:        { border: "#4ec994", color: "#4ec994", bg: "#0a1a12" },
+  cloud:       { border: "#f78c6c", color: "#f78c6c", bg: "#1a0f0a" },
   english:    { border: "#82aaff", color: "#82aaff", bg: "#0a1020" },
   mindset:    { border: "#ffcb6b", color: "#ffcb6b", bg: "#1a1500" },
 };
