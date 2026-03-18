@@ -1,0 +1,101 @@
+// src/data/snippets/programming/powershell/advanced/remoting.js
+
+const remoting = [
+  {
+    id: "ps-adv-rem-001",
+    title: "PowerShell Remoting",
+    difficulty: "advanced",
+    description: "Invoke-Command, New-PSSession y ejecución remota",
+    code: `# Enable remoting (run as admin)
+# Enable-PSRemoting -Force
+
+# Run command on remote machine
+Invoke-Command -ComputerName "server01" -ScriptBlock {
+    Get-Service | Where-Object Status -eq "Stopped"
+}
+
+# Run on multiple servers
+$servers = @("web01", "web02", "db01")
+
+Invoke-Command -ComputerName $servers -ScriptBlock {
+    [PSCustomObject]@{
+        Server    = $env:COMPUTERNAME
+        FreeMemGB = [math]::Round(
+            (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB, 2
+        )
+        CPU_Load  = (Get-CimInstance Win32_Processor).LoadPercentage
+    }
+} | Format-Table -AutoSize
+
+# Persistent session
+$session = New-PSSession -ComputerName "server01" `
+    -Credential (Get-Credential)
+
+# Run multiple commands in same session
+Invoke-Command -Session $session -ScriptBlock {
+    $env:COMPUTERNAME
+    Get-Process | Measure-Object | Select-Object Count
+}
+
+# Copy files over session
+Copy-Item -Path ".\deploy.zip" `
+    -Destination "C:\Deploy\" `
+    -ToSession $session
+
+# Close session
+Remove-PSSession $session`,
+  },
+  {
+    id: "ps-adv-rem-002",
+    title: "REST API & Web Requests",
+    difficulty: "advanced",
+    description: "Invoke-RestMethod, Invoke-WebRequest y consumir APIs",
+    code: `# Simple GET request
+$response = Invoke-RestMethod `
+    -Uri "https://jsonplaceholder.typicode.com/users/1" `
+    -Method GET
+
+Write-Host "Name: $($response.name)"
+Write-Host "Email: $($response.email)"
+
+# POST with JSON body
+$body = @{
+    title  = "New Post"
+    body   = "Post content here"
+    userId = 1
+} | ConvertTo-Json
+
+$post = Invoke-RestMethod `
+    -Uri "https://jsonplaceholder.typicode.com/posts" `
+    -Method POST `
+    -Body $body `
+    -ContentType "application/json"
+
+Write-Host "Created post ID: $($post.id)"
+
+# With auth headers
+$headers = @{
+    "Authorization" = "Bearer $env:API_TOKEN"
+    "Accept"        = "application/json"
+}
+
+$data = Invoke-RestMethod `
+    -Uri "https://api.myapp.io/v1/users" `
+    -Headers $headers `
+    -Method GET
+
+$data | ForEach-Object {
+    Write-Host "$($_.id): $($_.name)"
+}
+
+# Handle errors
+try {
+    Invoke-RestMethod -Uri "https://api.myapp.io/404" -ErrorAction Stop
+} catch {
+    $statusCode = $_.Exception.Response.StatusCode.value__
+    Write-Error "HTTP $statusCode : $($_.Exception.Message)"
+}`,
+  },
+];
+
+export default remoting;

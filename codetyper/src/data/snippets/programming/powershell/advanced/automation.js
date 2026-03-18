@@ -1,0 +1,107 @@
+// src/data/snippets/programming/powershell/advanced/automation.js
+
+const automation = [
+  {
+    id: "ps-adv-aut-001",
+    title: "Modules & Script Structure",
+    difficulty: "advanced",
+    description: "Crear módulos .psm1, manifiestos y exportar funciones",
+    code: `# ── MyUtils.psm1 ──────────────────────────────────────────────────────────
+
+function Get-SystemSummary {
+    [CmdletBinding()]
+    param([switch]$Detailed)
+
+    $os  = Get-CimInstance Win32_OperatingSystem
+    $cpu = Get-CimInstance Win32_Processor | Select-Object -First 1
+
+    $summary = [PSCustomObject]@{
+        Hostname    = $env:COMPUTERNAME
+        OS          = $os.Caption
+        Version     = $os.Version
+        FreeMemGB   = [math]::Round($os.FreePhysicalMemory / 1MB, 2)
+        TotalMemGB  = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+        CPU         = $cpu.Name
+        Uptime      = (Get-Date) - $os.LastBootUpTime
+    }
+
+    if ($Detailed) {
+        $summary | Add-Member -MemberType NoteProperty -Name Processes `
+            -Value (Get-Process).Count
+    }
+
+    return $summary
+}
+
+function Write-Log {
+    param(
+        [string]$Message,
+        [ValidateSet("INFO","WARN","ERROR")]
+        [string]$Level = "INFO",
+        [string]$Path  = ".\app.log"
+    )
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$timestamp [$Level] $Message" | Add-Content -Path $Path
+}
+
+Export-ModuleMember -Function Get-SystemSummary, Write-Log
+
+# ── Usage ──────────────────────────────────────────────────────────────────
+# Import-Module .\MyUtils.psm1
+# Get-SystemSummary -Detailed
+# Write-Log "App started" -Level "INFO"`,
+  },
+  {
+    id: "ps-adv-aut-002",
+    title: "Scheduled Tasks & Jobs",
+    difficulty: "advanced",
+    description: "Background jobs, scheduled tasks y parallel execution",
+    code: `# Background jobs
+$job = Start-Job -ScriptBlock {
+    Start-Sleep -Seconds 3
+    Get-Process | Select-Object -First 5
+}
+
+Write-Host "Job started: $($job.Id)"
+
+# Check status
+while ($job.State -eq "Running") {
+    Write-Host "." -NoNewline
+    Start-Sleep -Milliseconds 500
+}
+
+$result = Receive-Job -Job $job
+$result | Format-Table
+Remove-Job -Job $job
+
+# Parallel execution (PS 7+)
+$servers = @("server01", "server02", "server03", "server04")
+
+$results = $servers | ForEach-Object -Parallel {
+    $s = $_
+    [PSCustomObject]@{
+        Server = $s
+        Online = Test-Connection $s -Count 1 -Quiet
+        Time   = Get-Date
+    }
+} -ThrottleLimit 4
+
+$results | Format-Table
+
+# Scheduled task
+$action  = New-ScheduledTaskAction `
+    -Execute "pwsh.exe" `
+    -Argument "-File C:\Scripts\backup.ps1"
+
+$trigger = New-ScheduledTaskTrigger `
+    -Daily -At "02:00AM"
+
+Register-ScheduledTask `
+    -TaskName "NightlyBackup" `
+    -Action $action `
+    -Trigger $trigger `
+    -RunLevel Highest`,
+  },
+];
+
+export default automation;
