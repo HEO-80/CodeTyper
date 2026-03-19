@@ -1,0 +1,177 @@
+/* ── responsive.css ──────────────────────────────────────────────────────────
+   Mobile-first responsive styles for CodeTyper
+   Import this in layout.js or globals.css
+─────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Tablet portrait (≤ 900px) ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* Hide structure panel on tablet — too narrow */
+  .ct-panel-outer {
+    display: none !important;
+  }
+
+  /* TopBar: compress */
+  .topbar-structure-btn {
+    display: none !important;
+  }
+
+  /* Menu: single column grid */
+  .menu-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Language selector: smaller pills */
+  .lang-btn {
+    padding: 5px 12px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* ── Mobile landscape (≤ 768px) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Code font size smaller */
+  .code-scroll {
+    padding: 16px 12px !important;
+  }
+
+  /* Reduce line number width */
+  .code-line-num {
+    min-width: 24px !important;
+    padding-right: 10px !important;
+    font-size: 10px !important;
+  }
+
+  /* Code font smaller */
+  .code-line-content {
+    font-size: 13px !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* TopBar compact */
+  .topbar-breadcrumb {
+    display: none !important;
+  }
+
+  /* BottomBar: smaller text */
+  .bottombar-stat-value {
+    font-size: 15px !important;
+  }
+
+  /* Menu grid single column */
+  .menu-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Menu padding */
+  .menu-root {
+    padding: 24px 16px !important;
+  }
+
+  /* Logo smaller */
+  .menu-logo {
+    font-size: 28px !important;
+  }
+}
+
+/* ── Mobile portrait (≤ 480px) ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* Code font even smaller */
+  .code-line-content {
+    font-size: 12px !important;
+    line-height: 24px !important;
+  }
+
+  /* Hide EN comment tag */
+  .code-comment-tag {
+    display: none !important;
+  }
+
+  /* TopBar: minimal */
+  .topbar-stats-row {
+    gap: 8px !important;
+  }
+
+  .topbar-stat-label {
+    display: none !important;
+  }
+
+  /* BottomBar: 2 stats only */
+  .bottombar-time,
+  .bottombar-next {
+    display: none !important;
+  }
+
+  /* Results grid: stack vertically */
+  .results-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Results grade smaller */
+  .results-grade {
+    font-size: 72px !important;
+  }
+
+  /* Language pills wrap nicely */
+  .lang-selector-row {
+    gap: 6px !important;
+  }
+
+  .lang-btn {
+    padding: 4px 10px !important;
+    font-size: 10px !important;
+  }
+
+  /* Difficulty buttons */
+  .diff-btn {
+    padding: 4px 10px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* ── Touch devices: larger tap targets ──────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+
+  .lang-btn,
+  .diff-btn,
+  .cat-btn {
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+  }
+
+  /* Snippet cards: bigger tap area */
+  .snippet-card {
+    padding: 20px !important;
+  }
+
+  /* No hover effects on touch */
+  .lang-btn:hover,
+  .diff-btn:hover {
+    transform: none !important;
+  }
+}
+
+/* ── Landscape mobile: use full width ───────────────────────────────────── */
+@media (max-width: 768px) and (orientation: landscape) {
+
+  /* Tighter vertical spacing */
+  .menu-root {
+    padding: 12px 16px !important;
+  }
+
+  .menu-header {
+    margin-bottom: 16px !important;
+  }
+
+  .menu-section {
+    margin-bottom: 16px !important;
+  }
+
+  /* Code area: remove top padding */
+  .code-scroll {
+    padding: 12px !important;
+  }
+}

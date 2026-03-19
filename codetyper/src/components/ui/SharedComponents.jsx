@@ -20,6 +20,7 @@ export function TopBar({
   showComments, onToggleComments,
   errors, accuracy, elapsed,
   nextChar, isOnIndent, typedWrong,
+  extraRight,
 }) {
 
   // Next key hint
@@ -83,6 +84,9 @@ export function TopBar({
             {showComments ? "// ON" : "// OFF"}
           </button>
         )}
+
+        {/* Extra right slot — e.g. ContextPanel toggle button */}
+        {extraRight}
       </div>
     </div>
   );

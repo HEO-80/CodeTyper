@@ -3,148 +3,135 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
-import "./PracticeScreen.css";
-import KeyboardOverlay from "@/components/ui/KeyboardOverlay";
+import { useCodeStructure } from "@/hooks/useCodeStructure";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
-const SCROLL_KEYS = [" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown"];
-const IGNORE_KEYS = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape",
-  "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"];
-
+// ─── Inject English comments ──────────────────────────────────────────────────
 function injectComments(code, language) {
   const lines = code.split("\n");
   const result = [];
-  const ch = language === "sql" ? "--" : "//";
+  const commentChar = ["sql"].includes(language) ? "--" : "//";
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const t = line.trim();
-    const ind = line.match(/^(\s*)/)[1];
+    const trimmed = line.trim();
+    const indent = line.match(/^(\s*)/)[1];
     let comment = null;
-    if (!t || t.startsWith("//") || t.startsWith("--") || t.startsWith("#")) { result.push(line); continue; }
-    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(t))     comment = "Define a function";
-    else if (/^class\s+/.test(t))                                           comment = "Define a class";
-    else if (/^export default/.test(t))                                     comment = "Export as default";
-    else if (/^constructor/.test(t))                                        comment = "Initialize the instance";
-    else if (/^return\s*[\({]/.test(t))                                     comment = "Return the result";
-    else if (/^(if|} else if)\s*\(/.test(t))                               comment = "Check the condition";
-    else if (/^for[\s(]/.test(t))                                           comment = "Iterate over items";
-    else if (/^try\s*\{/.test(t))                                           comment = "Handle errors safely";
-    else if (/^catch\s*\(/.test(t))                                         comment = "Catch and handle the error";
-    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(t))  comment = "SQL statement";
-    else if (/^pragma solidity/.test(t))                                    comment = "Set Solidity compiler version";
-    else if (/^contract\s+/.test(t))                                        comment = "Define the smart contract";
-    else if (/^event\s+/.test(t))                                           comment = "Declare an on-chain event";
-    else if (/^modifier\s+/.test(t))                                        comment = "Define an access modifier";
-    else if (/^emit\s+/.test(t))                                            comment = "Emit the event";
-    else if (/^mapping\s*\(/.test(t))                                       comment = "Mapping: key => value";
-    else if (/^interface\s+/.test(t))                                       comment = "Define the interface";
-    if (comment) result.push(`${ind}${ch} ${comment}`);
+    if (!trimmed || trimmed.startsWith("//") || trimmed.startsWith("--") || trimmed.startsWith("#")) {
+      result.push(line); continue;
+    }
+    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed))    comment = "Define a function";
+    else if (/^class\s+/.test(trimmed))                                          comment = "Define a class";
+    else if (/^export default/.test(trimmed))                                    comment = "Export as default";
+    else if (/^constructor/.test(trimmed))                                       comment = "Initialize the instance";
+    else if (/^return\s*[\({]/.test(trimmed))                                    comment = "Return the result";
+    else if (/^(if|} else if)\s*\(/.test(trimmed))                              comment = "Check the condition";
+    else if (/^for[\s(]/.test(trimmed))                                          comment = "Iterate over items";
+    else if (/^try\s*\{/.test(trimmed))                                          comment = "Handle errors safely";
+    else if (/^catch\s*\(/.test(trimmed))                                        comment = "Catch and handle the error";
+    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed))  comment = "SQL statement";
+    else if (/^pragma solidity/.test(trimmed))                                   comment = "Set the Solidity compiler version";
+    else if (/^contract\s+/.test(trimmed))                                       comment = "Define the smart contract";
+    else if (/^event\s+/.test(trimmed))                                          comment = "Declare an on-chain event";
+    else if (/^modifier\s+/.test(trimmed))                                       comment = "Define an access modifier";
+    else if (/^emit\s+/.test(trimmed))                                           comment = "Emit the event to the blockchain";
+    else if (/^mapping\s*\(/.test(trimmed))                                      comment = "Mapping: key => value store";
+    else if (/^interface\s+/.test(trimmed))                                      comment = "Define the interface";
+    if (comment) result.push(`${indent}${commentChar} ${comment}`);
     result.push(line);
   }
   return result.join("\n");
 }
 
-// Strip trailing newlines from token array to avoid end-of-snippet freeze
-function stripTrailingNewlines(tokens) {
-  let end = tokens.length;
-  while (end > 0 && tokens[end - 1].char === "\n") end--;
-  return tokens.slice(0, end);
-}
+const LANG_META = {
+  solidity:   { label: "Smart Contract", icon: "◆", color: "#c792ea" },
+  javascript: { label: "JavaScript",     icon: "⬡", color: "#ffcb6b" },
+  typescript: { label: "TypeScript",     icon: "⬡", color: "#82aaff" },
+  csharp:     { label: ".NET Web API",   icon: "◈", color: "#82aaff" },
+  sql:        { label: "SQL Script",     icon: "▪", color: "#f78c6c" },
+  powershell: { label: "PowerShell",     icon: "▶", color: "#5391FE" },
+  bash:       { label: "Bash Script",    icon: "▶", color: "#4ec994" },
+  python:     { label: "Python",         icon: "⬡", color: "#4ec994" },
+  java:       { label: "Java",           icon: "◆", color: "#f89820" },
+  cloud:      { label: "Cloud Script",   icon: "⬡", color: "#f78c6c" },
+};
 
 export default function PracticeScreen({
   snippet, language, showComments,
-  onFinish, onBack, onToggleComments, onSwitchMode,
+  onFinish, onBack, onToggleComments,
 }) {
-  const [tokens, setTokens]       = useState([]);
-  const [cursor, setCursor]       = useState(0);
-  const [wrongChar, setWrongChar] = useState(null);
-  const [totalErrors, setTotalErrors] = useState(0);
-  const [startTime, setStartTime] = useState(null);
-  const [tick, setTick]           = useState(0);
+  const [tokens,       setTokens]       = useState([]);
+  const [cursor,       setCursor]       = useState(0);
+  const [errors,       setErrors]       = useState(new Set());
+  const [totalErrors,  setTotalErrors]  = useState(0);
+  const [errorFlash,   setErrorFlash]   = useState(false);
+  const [startTime,    setStartTime]    = useState(null);
+  const [tick,         setTick]         = useState(0);
+  const [panelVisible, setPanelVisible] = useState(true);
+
   const containerRef = useRef(null);
   const timerRef     = useRef(null);
+  const isMobile     = useIsMobile(768);
+
+  // En móvil el panel siempre oculto
+  const showPanel = panelVisible && !isMobile;
+
+  const rawCode = showComments ? injectComments(snippet.code, language) : snippet.code;
+  const { structure, activeIndex } = useCodeStructure(rawCode, language, cursor);
+  const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
 
   useEffect(() => {
-    const code = showComments ? injectComments(snippet.code, language) : snippet.code;
-    const raw  = tokenize(code, language);
-    const t    = stripTrailingNewlines(raw);
-    setTokens(t);
-    setCursor(0);
-    setWrongChar(null);
-    setTotalErrors(0);
-    setStartTime(null);
+    setTokens(tokenize(rawCode, language));
+    setCursor(0); setErrors(new Set()); setTotalErrors(0); setStartTime(null);
     clearInterval(timerRef.current);
     setTimeout(() => containerRef.current?.focus(), 50);
-  }, [snippet, language, showComments]);
+  }, [snippet, language]);
 
   useEffect(() => {
-    if (startTime) {
-      timerRef.current = setInterval(() => setTick((n) => n + 1), 1000);
-    }
+    setTokens(tokenize(rawCode, language));
+    setTimeout(() => containerRef.current?.focus(), 50);
+  }, [showComments]);
+
+  useEffect(() => {
+    if (startTime) timerRef.current = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
   const buildResult = useCallback(() => ({
     snippet, language, tokens, totalErrors,
-    startTime: startTime || Date.now(),
-    endTime: Date.now(),
+    startTime: startTime || Date.now(), endTime: Date.now(),
   }), [snippet, language, tokens, totalErrors, startTime]);
 
-  const finish = useCallback(() => {
-    clearInterval(timerRef.current);
-    setTimeout(() => onFinish(buildResult()), 300);
-  }, [buildResult, onFinish]);
-
   const handleKeyDown = useCallback((e) => {
-    if (SCROLL_KEYS.includes(e.key)) e.preventDefault();
-    if (IGNORE_KEYS.includes(e.key)) return;
-
+    if (["Shift","Control","Alt","Meta","CapsLock","Escape"].includes(e.key)) return;
+    if (e.key === " " || e.key === "Enter" || e.key === "Tab") e.preventDefault();
     const expected = tokens[cursor];
-
-    // BACKSPACE
-    if (e.key === "Backspace") {
-      e.preventDefault();
-      if (wrongChar !== null) {
-        setWrongChar(null);
-      } else if (cursor > 0) {
-        setCursor((p) => p - 1);
-      }
-      return;
-    }
-
-    // TAB — skip indentation
+    if (!expected) return;
     if (e.key === "Tab") {
-      e.preventDefault();
-      if (wrongChar !== null) return;
       if (!startTime) setStartTime(Date.now());
       setCursor((prev) => {
         let next = prev;
         while (next < tokens.length && tokens[next].char === " ") next++;
         if (next === prev) next = prev + 1;
-        if (next >= tokens.length) finish();
-        return Math.min(next, tokens.length);
+        if (next >= tokens.length) { clearInterval(timerRef.current); setTimeout(() => onFinish(buildResult()), 300); }
+        return next;
       });
       return;
     }
-
-    if (!expected) return;
     if (!startTime) setStartTime(Date.now());
-
     const typedChar = e.key === "Enter" ? "\n" : e.key;
-    if (typedChar.length !== 1 && typedChar !== "\n") return;
-
-    // CORRECT
-    if (typedChar === expected.char && wrongChar === null) {
+    if (typedChar === expected.char) {
       setCursor((prev) => {
         const next = prev + 1;
-        if (next >= tokens.length) finish();
+        if (next >= tokens.length) { clearInterval(timerRef.current); setTimeout(() => onFinish(buildResult()), 300); }
         return next;
       });
-    } else {
-      // WRONG
-      if (wrongChar === null) setTotalErrors((p) => p + 1);
-      setWrongChar(typedChar);
+    } else if (typedChar.length === 1 || typedChar === "\n") {
+      setTotalErrors(p => p + 1);
+      setErrors(prev => new Set([...prev, cursor]));
+      setErrorFlash(true);
+      setTimeout(() => setErrorFlash(false), 150);
     }
-  }, [tokens, cursor, wrongChar, startTime, finish]);
+  }, [tokens, cursor, startTime, buildResult, onFinish]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -153,21 +140,38 @@ export default function PracticeScreen({
 
   // Group into lines
   const lines = [];
-  let current = [];
+  let currentLine = [];
   tokens.forEach((token, idx) => {
-    if (token.char === "\n") { lines.push(current); current = []; }
-    else current.push({ ...token, idx });
+    if (token.char === "\n") { lines.push(currentLine); currentLine = []; }
+    else currentLine.push({ ...token, idx });
   });
-  if (current.length > 0) lines.push(current);
+  if (currentLine.length > 0) lines.push(currentLine);
 
-  const elapsed  = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
-  const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
+  const elapsed      = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+  const accuracy     = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
   const currentToken = tokens[cursor];
   const isOnIndent   = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
+  const progress     = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
+  const fontSize     = isMobile ? "13px" : "15px";
+  const lineHeight   = isMobile ? "24px" : "28px";
+  const codePadding  = isMobile ? "16px 12px" : "32px 24px";
 
   return (
-    <div ref={containerRef} tabIndex={0} style={styles.root}>
+    <div ref={containerRef} tabIndex={0} style={s.root}>
+      <style>{`
+        @keyframes errorFlash { 0%,100%{background:#0d1117;} 50%{background:#1a0d0d;} }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+        @keyframes pulse-node { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
+        @keyframes slide-in { from{opacity:0;transform:translateX(16px);} to{opacity:1;transform:translateX(0);} }
+        .code-scroll::-webkit-scrollbar{width:4px;}
+        .code-scroll::-webkit-scrollbar-track{background:#0d1117;}
+        .code-scroll::-webkit-scrollbar-thumb{background:#21262d;border-radius:2px;}
+        .panel-scroll::-webkit-scrollbar{width:3px;}
+        .panel-scroll::-webkit-scrollbar-track{background:#0a0f1a;}
+        .panel-scroll::-webkit-scrollbar-thumb{background:#1c2333;border-radius:2px;}
+      `}</style>
 
+      {/* TopBar */}
       <TopBar
         language={language}
         title={snippet.title}
@@ -176,143 +180,243 @@ export default function PracticeScreen({
         onBack={onBack}
         showComments={showComments}
         onToggleComments={onToggleComments}
-        errors={totalErrors}
-        accuracy={accuracy}
-        elapsed={elapsed}
-        nextChar={wrongChar !== null ? null : currentToken?.char}
-        isOnIndent={isOnIndent && wrongChar === null}
-        typedWrong={wrongChar !== null}
+        extraRight={
+          !isMobile ? (
+            <button
+              onClick={() => setPanelVisible(v => !v)}
+              style={{
+                display: "flex", alignItems: "center", gap: "5px",
+                padding: "4px 10px",
+                border: `1px solid ${showPanel ? meta.color : "#30363d"}`,
+                borderRadius: "4px", cursor: "pointer",
+                background: showPanel ? `${meta.color}15` : "transparent",
+                color: showPanel ? meta.color : "#546e7a",
+                fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.06em", transition: "all 0.15s",
+              }}
+            >
+              ⬡ STRUCTURE
+            </button>
+          ) : null
+        }
       />
-
       <ProgressBar value={cursor} max={tokens.length} />
 
-      <div style={styles.codeArea}>
-        <div style={styles.codeBlock}>
-          {lines.map((lineTokens, lineIdx) => {
-            const isCommentLine = lineTokens.length > 0 && lineTokens[0]?.type === "comment";
-            return (
-              <div key={lineIdx} style={styles.codeLine}>
-                <span style={styles.lineNum}>{lineIdx + 1}</span>
-                <span style={styles.lineContent}>
-                  {isCommentLine && <span className="comment-tag">EN</span>}
-                  {lineTokens.map(({ char, type, idx }) => {
-                    const isTyped  = idx < cursor;
-                    const isCursor = idx === cursor;
+      {/* Layout */}
+      <div style={s.layout}>
 
-                    let color;
-                    if (isCursor && wrongChar !== null) {
-                      color = "#ff5555";
-                    } else if (isTyped) {
-                      color = getTokenColor(type);
-                    } else {
-                      color = isCommentLine ? "#2d5a3d" : "#929aaa";
-                    }
-
-                    const display = isCursor && wrongChar !== null ? wrongChar : char;
-
-                    return (
-                      <span key={idx} style={{ position: "relative", display: "inline-block" }}>
-                        {isCursor && wrongChar === null && <span className="code-cursor" />}
-                        <span style={{
-                          color,
-                          fontWeight: isTyped && (type === "keyword" || type === "class") ? "500" : "300",
-                          fontStyle: isCommentLine ? "italic" : "normal",
-                          transition: "color 0.06s",
-                        }}>
-                          {display === " " ? "\u00A0" : display}
+        {/* Code area */}
+        <div
+          className="code-scroll"
+          style={{
+            ...s.codeArea,
+            padding: codePadding,
+            animation: errorFlash ? "errorFlash 0.15s ease" : "none",
+          }}
+        >
+          <div style={{ maxWidth: isMobile ? "100%" : "780px", margin: "0 auto" }}>
+            {lines.map((lineTokens, lineIdx) => {
+              const isCommentLine = lineTokens.length > 0 && lineTokens[0]?.type === "comment";
+              return (
+                <div key={lineIdx} style={{ display: "flex", alignItems: "flex-start", minHeight: lineHeight, lineHeight }}>
+                  {/* Line number */}
+                  <span style={{
+                    color: "#30363d", fontSize: isMobile ? "10px" : "12px",
+                    minWidth: isMobile ? "24px" : "36px",
+                    userSelect: "none", paddingRight: isMobile ? "8px" : "16px",
+                    textAlign: "right", paddingTop: "1px", flexShrink: 0,
+                  }}>
+                    {lineIdx + 1}
+                  </span>
+                  {/* Line content */}
+                  <span style={{
+                    fontSize, letterSpacing: isMobile ? "0" : "0.02em",
+                    lineHeight, whiteSpace: "pre", display: "flex",
+                    alignItems: "center", gap: "4px", minWidth: 0,
+                    overflowX: isMobile ? "hidden" : "visible",
+                  }}>
+                    {isCommentLine && !isMobile && (
+                      <span style={{
+                        fontSize: "9px", color: "#4ec994",
+                        border: "1px solid #2a5a3a", borderRadius: "3px",
+                        padding: "1px 4px", userSelect: "none", flexShrink: 0,
+                      }}>EN</span>
+                    )}
+                    {lineTokens.map(({ char, type, idx }) => {
+                      const isTyped  = idx < cursor;
+                      const isCursor = idx === cursor;
+                      const isError  = errors.has(idx);
+                      const color = isTyped
+                        ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
+                        : isCommentLine ? "#3a7a4a" : "#8a9aa9";
+                      return (
+                        <span key={idx} style={{ position: "relative", display: "inline-block" }}>
+                          {isCursor && (
+                            <span style={{
+                              position: "absolute", left: 0, top: "3px",
+                              width: "2px", height: isMobile ? "18px" : "21px",
+                              background: "#82aaff", borderRadius: "1px",
+                              zIndex: 10, animation: "blink 1s step-end infinite",
+                            }} />
+                          )}
+                          <span style={{
+                            color,
+                            fontWeight: isTyped && type === "keyword" ? "500" : "300",
+                            fontStyle: isCommentLine ? "italic" : "normal",
+                            transition: "color 0.04s",
+                            ...(isError ? { textDecoration: "underline", textDecorationColor: "#ff5555" } : {}),
+                          }}>
+                            {char === " " ? "\u00A0" : char}
+                          </span>
                         </span>
-                      </span>
-                    );
-                  })}
+                      );
+                    })}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Structure panel — desktop only, smooth transition */}
+        {!isMobile && (
+          <div style={{
+            ...s.panelOuter,
+            width: showPanel ? "320px" : "0px",
+            minWidth: showPanel ? "320px" : "0px",
+            overflow: "hidden",
+            opacity: showPanel ? 1 : 0,
+            transition: "width 0.2s ease, min-width 0.2s ease, opacity 0.2s ease",
+          }}>
+            {/* Header */}
+            <div style={p.header}>
+              <span style={{ color: meta.color, fontSize: "16px" }}>{meta.icon}</span>
+              <div style={{ overflow: "hidden", flex: 1 }}>
+                <div style={{ ...p.langLabel, color: meta.color }}>{meta.label}</div>
+                <div style={p.snippetTitle}>{snippet?.title}</div>
+              </div>
+              <span style={{ color: meta.color, fontSize: "11px", fontWeight: "700" }}>{progress}%</span>
+            </div>
+            {/* Progress */}
+            <div style={p.progressTrack}>
+              <div style={{ ...p.progressFill, width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, #82aaff)` }} />
+            </div>
+            {/* Tree */}
+            <div className="panel-scroll" style={p.tree}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "8px 16px 4px" }}>
+                <svg width="14" height="14"><circle cx="7" cy="7" r="4" fill={meta.color} /></svg>
+                <span style={{ color: meta.color, fontSize: "11px", fontWeight: "600", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {snippet?.title || meta.label}
                 </span>
               </div>
-            );
-          })}
-        </div>
+              {structure.length === 0 && (
+                <div style={{ color: "#3d5266", fontSize: "11px", padding: "20px", textAlign: "center" }}>No structure detected</div>
+              )}
+              {structure.map((sec, i) => {
+                const isActive  = i === activeIndex;
+                const isDone    = i < activeIndex;
+                const isLast    = i === structure.length - 1;
+                const nodeColor = isDone ? "#3d5266" : isActive ? sec.color : "#21262d";
+                const textColor = isDone ? "#607b96" : isActive ? sec.color : "#3d5266";
+                return (
+                  <div key={sec.id} style={{
+                    display: "flex", alignItems: "center",
+                    padding: "2px 8px", borderRadius: "4px", margin: "0 4px",
+                    background: isActive ? `${sec.color}12` : "transparent",
+                    transition: "background 0.2s",
+                    animation: isActive ? "slide-in 0.2s ease" : "none",
+                  }}>
+                    <svg width="18" height="26" style={{ flexShrink: 0 }}>
+                      <line x1="9" y1="0"  x2="9" y2="13" stroke={nodeColor} strokeWidth="1" opacity="0.5" />
+                      {!isLast && <line x1="9" y1="13" x2="9" y2="26" stroke={nodeColor} strokeWidth="1" opacity="0.5" />}
+                      <line x1="9" y1="13" x2="18" y2="13" stroke={nodeColor} strokeWidth="1" opacity="0.5" />
+                    </svg>
+                    <div style={{
+                      width: "6px", height: "6px", borderRadius: "50%",
+                      border: `1px solid ${nodeColor}`,
+                      background: isActive ? sec.color : isDone ? "#1e2d3d" : "transparent",
+                      flexShrink: 0, marginRight: "6px",
+                      boxShadow: isActive ? `0 0 5px ${sec.color}90` : "none",
+                      animation: isActive ? "pulse-node 1.5s ease-in-out infinite" : "none",
+                      transition: "all 0.2s",
+                    }} />
+                    <span style={{ color: textColor, fontSize: "11px", marginRight: "4px", flexShrink: 0 }}>{sec.icon}</span>
+                    <div style={{ flex: 1, overflow: "hidden" }}>
+                      <div style={{ fontSize: "11px", color: textColor, fontWeight: isActive ? "600" : "400", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", transition: "color 0.2s" }}>
+                        {sec.label}
+                      </div>
+                      {sec.sublabel && <div style={{ fontSize: "9px", color: "#3d5266" }}>{sec.sublabel}</div>}
+                    </div>
+                    {isDone && <span style={{ color: "#4ec994", fontSize: "10px", flexShrink: 0, marginLeft: "4px" }}>✓</span>}
+                    {isActive && (
+                      <span style={{ fontSize: "9px", color: sec.color, border: `1px solid ${sec.color}`, borderRadius: "3px", padding: "1px 4px", flexShrink: 0, marginLeft: "4px", letterSpacing: "0.04em" }}>
+                        here
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {/* Footer */}
+            <div style={p.footer}>
+              {[
+                { label: "sections", value: structure.length },
+                { label: "done",     value: Math.max(0, activeIndex) },
+                { label: "left",     value: Math.max(0, structure.length - activeIndex - 1) },
+              ].map(({ label, value }) => (
+                <div key={label} style={{ textAlign: "center" }}>
+                  <div style={{ color: "#c9d1d9", fontSize: "16px", fontWeight: "600" }}>{value}</div>
+                  <div style={{ color: "#3d5266", fontSize: "10px", letterSpacing: "0.05em" }}>{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* BottomBar — always visible */}
       <BottomBar
         errors={totalErrors}
         accuracy={accuracy}
         elapsed={elapsed}
-        nextChar={wrongChar !== null ? null : currentToken?.char}
-        isOnIndent={isOnIndent && wrongChar === null}
-        typedWrong={wrongChar !== null}
+        nextChar={currentToken?.char}
+        isOnIndent={isOnIndent}
       />
-
-      {/* Switch mode button */}
-      {onSwitchMode && (
-        <button
-          onClick={onSwitchMode}
-          title="Switch to terminal mode"
-          style={{
-            position: "fixed",
-            bottom: "96px",
-            right: "24px",
-            zIndex: 200,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "4px",
-            background: "#0d1117",
-            border: "1px solid #21262d",
-            borderRadius: "12px",
-            padding: "10px 14px 8px",
-            cursor: "pointer",
-            fontFamily: "'JetBrains Mono', monospace",
-            transition: "border-color 0.2s, box-shadow 0.2s, transform 0.15s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#4ec994";
-            e.currentTarget.style.boxShadow = "0 0 16px rgba(78,201,148,0.25)";
-            e.currentTarget.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#21262d";
-            e.currentTarget.style.boxShadow = "none";
-            e.currentTarget.style.transform = "translateY(0)";
-          }}
-        >
-          <TerminalIcon />
-          <span style={{ fontSize: "9px", color: "#546e7a", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-            term
-          </span>
-        </button>
-      )}
-
-      <KeyboardOverlay />
     </div>
   );
 }
 
-const styles = {
+const s = {
   root: {
-    width: "100%", minHeight: "100vh", background: "#0d1117",
+    width: "100%", height: "100vh",
+    background: "#0d1117",
     display: "flex", flexDirection: "column",
-    outline: "none", fontFamily: "'JetBrains Mono', monospace",
+    outline: "none",
+    fontFamily: "'JetBrains Mono', monospace",
+    overflow: "hidden",
   },
-  codeArea: { flex: 1, padding: "32px 24px", overflowY: "auto", background: "#0d1117" },
-  codeBlock: { maxWidth: "780px", margin: "0 auto" },
-  codeLine: {
-    display: "flex", alignItems: "flex-start",
-    minHeight: "28px", lineHeight: "28px",
+  layout: { display: "flex", flex: 1, overflow: "hidden", minHeight: 0 },
+  codeArea: {
+    flex: 1,
+    overflowY: "auto", overflowX: "hidden",
+    background: "#0d1117",
+    minWidth: 0, minHeight: 0,
+    scrollbarWidth: "thin",
+    scrollbarColor: "#21262d #0d1117",
   },
-  lineNum: {
-    color: "#30363d", fontSize: "12px", minWidth: "36px",
-    userSelect: "none", paddingRight: "16px", textAlign: "right", paddingTop: "1px",
-  },
-  lineContent: {
-    fontSize: "15px", letterSpacing: "0.02em", lineHeight: "28px",
-    whiteSpace: "pre", display: "flex", alignItems: "center", gap: "6px",
+  panelOuter: {
+    borderLeft: "1px solid #161b22",
+    display: "flex", flexDirection: "column",
+    background: "#080d14",
   },
 };
 
-function TerminalIcon() {
-  return (
-    <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
-      <rect x="1" y="1" width="22" height="18" rx="3" stroke="#4ec994" strokeWidth="1.2" />
-      <polyline points="5,6 10,10 5,14" stroke="#4ec994" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="13" y1="14" x2="19" y2="14" stroke="#4ec994" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
+const p = {
+  header:       { display: "flex", alignItems: "center", gap: "10px", padding: "14px 16px", borderBottom: "1px solid #161b22" },
+  langLabel:    { fontSize: "10px", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: "700" },
+  snippetTitle: { fontSize: "11px", color: "#3d5266", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+  progressTrack:{ height: "2px", background: "#161b22" },
+  progressFill: { height: "100%", transition: "width 0.3s ease" },
+  tree:         { flex: 1, overflowY: "auto", padding: "6px 0", scrollbarWidth: "thin", scrollbarColor: "#1c2333 #080d14" },
+  footer:       { display: "flex", justifyContent: "space-around", padding: "12px 16px", borderTop: "1px solid #161b22" },
+};
