@@ -5,6 +5,8 @@ import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
 import { useCodeStructure } from "@/hooks/useCodeStructure";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import TerminalMode from "@/components/screens/TerminalMode";
+import "./PracticeScreen.css";
 
 // ─── Inject English comments ──────────────────────────────────────────────────
 function injectComments(code, language) {
@@ -55,10 +57,13 @@ const LANG_META = {
   cloud:      { label: "Cloud Script",   icon: "⬡", color: "#f78c6c" },
 };
 
+const LINE_HEIGHT = 28;
+
 export default function PracticeScreen({
   snippet, language, showComments,
   onFinish, onBack, onToggleComments,
 }) {
+  const [mode,         setMode]         = useState("editor");
   const [tokens,       setTokens]       = useState([]);
   const [cursor,       setCursor]       = useState(0);
   const [errors,       setErrors]       = useState(new Set());
@@ -68,14 +73,13 @@ export default function PracticeScreen({
   const [tick,         setTick]         = useState(0);
   const [panelVisible, setPanelVisible] = useState(true);
 
-  const containerRef = useRef(null);
-  const timerRef     = useRef(null);
-  const isMobile     = useIsMobile(768);
+  const containerRef  = useRef(null);
+  const scrollAreaRef = useRef(null);
+  const timerRef      = useRef(null);
+  const isMobile      = useIsMobile(768);
 
-  // En móvil el panel siempre oculto
   const showPanel = panelVisible && !isMobile;
-
-  const rawCode = showComments ? injectComments(snippet.code, language) : snippet.code;
+  const rawCode   = showComments ? injectComments(snippet.code, language) : snippet.code;
   const { structure, activeIndex } = useCodeStructure(rawCode, language, cursor);
   const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
 
@@ -96,12 +100,29 @@ export default function PracticeScreen({
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
+  // Cursor centering
+  useEffect(() => {
+    const area = scrollAreaRef.current;
+    if (!area) return;
+    const rawLines = rawCode.split("\n");
+    let lineIndex = 0;
+    let charCount = 0;
+    for (let i = 0; i < rawLines.length; i++) {
+      charCount += rawLines[i].length + 1;
+      if (charCount > cursor) { lineIndex = i; break; }
+    }
+    const cursorY = lineIndex * LINE_HEIGHT;
+    const targetScrollTop = cursorY - area.clientHeight / 2 + LINE_HEIGHT / 2;
+    area.scrollTo({ top: Math.max(0, targetScrollTop), behavior: "smooth" });
+  }, [cursor]);
+
   const buildResult = useCallback(() => ({
     snippet, language, tokens, totalErrors,
     startTime: startTime || Date.now(), endTime: Date.now(),
   }), [snippet, language, tokens, totalErrors, startTime]);
 
   const handleKeyDown = useCallback((e) => {
+    if (mode !== "editor") return;
     if (["Shift","Control","Alt","Meta","CapsLock","Escape"].includes(e.key)) return;
     if (e.key === " " || e.key === "Enter" || e.key === "Tab") e.preventDefault();
     const expected = tokens[cursor];
@@ -131,14 +152,13 @@ export default function PracticeScreen({
       setErrorFlash(true);
       setTimeout(() => setErrorFlash(false), 150);
     }
-  }, [tokens, cursor, startTime, buildResult, onFinish]);
+  }, [mode, tokens, cursor, startTime, buildResult, onFinish]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Group into lines
   const lines = [];
   let currentLine = [];
   tokens.forEach((token, idx) => {
@@ -152,95 +172,91 @@ export default function PracticeScreen({
   const currentToken = tokens[cursor];
   const isOnIndent   = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
   const progress     = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
-  const fontSize     = isMobile ? "13px" : "15px";
-  const lineHeight   = isMobile ? "24px" : "28px";
-  const codePadding  = isMobile ? "16px 12px" : "32px 24px";
 
+  const ModeToggle = ({ current }) => (
+    <div className="mode-toggle">
+      <button
+        className={`mode-toggle-btn${current === "editor" ? " active-editor" : ""}`}
+        onClick={() => setMode("editor")}
+      >⌨ editor</button>
+      <button
+        className={`mode-toggle-btn${current === "terminal" ? " active-terminal" : ""}`}
+        onClick={() => setMode("terminal")}
+      >$ terminal</button>
+    </div>
+  );
+
+  // ── Terminal mode ─────────────────────────────────────────────────────────
+  if (mode === "terminal") {
+    return (
+      <div className="practice-root">
+        <TopBar
+          language={language} title={snippet.title}
+          cursor={0} total={0} onBack={onBack}
+          showComments={showComments} onToggleComments={onToggleComments}
+          extraRight={<ModeToggle current="terminal" />}
+        />
+        <ProgressBar value={0} max={0} />
+        <TerminalMode
+          snippet={snippet} language={language}
+          showComments={showComments} embedded={true}
+          onFinish={(result) => { setMode("editor"); onFinish(result); }}
+          onBack={() => setMode("editor")}
+          onToggleComments={onToggleComments}
+          onSwitchMode={() => setMode("editor")}
+        />
+      </div>
+    );
+  }
+
+  // ── Editor mode ───────────────────────────────────────────────────────────
   return (
-    <div ref={containerRef} tabIndex={0} style={s.root}>
-      <style>{`
-        @keyframes errorFlash { 0%,100%{background:#0d1117;} 50%{background:#1a0d0d;} }
-        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
-        @keyframes pulse-node { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(1.3);} }
-        @keyframes slide-in { from{opacity:0;transform:translateX(16px);} to{opacity:1;transform:translateX(0);} }
-        .code-scroll::-webkit-scrollbar{width:4px;}
-        .code-scroll::-webkit-scrollbar-track{background:#0d1117;}
-        .code-scroll::-webkit-scrollbar-thumb{background:#21262d;border-radius:2px;}
-        .panel-scroll::-webkit-scrollbar{width:3px;}
-        .panel-scroll::-webkit-scrollbar-track{background:#0a0f1a;}
-        .panel-scroll::-webkit-scrollbar-thumb{background:#1c2333;border-radius:2px;}
-      `}</style>
+    <div ref={containerRef} tabIndex={0} className="practice-root">
 
-      {/* TopBar */}
       <TopBar
-        language={language}
-        title={snippet.title}
-        cursor={cursor}
-        total={tokens.length}
-        onBack={onBack}
-        showComments={showComments}
-        onToggleComments={onToggleComments}
+        language={language} title={snippet.title}
+        cursor={cursor} total={tokens.length} onBack={onBack}
+        showComments={showComments} onToggleComments={onToggleComments}
+        errors={totalErrors} accuracy={accuracy} elapsed={elapsed}
+        nextChar={currentToken?.char} isOnIndent={isOnIndent}
         extraRight={
           !isMobile ? (
-            <button
-              onClick={() => setPanelVisible(v => !v)}
-              style={{
-                display: "flex", alignItems: "center", gap: "5px",
-                padding: "4px 10px",
-                border: `1px solid ${showPanel ? meta.color : "#30363d"}`,
-                borderRadius: "4px", cursor: "pointer",
-                background: showPanel ? `${meta.color}15` : "transparent",
-                color: showPanel ? meta.color : "#546e7a",
-                fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.06em", transition: "all 0.15s",
-              }}
-            >
-              ⬡ STRUCTURE
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <ModeToggle current="editor" />
+              <button
+                onClick={() => setPanelVisible(v => !v)}
+                style={{
+                  padding: "4px 10px",
+                  border: `1px solid ${showPanel ? meta.color : "#30363d"}`,
+                  borderRadius: "4px", cursor: "pointer",
+                  background: showPanel ? `${meta.color}15` : "transparent",
+                  color: showPanel ? meta.color : "#546e7a",
+                  fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                  letterSpacing: "0.06em", transition: "all 0.15s",
+                }}
+              >⬡ STRUCTURE</button>
+            </div>
           ) : null
         }
       />
       <ProgressBar value={cursor} max={tokens.length} />
 
-      {/* Layout */}
-      <div style={s.layout}>
+      <div className="practice-layout">
 
         {/* Code area */}
         <div
-          className="code-scroll"
-          style={{
-            ...s.codeArea,
-            padding: codePadding,
-            animation: errorFlash ? "errorFlash 0.15s ease" : "none",
-          }}
+          ref={scrollAreaRef}
+          className={`practice-code-area${errorFlash ? " error-flash" : ""}`}
         >
-          <div style={{ maxWidth: isMobile ? "100%" : "780px", margin: "0 auto" }}>
+          <div className="practice-code-block">
             {lines.map((lineTokens, lineIdx) => {
               const isCommentLine = lineTokens.length > 0 && lineTokens[0]?.type === "comment";
               return (
-                <div key={lineIdx} style={{ display: "flex", alignItems: "flex-start", minHeight: lineHeight, lineHeight }}>
-                  {/* Line number */}
-                  <span style={{
-                    color: "#30363d", fontSize: isMobile ? "10px" : "12px",
-                    minWidth: isMobile ? "24px" : "36px",
-                    userSelect: "none", paddingRight: isMobile ? "8px" : "16px",
-                    textAlign: "right", paddingTop: "1px", flexShrink: 0,
-                  }}>
-                    {lineIdx + 1}
-                  </span>
-                  {/* Line content */}
-                  <span style={{
-                    fontSize, letterSpacing: isMobile ? "0" : "0.02em",
-                    lineHeight, whiteSpace: "pre", display: "flex",
-                    alignItems: "center", gap: "4px", minWidth: 0,
-                    overflowX: isMobile ? "hidden" : "visible",
-                  }}>
+                <div key={lineIdx} className="practice-line">
+                  <span className="practice-line-num">{lineIdx + 1}</span>
+                  <span className="practice-line-content">
                     {isCommentLine && !isMobile && (
-                      <span style={{
-                        fontSize: "9px", color: "#4ec994",
-                        border: "1px solid #2a5a3a", borderRadius: "3px",
-                        padding: "1px 4px", userSelect: "none", flexShrink: 0,
-                      }}>EN</span>
+                      <span className="comment-tag">EN</span>
                     )}
                     {lineTokens.map(({ char, type, idx }) => {
                       const isTyped  = idx < cursor;
@@ -248,16 +264,11 @@ export default function PracticeScreen({
                       const isError  = errors.has(idx);
                       const color = isTyped
                         ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
-                        : isCommentLine ? "#3a7a4a" : "#8a9aa9";
+                        : isCommentLine ? "#3a7a4a" : "#3a4a5a";
                       return (
                         <span key={idx} style={{ position: "relative", display: "inline-block" }}>
                           {isCursor && (
-                            <span style={{
-                              position: "absolute", left: 0, top: "3px",
-                              width: "2px", height: isMobile ? "18px" : "21px",
-                              background: "#82aaff", borderRadius: "1px",
-                              zIndex: 10, animation: "blink 1s step-end infinite",
-                            }} />
+                            <span className="code-cursor" />
                           )}
                           <span style={{
                             color,
@@ -278,31 +289,26 @@ export default function PracticeScreen({
           </div>
         </div>
 
-        {/* Structure panel — desktop only, smooth transition */}
-        {!isMobile && (
-          <div style={{
-            ...s.panelOuter,
-            width: showPanel ? "320px" : "0px",
-            minWidth: showPanel ? "320px" : "0px",
-            overflow: "hidden",
-            opacity: showPanel ? 1 : 0,
-            transition: "width 0.2s ease, min-width 0.2s ease, opacity 0.2s ease",
-          }}>
-            {/* Header */}
-            <div style={p.header}>
+        {/* Structure panel overlay */}
+        {showPanel && (
+          <div className="practice-panel">
+            <div className="practice-panel-header">
               <span style={{ color: meta.color, fontSize: "16px" }}>{meta.icon}</span>
               <div style={{ overflow: "hidden", flex: 1 }}>
-                <div style={{ ...p.langLabel, color: meta.color }}>{meta.label}</div>
-                <div style={p.snippetTitle}>{snippet?.title}</div>
+                <div className="practice-panel-lang" style={{ color: meta.color }}>{meta.label}</div>
+                <div className="practice-panel-title">{snippet?.title}</div>
               </div>
               <span style={{ color: meta.color, fontSize: "11px", fontWeight: "700" }}>{progress}%</span>
             </div>
-            {/* Progress */}
-            <div style={p.progressTrack}>
-              <div style={{ ...p.progressFill, width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, #82aaff)` }} />
+
+            <div className="practice-panel-progress-track">
+              <div
+                className="practice-panel-progress-fill"
+                style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, #82aaff)` }}
+              />
             </div>
-            {/* Tree */}
-            <div className="panel-scroll" style={p.tree}>
+
+            <div className="practice-panel-tree">
               <div style={{ display: "flex", alignItems: "center", gap: "6px", padding: "8px 16px 4px" }}>
                 <svg width="14" height="14"><circle cx="7" cy="7" r="4" fill={meta.color} /></svg>
                 <span style={{ color: meta.color, fontSize: "11px", fontWeight: "600", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -327,7 +333,7 @@ export default function PracticeScreen({
                     animation: isActive ? "slide-in 0.2s ease" : "none",
                   }}>
                     <svg width="18" height="26" style={{ flexShrink: 0 }}>
-                      <line x1="9" y1="0"  x2="9" y2="13" stroke={nodeColor} strokeWidth="1" opacity="0.5" />
+                      <line x1="9" y1="0" x2="9" y2="13" stroke={nodeColor} strokeWidth="1" opacity="0.5" />
                       {!isLast && <line x1="9" y1="13" x2="9" y2="26" stroke={nodeColor} strokeWidth="1" opacity="0.5" />}
                       <line x1="9" y1="13" x2="18" y2="13" stroke={nodeColor} strokeWidth="1" opacity="0.5" />
                     </svg>
@@ -357,8 +363,8 @@ export default function PracticeScreen({
                 );
               })}
             </div>
-            {/* Footer */}
-            <div style={p.footer}>
+
+            <div className="practice-panel-footer">
               {[
                 { label: "sections", value: structure.length },
                 { label: "done",     value: Math.max(0, activeIndex) },
@@ -374,49 +380,10 @@ export default function PracticeScreen({
         )}
       </div>
 
-      {/* BottomBar — always visible */}
       <BottomBar
-        errors={totalErrors}
-        accuracy={accuracy}
-        elapsed={elapsed}
-        nextChar={currentToken?.char}
-        isOnIndent={isOnIndent}
+        errors={totalErrors} accuracy={accuracy} elapsed={elapsed}
+        nextChar={currentToken?.char} isOnIndent={isOnIndent}
       />
     </div>
   );
 }
-
-const s = {
-  root: {
-    width: "100%", height: "100vh",
-    background: "#0d1117",
-    display: "flex", flexDirection: "column",
-    outline: "none",
-    fontFamily: "'JetBrains Mono', monospace",
-    overflow: "hidden",
-  },
-  layout: { display: "flex", flex: 1, overflow: "hidden", minHeight: 0 },
-  codeArea: {
-    flex: 1,
-    overflowY: "auto", overflowX: "hidden",
-    background: "#0d1117",
-    minWidth: 0, minHeight: 0,
-    scrollbarWidth: "thin",
-    scrollbarColor: "#21262d #0d1117",
-  },
-  panelOuter: {
-    borderLeft: "1px solid #161b22",
-    display: "flex", flexDirection: "column",
-    background: "#080d14",
-  },
-};
-
-const p = {
-  header:       { display: "flex", alignItems: "center", gap: "10px", padding: "14px 16px", borderBottom: "1px solid #161b22" },
-  langLabel:    { fontSize: "10px", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: "700" },
-  snippetTitle: { fontSize: "11px", color: "#3d5266", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
-  progressTrack:{ height: "2px", background: "#161b22" },
-  progressFill: { height: "100%", transition: "width 0.3s ease" },
-  tree:         { flex: 1, overflowY: "auto", padding: "6px 0", scrollbarWidth: "thin", scrollbarColor: "#1c2333 #080d14" },
-  footer:       { display: "flex", justifyContent: "space-around", padding: "12px 16px", borderTop: "1px solid #161b22" },
-};

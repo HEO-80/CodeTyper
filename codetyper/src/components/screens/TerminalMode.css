@@ -3,15 +3,16 @@
 /* ── Root ────────────────────────────────────────────────────────────────── */
 .tm-root {
   width: 100%;
-  min-height: 100vh;
+  height: 100%;          /* ← was min-height: 100vh, now fills parent only */
   background: #080c10;
   display: flex;
   flex-direction: column;
   outline: none;
   font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
 }
 
-/* ── Title bar ───────────────────────────────────────────────────────────── */
+/* ── Title bar (only shown when NOT embedded) ────────────────────────────── */
 .tm-titlebar {
   display: flex;
   align-items: center;
@@ -19,9 +20,7 @@
   padding: 10px 16px;
   background: #111820;
   border-bottom: 1px solid #1a2233;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-shrink: 0;
 }
 .tm-dots {
   display: flex;
@@ -83,8 +82,8 @@
   transition: all 0.15s;
 }
 .tm-mode-btn:hover {
-  border-color: #ffcb6b;
-  color: #ffcb6b;
+  border-color: #82aaff;
+  color: #82aaff;
 }
 
 /* ── Progress bar ────────────────────────────────────────────────────────── */
@@ -92,6 +91,7 @@
   width: 100%;
   height: 2px;
   background: #0d1117;
+  flex-shrink: 0;
 }
 .tm-progress-fill {
   height: 100%;
@@ -105,7 +105,13 @@
   padding: 20px 28px 40px;
   overflow-y: auto;
   background: #080c10;
+  min-height: 0;         /* ← critical for flex scroll */
+  scrollbar-width: thin;
+  scrollbar-color: #1a2233 #080c10;
 }
+.tm-body::-webkit-scrollbar       { width: 4px; }
+.tm-body::-webkit-scrollbar-track { background: #080c10; }
+.tm-body::-webkit-scrollbar-thumb { background: #1a2233; border-radius: 2px; }
 
 /* ── Banner ──────────────────────────────────────────────────────────────── */
 .tm-banner {
@@ -179,6 +185,9 @@
   height: 18px;
   margin-left: 1px;
   vertical-align: middle;
+  background: #4ec994;
+  border-radius: 1px;
+  animation: tm-blink 1s step-end infinite;
 }
 
 /* ── Done line ───────────────────────────────────────────────────────────── */

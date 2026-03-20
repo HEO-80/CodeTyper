@@ -2,179 +2,89 @@
 
 import { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
+import "./AuthPanel.css";
 
-const LEVEL_COLORS = {
-  master:       "#FCEE0A",
-  advanced:     "#c792ea",
-  intermediate: "#82aaff",
-  beginner:     "#4ec994",
-};
+const LEVEL_COLORS = { master: "#FCEE0A", advanced: "#c792ea", intermediate: "#82aaff", beginner: "#4ec994" };
+const LEVEL_LABELS = { master: "◆ Master", advanced: "▲ Advanced", intermediate: "● Intermediate", beginner: "○ Beginner" };
 
-const LEVEL_LABELS = {
-  master:       "◆ Master",
-  advanced:     "▲ Advanced",
-  intermediate: "● Intermediate",
-  beginner:     "○ Beginner",
-};
+export default function AuthPanel({ session, stats, open, onClose }) {
+  const [mode,    setMode]    = useState("login");
+  const [loading, setLoading] = useState(false);
+  const [error,   setError]   = useState("");
+  const [form,    setForm]    = useState({ name: "", email: "", password: "" });
 
-export default function AuthPanel({ session, stats }) {
-  const [mode,     setMode]     = useState("login"); // login | register
-  const [loading,  setLoading]  = useState(false);
-  const [error,    setError]    = useState("");
-  const [form,     setForm]     = useState({ name: "", email: "", password: "" });
+  if (!open) return null;
 
   const handleCredentials = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
+    e.preventDefault(); setError(""); setLoading(true);
     if (mode === "register") {
-      // Registrar primero
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
-      });
+      const res = await fetch("/api/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, password: form.password }) });
       const data = await res.json();
       if (!res.ok) { setError(data.error); setLoading(false); return; }
     }
-
-    // Login
-    const result = await signIn("credentials", {
-      email: form.email,
-      password: form.password,
-      redirect: false,
-    });
-
+    const result = await signIn("credentials", { email: form.email, password: form.password, redirect: false });
     setLoading(false);
     if (result?.error) setError("Invalid email or password");
   };
 
-  const handleGoogle = () => signIn("google", { redirect: false });
-
-  // ── Logged in view ────────────────────────────────────────────────────────
-  if (session?.user) {
-    return (
-      <div style={s.panel}>
-        {/* User info */}
-        <div style={s.userRow}>
-          {session.user.image ? (
-            <img src={session.user.image} alt="" style={s.avatar} />
-          ) : (
-            <div style={s.avatarPlaceholder}>
-              {session.user.name?.[0]?.toUpperCase() || "U"}
-            </div>
-          )}
-          <div style={{ overflow: "hidden" }}>
-            <div style={s.userName}>{session.user.name}</div>
-            <div style={s.userEmail}>{session.user.email}</div>
-          </div>
-        </div>
-
-        {/* Global stats */}
-        {stats && (
+  return (
+    <>
+      <div className="auth-backdrop" onClick={onClose} />
+      <div className="auth-panel">
+        {session?.user ? (
           <>
-            <div style={s.statsRow}>
-              <Stat label="sessions" value={stats.totalSessions} />
-              <Stat label="best CPM" value={stats.bestCpm} color="#82aaff" />
-              <Stat label="chars"    value={stats.totalChars} />
-            </div>
-
-            {/* Lang progress */}
-            {Object.keys(stats.langProgress || {}).length > 0 && (
-              <div style={s.langSection}>
-                <div style={s.sectionLabel}>// progress</div>
-                {Object.entries(stats.langProgress).map(([lang, data]) => (
-                  <LangRow key={lang} lang={lang} data={data} />
-                ))}
+            <div className="auth-user-row">
+              {session.user.image
+                ? <img src={session.user.image} alt="" className="auth-avatar" />
+                : <div className="auth-avatar-placeholder">{session.user.name?.[0]?.toUpperCase() || "U"}</div>
+              }
+              <div style={{ overflow: "hidden" }}>
+                <div className="auth-username">{session.user.name}</div>
+                <div className="auth-useremail">{session.user.email}</div>
               </div>
-            )}
+            </div>
+            {stats && <>
+              <div className="auth-stats-row">
+                <Stat label="sessions" value={stats.totalSessions} />
+                <Stat label="best CPM" value={stats.bestCpm} color="#82aaff" />
+                <Stat label="chars"    value={stats.totalChars} />
+              </div>
+              {Object.keys(stats.langProgress || {}).length > 0 && (
+                <div className="auth-lang-section">
+                  <div className="auth-section-label">// progress</div>
+                  {Object.entries(stats.langProgress).map(([lang, data]) => <LangRow key={lang} lang={lang} data={data} />)}
+                </div>
+              )}
+            </>}
+            <button className="auth-signout" onClick={() => signOut({ redirect: false })}>← sign out</button>
+          </>
+        ) : (
+          <>
+            <div className="auth-title"><span style={{ color: "#82aaff" }}>◉</span> CodeTyper</div>
+            <button className="auth-google-btn" onClick={() => signIn("google", { redirect: false })}>
+              <GoogleIcon /> Continue with Google
+            </button>
+            <div className="auth-divider">
+              <span className="auth-divider-line" /><span className="auth-divider-text">or</span><span className="auth-divider-line" />
+            </div>
+            <form onSubmit={handleCredentials} className="auth-form">
+              {mode === "register" && <input className="auth-input" type="text" placeholder="Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />}
+              <input className="auth-input" type="email" placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+              <input className="auth-input" type="password" placeholder="Password" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required />
+              {error && <div className="auth-error">{error}</div>}
+              <button className="auth-submit" type="submit" disabled={loading}>{loading ? "..." : mode === "login" ? "Sign in" : "Create account"}</button>
+            </form>
+            <div className="auth-toggle-row">
+              <span className="auth-toggle-text">{mode === "login" ? "No account?" : "Already registered?"}</span>
+              <button className="auth-toggle-btn" onClick={() => { setMode(m => m === "login" ? "register" : "login"); setError(""); }}>{mode === "login" ? "Register" : "Sign in"}</button>
+            </div>
           </>
         )}
-
-        {/* Sign out */}
-        <button
-          style={s.signOutBtn}
-          onClick={() => signOut({ redirect: false })}
-        >
-          ← sign out
-        </button>
       </div>
-    );
-  }
-
-  // ── Login / Register form ─────────────────────────────────────────────────
-  return (
-    <div style={s.panel}>
-      <div style={s.title}>
-        <span style={{ color: "#82aaff" }}>◉</span> CodeTyper
-      </div>
-
-      {/* Google button */}
-      <button style={s.googleBtn} onClick={handleGoogle}>
-        <GoogleIcon />
-        Continue with Google
-      </button>
-
-      <div style={s.divider}>
-        <span style={s.dividerLine} />
-        <span style={s.dividerText}>or</span>
-        <span style={s.dividerLine} />
-      </div>
-
-      {/* Form */}
-      <form onSubmit={handleCredentials} style={s.form}>
-        {mode === "register" && (
-          <input
-            style={s.input}
-            type="text"
-            placeholder="Name"
-            value={form.name}
-            onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-            required
-          />
-        )}
-        <input
-          style={s.input}
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-          required
-        />
-        <input
-          style={s.input}
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-          required
-        />
-
-        {error && <div style={s.error}>{error}</div>}
-
-        <button style={s.submitBtn} type="submit" disabled={loading}>
-          {loading ? "..." : mode === "login" ? "Sign in" : "Create account"}
-        </button>
-      </form>
-
-      {/* Toggle login/register */}
-      <div style={s.toggleRow}>
-        <span style={{ color: "#546e7a", fontSize: "11px" }}>
-          {mode === "login" ? "No account?" : "Already registered?"}
-        </span>
-        <button
-          style={s.toggleBtn}
-          onClick={() => { setMode(m => m === "login" ? "register" : "login"); setError(""); }}
-        >
-          {mode === "login" ? "Register" : "Sign in"}
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────────
 function Stat({ label, value, color = "#c9d1d9" }) {
   return (
     <div style={{ textAlign: "center" }}>
@@ -214,133 +124,3 @@ function GoogleIcon() {
     </svg>
   );
 }
-
-// ── Styles ────────────────────────────────────────────────────────────────────
-const s = {
-  panel: {
-    width: "200px",
-    background: "#080d14",
-    borderRight: "1px solid #161b22",
-    padding: "16px 12px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-    fontFamily: "'JetBrains Mono', monospace",
-    overflowY: "auto",
-    flexShrink: 0,
-  },
-  title: {
-    fontSize: "13px",
-    fontWeight: "700",
-    color: "#c9d1d9",
-    letterSpacing: "0.05em",
-    marginBottom: "4px",
-  },
-  googleBtn: {
-    display: "flex", alignItems: "center", gap: "8px",
-    padding: "8px 10px",
-    background: "#0d1117",
-    border: "1px solid #30363d",
-    borderRadius: "6px",
-    color: "#c9d1d9",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    cursor: "pointer",
-    width: "100%",
-    transition: "border-color 0.15s",
-  },
-  divider: {
-    display: "flex", alignItems: "center", gap: "6px",
-  },
-  dividerLine: {
-    flex: 1, height: "1px", background: "#21262d",
-  },
-  dividerText: {
-    color: "#3d5266", fontSize: "10px",
-  },
-  form: {
-    display: "flex", flexDirection: "column", gap: "8px",
-  },
-  input: {
-    padding: "7px 10px",
-    background: "#0d1117",
-    border: "1px solid #21262d",
-    borderRadius: "5px",
-    color: "#c9d1d9",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    outline: "none",
-    width: "100%",
-    boxSizing: "border-box",
-  },
-  error: {
-    color: "#ff5555",
-    fontSize: "10px",
-    padding: "4px 0",
-  },
-  submitBtn: {
-    padding: "8px",
-    background: "#1c2333",
-    border: "1px solid #82aaff",
-    borderRadius: "5px",
-    color: "#82aaff",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    cursor: "pointer",
-    fontWeight: "600",
-    transition: "all 0.15s",
-  },
-  toggleRow: {
-    display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap",
-  },
-  toggleBtn: {
-    background: "none", border: "none",
-    color: "#82aaff", fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    cursor: "pointer", padding: 0,
-  },
-  userRow: {
-    display: "flex", alignItems: "center", gap: "8px",
-  },
-  avatar: {
-    width: "32px", height: "32px",
-    borderRadius: "50%", flexShrink: 0,
-  },
-  avatarPlaceholder: {
-    width: "32px", height: "32px",
-    borderRadius: "50%", flexShrink: 0,
-    background: "#1c2333",
-    border: "1px solid #82aaff",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    color: "#82aaff", fontSize: "13px", fontWeight: "700",
-  },
-  userName: {
-    color: "#c9d1d9", fontSize: "12px", fontWeight: "600",
-    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-  },
-  userEmail: {
-    color: "#3d5266", fontSize: "10px",
-    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-  },
-  statsRow: {
-    display: "flex", justifyContent: "space-between",
-    padding: "8px 0",
-    borderTop: "1px solid #161b22",
-    borderBottom: "1px solid #161b22",
-  },
-  langSection: {
-    display: "flex", flexDirection: "column", gap: "4px",
-  },
-  sectionLabel: {
-    color: "#3d5266", fontSize: "10px", letterSpacing: "0.05em", marginBottom: "4px",
-  },
-  signOutBtn: {
-    background: "none", border: "none",
-    color: "#3d5266", fontSize: "10px",
-    fontFamily: "'JetBrains Mono', monospace",
-    cursor: "pointer", padding: 0,
-    marginTop: "auto",
-    textAlign: "left",
-    transition: "color 0.15s",
-  },
-};

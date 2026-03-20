@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession }      from "next-auth/react";
-import MenuScreen          from "@/components/screens/MenuScreen";
-import PracticeScreen      from "@/components/screens/PracticeScreen";
-import ResultsScreen       from "@/components/screens/ResultsScreen";
-import AuthPanel           from "@/components/ui/AuthPanel";
-import CodeTyperTerminal   from "@/components/ui/CodeTyperTerminal";
-import { SNIPPETS }        from "@/data/snippets";
+import { useSession }     from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import MenuScreen         from "@/components/screens/MenuScreen";
+import PracticeScreen     from "@/components/screens/PracticeScreen";
+import ResultsScreen      from "@/components/screens/ResultsScreen";
+import AuthPanel          from "@/components/ui/AuthPanel";
+import { SNIPPETS, getSnippets } from "@/data/snippets";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -16,7 +16,6 @@ export default function Home() {
   const [sessionData,  setSessionData] = useState(null);
   const [result,       setResult]      = useState(null);
   const [showComments, setShowComments]= useState(false);
-  const [terminalOpen, setTerminalOpen]= useState(false);
   const [stats,        setStats]       = useState(null);
 
   // Fonts
@@ -36,29 +35,15 @@ export default function Home() {
     }
   }, [session?.user?.id]);
 
-  // Alt+T terminal toggle
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.altKey && e.key.toLowerCase() === "t") {
-        e.preventDefault();
-        setTerminalOpen(prev => !prev);
-      }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
-
   const handleStart = (snippet, language, difficulty) => {
     setSessionData({ snippet, language, difficulty });
     setScreen("practice");
-    setTerminalOpen(false);
   };
 
   const handleFinish = async (resultData) => {
     setResult(resultData);
     setScreen("results");
 
-    // Save stats if logged in
     if (session?.user?.id) {
       try {
         const { snippet, language, tokens, totalErrors, startTime, endTime } = resultData;
@@ -81,7 +66,6 @@ export default function Home() {
           }),
         });
 
-        // Refresh stats
         fetch("/api/stats").then(r => r.json()).then(setStats);
       } catch (err) {
         console.error("Failed to save stats:", err);
@@ -96,20 +80,18 @@ export default function Home() {
   };
 
   return (
-    <main style={{ minHeight: "100vh", background: "#0d1117", color: "#c9d1d9", display: "flex" }}>
-
+    // <main style={{ height: "100vh", background: "#0d1117", color: "#c9d1d9", display: "flex", overflow: screen === "practice" ? "hidden" : "auto" }}>
+      <main style={{ width: "100%", height: "100%", background: "#0d1117", color: "#c9d1d9", display: "flex", overflow: "hidden" }}>
       {/* Auth panel — left sidebar */}
       <AuthPanel session={session} stats={stats} />
 
       {/* Main content */}
-      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: screen === "practice" ? "hidden" : "auto" }}>
         {screen === "menu" && (
           <MenuScreen
             onStart={handleStart}
             showComments={showComments}
             onToggleComments={() => setShowComments(p => !p)}
-            onOpenTerminal={() => setTerminalOpen(true)}
-            terminalOpen={terminalOpen}
           />
         )}
         {screen === "practice" && sessionData && (
@@ -130,14 +112,6 @@ export default function Home() {
           />
         )}
       </div>
-
-      {/* Floating terminal */}
-      <CodeTyperTerminal
-        open={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-        onLaunchSnippet={handleStart}
-        snippetsData={SNIPPETS}
-      />
     </main>
   );
 }

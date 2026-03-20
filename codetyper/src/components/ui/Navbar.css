@@ -1,0 +1,124 @@
+/* Navbar.css */
+
+.navbar {
+  width: 100%;
+  background: #080c10;
+  border-bottom: 1px solid #161b22;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Logo */
+.navbar-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.navbar-logo-accent {
+  color: #82aaff;
+}
+.navbar-logo-text {
+  color: #c9d1d9;
+}
+.navbar-logo:hover .navbar-logo-text {
+  color: #ffffff;
+}
+
+/* Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 11px;
+  color: #546e7a;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  border: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.navbar-link-icon {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.navbar-link:hover {
+  color: #c9d1d9;
+  background: #0d1117;
+  border-color: #21262d;
+}
+
+.navbar-link.active {
+  color: #82aaff;
+  background: #0d1520;
+  border-color: #1c2d4a;
+}
+
+.navbar-link.active .navbar-link-icon {
+  opacity: 1;
+}
+
+/* Alt+T hint */
+.navbar-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #30363d;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.navbar-hint kbd {
+  display: inline-block;
+  padding: 2px 5px;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: #546e7a;
+}
+
+.navbar-hint-label {
+  margin-left: 4px;
+  color: #21262d;
+}
+
+/* Responsive: hide hint on small screens */
+@media (max-width: 600px) {
+  .navbar-hint {
+    display: none;
+  }
+  .navbar-inner {
+    gap: 16px;
+  }
+}

@@ -16,6 +16,9 @@ const PROMPTS = {
   csharp:     "dotnet >",
   sql:        "sql >",
   solidity:   "forge >",
+  bash:       "bash >",
+  powershell: "ps >",
+  cloud:      "cloud >",
   english:    "write >",
   mindset:    "think >",
 };
@@ -28,24 +31,24 @@ export default function TerminalMode({
   onBack,
   onToggleComments,
   onSwitchMode,
+  embedded = false,   // ← true when mounted inside PracticeScreen
 }) {
-  const [tokens, setTokens]           = useState([]);
-  const [cursor, setCursor]           = useState(0);
-  const [wrongChar, setWrongChar]     = useState(null);
+  const [tokens,      setTokens]      = useState([]);
+  const [cursor,      setCursor]      = useState(0);
+  const [wrongChar,   setWrongChar]   = useState(null);
   const [totalErrors, setTotalErrors] = useState(0);
-  const [startTime, setStartTime]     = useState(null);
-  const [tick, setTick]               = useState(0);
-  const [lines, setLines]             = useState([]); // completed lines history
+  const [startTime,   setStartTime]   = useState(null);
+  const [tick,        setTick]        = useState(0);
+  const [lines,       setLines]       = useState([]);
+
   const containerRef = useRef(null);
   const bottomRef    = useRef(null);
   const timerRef     = useRef(null);
 
   const prompt = PROMPTS[language] || ">";
 
-  // Build token array (same as PracticeScreen)
   useEffect(() => {
     const t = tokenize(snippet.code, language);
-    // Strip trailing newlines
     let end = t.length;
     while (end > 0 && t[end - 1].char === "\n") end--;
     setTokens(t.slice(0, end));
@@ -65,7 +68,6 @@ export default function TerminalMode({
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
-  // Auto-scroll to bottom
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [lines, cursor]);
@@ -87,19 +89,16 @@ export default function TerminalMode({
 
     const expected = tokens[cursor];
 
-    // BACKSPACE
     if (e.key === "Backspace") {
       e.preventDefault();
       if (wrongChar !== null) {
         setWrongChar(null);
       } else if (cursor > 0 && tokens[cursor - 1]?.char !== "\n") {
-        // Only backspace within current line — not across newlines
         setCursor((p) => p - 1);
       }
       return;
     }
 
-    // TAB
     if (e.key === "Tab") {
       e.preventDefault();
       if (wrongChar !== null) return;
@@ -120,17 +119,13 @@ export default function TerminalMode({
     const typedChar = e.key === "Enter" ? "\n" : e.key;
     if (typedChar.length !== 1 && typedChar !== "\n") return;
 
-    // CORRECT
     if (typedChar === expected.char && wrongChar === null) {
       setCursor((prev) => {
         const next = prev + 1;
-
-        // If we just typed a newline, push current line to history
         if (typedChar === "\n") {
           const lineTokens = getCurrentLineTokens(tokens, prev);
           setLines((old) => [...old, lineTokens]);
         }
-
         if (next >= tokens.length) finish();
         return next;
       });
@@ -145,12 +140,9 @@ export default function TerminalMode({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Get tokens of the active (current) line
   function getCurrentLineTokens(allTokens, cursorPos) {
-    // Find start of current line
     let start = cursorPos;
     while (start > 0 && allTokens[start - 1]?.char !== "\n") start--;
-    // Collect up to cursor
     const result = [];
     for (let i = start; i <= cursorPos; i++) {
       if (allTokens[i]) result.push({ ...allTokens[i], idx: i });
@@ -158,7 +150,6 @@ export default function TerminalMode({
     return result;
   }
 
-  // Active line = tokens from last \n to current cursor
   const activeLineStart = (() => {
     let i = cursor;
     while (i > 0 && tokens[i - 1]?.char !== "\n") i--;
@@ -176,38 +167,40 @@ export default function TerminalMode({
   const progress = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
 
   return (
-    <div ref={containerRef} tabIndex={0} className="tm-root">
-
-      {/* Terminal title bar */}
-      <div className="tm-titlebar">
-        <div className="tm-dots">
-          <span className="tm-dot red" onClick={onBack} title="Exit" />
-          <span className="tm-dot yellow" onClick={onSwitchMode} title="Switch to editor mode" />
-          <span className="tm-dot green" />
+    <div
+      ref={containerRef}
+      tabIndex={0}
+      className="tm-root"
+      style={embedded ? { flex: 1, minHeight: 0 } : {}}
+    >
+      {/* Titlebar — only when NOT embedded (standalone page use) */}
+      {!embedded && (
+        <div className="tm-titlebar">
+          <div className="tm-dots">
+            <span className="tm-dot red"    onClick={onBack}       title="Exit" />
+            <span className="tm-dot yellow" onClick={onSwitchMode} title="Switch to editor" />
+            <span className="tm-dot green" />
+          </div>
+          <span className="tm-title">{language} — {snippet.title}</span>
+          <div className="tm-titlebar-right">
+            <span className="tm-stat">
+              <span style={{ color: totalErrors > 0 ? "#ff5555" : "#4ec994" }}>{totalErrors}</span>
+              <span className="tm-stat-label">err</span>
+            </span>
+            <span className="tm-stat">
+              <span style={{ color: accuracy >= 95 ? "#4ec994" : "#ffcb6b" }}>{accuracy}%</span>
+              <span className="tm-stat-label">acc</span>
+            </span>
+            <span className="tm-stat">
+              <span style={{ color: "#82aaff" }}>{elapsed}s</span>
+              <span className="tm-stat-label">time</span>
+            </span>
+            <button className="tm-mode-btn" onClick={onSwitchMode}>
+              ⌨ editor
+            </button>
+          </div>
         </div>
-        <span className="tm-title">{language} — {snippet.title}</span>
-        <div className="tm-titlebar-right">
-          <span className="tm-stat">
-            <span style={{ color: totalErrors > 0 ? "#ff5555" : "#4ec994" }}>{totalErrors}</span>
-            <span className="tm-stat-label">err</span>
-          </span>
-          <span className="tm-stat">
-            <span style={{ color: accuracy >= 95 ? "#4ec994" : "#ffcb6b" }}>{accuracy}%</span>
-            <span className="tm-stat-label">acc</span>
-          </span>
-          <span className="tm-stat">
-            <span style={{ color: "#82aaff" }}>{elapsed}s</span>
-            <span className="tm-stat-label">time</span>
-          </span>
-          <span className="tm-stat">
-            <span style={{ color: "#c792ea" }}>{progress}%</span>
-            <span className="tm-stat-label">done</span>
-          </span>
-          <button className="tm-mode-btn" onClick={onSwitchMode} title="Switch to editor mode">
-            ⌨ editor
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Progress bar */}
       <div className="tm-progress-track">
@@ -216,11 +209,9 @@ export default function TerminalMode({
 
       {/* Terminal body */}
       <div className="tm-body">
-
-        {/* Startup banner */}
         <div className="tm-banner">
           <span className="tm-banner-text">
-            CodeTyper Terminal — {snippet.title} — {snippet.difficulty}
+            {language} — {snippet.title} — {snippet.difficulty || "beginner"}
           </span>
         </div>
 
@@ -241,21 +232,18 @@ export default function TerminalMode({
           </div>
         ))}
 
-        {/* Active line — where user is currently typing */}
+        {/* Active line */}
         <div className="tm-line tm-active">
           <span className="tm-prompt">{prompt}</span>
           <span className="tm-line-content">
             {activeLineTokens.map(({ char, type, idx }) => {
               const isTyped  = idx < cursor;
               const isCursor = idx === cursor;
-
               let color;
               if (isCursor && wrongChar !== null) color = "#ff5555";
               else if (isTyped) color = getTokenColor(type);
               else color = "#3a4a5a";
-
               const display = isCursor && wrongChar !== null ? wrongChar : char;
-
               return (
                 <span key={idx} style={{ position: "relative", display: "inline-block" }}>
                   {isCursor && wrongChar === null && <span className="tm-cursor" />}
@@ -270,12 +258,10 @@ export default function TerminalMode({
               );
             })}
 
-            {/* Cursor at end of active tokens */}
             {cursor >= activeLineStart + activeLineTokens.length && wrongChar === null && (
-              <span className="tm-cursor tm-cursor-end" />
+              <span className="tm-cursor-end" />
             )}
 
-            {/* Ghost text — show pending chars dimmed */}
             {activeLineTokens.slice(cursor - activeLineStart).map(({ char, idx }) => {
               if (idx < cursor) return null;
               return (
@@ -287,7 +273,6 @@ export default function TerminalMode({
           </span>
         </div>
 
-        {/* Blinking ready line when finished */}
         {cursor >= tokens.length && (
           <div className="tm-line tm-done-line">
             <span className="tm-prompt" style={{ color: "#4ec994" }}>{prompt}</span>

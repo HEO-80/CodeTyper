@@ -1,0 +1,247 @@
+/* terminal.css — /practice/terminal page */
+
+.tp-root {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Header */
+.tp-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.tp-header-badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #4ec994;
+  border: 1px solid #1e3a2a;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-bottom: 16px;
+  background: #0a1a10;
+}
+
+.tp-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #c9d1d9;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.tp-title-prompt {
+  color: #4ec994;
+  margin-right: 10px;
+}
+
+.tp-subtitle {
+  color: #546e7a;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* Result banner */
+.tp-result-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #0a1a10;
+  border: 1px solid #1e3a2a;
+  border-radius: 6px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  color: #546e7a;
+  flex-wrap: wrap;
+}
+
+.tp-result-icon {
+  color: #4ec994;
+  font-weight: 600;
+}
+
+.tp-result-stat {
+  font-weight: 600;
+}
+
+.tp-result-sep {
+  color: #21262d;
+}
+
+.tp-result-saved {
+  color: #4ec994;
+  margin-left: 4px;
+  font-size: 11px;
+}
+
+/* Sections */
+.tp-section {
+  margin-bottom: 28px;
+}
+
+.tp-label {
+  color: #546e7a;
+  font-size: 12px;
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.tp-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.tp-btn {
+  padding: 6px 16px;
+  border: 1px solid #21262d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d1117;
+  color: #546e7a;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  transition: all 0.15s;
+}
+
+.tp-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Category active */
+.tp-btn.active {
+  font-weight: 500;
+}
+
+/* Category */
+.tp-btn:not(.lang):not(.diff):hover {
+  color: #82aaff;
+  border-color: #82aaff;
+  background: #0d1520;
+}
+.tp-btn:not(.lang):not(.diff).active {
+  color: #82aaff;
+  border-color: #82aaff;
+  background: #0d1520;
+}
+
+/* Language */
+.tp-btn.lang:hover {
+  color: #c792ea;
+  border-color: #c792ea;
+  background: #150d1a;
+}
+.tp-btn.lang.active {
+  color: #c792ea;
+  border-color: #c792ea;
+  background: #150d1a;
+}
+
+/* Difficulty */
+.tp-btn.diff:hover {
+  color: #ffcb6b;
+  border-color: #ffcb6b;
+  background: #1a1500;
+}
+.tp-btn.diff.active {
+  color: #ffcb6b;
+  border-color: #ffcb6b;
+  background: #1a1500;
+}
+
+/* Snippet grid */
+.tp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.tp-empty {
+  color: #30363d;
+  font-size: 13px;
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed #21262d;
+  border-radius: 8px;
+}
+
+/* Snippet card */
+.tp-snippet-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.tp-snippet-card:hover {
+  border-color: #4ec994;
+  background: #0a1a10;
+  transform: translateY(-2px);
+}
+
+.tp-snip-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tp-snip-prompt {
+  color: #4ec994;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.tp-snip-title {
+  color: #c9d1d9;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tp-snip-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tp-snip-lines {
+  color: #30363d;
+  font-size: 10px;
+}
+
+.tp-snip-diff {
+  color: #546e7a;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tp-snip-desc {
+  color: #546e7a;
+  font-size: 10px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
