@@ -8,7 +8,7 @@
   background: transparent;
 }
 
-/* Panel overlay */
+/* Panel — oculto por defecto, overlay position fixed */
 .auth-panel {
   position: fixed;
   top: 48px; /* navbar height */
@@ -21,19 +21,25 @@
   border-right: 1px solid #161b22;
   border-bottom: 1px solid #161b22;
   padding: 16px 12px;
-  display: flex;
+  display: none; /* oculto por defecto */
   flex-direction: column;
   gap: 12px;
   font-family: 'JetBrains Mono', monospace;
   z-index: 160;
   scrollbar-width: thin;
   scrollbar-color: #21262d #080d14;
+  box-sizing: border-box;
 }
+
+.auth-panel--open {
+  display: flex; /* visible cuando open */
+}
+
 .auth-panel::-webkit-scrollbar       { width: 3px; }
 .auth-panel::-webkit-scrollbar-track { background: #080d14; }
 .auth-panel::-webkit-scrollbar-thumb { background: #21262d; border-radius: 2px; }
 
-/* User row */
+/* ── User row ── */
 .auth-user-row {
   display: flex;
   align-items: center;
@@ -60,7 +66,7 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* Stats */
+/* ── Stats ── */
 .auth-stats-row {
   display: flex; justify-content: space-between;
   padding: 8px 0;
@@ -68,15 +74,22 @@
   border-bottom: 1px solid #161b22;
 }
 
-/* Lang section */
+.stat {
+  text-align: center;
+}
+.stat-label {
+  color: #3d5266; font-size: 9px; letter-spacing: 0.06em;
+}
+
+/* ── Lang section ── */
 .auth-lang-section {
   display: flex; flex-direction: column; gap: 4px;
 }
 .auth-section-label {
-  color: "#3d5266"; font-size: 10px; letter-spacing: 0.05em; margin-bottom: 4px;
+  color: #3d5266; font-size: 10px; letter-spacing: 0.05em; margin-bottom: 4px;
 }
 
-/* Sign out */
+/* ── Sign out ── */
 .auth-signout {
   background: none; border: none;
   color: #3d5266; font-size: 10px;
@@ -87,13 +100,13 @@
 }
 .auth-signout:hover { color: #546e7a; }
 
-/* Title */
+/* ── Title ── */
 .auth-title {
   font-size: 13px; font-weight: 700;
   color: #c9d1d9; letter-spacing: 0.05em;
 }
 
-/* Google btn */
+/* ── Google btn ── */
 .auth-google-btn {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 10px;
@@ -107,7 +120,7 @@
 }
 .auth-google-btn:hover { border-color: #546e7a; }
 
-/* Divider */
+/* ── Divider ── */
 .auth-divider {
   display: flex; align-items: center; gap: 6px;
 }
@@ -118,7 +131,7 @@
   color: #3d5266; font-size: 10px;
 }
 
-/* Form */
+/* ── Form ── */
 .auth-form {
   display: flex; flex-direction: column; gap: 8px;
 }
@@ -147,7 +160,7 @@
 }
 .auth-submit:hover { background: #1c2d4a; }
 
-/* Toggle */
+/* ── Toggle ── */
 .auth-toggle-row {
   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
@@ -159,4 +172,64 @@
   color: #82aaff; font-size: 11px;
   font-family: 'JetBrains Mono', monospace;
   cursor: pointer; padding: 0;
+}
+
+/* ── LangCard ── */
+.lang-card {
+  margin-bottom: 8px;
+}
+.lang-card-header {
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; padding: 4px 0;
+}
+.lang-card-name {
+  color: #8b949e; font-size: 11px; flex: 1;
+}
+.lang-card-chevron {
+  color: #3d5266; font-size: 10px;
+}
+.lang-card-bar-bg {
+  height: 2px; background: #21262d;
+  border-radius: 1px; margin-bottom: 2px;
+}
+.lang-card-bar-fill {
+  height: 100%; border-radius: 1px;
+  transition: width 0.4s ease;
+}
+.lang-card-meta {
+  display: flex; justify-content: space-between;
+}
+.lang-card-meta span {
+  color: #3d5266; font-size: 10px;
+}
+.lang-card-detail {
+  margin-top: 8px; padding: 8px;
+  background: #0d1117; border-radius: 4px;
+  border: 1px solid #161b22;
+}
+.lang-card-phase-title {
+  font-size: 10px; font-weight: 600; margin-bottom: 2px;
+}
+.lang-card-phase-desc {
+  color: #3d5266; font-size: 9px; margin-bottom: 8px;
+}
+.lang-card-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4px; margin-bottom: 8px;
+}
+.lang-card-improvement {
+  font-size: 10px; color: #3d5266; margin-bottom: 8px;
+}
+.lang-card-next {
+  font-size: 9px; color: #3d5266;
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+/* ── MiniStat ── */
+.mini-stat {
+  text-align: center; padding: 4px;
+  background: #161b22; border-radius: 3px;
+}
+.mini-stat-label {
+  color: #3d5266; font-size: 9px;
 }

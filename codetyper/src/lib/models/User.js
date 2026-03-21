@@ -1,31 +1,57 @@
 // src/lib/models/User.js
 import mongoose from "mongoose";
 
+const LangProgressSchema = new mongoose.Schema({
+  // Contadores
+  sessionsCompleted: { type: Number, default: 0 },
+  totalChars:        { type: Number, default: 0 },
+
+  // Velocidad
+  bestCpm:           { type: Number, default: 0 },
+  avgCpm:            { type: Number, default: 0 },
+  lastCpm:           { type: Number, default: 0 },
+
+  // Precisión
+  avgAccuracy:       { type: Number, default: 0 },
+  lastAccuracy:      { type: Number, default: 0 },
+
+  // Histórico para medir mejora
+  firstFiveCpm:      { type: [Number], default: [] }, // primeras 5 sesiones
+  lastFiveCpm:       { type: [Number], default: [] }, // últimas 5 sesiones
+  improvementPct:    { type: Number, default: 0 },    // % mejora
+
+  // Consistencia (desviación estándar invertida, 0-100)
+  lastTenCpm:        { type: [Number], default: [] },
+  consistency:       { type: Number, default: 0 },
+
+  // Fase de aprendizaje (1-5)
+  phase:             { type: Number, default: 1 },
+  phaseLabel:        { type: String, default: "Descubrimiento" },
+
+  // Nivel
+  level:             { type: String, default: "beginner" },
+
+  // Timestamps
+  firstPracticedAt:  { type: Date },
+  lastPracticedAt:   { type: Date },
+}, { _id: false });
+
 const UserSchema = new mongoose.Schema({
   name:          { type: String, required: true },
   email:         { type: String, required: true, unique: true },
-  password:      { type: String }, // null si usa Google OAuth
+  password:      { type: String },
   image:         { type: String },
-  provider:      { type: String, default: "credentials" }, // "google" | "credentials"
-  createdAt:     { type: Date, default: Date.now },
+  provider:      { type: String, default: "credentials" },
 
-  // Stats globales
   totalSessions: { type: Number, default: 0 },
   totalChars:    { type: Number, default: 0 },
   bestCpm:       { type: Number, default: 0 },
   streak:        { type: Number, default: 0 },
   lastActiveAt:  { type: Date },
 
-  // Progreso por lenguaje
   langProgress: {
-    type: Map,
-    of: new mongoose.Schema({
-      sessionsCompleted: { type: Number, default: 0 },
-      bestCpm:          { type: Number, default: 0 },
-      avgAccuracy:      { type: Number, default: 0 },
-      level:            { type: String, default: "beginner" }, // beginner | intermediate | advanced | master
-      lastPracticedAt:  { type: Date },
-    }, { _id: false }),
+    type:    Map,
+    of:      LangProgressSchema,
     default: {},
   },
 }, { timestamps: true });

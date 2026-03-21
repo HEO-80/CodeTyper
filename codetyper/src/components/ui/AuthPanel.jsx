@@ -4,112 +4,236 @@ import { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 import "./AuthPanel.css";
 
-const LEVEL_COLORS = { master: "#FCEE0A", advanced: "#c792ea", intermediate: "#82aaff", beginner: "#4ec994" };
-const LEVEL_LABELS = { master: "◆ Master", advanced: "▲ Advanced", intermediate: "● Intermediate", beginner: "○ Beginner" };
+// ── Fase colors & icons ───────────────────────────────────────────────────────
+const PHASE_COLORS = {
+  1: "#546e7a",
+  2: "#4ec994",
+  3: "#82aaff",
+  4: "#c792ea",
+  5: "#FCEE0A",
+};
+
+const PHASE_ICONS = { 1: "○", 2: "◔", 3: "◑", 4: "◕", 5: "●" };
+
+const PHASE_DESCRIPTIONS = {
+  1: "Familiarizándote con la sintaxis",
+  2: "El patrón empieza a ser reconocible",
+  3: "Ya no necesitas pensar cada carácter",
+  4: "Escritura automática, muscle memory activa",
+  5: "El lenguaje forma parte de tu memoria muscular",
+};
 
 export default function AuthPanel({ session, stats, open, onClose }) {
-  const [mode,    setMode]    = useState("login");
-  const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState("");
-  const [form,    setForm]    = useState({ name: "", email: "", password: "" });
-
-  if (!open) return null;
+  const [mode,     setMode]     = useState("login");
+  const [loading,  setLoading]  = useState(false);
+  const [error,    setError]    = useState("");
+  const [form,     setForm]     = useState({ name: "", email: "", password: "" });
+  const [expanded, setExpanded] = useState(null);
 
   const handleCredentials = async (e) => {
-    e.preventDefault(); setError(""); setLoading(true);
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
     if (mode === "register") {
-      const res = await fetch("/api/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, password: form.password }) });
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: form.name, email: form.email, password: form.password }),
+      });
       const data = await res.json();
       if (!res.ok) { setError(data.error); setLoading(false); return; }
     }
-    const result = await signIn("credentials", { email: form.email, password: form.password, redirect: false });
+
+    const result = await signIn("credentials", {
+      email: form.email, password: form.password, redirect: false,
+    });
     setLoading(false);
-    if (result?.error) setError("Invalid email or password");
+    if (result?.error) setError("Email o contraseña incorrectos");
   };
 
+  const handleGoogle = () => signIn("google", { redirect: false });
+
+  // ── Logged in ─────────────────────────────────────────────────────────────
+  if (session?.user) {
+    return (
+      <>
+        {open && <div className="auth-backdrop" onClick={onClose} />}
+        <div className={`auth-panel${open ? " auth-panel--open" : ""}`}>
+          {/* User */}
+          <div className="auth-user-row">
+            {session.user.image
+              ? <img src={session.user.image} alt="" className="auth-avatar" />
+              : <div className="auth-avatar-placeholder">{session.user.name?.[0]?.toUpperCase()}</div>
+            }
+            <div style={{ overflow: "hidden", flex: 1 }}>
+              <div className="auth-username">{session.user.name}</div>
+              <div className="auth-useremail">{session.user.email}</div>
+            </div>
+          </div>
+
+          {/* Global stats */}
+          {stats && (
+            <div className="auth-stats-row">
+              <Stat label="sessions" value={stats.totalSessions} />
+              <Stat label="best CPM" value={stats.bestCpm}       color="#82aaff" />
+              <Stat label="chars"    value={stats.totalChars}    />
+            </div>
+          )}
+
+          {/* Lang progress */}
+          {stats && Object.keys(stats.langProgress || {}).length > 0 && (
+            <div className="auth-lang-section">
+              <div className="auth-section-label">// progreso</div>
+              {Object.entries(stats.langProgress).map(([lang, data]) => (
+                <LangCard
+                  key={lang}
+                  lang={lang}
+                  data={data}
+                  expanded={expanded === lang}
+                  onToggle={() => setExpanded(expanded === lang ? null : lang)}
+                />
+              ))}
+            </div>
+          )}
+
+          <button className="auth-signout" onClick={() => signOut({ redirect: false })}>
+            ← sign out
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  // ── Login / Register ──────────────────────────────────────────────────────
   return (
     <>
-      <div className="auth-backdrop" onClick={onClose} />
-      <div className="auth-panel">
-        {session?.user ? (
-          <>
-            <div className="auth-user-row">
-              {session.user.image
-                ? <img src={session.user.image} alt="" className="auth-avatar" />
-                : <div className="auth-avatar-placeholder">{session.user.name?.[0]?.toUpperCase() || "U"}</div>
-              }
-              <div style={{ overflow: "hidden" }}>
-                <div className="auth-username">{session.user.name}</div>
-                <div className="auth-useremail">{session.user.email}</div>
-              </div>
-            </div>
-            {stats && <>
-              <div className="auth-stats-row">
-                <Stat label="sessions" value={stats.totalSessions} />
-                <Stat label="best CPM" value={stats.bestCpm} color="#82aaff" />
-                <Stat label="chars"    value={stats.totalChars} />
-              </div>
-              {Object.keys(stats.langProgress || {}).length > 0 && (
-                <div className="auth-lang-section">
-                  <div className="auth-section-label">// progress</div>
-                  {Object.entries(stats.langProgress).map(([lang, data]) => <LangRow key={lang} lang={lang} data={data} />)}
-                </div>
-              )}
-            </>}
-            <button className="auth-signout" onClick={() => signOut({ redirect: false })}>← sign out</button>
-          </>
-        ) : (
-          <>
-            <div className="auth-title"><span style={{ color: "#82aaff" }}>◉</span> CodeTyper</div>
-            <button className="auth-google-btn" onClick={() => signIn("google", { redirect: false })}>
-              <GoogleIcon /> Continue with Google
-            </button>
-            <div className="auth-divider">
-              <span className="auth-divider-line" /><span className="auth-divider-text">or</span><span className="auth-divider-line" />
-            </div>
-            <form onSubmit={handleCredentials} className="auth-form">
-              {mode === "register" && <input className="auth-input" type="text" placeholder="Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />}
-              <input className="auth-input" type="email" placeholder="Email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
-              <input className="auth-input" type="password" placeholder="Password" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required />
-              {error && <div className="auth-error">{error}</div>}
-              <button className="auth-submit" type="submit" disabled={loading}>{loading ? "..." : mode === "login" ? "Sign in" : "Create account"}</button>
-            </form>
-            <div className="auth-toggle-row">
-              <span className="auth-toggle-text">{mode === "login" ? "No account?" : "Already registered?"}</span>
-              <button className="auth-toggle-btn" onClick={() => { setMode(m => m === "login" ? "register" : "login"); setError(""); }}>{mode === "login" ? "Register" : "Sign in"}</button>
-            </div>
-          </>
-        )}
+      {open && <div className="auth-backdrop" onClick={onClose} />}
+      <div className={`auth-panel${open ? " auth-panel--open" : ""}`}>
+        <div className="auth-title">
+          <span style={{ color: "#82aaff" }}>◉</span> CodeTyper
+        </div>
+
+        <button className="auth-google-btn" onClick={handleGoogle}>
+          <GoogleIcon />
+          Continue with Google
+        </button>
+
+        <div className="auth-divider">
+          <span className="auth-divider-line" />
+          <span className="auth-divider-text">or</span>
+          <span className="auth-divider-line" />
+        </div>
+
+        <form onSubmit={handleCredentials} className="auth-form">
+          {mode === "register" && (
+            <input className="auth-input" type="text" placeholder="Name"
+              value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+          )}
+          <input className="auth-input" type="email" placeholder="Email"
+            value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+          <input className="auth-input" type="password" placeholder="Password"
+            value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required />
+
+          {error && <div className="auth-error">{error}</div>}
+
+          <button className="auth-submit" type="submit" disabled={loading}>
+            {loading ? "..." : mode === "login" ? "Sign in" : "Create account"}
+          </button>
+        </form>
+
+        <div className="auth-toggle-row">
+          <span className="auth-toggle-text">
+            {mode === "login" ? "No account?" : "Already registered?"}
+          </span>
+          <button className="auth-toggle-btn"
+            onClick={() => { setMode(m => m === "login" ? "register" : "login"); setError(""); }}>
+            {mode === "login" ? "Register" : "Sign in"}
+          </button>
+        </div>
       </div>
     </>
   );
 }
 
-function Stat({ label, value, color = "#c9d1d9" }) {
+// ── LangCard ──────────────────────────────────────────────────────────────────
+function LangCard({ lang, data, expanded, onToggle }) {
+  const phaseColor = PHASE_COLORS[data.phase] || "#546e7a";
+  const phaseIcon  = PHASE_ICONS[data.phase]  || "○";
+  const next       = data.nextPhase;
+
   return (
-    <div style={{ textAlign: "center" }}>
-      <div style={{ color, fontSize: "16px", fontWeight: "700" }}>{value ?? 0}</div>
-      <div style={{ color: "#3d5266", fontSize: "9px", letterSpacing: "0.06em" }}>{label}</div>
+    <div className="lang-card">
+      <div className="lang-card-header" onClick={onToggle}>
+        <span style={{ color: phaseColor, fontSize: "12px" }}>{phaseIcon}</span>
+        <span className="lang-card-name">{lang}</span>
+        <span style={{ color: phaseColor, fontSize: "10px" }}>{data.phaseLabel || "Fase 1"}</span>
+        <span className="lang-card-chevron">{expanded ? "▲" : "▼"}</span>
+      </div>
+
+      <div className="lang-card-bar-bg">
+        <div className="lang-card-bar-fill" style={{
+          width: `${next?.pct || 0}%`,
+          background: phaseColor,
+        }} />
+      </div>
+
+      <div className="lang-card-meta">
+        <span>{data.sessionsCompleted} sesiones</span>
+        <span>{data.avgCpm || data.bestCpm} CPM avg</span>
+      </div>
+
+      {expanded && (
+        <div className="lang-card-detail">
+          <div className="lang-card-phase-title" style={{ color: phaseColor }}>
+            {phaseIcon} FASE {data.phase} — {data.phaseLabel}
+          </div>
+          <div className="lang-card-phase-desc">{PHASE_DESCRIPTIONS[data.phase]}</div>
+
+          <div className="lang-card-grid">
+            <MiniStat label="Mejor CPM"    value={data.bestCpm}           color="#82aaff" />
+            <MiniStat label="Avg CPM"      value={data.avgCpm}            color="#82aaff" />
+            <MiniStat label="Precisión"    value={`${data.avgAccuracy}%`} color="#4ec994" />
+            <MiniStat label="Consistencia" value={`${data.consistency}%`} color="#ffcb6b" />
+          </div>
+
+          {data.improvementPct !== 0 && (
+            <div className="lang-card-improvement">
+              <span>Mejora desde inicio: </span>
+              <span style={{ color: data.improvementPct > 0 ? "#4ec994" : "#ff5555", fontWeight: "600" }}>
+                {data.improvementPct > 0 ? "+" : ""}{data.improvementPct}%
+              </span>
+            </div>
+          )}
+
+          {next && next.pct < 100 && (
+            <div className="lang-card-next">
+              <div>→ Siguiente: {next.nextPhase}</div>
+              {next.sessionsNeeded > 0 && <div>• {next.sessionsNeeded} sesiones más</div>}
+              {next.cpmNeeded     > 0 && <div>• +{next.cpmNeeded} CPM promedio</div>}
+              {next.accuracyNeeded > 0 && <div>• +{next.accuracyNeeded}% precisión</div>}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-function LangRow({ lang, data }) {
-  const color = LEVEL_COLORS[data.level] || "#4ec994";
-  const pct   = Math.min(100, Math.round((data.sessionsCompleted / 30) * 100));
+function MiniStat({ label, value, color = "#c9d1d9" }) {
   return (
-    <div style={{ marginBottom: "8px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "3px" }}>
-        <span style={{ color: "#8b949e", fontSize: "11px" }}>{lang}</span>
-        <span style={{ color, fontSize: "10px" }}>{LEVEL_LABELS[data.level]}</span>
-      </div>
-      <div style={{ height: "2px", background: "#21262d", borderRadius: "1px" }}>
-        <div style={{ width: `${pct}%`, height: "100%", background: color, borderRadius: "1px", transition: "width 0.3s" }} />
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2px" }}>
-        <span style={{ color: "#3d5266", fontSize: "10px" }}>{data.sessionsCompleted} sessions</span>
-        <span style={{ color: "#3d5266", fontSize: "10px" }}>{data.bestCpm} CPM</span>
-      </div>
+    <div className="mini-stat">
+      <div style={{ color, fontSize: "12px", fontWeight: "600" }}>{value ?? 0}</div>
+      <div className="mini-stat-label">{label}</div>
+    </div>
+  );
+}
+
+function Stat({ label, value, color = "#c9d1d9" }) {
+  return (
+    <div className="stat">
+      <div style={{ color, fontSize: "16px", fontWeight: "700" }}>{value ?? 0}</div>
+      <div className="stat-label">{label}</div>
     </div>
   );
 }

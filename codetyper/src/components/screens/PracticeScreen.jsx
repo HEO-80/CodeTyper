@@ -21,23 +21,23 @@ function injectComments(code, language) {
     if (!trimmed || trimmed.startsWith("//") || trimmed.startsWith("--") || trimmed.startsWith("#")) {
       result.push(line); continue;
     }
-    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed))    comment = "Define a function";
-    else if (/^class\s+/.test(trimmed))                                          comment = "Define a class";
-    else if (/^export default/.test(trimmed))                                    comment = "Export as default";
-    else if (/^constructor/.test(trimmed))                                       comment = "Initialize the instance";
-    else if (/^return\s*[\({]/.test(trimmed))                                    comment = "Return the result";
-    else if (/^(if|} else if)\s*\(/.test(trimmed))                              comment = "Check the condition";
-    else if (/^for[\s(]/.test(trimmed))                                          comment = "Iterate over items";
-    else if (/^try\s*\{/.test(trimmed))                                          comment = "Handle errors safely";
-    else if (/^catch\s*\(/.test(trimmed))                                        comment = "Catch and handle the error";
-    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed))  comment = "SQL statement";
-    else if (/^pragma solidity/.test(trimmed))                                   comment = "Set the Solidity compiler version";
-    else if (/^contract\s+/.test(trimmed))                                       comment = "Define the smart contract";
-    else if (/^event\s+/.test(trimmed))                                          comment = "Declare an on-chain event";
-    else if (/^modifier\s+/.test(trimmed))                                       comment = "Define an access modifier";
-    else if (/^emit\s+/.test(trimmed))                                           comment = "Emit the event to the blockchain";
-    else if (/^mapping\s*\(/.test(trimmed))                                      comment = "Mapping: key => value store";
-    else if (/^interface\s+/.test(trimmed))                                      comment = "Define the interface";
+    if (/^(function\s+\w+|const\s+\w+\s*=\s*(async\s*)?\()/.test(trimmed)) comment = "Define a function";
+    else if (/^class\s+/.test(trimmed)) comment = "Define a class";
+    else if (/^export default/.test(trimmed)) comment = "Export as default";
+    else if (/^constructor/.test(trimmed)) comment = "Initialize the instance";
+    else if (/^return\s*[\({]/.test(trimmed)) comment = "Return the result";
+    else if (/^(if|} else if)\s*\(/.test(trimmed)) comment = "Check the condition";
+    else if (/^for[\s(]/.test(trimmed)) comment = "Iterate over items";
+    else if (/^try\s*\{/.test(trimmed)) comment = "Handle errors safely";
+    else if (/^catch\s*\(/.test(trimmed)) comment = "Catch and handle the error";
+    else if (/^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)/i.test(trimmed)) comment = "SQL statement";
+    else if (/^pragma solidity/.test(trimmed)) comment = "Set the Solidity compiler version";
+    else if (/^contract\s+/.test(trimmed)) comment = "Define the smart contract";
+    else if (/^event\s+/.test(trimmed)) comment = "Declare an on-chain event";
+    else if (/^modifier\s+/.test(trimmed)) comment = "Define an access modifier";
+    else if (/^emit\s+/.test(trimmed)) comment = "Emit the event to the blockchain";
+    else if (/^mapping\s*\(/.test(trimmed)) comment = "Mapping: key => value store";
+    else if (/^interface\s+/.test(trimmed)) comment = "Define the interface";
     if (comment) result.push(`${indent}${commentChar} ${comment}`);
     result.push(line);
   }
@@ -45,16 +45,16 @@ function injectComments(code, language) {
 }
 
 const LANG_META = {
-  solidity:   { label: "Smart Contract", icon: "◆", color: "#c792ea" },
-  javascript: { label: "JavaScript",     icon: "⬡", color: "#ffcb6b" },
-  typescript: { label: "TypeScript",     icon: "⬡", color: "#82aaff" },
-  csharp:     { label: ".NET Web API",   icon: "◈", color: "#82aaff" },
-  sql:        { label: "SQL Script",     icon: "▪", color: "#f78c6c" },
-  powershell: { label: "PowerShell",     icon: "▶", color: "#5391FE" },
-  bash:       { label: "Bash Script",    icon: "▶", color: "#4ec994" },
-  python:     { label: "Python",         icon: "⬡", color: "#4ec994" },
-  java:       { label: "Java",           icon: "◆", color: "#f89820" },
-  cloud:      { label: "Cloud Script",   icon: "⬡", color: "#f78c6c" },
+  solidity: { label: "Smart Contract", icon: "◆", color: "#c792ea" },
+  javascript: { label: "JavaScript", icon: "⬡", color: "#ffcb6b" },
+  typescript: { label: "TypeScript", icon: "⬡", color: "#82aaff" },
+  csharp: { label: ".NET Web API", icon: "◈", color: "#82aaff" },
+  sql: { label: "SQL Script", icon: "▪", color: "#f78c6c" },
+  powershell: { label: "PowerShell", icon: "▶", color: "#5391FE" },
+  bash: { label: "Bash Script", icon: "▶", color: "#4ec994" },
+  python: { label: "Python", icon: "⬡", color: "#4ec994" },
+  java: { label: "Java", icon: "◆", color: "#f89820" },
+  cloud: { label: "Cloud Script", icon: "⬡", color: "#f78c6c" },
 };
 
 const LINE_HEIGHT = 28;
@@ -63,23 +63,23 @@ export default function PracticeScreen({
   snippet, language, showComments,
   onFinish, onBack, onToggleComments,
 }) {
-  const [mode,         setMode]         = useState("editor");
-  const [tokens,       setTokens]       = useState([]);
-  const [cursor,       setCursor]       = useState(0);
-  const [errors,       setErrors]       = useState(new Set());
-  const [totalErrors,  setTotalErrors]  = useState(0);
-  const [errorFlash,   setErrorFlash]   = useState(false);
-  const [startTime,    setStartTime]    = useState(null);
-  const [tick,         setTick]         = useState(0);
+  const [mode, setMode] = useState("editor");
+  const [tokens, setTokens] = useState([]);
+  const [cursor, setCursor] = useState(0);
+  const [errors, setErrors] = useState(new Set());
+  const [totalErrors, setTotalErrors] = useState(0);
+  const [errorFlash, setErrorFlash] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const [tick, setTick] = useState(0);
   const [panelVisible, setPanelVisible] = useState(true);
 
-  const containerRef  = useRef(null);
+  const containerRef = useRef(null);
   const scrollAreaRef = useRef(null);
-  const timerRef      = useRef(null);
-  const isMobile      = useIsMobile(768);
+  const timerRef = useRef(null);
+  const isMobile = useIsMobile(768);
 
   const showPanel = panelVisible && !isMobile;
-  const rawCode   = showComments ? injectComments(snippet.code, language) : snippet.code;
+  const rawCode = showComments ? injectComments(snippet.code, language) : snippet.code;
   const { structure, activeIndex } = useCodeStructure(rawCode, language, cursor);
   const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
 
@@ -123,7 +123,7 @@ export default function PracticeScreen({
 
   const handleKeyDown = useCallback((e) => {
     if (mode !== "editor") return;
-    if (["Shift","Control","Alt","Meta","CapsLock","Escape"].includes(e.key)) return;
+    if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"].includes(e.key)) return;
     if (e.key === " " || e.key === "Enter" || e.key === "Tab") e.preventDefault();
     const expected = tokens[cursor];
     if (!expected) return;
@@ -167,11 +167,11 @@ export default function PracticeScreen({
   });
   if (currentLine.length > 0) lines.push(currentLine);
 
-  const elapsed      = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
-  const accuracy     = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
+  const elapsed = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+  const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
   const currentToken = tokens[cursor];
-  const isOnIndent   = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
-  const progress     = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
+  const isOnIndent = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
+  const progress = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
 
   const ModeToggle = ({ current }) => (
     <div className="mode-toggle">
@@ -246,7 +246,8 @@ export default function PracticeScreen({
         {/* Code area */}
         <div
           ref={scrollAreaRef}
-          className={`practice-code-area${errorFlash ? " error-flash" : ""}`}
+          className="practice-code-area"
+          style={{ right: showPanel ? "280px" : "0" }}
         >
           <div className="practice-code-block">
             {lines.map((lineTokens, lineIdx) => {
@@ -259,9 +260,9 @@ export default function PracticeScreen({
                       <span className="comment-tag">EN</span>
                     )}
                     {lineTokens.map(({ char, type, idx }) => {
-                      const isTyped  = idx < cursor;
+                      const isTyped = idx < cursor;
                       const isCursor = idx === cursor;
-                      const isError  = errors.has(idx);
+                      const isError = errors.has(idx);
                       const color = isTyped
                         ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
                         : isCommentLine ? "#3a7a4a" : "#3a4a5a";
@@ -319,9 +320,9 @@ export default function PracticeScreen({
                 <div style={{ color: "#3d5266", fontSize: "11px", padding: "20px", textAlign: "center" }}>No structure detected</div>
               )}
               {structure.map((sec, i) => {
-                const isActive  = i === activeIndex;
-                const isDone    = i < activeIndex;
-                const isLast    = i === structure.length - 1;
+                const isActive = i === activeIndex;
+                const isDone = i < activeIndex;
+                const isLast = i === structure.length - 1;
                 const nodeColor = isDone ? "#3d5266" : isActive ? sec.color : "#21262d";
                 const textColor = isDone ? "#607b96" : isActive ? sec.color : "#3d5266";
                 return (
@@ -367,8 +368,8 @@ export default function PracticeScreen({
             <div className="practice-panel-footer">
               {[
                 { label: "sections", value: structure.length },
-                { label: "done",     value: Math.max(0, activeIndex) },
-                { label: "left",     value: Math.max(0, structure.length - activeIndex - 1) },
+                { label: "done", value: Math.max(0, activeIndex) },
+                { label: "left", value: Math.max(0, structure.length - activeIndex - 1) },
               ].map(({ label, value }) => (
                 <div key={label} style={{ textAlign: "center" }}>
                   <div style={{ color: "#c9d1d9", fontSize: "16px", fontWeight: "600" }}>{value}</div>

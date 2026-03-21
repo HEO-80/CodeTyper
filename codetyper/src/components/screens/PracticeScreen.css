@@ -49,11 +49,14 @@
 .practice-code-area {
   position: absolute;
   inset: 0;
+  right: 280px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;  /* ← era hidden, ponlo auto */
   background: #0d1117;
   scrollbar-width: thin;
   scrollbar-color: #21262d #0d1117;
+   display: flex;           /* ← añadir */
+  justify-content: center; /* ← añadir */
 }
 .practice-code-area::-webkit-scrollbar       { width: 4px; }
 .practice-code-area::-webkit-scrollbar-track { background: #0d1117; }
@@ -65,9 +68,11 @@
 
 /* ── Code block (centered content) ──────────────────────────────────────── */
 .practice-code-block {
-  max-width: 720px;
+  max-width: none;   /* ← quita el maxWidth fijo */
   margin: 0 auto;
+  max-width: 720px;        /* ← añadir */
   padding: 40px 24px 300px;
+  /* min-width: fit-content;  */
 }
 
 /* ── Code line ───────────────────────────────────────────────────────────── */

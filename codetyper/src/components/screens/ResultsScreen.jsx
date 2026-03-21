@@ -106,7 +106,8 @@ export default function ResultsScreen({ result, onRepeat, onMenu }) {
 
 const styles = {
   root: {
-    minHeight: "100vh",
+    height: "100%",  // ← era minHeight: "100vh"
+    // minHeight: "100vh",
     background: "#0d1117",
     display: "flex",
     alignItems: "center",

@@ -5,6 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { connectDB } from "@/lib/mongodb";
 import PracticeSession from "@/lib/models/PracticeSession";
 import User from "@/lib/models/User";
+import { updateLangData, calcNextPhaseProgress } from "@/lib/mastery";
 
 // ── POST /api/stats ────────────────────────────────────────────────────────────
 export async function POST(req) {
@@ -28,43 +29,35 @@ export async function POST(req) {
       cpm, accuracy, errors, duration, totalChars,
     });
 
-    // 2. Actualizar stats del usuario
+    // 2. Actualizar usuario
     const user = await User.findById(session.user.id);
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
+    // Stats globales
     user.totalSessions += 1;
     user.totalChars += totalChars || 0;
     user.bestCpm = Math.max(user.bestCpm, cpm);
     user.lastActiveAt = new Date();
 
-    // Progreso por lenguaje
-    const langData = user.langProgress.get(language) || {
-      sessionsCompleted: 0,
-      bestCpm: 0,
-      avgAccuracy: 0,
-      level: getInitialLevel(language),
-      lastPracticedAt: null,
-    };
+    // Stats por lenguaje usando el motor de mastery
+    const existing = user.langProgress.get(language) || {};
+    const updated = updateLangData({ ...existing }, { cpm, accuracy, totalChars });
+    user.langProgress.set(language, updated);
 
-    langData.sessionsCompleted += 1;
-    langData.bestCpm = Math.max(langData.bestCpm, cpm);
-    langData.avgAccuracy = Math.round(
-      (langData.avgAccuracy * (langData.sessionsCompleted - 1) + accuracy) /
-      langData.sessionsCompleted
-    );
-    langData.lastPracticedAt = new Date();
-    langData.level = calcLevel(
-      language,
-      langData.sessionsCompleted,
-      langData.avgAccuracy,
-      langData.bestCpm,
-      difficulty
-    );
-
-    user.langProgress.set(language, langData);
     await user.save();
 
-    return NextResponse.json({ ok: true, level: langData.level });
+    // Calcular progreso hacia siguiente fase
+    const nextPhaseInfo = calcNextPhaseProgress(updated);
+
+    return NextResponse.json({
+      ok: true,
+      phase: updated.phase,
+      phaseLabel: updated.phaseLabel,
+      level: updated.level,
+      consistency: updated.consistency,
+      improvement: updated.improvementPct,
+      nextPhase: nextPhaseInfo,
+    });
   } catch (err) {
     console.error("Stats POST error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
@@ -72,7 +65,7 @@ export async function POST(req) {
 }
 
 // ── GET /api/stats ─────────────────────────────────────────────────────────────
-export async function GET(req) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -89,45 +82,26 @@ export async function GET(req) {
       .limit(10)
       .lean();
 
+    // Añadir nextPhaseInfo a cada lenguaje
+    const langProgress = {};
+    const rawProgress = user.langProgress || {};
+    for (const [lang, data] of Object.entries(rawProgress)) {
+      langProgress[lang] = {
+        ...data,
+        nextPhase: calcNextPhaseProgress(data),
+      };
+    }
+
     return NextResponse.json({
       totalSessions: user.totalSessions,
       totalChars: user.totalChars,
       bestCpm: user.bestCpm,
       streak: user.streak,
-      langProgress: {
-        type: Map,
-        of: Number,
-        default: {},
-      },
+      langProgress,
       recentSessions: recent,
     });
   } catch (err) {
     console.error("Stats GET error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-}
-
-// ── Helpers ────────────────────────────────────────────────────────────────────
-
-// Cloud usa azure/aws/exam en lugar de beginner/intermediate/advanced
-const CLOUD_DIFFICULTIES = ["azure", "aws", "exam"];
-
-function getInitialLevel(language) {
-  return language === "cloud" ? "azure" : "beginner";
-}
-
-function calcLevel(language, sessions, avgAccuracy, bestCpm, lastDifficulty) {
-  // Cloud: nivel = último proveedor practicado
-  if (language === "cloud") {
-    if (CLOUD_DIFFICULTIES.includes(lastDifficulty)) return lastDifficulty;
-    if (sessions >= 10 && avgAccuracy >= 90) return "exam";
-    if (sessions >= 5) return "aws";
-    return "azure";
-  }
-
-  // Resto de lenguajes: basado en rendimiento
-  if (sessions >= 30 && avgAccuracy >= 95 && bestCpm >= 200) return "master";
-  if (sessions >= 15 && avgAccuracy >= 90 && bestCpm >= 120) return "advanced";
-  if (sessions >= 5 && avgAccuracy >= 80 && bestCpm >= 60) return "intermediate";
-  return "beginner";
 }
