@@ -39,10 +39,18 @@ export async function POST(req) {
     user.bestCpm = Math.max(user.bestCpm, cpm);
     user.lastActiveAt = new Date();
 
-    // Stats por lenguaje usando el motor de mastery
-    const existing = user.langProgress.get(language) || {};
+    // FIX: el Map de Mongoose devuelve un subdocument — hay que llamar .toObject()
+    // para obtener un POJO limpio antes de pasarlo a updateLangData
+    const rawExisting = user.langProgress.get(language);
+    const existing = rawExisting
+      ? (typeof rawExisting.toObject === "function" ? rawExisting.toObject() : { ...rawExisting })
+      : {};
+
     const updated = updateLangData({ ...existing }, { cpm, accuracy, totalChars });
     user.langProgress.set(language, updated);
+
+    // FIX: marcar el campo Map como modificado para que Mongoose lo persista
+    user.markModified("langProgress");
 
     await user.save();
 
@@ -74,7 +82,10 @@ export async function GET() {
 
     await connectDB();
 
-    const user = await User.findById(session.user.id).lean();
+    // FIX: NO usar .lean() cuando el schema tiene campos Map —
+    // .lean() no convierte el Map a objeto plano de forma fiable.
+    // Usamos el documento Mongoose normal y llamamos .toObject() manualmente.
+    const user = await User.findById(session.user.id);
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
     const recent = await PracticeSession.find({ userId: session.user.id })
@@ -82,10 +93,13 @@ export async function GET() {
       .limit(10)
       .lean();
 
-    // Añadir nextPhaseInfo a cada lenguaje
+    // FIX: iterar el Map de Mongoose con .entries() nativo del Map
     const langProgress = {};
-    const rawProgress = user.langProgress || {};
-    for (const [lang, data] of Object.entries(rawProgress)) {
+    for (const [lang, rawData] of user.langProgress.entries()) {
+      const data = typeof rawData.toObject === "function"
+        ? rawData.toObject()
+        : { ...rawData };
+
       langProgress[lang] = {
         ...data,
         nextPhase: calcNextPhaseProgress(data),

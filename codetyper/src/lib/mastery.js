@@ -109,6 +109,23 @@ export function calcImprovement(firstFive, lastFive) {
 
 // ── Actualizar langData con nueva sesión ──────────────────────────────────────
 export function updateLangData(langData, { cpm, accuracy, totalChars }) {
+  // Sanear inputs — nunca dejar NaN entrar a MongoDB
+  cpm        = isNaN(cpm)        ? 0 : (cpm        || 0);
+  accuracy   = isNaN(accuracy)   ? 0 : (accuracy   || 0);
+  totalChars = isNaN(totalChars) ? 0 : (totalChars || 0);
+
+  // Sanear estado existente — por si viene undefined del Map vacío
+  langData.sessionsCompleted = isNaN(langData.sessionsCompleted) ? 0 : (langData.sessionsCompleted || 0);
+  langData.totalChars        = isNaN(langData.totalChars)        ? 0 : (langData.totalChars        || 0);
+  langData.bestCpm           = isNaN(langData.bestCpm)           ? 0 : (langData.bestCpm           || 0);
+  langData.avgCpm            = isNaN(langData.avgCpm)            ? 0 : (langData.avgCpm            || 0);
+  langData.avgAccuracy       = isNaN(langData.avgAccuracy)       ? 0 : (langData.avgAccuracy       || 0);
+  langData.consistency       = isNaN(langData.consistency)       ? 0 : (langData.consistency       || 0);
+  langData.improvementPct    = isNaN(langData.improvementPct)    ? 0 : (langData.improvementPct    || 0);
+  langData.firstFiveCpm      = Array.isArray(langData.firstFiveCpm) ? langData.firstFiveCpm : [];
+  langData.lastFiveCpm       = Array.isArray(langData.lastFiveCpm)  ? langData.lastFiveCpm  : [];
+  langData.lastTenCpm        = Array.isArray(langData.lastTenCpm)   ? langData.lastTenCpm   : [];
+
   const s = langData.sessionsCompleted + 1;
 
   // Actualizar contadores básicos

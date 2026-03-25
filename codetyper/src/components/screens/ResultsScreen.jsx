@@ -106,6 +106,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu }) {
 
 const styles = {
   root: {
+    width: "100%",
     height: "100%",  // ← era minHeight: "100vh"
     // minHeight: "100vh",
     background: "#0d1117",
@@ -114,6 +115,7 @@ const styles = {
     justifyContent: "center",
     fontFamily: "'JetBrains Mono', monospace",
     padding: "24px",
+    boxSizing: "border-box",
   },
   wrap: {
     width: "100%",

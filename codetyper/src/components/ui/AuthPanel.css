@@ -1,13 +1,5 @@
 /* AuthPanel.css */
 
-/* Backdrop */
-.auth-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 150;
-  background: transparent;
-}
-
 /* Panel — oculto por defecto, overlay position fixed */
 .auth-panel {
   position: fixed;
@@ -32,7 +24,7 @@
 }
 
 .auth-panel--open {
-  display: flex; /* visible cuando open */
+  display: flex;
 }
 
 .auth-panel::-webkit-scrollbar       { width: 3px; }
@@ -66,19 +58,48 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* ── Stats ── */
+/* ── Stats fila principal ── */
 .auth-stats-row {
   display: flex; justify-content: space-between;
   padding: 8px 0;
   border-top: 1px solid #161b22;
   border-bottom: 1px solid #161b22;
 }
-
 .stat {
   text-align: center;
 }
 .stat-label {
   color: #3d5266; font-size: 9px; letter-spacing: 0.06em;
+}
+
+/* ── Stats extra: precisión global + tiempo ── */
+.auth-extra-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 0;
+  border-bottom: 1px solid #161b22;
+}
+.auth-extra-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.auth-extra-label {
+  color: #3d5266;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.auth-extra-value {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ── Sparkline section ── */
+.auth-sparkline-section {
+  padding: 4px 0 2px;
+  border-bottom: 1px solid #161b22;
 }
 
 /* ── Lang section ── */
@@ -181,6 +202,7 @@
 .lang-card-header {
   display: flex; align-items: center; gap: 6px;
   cursor: pointer; padding: 4px 0;
+  user-select: none;
 }
 .lang-card-name {
   color: #8b949e; font-size: 11px; flex: 1;
