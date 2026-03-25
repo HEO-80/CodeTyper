@@ -54,7 +54,7 @@
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .auth-useremail {
-  color: #3d5266; font-size: 10px;
+  color: #6c7f91; font-size: 10px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
@@ -69,7 +69,7 @@
   text-align: center;
 }
 .stat-label {
-  color: #3d5266; font-size: 9px; letter-spacing: 0.06em;
+  color: #6c7f91; font-size: 9px; letter-spacing: 0.06em;
 }
 
 /* ── Stats extra: precisión global + tiempo ── */
@@ -86,7 +86,7 @@
   align-items: center;
 }
 .auth-extra-label {
-  color: #3d5266;
+  color: #6c7f91;
   font-size: 9px;
   letter-spacing: 0.04em;
 }
@@ -107,13 +107,13 @@
   display: flex; flex-direction: column; gap: 4px;
 }
 .auth-section-label {
-  color: #3d5266; font-size: 10px; letter-spacing: 0.05em; margin-bottom: 4px;
+  color: #6c7f91; font-size: 10px; letter-spacing: 0.05em; margin-bottom: 4px;
 }
 
 /* ── Sign out ── */
 .auth-signout {
   background: none; border: none;
-  color: #3d5266; font-size: 10px;
+  color: #6c7f91; font-size: 10px;
   font-family: 'JetBrains Mono', monospace;
   cursor: pointer; padding: 0;
   margin-top: auto; text-align: left;
@@ -149,7 +149,7 @@
   flex: 1; height: 1px; background: #21262d; display: block;
 }
 .auth-divider-text {
-  color: #3d5266; font-size: 10px;
+  color: #6c7f91; font-size: 10px;
 }
 
 /* ── Form ── */
@@ -186,7 +186,7 @@
   display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
 .auth-toggle-text {
-  color: #546e7a; font-size: 11px;
+  color: #819daa; font-size: 11px;
 }
 .auth-toggle-btn {
   background: none; border: none;
@@ -208,7 +208,7 @@
   color: #8b949e; font-size: 11px; flex: 1;
 }
 .lang-card-chevron {
-  color: #3d5266; font-size: 10px;
+  color: #6c7f91; font-size: 10px;
 }
 .lang-card-bar-bg {
   height: 2px; background: #21262d;
@@ -222,7 +222,7 @@
   display: flex; justify-content: space-between;
 }
 .lang-card-meta span {
-  color: #3d5266; font-size: 10px;
+  color: #6c7f91; font-size: 10px;
 }
 .lang-card-detail {
   margin-top: 8px; padding: 8px;
@@ -233,17 +233,17 @@
   font-size: 10px; font-weight: 600; margin-bottom: 2px;
 }
 .lang-card-phase-desc {
-  color: #3d5266; font-size: 9px; margin-bottom: 8px;
+  color: #6c7f91; font-size: 9px; margin-bottom: 8px;
 }
 .lang-card-grid {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 4px; margin-bottom: 8px;
 }
 .lang-card-improvement {
-  font-size: 10px; color: #3d5266; margin-bottom: 8px;
+  font-size: 10px; color: #6c7f91; margin-bottom: 8px;
 }
 .lang-card-next {
-  font-size: 9px; color: #3d5266;
+  font-size: 9px; color: #6c7f91;
   display: flex; flex-direction: column; gap: 2px;
 }
 
@@ -253,5 +253,5 @@
   background: #161b22; border-radius: 3px;
 }
 .mini-stat-label {
-  color: #3d5266; font-size: 9px;
+  color: #6c7f91; font-size: 9px;
 }

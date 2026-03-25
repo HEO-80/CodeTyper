@@ -265,7 +265,7 @@ export default function PracticeScreen({
                       const isError = errors.has(idx);
                       const color = isTyped
                         ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
-                        : isCommentLine ? "#3a7a4a" : "#3a4a5a";
+                        : isCommentLine ? "#3a7a4a" : "#8d9faf";
                       return (
                         <span key={idx} style={{ position: "relative", display: "inline-block" }}>
                           {isCursor && (
