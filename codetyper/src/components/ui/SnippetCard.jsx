@@ -6,9 +6,12 @@ const DIFF_COLORS = {
   beginner:     { bg: "#1a3a2a", color: "#4ec994" },
   intermediate: { bg: "#2a2a1a", color: "#ffcb6b" },
   advanced:     { bg: "#2a1a1a", color: "#ff5555" },
+  a1:           { bg: "#1a3a2a", color: "#4ec994" },
+  a2:           { bg: "#0d2a1e", color: "#3ad9a0" },
   b1:           { bg: "#1a2a3a", color: "#82aaff" },
   b2:           { bg: "#1a1a3a", color: "#c792ea" },
   c1:           { bg: "#2a1a2a", color: "#f78c6c" },
+  exam:         { bg: "#2a2010", color: "#ffcb6b" },
 };
 
 export default function SnippetCard({ snippet, onClick }) {
