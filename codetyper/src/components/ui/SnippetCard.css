@@ -70,3 +70,30 @@
   background: #1a100d;
 }
 .snippet-card.c1:hover .snip-title { color: #f78c6c; }
+
+/* ── a1 (verde claro) ── */
+.snippet-card.a1:hover {
+  transform: translateY(-4px);
+  border-color: #4ec994;
+  box-shadow: 0 6px 24px rgba(78,201,148,0.2);
+  background: #0d1a14;
+}
+.snippet-card.a1:hover .snip-title { color: #4ec994; }
+
+/* ── a2 (verde medio) ── */
+.snippet-card.a2:hover {
+  transform: translateY(-4px);
+  border-color: #3ad9a0;
+  box-shadow: 0 6px 24px rgba(58,217,160,0.2);
+  background: #0d1c16;
+}
+.snippet-card.a2:hover .snip-title { color: #3ad9a0; }
+
+/* ── exam (amarillo dorado) ── */
+.snippet-card.exam:hover {
+  transform: translateY(-4px);
+  border-color: #ffcb6b;
+  box-shadow: 0 6px 24px rgba(255,203,107,0.3);
+  background: #1a160d;
+}
+.snippet-card.exam:hover .snip-title { color: #ffcb6b; }
