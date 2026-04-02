@@ -1,19 +1,10 @@
 // src/data/snippets/languages/english/index.js
-import { beginnerSnippets }     from "./beginner";
-import { intermediateSnippets } from "./intermediate";
-import { advancedSnippets }     from "./advanced";
-import { examSnippetsAll }      from "./exam";
 
-export const ENGLISH_SNIPPETS = {
-  beginner:     beginnerSnippets,
-  intermediate: intermediateSnippets,
-  advanced:     advancedSnippets,
-  exam:         examSnippetsAll,
-};
+import a1   from "./a1/index.js";
+import a2   from "./a2/index.js";
+import b1   from "./b1/index.js";
+import b2   from "./b2/index.js";
+import c1   from "./c1/index.js";
+import exam from "./exam/index.js";
 
-export const ALL_ENGLISH = [
-  ...beginnerSnippets,
-  ...intermediateSnippets,
-  ...advancedSnippets,
-  ...examSnippetsAll,
-];
+export default { a1, a2, b1, b2, c1, exam };

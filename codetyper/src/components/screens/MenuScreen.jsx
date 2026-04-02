@@ -20,7 +20,9 @@ export default function MenuScreen({
   const [selectedDifficulty, setSelectedDifficulty] = useState("beginner");
 
   const currentCategory = CATEGORIES[selectedCategory];
-  const difficulties    = selectedCategory === "languages" ? ["b1", "b2", "c1"] : DIFFICULTIES;
+  const difficulties = selectedCategory === "languages"
+  ? ["a1", "a2", "b1", "b2", "c1", "exam"]
+  : DIFFICULTIES;
   const snippets        = getSnippets(selectedLang, selectedDifficulty);
 
   const handleLangChange = (lang) => {
@@ -31,7 +33,7 @@ export default function MenuScreen({
   const handleCategoryChange = (cat) => {
     setSelectedCategory(cat);
     setSelectedLang(CATEGORIES[cat].languages[0]);
-    setSelectedDifficulty(cat === "languages" ? "b1" : "beginner");
+    setSelectedDifficulty(cat === "languages" ? "a1" : "beginner");
   };
 
   return (

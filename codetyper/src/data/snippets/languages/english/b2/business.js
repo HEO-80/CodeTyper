@@ -1,6 +1,6 @@
 // src/data/snippets/languages/english/intermediate/business.js
 
-export const businessSnippets = [
+const businessSnippets = [
   {
     id: "en-int-biz-01",
     title: "Professional Email",
@@ -60,3 +60,5 @@ No blockers at the moment, but I may need design input later.
 I will reach out to Maria directly if I need her help today.`,
   },
 ];
+
+export default businessSnippets;

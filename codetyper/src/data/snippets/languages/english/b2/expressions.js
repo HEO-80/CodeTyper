@@ -1,6 +1,6 @@
 // src/data/snippets/languages/english/intermediate/expressions.js
 
-export const expressionsSnippets = [
+const expressionsSnippets = [
   {
     id: "en-int-exp-01",
     title: "Phrasal Verbs at Work",
@@ -43,3 +43,5 @@ As a workaround, we are caching the results on the client side.
 We expect to have a permanent fix ready by the end of this week.`,
   },
 ];
+
+export default expressionsSnippets;
