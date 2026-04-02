@@ -268,7 +268,7 @@ function LangCard({ lang, data, expanded, onToggle }) {
   const langHistory = (data.lastTenCpm || data.lastFiveCpm || []).filter(v => typeof v === "number" && !isNaN(v));
 
   return (
-    <div className="lang-card">
+    <div className={`lang-card${expanded ? " expanded" : ""}`} data-lang={lang}>
       <div className="lang-card-header" onClick={onToggle}>
         <span style={{ color: phaseColor, fontSize: "12px" }}>{phaseIcon}</span>
         <span className="lang-card-name">{lang}</span>

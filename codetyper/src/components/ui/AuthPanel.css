@@ -1,5 +1,20 @@
 /* AuthPanel.css */
 
+/* ── Pulse animations por lenguaje (mismo sistema que LanguageSelector) ── */
+@keyframes pulse-javascript { 0%,100%{box-shadow:0 0 0 0px rgba(255,203,107,0);border-color:#ffcb6b} 50%{box-shadow:0 0 8px 2px rgba(255,203,107,0.35);border-color:rgba(255,203,107,0.8)} }
+@keyframes pulse-typescript  { 0%,100%{box-shadow:0 0 0 0px rgba(130,170,255,0);border-color:#82aaff} 50%{box-shadow:0 0 8px 2px rgba(130,170,255,0.35);border-color:rgba(130,170,255,0.8)} }
+@keyframes pulse-python      { 0%,100%{box-shadow:0 0 0 0px rgba(78,201,148,0);border-color:#4ec994}  50%{box-shadow:0 0 8px 2px rgba(78,201,148,0.35);border-color:rgba(78,201,148,0.8)} }
+@keyframes pulse-sql         { 0%,100%{box-shadow:0 0 0 0px rgba(247,140,108,0);border-color:#f78c6c} 50%{box-shadow:0 0 8px 2px rgba(247,140,108,0.35);border-color:rgba(247,140,108,0.8)} }
+@keyframes pulse-solidity    { 0%,100%{box-shadow:0 0 0 0px rgba(199,146,234,0);border-color:#c792ea} 50%{box-shadow:0 0 8px 2px rgba(199,146,234,0.35);border-color:rgba(199,146,234,0.8)} }
+@keyframes pulse-java        { 0%,100%{box-shadow:0 0 0 0px rgba(255,85,85,0);border-color:#ff5555}   50%{box-shadow:0 0 8px 2px rgba(255,85,85,0.35);border-color:rgba(255,85,85,0.8)} }
+@keyframes pulse-csharp      { 0%,100%{box-shadow:0 0 0 0px rgba(130,170,255,0);border-color:#82aaff} 50%{box-shadow:0 0 8px 2px rgba(130,170,255,0.35);border-color:rgba(130,170,255,0.8)} }
+@keyframes pulse-powershell  { 0%,100%{box-shadow:0 0 0 0px rgba(83,145,254,0);border-color:#5391FE} 50%{box-shadow:0 0 8px 2px rgba(83,145,254,0.35);border-color:rgba(83,145,254,0.8)} }
+@keyframes pulse-bash        { 0%,100%{box-shadow:0 0 0 0px rgba(78,201,148,0);border-color:#4ec994}  50%{box-shadow:0 0 8px 2px rgba(78,201,148,0.35);border-color:rgba(78,201,148,0.8)} }
+@keyframes pulse-cloud       { 0%,100%{box-shadow:0 0 0 0px rgba(247,140,108,0);border-color:#f78c6c} 50%{box-shadow:0 0 8px 2px rgba(247,140,108,0.35);border-color:rgba(247,140,108,0.8)} }
+@keyframes pulse-rust        { 0%,100%{box-shadow:0 0 0 0px rgba(247,140,108,0);border-color:#f78c6c} 50%{box-shadow:0 0 8px 2px rgba(247,140,108,0.35);border-color:rgba(247,140,108,0.8)} }
+@keyframes pulse-english     { 0%,100%{box-shadow:0 0 0 0px rgba(78,201,148,0);border-color:#4ec994}  50%{box-shadow:0 0 8px 2px rgba(78,201,148,0.35);border-color:rgba(78,201,148,0.8)} }
+@keyframes pulse-mindset     { 0%,100%{box-shadow:0 0 0 0px rgba(255,203,107,0);border-color:#ffcb6b} 50%{box-shadow:0 0 8px 2px rgba(255,203,107,0.35);border-color:rgba(255,203,107,0.8)} }
+
 /* Panel — oculto por defecto, overlay position fixed */
 .auth-panel {
   position: fixed;
@@ -197,8 +212,49 @@
 
 /* ── LangCard ── */
 .lang-card {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 6px;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
 }
+.lang-card:hover {
+  background: #0d1520;
+  border-color: #21262d;
+  transform: translateY(-1px);
+}
+
+/* Hover por lenguaje */
+.lang-card[data-lang="javascript"]:hover  { background: #1a1a0a; border-color: #ffcb6b; box-shadow: 0 4px 10px rgba(255,203,107,0.15); }
+.lang-card[data-lang="typescript"]:hover  { background: #0a0f1a; border-color: #82aaff; box-shadow: 0 4px 10px rgba(130,170,255,0.15); }
+.lang-card[data-lang="python"]:hover      { background: #0a1a14; border-color: #4ec994; box-shadow: 0 4px 10px rgba(78,201,148,0.15); }
+.lang-card[data-lang="sql"]:hover         { background: #1a0e0a; border-color: #f78c6c; box-shadow: 0 4px 10px rgba(247,140,108,0.15); }
+.lang-card[data-lang="solidity"]:hover    { background: #140a1a; border-color: #c792ea; box-shadow: 0 4px 10px rgba(199,146,234,0.15); }
+.lang-card[data-lang="java"]:hover        { background: #1a0a0a; border-color: #ff5555; box-shadow: 0 4px 10px rgba(255,85,85,0.15); }
+.lang-card[data-lang="csharp"]:hover      { background: #0a0f1a; border-color: #82aaff; box-shadow: 0 4px 10px rgba(130,170,255,0.15); }
+.lang-card[data-lang="powershell"]:hover  { background: #0a0f1e; border-color: #5391FE; box-shadow: 0 4px 10px rgba(83,145,254,0.15); }
+.lang-card[data-lang="bash"]:hover        { background: #0a1a12; border-color: #4ec994; box-shadow: 0 4px 10px rgba(78,201,148,0.15); }
+.lang-card[data-lang="cloud"]:hover       { background: #1a0f0a; border-color: #f78c6c; box-shadow: 0 4px 10px rgba(247,140,108,0.15); }
+.lang-card[data-lang="rust"]:hover        { background: #1a0e0a; border-color: #f78c6c; box-shadow: 0 4px 10px rgba(247,140,108,0.15); }
+.lang-card[data-lang="english"]:hover     { background: #0a1a14; border-color: #4ec994; box-shadow: 0 4px 10px rgba(78,201,148,0.15); }
+.lang-card[data-lang="mindset"]:hover     { background: #1a1a0a; border-color: #ffcb6b; box-shadow: 0 4px 10px rgba(255,203,107,0.15); }
+
+/* Expanded + pulso vivo por lenguaje */
+.lang-card.expanded[data-lang="javascript"] { background: #1a1a0a; animation: pulse-javascript 2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="typescript"] { background: #0a0f1a; animation: pulse-typescript  2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="python"]     { background: #0a1a14; animation: pulse-python      2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="sql"]        { background: #1a0e0a; animation: pulse-sql         2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="solidity"]   { background: #140a1a; animation: pulse-solidity    2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="java"]       { background: #1a0a0a; animation: pulse-java        2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="csharp"]     { background: #0a0f1a; animation: pulse-csharp      2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="powershell"] { background: #0a0f1e; animation: pulse-powershell  2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="bash"]       { background: #0a1a12; animation: pulse-bash        2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="cloud"]      { background: #1a0f0a; animation: pulse-cloud       2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="rust"]       { background: #1a0e0a; animation: pulse-rust        2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="english"]    { background: #0a1a14; animation: pulse-english     2s ease-in-out infinite; }
+.lang-card.expanded[data-lang="mindset"]    { background: #1a1a0a; animation: pulse-mindset     2s ease-in-out infinite; }
+
 .lang-card-header {
   display: flex; align-items: center; gap: 6px;
   cursor: pointer; padding: 4px 0;
