@@ -129,7 +129,7 @@ cd codetyper
 # 2. Install dependencies
 npm install
 
-# 3. Start the development server
+# 3. Start the development server extra flow
 npm run dev
 ```
 
