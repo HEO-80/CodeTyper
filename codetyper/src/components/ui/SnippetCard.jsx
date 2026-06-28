@@ -11,6 +11,7 @@ const DIFF_COLORS = {
   b1:           { bg: "#1a2a3a", color: "#82aaff" },
   b2:           { bg: "#1a1a3a", color: "#c792ea" },
   c1:           { bg: "#2a1a2a", color: "#f78c6c" },
+  c2:           { bg: "#0d1a20", color: "#56b6c2" },
   exam:         { bg: "#2a2010", color: "#ffcb6b" },
 };
 

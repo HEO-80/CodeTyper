@@ -101,6 +101,14 @@
 .lang-btn.english:hover  { background: #0a1a14; color: #4ec994; border-color: #4ec994; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(78,201,148,0.2); }
 .lang-btn.english.active { background: #0a1a14; color: #4ec994; border-color: #4ec994; font-weight: 500; animation: pulse-english 2s ease-in-out infinite; }
 
+/* ── French ── */
+@keyframes pulse-french {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(96,165,250,0); }
+  50%       { box-shadow: 0 0 10px 3px rgba(96,165,250,0.3); }
+}
+.lang-btn.french:hover  { background: #0a1020; color: #60a5fa; border-color: #60a5fa; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(96,165,250,0.2); }
+.lang-btn.french.active { background: #0a1020; color: #60a5fa; border-color: #60a5fa; font-weight: 500; animation: pulse-french 2s ease-in-out infinite; }
+
 /* ── Mindset ── */
 @keyframes pulse-mindset {
   0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); }

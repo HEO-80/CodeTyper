@@ -14,6 +14,7 @@ const LANG_LABELS = {
   bash:       "Bash",
   cloud:      "Cloud",
   english:    "English",
+  french:     "Français",
   mindset:    "Mindset",
 };
 

@@ -21,7 +21,7 @@ export default function MenuScreen({
 
   const currentCategory = CATEGORIES[selectedCategory];
   const difficulties = selectedCategory === "languages"
-  ? ["a1", "a2", "b1", "b2", "c1", "exam"]
+  ? ["a1", "a2", "b1", "b2", "c1", "c2", "exam"]
   : DIFFICULTIES;
   const snippets        = getSnippets(selectedLang, selectedDifficulty);
 

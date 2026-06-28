@@ -89,6 +89,15 @@
 }
 .snippet-card.a2:hover .snip-title { color: #3ad9a0; }
 
+/* ── c2 (cian/teal) ── */
+.snippet-card.c2:hover {
+  transform: translateY(-4px);
+  border-color: #56b6c2;
+  box-shadow: 0 6px 24px rgba(86,182,194,0.2);
+  background: #0d1c20;
+}
+.snippet-card.c2:hover .snip-title { color: #56b6c2; }
+
 /* ── exam (amarillo dorado) ── */
 .snippet-card.exam:hover {
   transform: translateY(-4px);

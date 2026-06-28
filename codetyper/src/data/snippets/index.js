@@ -15,6 +15,7 @@ import cloud from "./programming/cloud";
 
 import english from "./languages/english";
 import french from "./languages/french";
+import german from "./languages/german";
 
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
@@ -43,10 +44,12 @@ export const SNIPPETS = {
   sql,
   solidity,
   english,
-   typescript,   
-   python,     
-   java,       
-  csharp,  
+  french,
+  german,
+  typescript,
+  python,
+  java,
+  csharp,
   bash,
   powershell,
   cloud,
@@ -61,7 +64,7 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english", "french", "rusian", "portuguese", "italian", "germany", "romanian", "japan", "chinese", "corean"],
+    languages: ["english", "french", "german"],
   },
   mindset: {
     label: "🧠 Mentalidad",

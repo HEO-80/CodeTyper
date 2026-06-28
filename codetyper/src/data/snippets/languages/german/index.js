@@ -1,4 +1,4 @@
-// src/data/snippets/languages/french/index.js
+// src/data/snippets/languages/german/index.js
 import a1   from "./a1/index.js";
 import a2   from "./a2/index.js";
 import b1   from "./b1/index.js";
