@@ -4,7 +4,6 @@
 import javascript from "./programming/javascript";
 import sql from "./programming/sql";
 import solidity from "./programming/solidity";
-import english from "./languages/english";
 import mindsetSpanish from "./mindset/spanish";
 import typescript from "./programming/typescript";
 import python from "./programming/python";
@@ -13,6 +12,9 @@ import csharp from "./programming/csharp";
 import bash      from "./programming/bash";
 import powershell from "./programming/powershell";
 import cloud from "./programming/cloud";
+
+import english from "./languages/english";
+import french from "./languages/french";
 
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
@@ -59,11 +61,11 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english"],
+    languages: ["english", "french", "rusian", "portuguese", "italian", "germany", "romanian", "japan", "chinese", "corean"],
   },
   mindset: {
     label: "🧠 Mentalidad",
-    languages: ["mindset"],
+    languages: ["mindset", "shark", "flowerPower"],
   },
 };
 
