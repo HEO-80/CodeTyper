@@ -16,6 +16,8 @@ import cloud from "./programming/cloud";
 import english from "./languages/english";
 import french from "./languages/french";
 import german from "./languages/german";
+import portuguese from "./languages/portuguese";
+
 
 // 🚧 Próximamente:
 // import typescript from "./programming/typescript";
@@ -64,7 +66,7 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english", "french", "german"],
+    languages: ["english", "french", "german", "portuguese"],
   },
   mindset: {
     label: "🧠 Mentalidad",
