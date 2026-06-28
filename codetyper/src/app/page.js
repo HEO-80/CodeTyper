@@ -5,11 +5,12 @@ import { useSession }             from "next-auth/react";
 import MenuScreen                 from "@/components/screens/MenuScreen";
 import PracticeScreen             from "@/components/screens/PracticeScreen";
 import ResultsScreen              from "@/components/screens/ResultsScreen";
-import { useStatsRefresh }        from "@/components/ui/LayoutClient";
+import { useStatsRefresh, useTerminal } from "@/components/ui/LayoutClient";
 
 export default function Home() {
   const { data: session } = useSession();
   const refreshStats      = useStatsRefresh();
+  const { open: terminalOpen, openTerminal } = useTerminal();
 
   const [screen,       setScreen]      = useState("menu");
   const [sessionData,  setSessionData] = useState(null);
@@ -82,6 +83,8 @@ export default function Home() {
           onStart={handleStart}
           showComments={showComments}
           onToggleComments={() => setShowComments(p => !p)}
+          onOpenTerminal={openTerminal}
+          terminalOpen={terminalOpen}
         />
       )}
       {screen === "practice" && sessionData && (
