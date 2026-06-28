@@ -133,7 +133,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 280px;
+  width: 280px; /* default; overridden by inline style when keyboard mode */
   border-left: 1px solid #161b22;
   display: flex;
   flex-direction: column;

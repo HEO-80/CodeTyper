@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, createContext, useContext } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } from "react";
 import { useSession }  from "next-auth/react";
 import Navbar          from "@/components/ui/Navbar";
 import AuthPanel       from "@/components/ui/AuthPanel";
@@ -14,11 +14,31 @@ export const useStatsRefresh = () => useContext(StatsRefreshContext);
 export const TerminalContext = createContext({ open: false, openTerminal: () => {}, closeTerminal: () => {} });
 export const useTerminal = () => useContext(TerminalContext);
 
+// ── Context para el botón Back del Navbar ────────────────────────────────────
+export const NavContext = createContext({ hasBack: false, setBackAction: () => {}, triggerBack: () => {} });
+export const useNav = () => useContext(NavContext);
+
 export default function LayoutClient({ children }) {
   const { data: session } = useSession();
   const [authOpen,     setAuthOpen]     = useState(false);
   const [stats,        setStats]        = useState(null);
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [hasBack,      setHasBack]      = useState(false);
+  const backRef = useRef(null);
+
+  const setBackAction = useCallback((fn) => {
+    backRef.current = fn || null;
+    setHasBack(!!fn);
+  }, []);
+
+  const triggerBack = useCallback(() => {
+    backRef.current?.();
+  }, []);
+
+  const navCtx = useMemo(
+    () => ({ hasBack, setBackAction, triggerBack }),
+    [hasBack, setBackAction, triggerBack]
+  );
 
   const fetchStats = useCallback(async () => {
     if (!session?.user?.id) { setStats(null); return; }
@@ -52,6 +72,7 @@ export default function LayoutClient({ children }) {
 
   return (
     <StatsRefreshContext.Provider value={fetchStats}>
+      <NavContext.Provider value={navCtx}>
       <TerminalContext.Provider value={terminalCtx}>
         <Navbar onToggleAuth={() => setAuthOpen(v => !v)} authOpen={authOpen} />
 
@@ -67,6 +88,7 @@ export default function LayoutClient({ children }) {
         />
         <GlobalTerminal open={terminalOpen} onClose={() => setTerminalOpen(false)} />
       </TerminalContext.Provider>
+      </NavContext.Provider>
     </StatsRefreshContext.Provider>
   );
 }

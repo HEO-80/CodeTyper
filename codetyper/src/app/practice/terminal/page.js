@@ -6,12 +6,14 @@ import { useSearchParams, useRouter } from "next/navigation";
 import TerminalMode from "@/components/screens/TerminalMode";
 import { CATEGORIES, getSnippets } from "@/data/snippets";
 import { DIFFICULTIES } from "@/lib/constants";
+import { useNav } from "@/components/ui/LayoutClient";
 import "./terminal.css";
 
 function TerminalPageInner() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { setBackAction } = useNav();
 
   // Read query params from CodeTyperTerminal launch
   const paramLang       = searchParams.get("lang");
@@ -78,6 +80,16 @@ function TerminalPageInner() {
     setFinished(false);
     setLastResult(null);
   };
+
+  // Back en el Navbar: dentro de snippet vuelve al selector; en el selector va al home
+  useEffect(() => {
+    if (activeSnippet) {
+      setBackAction(handleBack);
+    } else {
+      setBackAction(() => router.push("/"));
+    }
+    return () => setBackAction(null);
+  }, [activeSnippet, setBackAction, router]);
 
   const handleSwitchMode = () => {
     // Go back to editor mode on home page with same snippet

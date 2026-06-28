@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useNav } from "@/components/ui/LayoutClient";
 import "./Navbar.css";
 
 export default function Navbar({ onToggleAuth, authOpen }) {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const { hasBack, triggerBack } = useNav();
 
   return (
     <nav className="navbar">
@@ -36,10 +38,25 @@ export default function Navbar({ onToggleAuth, authOpen }) {
 
         {/* Links */}
         <div className="navbar-links">
-          <Link href="/" className={`navbar-link${pathname === "/" ? " active" : ""}`}>
+
+          {/* Back button — visible when a back action is registered */}
+          {hasBack && (
+            <button className="navbar-back-btn" onClick={triggerBack} title="Volver">
+              <span className="navbar-back-arrow">←</span>
+              back
+            </button>
+          )}
+
+          <Link href="/" className={`navbar-link${pathname === "/" && !hasBack ? " active" : ""}`}>
             <span className="navbar-link-icon">⌨</span>
             editor
           </Link>
+
+          <button className="navbar-link navbar-settings-btn" title="Settings (coming soon)">
+            <span className="navbar-link-icon">⚙</span>
+            settings
+          </button>
+
         </div>
 
         {/* Alt+T hint */}

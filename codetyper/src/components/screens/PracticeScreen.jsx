@@ -6,6 +6,7 @@ import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents
 import { useCodeStructure } from "@/hooks/useCodeStructure";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import TerminalMode from "@/components/screens/TerminalMode";
+import { KeyboardPanel } from "@/components/ui/KeyboardOverlay";
 import "./PracticeScreen.css";
 
 // ─── Inject English comments ──────────────────────────────────────────────────
@@ -71,14 +72,15 @@ export default function PracticeScreen({
   const [errorFlash, setErrorFlash] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [tick, setTick] = useState(0);
-  const [panelVisible, setPanelVisible] = useState(true);
+  const [panelMode, setPanelMode] = useState("structure"); // "structure" | "keyboard" | null
 
   const containerRef = useRef(null);
   const scrollAreaRef = useRef(null);
   const timerRef = useRef(null);
   const isMobile = useIsMobile(768);
 
-  const showPanel = panelVisible && !isMobile;
+  const showPanel = panelMode !== null && !isMobile;
+  const panelWidth = panelMode === "keyboard" ? 320 : 280;
   const rawCode = showComments ? injectComments(snippet.code, language) : snippet.code;
   const { structure, activeIndex } = useCodeStructure(rawCode, language, cursor);
   const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
@@ -224,17 +226,29 @@ export default function PracticeScreen({
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <ModeToggle current="editor" />
               <button
-                onClick={() => setPanelVisible(v => !v)}
+                onClick={() => setPanelMode(m => m === "structure" ? null : "structure")}
                 style={{
                   padding: "4px 10px",
-                  border: `1px solid ${showPanel ? meta.color : "#30363d"}`,
+                  border: `1px solid ${panelMode === "structure" ? meta.color : "#30363d"}`,
                   borderRadius: "4px", cursor: "pointer",
-                  background: showPanel ? `${meta.color}15` : "transparent",
-                  color: showPanel ? meta.color : "#546e7a",
+                  background: panelMode === "structure" ? `${meta.color}15` : "transparent",
+                  color: panelMode === "structure" ? meta.color : "#546e7a",
                   fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
                   letterSpacing: "0.06em", transition: "all 0.15s",
                 }}
               >⬡ STRUCTURE</button>
+              <button
+                onClick={() => setPanelMode(m => m === "keyboard" ? null : "keyboard")}
+                style={{
+                  padding: "4px 10px",
+                  border: `1px solid ${panelMode === "keyboard" ? "#c792ea" : "#30363d"}`,
+                  borderRadius: "4px", cursor: "pointer",
+                  background: panelMode === "keyboard" ? "#c792ea15" : "transparent",
+                  color: panelMode === "keyboard" ? "#c792ea" : "#546e7a",
+                  fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                  letterSpacing: "0.06em", transition: "all 0.15s",
+                }}
+              >⌨ KBD</button>
             </div>
           ) : null
         }
@@ -247,7 +261,7 @@ export default function PracticeScreen({
         <div
           ref={scrollAreaRef}
           className="practice-code-area"
-          style={{ right: showPanel ? "280px" : "0" }}
+          style={{ right: showPanel ? `${panelWidth}px` : "0" }}
         >
           <div className="practice-code-block">
             {lines.map((lineTokens, lineIdx) => {
@@ -290,9 +304,21 @@ export default function PracticeScreen({
           </div>
         </div>
 
-        {/* Structure panel overlay */}
+        {/* Right panel overlay */}
         {showPanel && (
-          <div className="practice-panel">
+          <div className="practice-panel" style={{ width: `${panelWidth}px` }}>
+
+            {/* Keyboard view */}
+            {panelMode === "keyboard" && (
+              <KeyboardPanel
+                accentColor={meta.color}
+                nextChar={currentToken?.char}
+                isOnIndent={isOnIndent}
+              />
+            )}
+
+            {/* Structure view */}
+            {panelMode === "structure" && (<>
             <div className="practice-panel-header">
               <span style={{ color: meta.color, fontSize: "16px" }}>{meta.icon}</span>
               <div style={{ overflow: "hidden", flex: 1 }}>
@@ -377,6 +403,7 @@ export default function PracticeScreen({
                 </div>
               ))}
             </div>
+            </>)}
           </div>
         )}
       </div>

@@ -97,6 +97,41 @@
 }
 .navbar-link.active .navbar-link-icon { opacity: 1; }
 
+/* Back button */
+.navbar-back-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.navbar-back-btn:hover {
+  color: #82aaff;
+  border-color: #82aaff;
+  background: #0d1520;
+}
+.navbar-back-arrow {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Settings button — styled like a link but as <button> */
+.navbar-settings-btn {
+  background: none;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.navbar-settings-btn:hover {
+  opacity: 1;
+}
+
 /* Alt+T hint */
 .navbar-hint {
   display: flex; align-items: center; gap: 4px;
