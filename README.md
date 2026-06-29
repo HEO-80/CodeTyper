@@ -174,6 +174,7 @@ codetyper/
 - [ ] Correct accent diferent lenguages
 - [ ] Add languajes idioms
 - [ ] Improve dark mode to better letters and colors light
+- [ ] Cuando esta registrado el usuario cambiar los datos de las practicas a las personalizadas, para que salgan las introducidas.
       
 
 </div>
