@@ -170,6 +170,9 @@ codetyper/
 - [ ] Global leaderboard
 - [ ] Keyboard sound effects
 - [ ] Line-by-line mode for long snippets
+- [ ] Add vocal dictator
+- [ ] Correct accent diferent lenguages
+- [ ] Add languajes idioms
 
 </div>
 
