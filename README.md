@@ -175,6 +175,7 @@ codetyper/
 - [ ] Add languajes idioms
 - [ ] Improve dark mode to better letters and colors light
 - [ ] Cuando esta registrado el usuario cambiar los datos de las practicas a las personalizadas, para que salgan las introducidas.
+- [ ] Traduccion a otros idiomas, fundamental ingles y valorar algun otro.
       
 
 </div>
