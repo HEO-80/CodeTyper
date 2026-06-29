@@ -173,6 +173,8 @@ codetyper/
 - [ ] Add vocal dictator
 - [ ] Correct accent diferent lenguages
 - [ ] Add languajes idioms
+- [ ] Improve dark mode to better letters and colors light
+      
 
 </div>
 
