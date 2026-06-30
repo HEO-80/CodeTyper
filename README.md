@@ -170,6 +170,13 @@ codetyper/
 - [ ] Global leaderboard
 - [ ] Keyboard sound effects
 - [ ] Line-by-line mode for long snippets
+- [ ] Add vocal dictator
+- [ ] Correct accent diferent lenguages
+- [ ] Add languajes idioms
+- [ ] Improve dark mode to better letters and colors light
+- [ ] Cuando esta registrado el usuario cambiar los datos de las practicas a las personalizadas, para que salgan las introducidas.
+- [ ] Traduccion a otros idiomas, fundamental ingles y valorar algun otro.
+      
 
 </div>
 
