@@ -63,6 +63,7 @@ const LINE_HEIGHT = 28;
 export default function PracticeScreen({
   snippet, language, showComments,
   onFinish, onBack, onToggleComments,
+  onNext, hasNext,
 }) {
   const [mode, setMode] = useState("editor");
   const [tokens, setTokens] = useState([]);
@@ -196,6 +197,7 @@ export default function PracticeScreen({
           language={language} title={snippet.title}
           cursor={0} total={0} onBack={onBack}
           showComments={showComments} onToggleComments={onToggleComments}
+          onNext={onNext} hasNext={hasNext}
           extraRight={<ModeToggle current="terminal" />}
         />
         <ProgressBar value={0} max={0} />
@@ -221,6 +223,7 @@ export default function PracticeScreen({
         showComments={showComments} onToggleComments={onToggleComments}
         errors={totalErrors} accuracy={accuracy} elapsed={elapsed}
         nextChar={currentToken?.char} isOnIndent={isOnIndent}
+        onNext={onNext} hasNext={hasNext}
         extraRight={
           !isMobile ? (
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>

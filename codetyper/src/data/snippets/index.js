@@ -17,6 +17,9 @@ import english from "./languages/english";
 import french from "./languages/french";
 import german from "./languages/german";
 import portuguese from "./languages/portuguese";
+import romanian from "./languages/romanian";
+import italian from "./languages/italian";
+import japan from "./languages/japan";
 
 
 // 🚧 Próximamente:
@@ -48,6 +51,10 @@ export const SNIPPETS = {
   english,
   french,
   german,
+  portuguese,
+  romanian,
+  italian,
+  japan,
   typescript,
   python,
   java,
@@ -66,7 +73,7 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english", "french", "german", "portuguese"],
+    languages: ["english", "french", "german", "portuguese", "romanian", "italian", "japan"],
   },
   mindset: {
     label: "🧠 Mentalidad",
@@ -92,4 +99,36 @@ export function getSnippetById(id) {
     }
   }
   return null;
+}
+
+// ─── HELPER: obtener siguiente snippet en el mismo idioma ─────────────────────
+// Recorre los niveles en orden, dentro del mismo nivel avanza al siguiente snippet.
+// Si el nivel se agota, salta al primer snippet del nivel siguiente.
+// Devuelve { snippet, difficulty } o null si es el último de todos.
+export function getNextSnippet(language, currentSnippetId, currentDifficulty) {
+  const lang = SNIPPETS[language];
+  if (!lang) return null;
+
+  const levels = Object.keys(lang); // orden definido en el index.js
+  const levelIdx = levels.indexOf(currentDifficulty);
+  if (levelIdx === -1) return null;
+
+  // Buscar dentro del nivel actual
+  const currentLevel = lang[currentDifficulty] || [];
+  const snippetIdx = currentLevel.findIndex(s => s.id === currentSnippetId);
+  const nextInLevel = snippetIdx !== -1 ? currentLevel[snippetIdx + 1] : null;
+
+  if (nextInLevel) {
+    return { snippet: nextInLevel, difficulty: currentDifficulty };
+  }
+
+  // Avanzar al siguiente nivel no vacío
+  for (let i = levelIdx + 1; i < levels.length; i++) {
+    const nextLevel = lang[levels[i]] || [];
+    if (nextLevel.length > 0) {
+      return { snippet: nextLevel[0], difficulty: levels[i] };
+    }
+  }
+
+  return null; // completado todo el idioma/lenguaje
 }

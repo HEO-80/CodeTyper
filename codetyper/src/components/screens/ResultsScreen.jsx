@@ -2,9 +2,10 @@
 
 
 import { LANGUAGE_LABELS } from "@/lib/constants";
+import { getNextSnippet } from "@/data/snippets";
 import "./ResultsScreen.css";
 
-export default function ResultsScreen({ result, onRepeat, onMenu }) {
+export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNext }) {
   const { tokens, totalErrors, startTime, endTime, snippet, language } = result;
 
   const seconds = (endTime - startTime) / 1000;
@@ -84,12 +85,21 @@ export default function ResultsScreen({ result, onRepeat, onMenu }) {
 
         {/* Actions */}
         <div style={styles.actions}>
+          {hasNext && (
+            <button
+              className="result-btn"
+              style={{ ...styles.btn, borderColor: "#4ec994", color: "#4ec994", fontWeight: "600" }}
+              onClick={onNext}
+            >
+              siguiente →
+            </button>
+          )}
           <button
             className="result-btn"
             style={{ ...styles.btn, borderColor: "#82aaff", color: "#82aaff" }}
             onClick={onRepeat}
           >
-            ↺ repetir snippet
+            ↺ repetir
           </button>
           <button
             className="result-btn"
@@ -99,6 +109,11 @@ export default function ResultsScreen({ result, onRepeat, onMenu }) {
             ← elegir otro
           </button>
         </div>
+        {!hasNext && (
+          <p style={styles.completedMsg}>
+            ¡Completaste todos los niveles de este idioma/lenguaje! 🏆
+          </p>
+        )}
       </div>
     </div>
   );
@@ -178,6 +193,14 @@ const styles = {
     display: "flex",
     gap: "12px",
     justifyContent: "center",
+    flexWrap: "wrap",
+  },
+  completedMsg: {
+    textAlign: "center",
+    marginTop: "20px",
+    color: "#ffcb6b",
+    fontSize: "13px",
+    letterSpacing: "0.03em",
   },
   btn: {
     padding: "10px 24px",

@@ -21,6 +21,7 @@ export function TopBar({
   errors, accuracy, elapsed,
   nextChar, isOnIndent, typedWrong,
   extraRight,
+  onNext, hasNext,
 }) {
 
   // Next key hint
@@ -73,6 +74,17 @@ export function TopBar({
           <span style={{ color: "#4ec994" }}>{cursor}</span>
           <span style={{ color: "#30363d" }}>/{total}</span>
         </span>
+
+        {/* Next snippet button */}
+        {hasNext && onNext && (
+          <button
+            onClick={onNext}
+            style={s.nextBtn}
+            title="Siguiente snippet"
+          >
+            siguiente →
+          </button>
+        )}
 
         {/* Comments toggle */}
         {onToggleComments && (
@@ -149,6 +161,19 @@ const s = {
   },
   divider: { width: "1px", height: "20px", background: "#21262d" },
   counter: { fontSize: "11px" },
+  nextBtn: {
+    padding: "4px 12px",
+    background: "transparent",
+    border: "1px solid #4ec994",
+    borderRadius: "4px",
+    color: "#4ec994",
+    cursor: "pointer",
+    fontSize: "10px",
+    fontFamily: "'JetBrains Mono', monospace",
+    letterSpacing: "0.05em",
+    whiteSpace: "nowrap",
+    transition: "all 0.15s",
+  },
   toggleBtn: {
     padding: "3px 10px", borderRadius: "4px", cursor: "pointer",
     fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",

@@ -6,6 +6,7 @@ import MenuScreen                 from "@/components/screens/MenuScreen";
 import PracticeScreen             from "@/components/screens/PracticeScreen";
 import ResultsScreen              from "@/components/screens/ResultsScreen";
 import { useStatsRefresh, useTerminal, useNav } from "@/components/ui/LayoutClient";
+import { getNextSnippet } from "@/data/snippets";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -72,6 +73,22 @@ export default function Home() {
     setScreen("menu");
   };
 
+  const handleNext = () => {
+    if (!sessionData) return;
+    const lang = result?.language ?? sessionData.language;
+    const id   = result?.snippet?.id ?? sessionData.snippet.id;
+    const diff = sessionData.difficulty;
+    const next = getNextSnippet(lang, id, diff);
+    if (!next) return;
+    setSessionData(prev => ({ ...prev, snippet: next.snippet, difficulty: next.difficulty }));
+    setResult(null);
+    setScreen("practice");
+  };
+
+  const practiceHasNext = sessionData
+    ? !!getNextSnippet(sessionData.language, sessionData.snippet.id, sessionData.difficulty)
+    : false;
+
   // Registrar backAction en el Navbar según el screen activo
   useEffect(() => {
     if (screen !== "menu") {
@@ -105,6 +122,8 @@ export default function Home() {
           onFinish={handleFinish}
           onBack={handleMenu}
           onToggleComments={() => setShowComments(p => !p)}
+          onNext={handleNext}
+          hasNext={practiceHasNext}
         />
       )}
       {screen === "results" && result && (
@@ -112,6 +131,8 @@ export default function Home() {
           result={result}
           onRepeat={() => setScreen("practice")}
           onMenu={handleMenu}
+          onNext={handleNext}
+          hasNext={!!getNextSnippet(result.language, result.snippet.id, sessionData?.difficulty)}
         />
       )}
     </main>
