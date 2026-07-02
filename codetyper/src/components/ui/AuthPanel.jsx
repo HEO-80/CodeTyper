@@ -6,7 +6,7 @@ import "./AuthPanel.css";
 
 // ── Fase colors & icons ───────────────────────────────────────────────────────
 const PHASE_COLORS = {
-  1: "#546e7a",
+  1: "var(--tx3)",
   2: "#4ec994",
   3: "#82aaff",
   4: "#c792ea",
@@ -34,7 +34,7 @@ function formatTime(seconds) {
 function Sparkline({ values = [], color = "#82aaff", width = 180, height = 32 }) {
   if (values.length < 2) return (
     <div style={{ height, display: "flex", alignItems: "center" }}>
-      <span style={{ color: "#3d5266", fontSize: "9px" }}>pocas sesiones aún</span>
+      <span style={{ color: "var(--tx8)", fontSize: "10px" }}>pocas sesiones aún</span>
     </div>
   );
 
@@ -183,7 +183,7 @@ export default function AuthPanel({ session, stats, open }) {
                 <span style={{ color: "#82aaff", fontSize: "11px", fontWeight: 700 }}>
                   {globalCpmHistory[globalCpmHistory.length - 1]}
                 </span>
-                <span style={{ color: "#3d5266", fontSize: "9px" }}>último</span>
+                <span style={{ color: "var(--tx8)", fontSize: "10px" }}>último</span>
               </div>
             </div>
           </div>
@@ -262,7 +262,7 @@ export default function AuthPanel({ session, stats, open }) {
 
 // ── LangCard ──────────────────────────────────────────────────────────────────
 function LangCard({ lang, data, expanded, onToggle }) {
-  const phaseColor = PHASE_COLORS[data.phase] || "#546e7a";
+  const phaseColor = PHASE_COLORS[data.phase] || "var(--tx3)";
   const phaseIcon  = PHASE_ICONS[data.phase]  || "○";
   const next       = data.nextPhase;
   const langHistory = (data.lastTenCpm || data.lastFiveCpm || []).filter(v => typeof v === "number" && !isNaN(v));
@@ -305,7 +305,7 @@ function LangCard({ lang, data, expanded, onToggle }) {
           {/* Sparkline por lenguaje */}
           {langHistory.length >= 2 && (
             <div style={{ marginBottom: "8px" }}>
-              <div style={{ color: "#3d5266", fontSize: "9px", marginBottom: "4px" }}>evolución CPM</div>
+              <div style={{ color: "var(--tx8)", fontSize: "10px", marginBottom: "4px" }}>evolución CPM</div>
               <Sparkline values={langHistory} color={phaseColor} width={168} height={26} />
             </div>
           )}
@@ -333,19 +333,19 @@ function LangCard({ lang, data, expanded, onToggle }) {
   );
 }
 
-function MiniStat({ label, value, color = "#c9d1d9" }) {
+function MiniStat({ label, value, color = "var(--tx)" }) {
   return (
     <div className="mini-stat">
-      <div style={{ color, fontSize: "12px", fontWeight: "600" }}>{value ?? 0}</div>
+      <div style={{ color, fontSize: "13px", fontWeight: "600" }}>{value ?? 0}</div>
       <div className="mini-stat-label">{label}</div>
     </div>
   );
 }
 
-function Stat({ label, value, color = "#c9d1d9" }) {
+function Stat({ label, value, color = "var(--tx)" }) {
   return (
     <div className="stat">
-      <div style={{ color, fontSize: "16px", fontWeight: "700" }}>{value ?? 0}</div>
+      <div style={{ color, fontSize: "17px", fontWeight: "700" }}>{value ?? 0}</div>
       <div className="stat-label">{label}</div>
     </div>
   );

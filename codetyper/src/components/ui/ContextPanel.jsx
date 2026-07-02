@@ -41,13 +41,13 @@ export default function ContextPanel({
         onClick={onToggle}
         style={{
           ...styles.toggleBtn,
-          background: visible ? "#1c2333" : "#0d1117",
-          borderColor: visible ? meta.color : "#21262d",
-          color: visible ? meta.color : "#546e7a",
+          background: visible ? "var(--bg4)" : "var(--bg)",
+          borderColor: visible ? meta.color : "var(--bd)",
+          color: visible ? meta.color : "var(--tx3)",
         }}
         title={visible ? "Hide context panel" : "Show code structure"}
       >
-        <StructureSVGIcon color={visible ? meta.color : "#546e7a"} />
+        <StructureSVGIcon color={visible ? meta.color : "var(--tx3)"} />
         <span style={{ fontSize: "10px", letterSpacing: "0.08em" }}>
           {visible ? "STRUCTURE" : "STRUCTURE"}
         </span>
@@ -93,7 +93,7 @@ export default function ContextPanel({
           <div style={styles.tree}>
             {structure.length === 0 ? (
               <div style={styles.empty}>
-                <span style={{ color: "#30363d", fontSize: "11px" }}>
+                <span style={{ color: "var(--tx4)", fontSize: "12px" }}>
                   No structure detected
                 </span>
               </div>
@@ -113,8 +113,8 @@ export default function ContextPanel({
                   const isDone    = i < activeIndex;
                   const isLast    = i === structure.length - 1;
 
-                  const nodeColor = isDone ? "#30363d" : isActive ? sec.color : "#21262d";
-                  const textColor = isDone ? "#546e7a"  : isActive ? sec.color : "#30363d";
+                  const nodeColor = isDone ? "var(--bd3)" : isActive ? sec.color : "var(--bd)";
+                  const textColor = isDone ? "var(--tx3)" : isActive ? sec.color : "var(--tx4)";
 
                   return (
                     <div
@@ -131,7 +131,7 @@ export default function ContextPanel({
                       {/* Node circle */}
                       <span style={{
                         ...styles.nodeCircle,
-                        background: isActive ? sec.color : isDone ? "#1e2d3d" : "transparent",
+                        background: isActive ? sec.color : isDone ? "var(--bg4)" : "transparent",
                         borderColor: nodeColor,
                         boxShadow: isActive ? `0 0 8px ${sec.color}60` : "none",
                         animation: isActive ? "pulse-node 1.5s ease-in-out infinite" : "none",
@@ -186,8 +186,8 @@ export default function ContextPanel({
 function Stat({ label, value }) {
   return (
     <div style={{ textAlign: "center" }}>
-      <div style={{ color: "#c9d1d9", fontSize: "14px", fontWeight: "600" }}>{value}</div>
-      <div style={{ color: "#30363d", fontSize: "10px", letterSpacing: "0.06em" }}>{label}</div>
+      <div style={{ color: "var(--tx)", fontSize: "15px", fontWeight: "600" }}>{value}</div>
+      <div style={{ color: "var(--tx4)", fontSize: "11px", letterSpacing: "0.06em" }}>{label}</div>
     </div>
   );
 }
@@ -239,8 +239,8 @@ const styles = {
   panel: {
     width: "350px",
     minWidth: "350px",
-    background: "#0a0f1a",
-    borderLeft: "1px solid #21262d",
+    background: "var(--bg2)",
+    borderLeft: "1px solid var(--bd)",
     display: "flex",
     flexDirection: "column",
     fontFamily: "'JetBrains Mono', monospace",
@@ -252,17 +252,17 @@ const styles = {
     alignItems: "center",
     gap: "10px",
     padding: "16px",
-    borderBottom: "1px solid #21262d",
+    borderBottom: "1px solid var(--bd)",
   },
   langIcon: { fontSize: "20px", flexShrink: 0 },
   headerText: { overflow: "hidden" },
   langLabel: { fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "600" },
-  snippetTitle: { fontSize: "12px", color: "#546e7a", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
-  progressWrap: { display: "flex", alignItems: "center", gap: "8px", padding: "10px 16px", borderBottom: "1px solid #21262d" },
-  progressTrack: { flex: 1, height: "3px", background: "#21262d", borderRadius: "2px", overflow: "hidden" },
+  snippetTitle: { fontSize: "13px", color: "var(--tx3)", marginTop: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+  progressWrap: { display: "flex", alignItems: "center", gap: "8px", padding: "10px 16px", borderBottom: "1px solid var(--bd)" },
+  progressTrack: { flex: 1, height: "3px", background: "var(--bd)", borderRadius: "2px", overflow: "hidden" },
   progressFill: { height: "100%", borderRadius: "2px", transition: "width 0.3s ease" },
   progressLabel: { fontSize: "11px", fontWeight: "600", minWidth: "30px", textAlign: "right" },
-  tree: { flex: 1, overflowY: "auto", padding: "8px 0", scrollbarWidth: "thin", scrollbarColor: "#21262d #0a0f1a" },
+  tree: { flex: 1, overflowY: "auto", padding: "8px 0", scrollbarWidth: "thin", scrollbarColor: "var(--bd) var(--bg2)" },
   rootNode: { display: "flex", alignItems: "center", gap: "6px", padding: "8px 16px 4px" },
   item: {
     display: "flex",
@@ -285,9 +285,9 @@ const styles = {
   itemContent: { display: "flex", alignItems: "center", gap: "6px", flex: 1, overflow: "hidden" },
   itemText: { flex: 1, overflow: "hidden" },
   itemLabel: { fontSize: "12px", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", transition: "color 0.2s" },
-  itemSublabel: { fontSize: "10px", color: "#30363d", display: "block" },
+  itemSublabel: { fontSize: "11px", color: "var(--tx4)", display: "block" },
   doneBadge: { fontSize: "10px", color: "#4ec994", flexShrink: 0 },
   activeBadge: { fontSize: "9px", border: "1px solid", borderRadius: "3px", padding: "1px 4px", flexShrink: 0, letterSpacing: "0.04em" },
-  footer: { display: "flex", justifyContent: "space-around", padding: "12px 16px", borderTop: "1px solid #21262d" },
+  footer: { display: "flex", justifyContent: "space-around", padding: "12px 16px", borderTop: "1px solid var(--bd)" },
   empty: { display: "flex", justifyContent: "center", padding: "32px" },
 };

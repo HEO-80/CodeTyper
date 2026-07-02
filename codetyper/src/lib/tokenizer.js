@@ -142,5 +142,5 @@ export function tokenize(code, language) {
 
 // ─── GET COLOR FOR TOKEN ──────────────────────────────────────────────────────
 export function getTokenColor(type) {
-  return TOKEN_COLORS[type] || "#c9d1d9";
+  return TOKEN_COLORS[type] || "var(--tx)";
 }

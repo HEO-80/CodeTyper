@@ -242,7 +242,7 @@ export default function TerminalMode({
               let color;
               if (isCursor && wrongChar !== null) color = "#ff5555";
               else if (isTyped) color = getTokenColor(type);
-              else color = "#3a4a5a";
+              else color = "var(--c-un)";
               const display = isCursor && wrongChar !== null ? wrongChar : char;
               return (
                 <span key={idx} style={{ position: "relative", display: "inline-block" }}>
@@ -265,7 +265,7 @@ export default function TerminalMode({
             {activeLineTokens.slice(cursor - activeLineStart).map(({ char, idx }) => {
               if (idx < cursor) return null;
               return (
-                <span key={`ghost-${idx}`} style={{ color: "#1e2d3d", fontWeight: "300" }}>
+                <span key={`ghost-${idx}`} style={{ color: "var(--tx5)", fontWeight: "300" }}>
                   {char === " " ? "\u00A0" : char}
                 </span>
               );
@@ -295,7 +295,7 @@ export default function TerminalMode({
             : cursor < tokens.length && tokens[cursor]?.char === "\n"
             ? <span style={{ color: "#82aaff" }}>↵ press Enter</span>
             : cursor < tokens.length && tokens[cursor]?.char === " "
-            ? <span style={{ color: "#546e7a" }}>· space</span>
+            ? <span style={{ color: "var(--tx3)" }}>· space</span>
             : cursor < tokens.length
             ? <span style={{ color: "#c792ea" }}>"{tokens[cursor]?.char}"</span>
             : <span style={{ color: "#4ec994" }}>✓ done</span>

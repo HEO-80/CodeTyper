@@ -6,7 +6,7 @@
 }
 
 @keyframes errorFlash {
-  0%, 100% { background: #0d1117; }
+  0%, 100% { background: var(--bg); }
   50%       { background: #1a0d0d; }
 }
 
@@ -24,7 +24,7 @@
 .practice-root {
   width: 100%;
   height: 100%;
-  background: #0d1117;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   outline: none;
@@ -51,16 +51,16 @@
   inset: 0;
   right: 280px;
   overflow-y: auto;
-  overflow-x: auto;  /* ← era hidden, ponlo auto */
-  background: #0d1117;
+  overflow-x: auto;
+  background: var(--bg);
   scrollbar-width: thin;
-  scrollbar-color: #21262d #0d1117;
-   display: flex;           /* ← añadir */
-  justify-content: center; /* ← añadir */
+  scrollbar-color: var(--bd) var(--bg);
+   display: flex;
+  justify-content: center;
 }
 .practice-code-area::-webkit-scrollbar       { width: 4px; }
-.practice-code-area::-webkit-scrollbar-track { background: #0d1117; }
-.practice-code-area::-webkit-scrollbar-thumb { background: #21262d; border-radius: 2px; }
+.practice-code-area::-webkit-scrollbar-track { background: var(--bg); }
+.practice-code-area::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
 
 .practice-code-area.error-flash {
   animation: errorFlash 0.15s ease;
@@ -68,11 +68,10 @@
 
 /* ── Code block (centered content) ──────────────────────────────────────── */
 .practice-code-block {
-  max-width: none;   /* ← quita el maxWidth fijo */
+  max-width: none;
   margin: 0 auto;
-  max-width: 720px;        /* ← añadir */
+  max-width: 720px;
   padding: 40px 24px 300px;
-  /* min-width: fit-content;  */
 }
 
 /* ── Code line ───────────────────────────────────────────────────────────── */
@@ -83,8 +82,8 @@
 }
 
 .practice-line-num {
-  color: #30363d;
-  font-size: 12px;
+  color: var(--tx4);
+  font-size: 13px;
   min-width: 36px;
   user-select: none;
   padding-right: 16px;
@@ -93,7 +92,7 @@
 }
 
 .practice-line-content {
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 28px;
   white-space: pre;
@@ -117,7 +116,7 @@
 
 /* ── Comment tag ─────────────────────────────────────────────────────────── */
 .comment-tag {
-  font-size: 9px;
+  font-size: 10px;
   color: #4ec994;
   border: 1px solid #2a5a3a;
   border-radius: 3px;
@@ -133,8 +132,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 280px; /* default; overridden by inline style when keyboard mode */
-  border-left: 1px solid #161b22;
+  width: 280px;
+  border-left: 1px solid var(--bd2);
   display: flex;
   flex-direction: column;
   background: rgba(8, 13, 20, 0.95);
@@ -147,20 +146,20 @@
   align-items: center;
   gap: 10px;
   padding: 14px 16px;
-  border-bottom: 1px solid #161b22;
+  border-bottom: 1px solid var(--bd2);
   flex-shrink: 0;
 }
 
 .practice-panel-lang {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .practice-panel-title {
-  font-size: 11px;
-  color: #3d5266;
+  font-size: 12px;
+  color: var(--tx8);
   margin-top: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -169,7 +168,7 @@
 
 .practice-panel-progress-track {
   height: 2px;
-  background: #161b22;
+  background: var(--bd2);
   flex-shrink: 0;
 }
 
@@ -183,17 +182,17 @@
   overflow-y: auto;
   padding: 6px 0;
   scrollbar-width: thin;
-  scrollbar-color: #1c2333 #080d14;
+  scrollbar-color: var(--bg4) var(--bg2);
 }
 .practice-panel-tree::-webkit-scrollbar       { width: 3px; }
-.practice-panel-tree::-webkit-scrollbar-track { background: #080d14; }
-.practice-panel-tree::-webkit-scrollbar-thumb { background: #1c2333; border-radius: 2px; }
+.practice-panel-tree::-webkit-scrollbar-track { background: var(--bg2); }
+.practice-panel-tree::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
 
 .practice-panel-footer {
   display: flex;
   justify-content: space-around;
   padding: 12px 16px;
-  border-top: 1px solid #161b22;
+  border-top: 1px solid var(--bd2);
   flex-shrink: 0;
 }
 
@@ -201,7 +200,7 @@
 .mode-toggle {
   display: flex;
   align-items: center;
-  border: 1px solid #21262d;
+  border: 1px solid var(--bd);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -211,15 +210,15 @@
   border: none;
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   transition: all 0.15s;
   background: transparent;
-  color: #546e7a;
+  color: var(--tx3);
 }
 
 .mode-toggle-btn:first-child {
-  border-right: 1px solid #21262d;
+  border-right: 1px solid var(--bd);
 }
 
 .mode-toggle-btn.active-editor {
@@ -240,10 +239,10 @@
   .practice-line-num {
     min-width: 24px;
     padding-right: 8px;
-    font-size: 10px;
+    font-size: 11px;
   }
   .practice-line-content {
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0;
   }
   .practice-panel {

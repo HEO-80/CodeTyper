@@ -3,8 +3,8 @@
 /* ── Root ────────────────────────────────────────────────────────────────── */
 .tm-root {
   width: 100%;
-  height: 100%;          /* ← was min-height: 100vh, now fills parent only */
-  background: #080c10;
+  height: 100%;
+  background: var(--bg2);
   display: flex;
   flex-direction: column;
   outline: none;
@@ -12,14 +12,14 @@
   overflow: hidden;
 }
 
-/* ── Title bar (only shown when NOT embedded) ────────────────────────────── */
+/* ── Title bar ───────────────────────────────────────────────────────────── */
 .tm-titlebar {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  background: #111820;
-  border-bottom: 1px solid #1a2233;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--bd2);
   flex-shrink: 0;
 }
 .tm-dots {
@@ -40,8 +40,8 @@
 .tm-dot.green  { background: #4ec994; }
 
 .tm-title {
-  font-size: 12px;
-  color: #546e7a;
+  font-size: 13px;
+  color: var(--tx3);
   flex: 1;
   text-align: center;
   overflow: hidden;
@@ -60,23 +60,23 @@
   flex-direction: column;
   align-items: center;
   gap: 1px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
 }
 .tm-stat-label {
-  font-size: 8px;
-  color: #30363d;
+  font-size: 9px;
+  color: var(--tx4);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .tm-mode-btn {
   padding: 4px 10px;
   background: transparent;
-  border: 1px solid #21262d;
+  border: 1px solid var(--bd);
   border-radius: 4px;
-  color: #546e7a;
+  color: var(--tx3);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
   letter-spacing: 0.04em;
   transition: all 0.15s;
@@ -90,7 +90,7 @@
 .tm-progress-track {
   width: 100%;
   height: 2px;
-  background: #0d1117;
+  background: var(--bg);
   flex-shrink: 0;
 }
 .tm-progress-fill {
@@ -104,23 +104,23 @@
   flex: 1;
   padding: 20px 28px 40px;
   overflow-y: auto;
-  background: #080c10;
-  min-height: 0;         /* ← critical for flex scroll */
+  background: var(--bg2);
+  min-height: 0;
   scrollbar-width: thin;
-  scrollbar-color: #1a2233 #080c10;
+  scrollbar-color: var(--bd2) var(--bg2);
 }
 .tm-body::-webkit-scrollbar       { width: 4px; }
-.tm-body::-webkit-scrollbar-track { background: #080c10; }
-.tm-body::-webkit-scrollbar-thumb { background: #1a2233; border-radius: 2px; }
+.tm-body::-webkit-scrollbar-track { background: var(--bg2); }
+.tm-body::-webkit-scrollbar-thumb { background: var(--bd2); border-radius: 2px; }
 
 /* ── Banner ──────────────────────────────────────────────────────────────── */
 .tm-banner {
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #111820;
+  border-bottom: 1px solid var(--bd2);
 }
 .tm-banner-text {
-  font-size: 11px;
+  font-size: 12px;
   color: #1e3a2a;
   letter-spacing: 0.05em;
 }
@@ -144,7 +144,7 @@
 /* ── Prompt ──────────────────────────────────────────────────────────────── */
 .tm-prompt {
   color: #4ec994;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   margin-right: 12px;
   white-space: nowrap;
@@ -154,7 +154,7 @@
 
 /* ── Line content ────────────────────────────────────────────────────────── */
 .tm-line-content {
-  font-size: 14px;
+  font-size: 15px;
   white-space: pre;
   letter-spacing: 0.02em;
   line-height: 26px;
@@ -202,17 +202,17 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 20px;
-  background: #0a1520;
-  border-top: 1px solid #1a2233;
-  font-size: 11px;
-  color: #30363d;
+  background: var(--bg4);
+  border-top: 1px solid var(--bd2);
+  font-size: 12px;
+  color: var(--tx4);
   flex-shrink: 0;
 }
 .tm-status-left {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #546e7a;
+  color: var(--tx3);
 }
 .tm-status-dot {
   width: 6px;
@@ -222,10 +222,10 @@
   animation: tm-blink 2s ease-in-out infinite;
 }
 .tm-status-center {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
 }
 .tm-status-right {
-  color: #30363d;
-  font-size: 11px;
+  color: var(--tx4);
+  font-size: 12px;
 }

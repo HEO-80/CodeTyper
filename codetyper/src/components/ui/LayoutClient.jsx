@@ -18,13 +18,37 @@ export const useTerminal = () => useContext(TerminalContext);
 export const NavContext = createContext({ hasBack: false, setBackAction: () => {}, triggerBack: () => {} });
 export const useNav = () => useContext(NavContext);
 
+// ── Context para el tema claro/oscuro ────────────────────────────────────────
+export const ThemeContext = createContext({ isDark: true, toggleTheme: () => {} });
+export const useTheme = () => useContext(ThemeContext);
+
 export default function LayoutClient({ children }) {
   const { data: session } = useSession();
   const [authOpen,     setAuthOpen]     = useState(false);
   const [stats,        setStats]        = useState(null);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [hasBack,      setHasBack]      = useState(false);
+  const [isDark,       setIsDark]       = useState(true);
   const backRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('codetyper-theme');
+      if (saved === 'light') {
+        setIsDark(false);
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch(e) {}
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setIsDark(d => {
+      const next = !d;
+      document.documentElement.setAttribute('data-theme', next ? 'dark' : 'light');
+      try { localStorage.setItem('codetyper-theme', next ? 'dark' : 'light'); } catch(e) {}
+      return next;
+    });
+  }, []);
 
   const setBackAction = useCallback((fn) => {
     backRef.current = fn || null;
@@ -71,6 +95,7 @@ export default function LayoutClient({ children }) {
   };
 
   return (
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
     <StatsRefreshContext.Provider value={fetchStats}>
       <NavContext.Provider value={navCtx}>
       <TerminalContext.Provider value={terminalCtx}>
@@ -90,5 +115,6 @@ export default function LayoutClient({ children }) {
       </TerminalContext.Provider>
       </NavContext.Provider>
     </StatsRefreshContext.Provider>
+    </ThemeContext.Provider>
   );
 }

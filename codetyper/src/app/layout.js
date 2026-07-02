@@ -14,6 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* Apply saved theme before first paint to prevent flash */}
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem('codetyper-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}` }} />
+      </head>
       <body style={{ display: "flex", flexDirection: "column", height: "100vh", margin: 0, overflow: "hidden" }}>
         <Providers>
           <LayoutClient>{children}</LayoutClient>

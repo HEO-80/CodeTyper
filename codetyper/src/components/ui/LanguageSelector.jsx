@@ -39,6 +39,6 @@ export default function LanguageSelector({ languages, selected, onChange }) {
 
 const s = {
   section: { marginBottom: "28px" },
-  label:   { color: "#546e7a", fontSize: "12px", marginBottom: "10px", letterSpacing: "0.05em" },
+  label:   { color: "var(--tx3)", fontSize: "13px", marginBottom: "10px", letterSpacing: "0.05em" },
   row:     { display: "flex", gap: "8px", flexWrap: "wrap" },
 };

@@ -101,7 +101,7 @@ export default function Home() {
   return (
     <main style={{
       width: "100%", height: "100%",
-      background: "#0d1117", color: "#c9d1d9",
+      background: "var(--bg)", color: "var(--tx)",
       display: "flex",
       overflow: screen === "practice" ? "hidden" : "auto",
     }}>

@@ -293,19 +293,19 @@ function PanelKey({ keyData, showShift, isMainActive, isModifierActive }) {
   const isProg    = PROG_SYMBOLS.has(keyData.main) || PROG_SYMBOLS.has(keyData.shift);
 
   // Base visual state
-  let bg      = isSpecial ? "#1a1a2a" : isProg ? "#0d1f2d" : "#161b22";
-  let border  = `1px solid ${isProg && !isSpecial ? "#1a3a5c" : isSpecial ? "#2a2a3a" : "#21262d"}`;
+  let bg      = isSpecial ? "var(--bg4)" : isProg ? "var(--bg3)" : "var(--bg3)";
+  let border  = `1px solid ${isProg && !isSpecial ? "#1a3a5c" : isSpecial ? "var(--bd3)" : "var(--bd)"}`;
   let shadow  = "none";
-  let txtColor = isSpecial ? "#546e7a" : isProg && !isSpecial ? "#82aaff" : "#8b949e";
+  let txtColor = isSpecial ? "var(--tx3)" : isProg && !isSpecial ? "#82aaff" : "var(--tx2)";
 
   // Active states override
   if (isMainActive) {
-    bg       = "#2a2000";
+    bg       = "rgba(255,203,107,0.12)";
     border   = "1px solid #ffcb6b";
     shadow   = "0 0 10px rgba(255,203,107,0.65)";
     txtColor = "#ffcb6b";
   } else if (isModifierActive) {
-    bg       = "#0d1520";
+    bg       = "rgba(130,170,255,0.12)";
     border   = "1px solid #82aaff";
     shadow   = "0 0 8px rgba(130,170,255,0.45)";
     txtColor = "#82aaff";
@@ -389,7 +389,7 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "10px 12px 8px",
-        borderBottom: "1px solid #161b22",
+        borderBottom: "1px solid var(--bd2)",
         flexShrink: 0,
       }}>
         <span style={{ color: accentColor, fontSize: "10px", fontWeight: "700", letterSpacing: "0.1em" }}>
@@ -444,7 +444,7 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
       {/* Combo display — what to press right now */}
       <div style={{
         padding: "8px 10px",
-        borderTop: "1px solid #161b22",
+        borderTop: "1px solid var(--bd2)",
         flexShrink: 0,
         minHeight: "38px",
         display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
@@ -454,13 +454,13 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
             {comboDisplay.modifier && (
               <>
                 <span style={sPill.modifier}>{comboDisplay.modifier}</span>
-                <span style={{ color: "#546e7a", fontSize: "13px", lineHeight: 1 }}>+</span>
+                <span style={{ color: "var(--tx3)", fontSize: "14px", lineHeight: 1 }}>+</span>
               </>
             )}
             <span style={sPill.key}>{comboDisplay.keyName}</span>
           </>
         ) : (
-          <span style={{ color: "#21262d", fontSize: "10px", letterSpacing: "0.06em" }}>
+          <span style={{ color: "var(--tx5)", fontSize: "10px", letterSpacing: "0.06em" }}>
             — empieza a escribir —
           </span>
         )}
@@ -469,15 +469,15 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
       {/* Legend */}
       <div style={{
         padding: "5px 10px",
-        borderTop: "1px solid #161b22",
+        borderTop: "1px solid var(--bd2)",
         flexShrink: 0,
         display: "flex", gap: "10px", alignItems: "center",
       }}>
-        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "9px", color: "#546e7a" }}>
-          <span style={{ width: "7px", height: "7px", borderRadius: "2px", background: "#0d1f2d", border: "1px solid #82aaff", display: "inline-block", flexShrink: 0 }} />
+        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--tx3)" }}>
+          <span style={{ width: "7px", height: "7px", borderRadius: "2px", background: "var(--bg3)", border: "1px solid #82aaff", display: "inline-block", flexShrink: 0 }} />
           prog
         </span>
-        <span style={{ fontSize: "9px", color: "#30363d", marginLeft: "auto" }}>↑ shift · ↘ AltGr</span>
+        <span style={{ fontSize: "10px", color: "var(--tx4)", marginLeft: "auto" }}>↑ shift · ↘ AltGr</span>
       </div>
     </div>
   );
@@ -486,7 +486,7 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
 const sPill = {
   modifier: {
     padding: "4px 10px",
-    background: "#0d1520",
+    background: "rgba(130,170,255,0.12)",
     border: "1px solid #82aaff",
     borderRadius: "5px",
     color: "#82aaff",
@@ -497,7 +497,7 @@ const sPill = {
   },
   key: {
     padding: "4px 10px",
-    background: "#2a2000",
+    background: "rgba(255,203,107,0.12)",
     border: "1px solid #ffcb6b",
     borderRadius: "5px",
     color: "#ffcb6b",

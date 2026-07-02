@@ -16,7 +16,7 @@
 
 .tp-header-badge {
   display: inline-block;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.18em;
   color: #4ec994;
   border: 1px solid #1e3a2a;
@@ -28,9 +28,9 @@
 
 .tp-title {
   font-family: 'Syne', sans-serif;
-  font-size: 36px;
+  font-size: 37px;
   font-weight: 800;
-  color: #c9d1d9;
+  color: var(--tx);
   margin: 0 0 10px;
   letter-spacing: -0.02em;
 }
@@ -41,8 +41,8 @@
 }
 
 .tp-subtitle {
-  color: #546e7a;
-  font-size: 12px;
+  color: var(--tx3);
+  font-size: 13px;
   letter-spacing: 0.04em;
   margin: 0;
 }
@@ -57,8 +57,8 @@
   border: 1px solid #1e3a2a;
   border-radius: 6px;
   margin-bottom: 28px;
-  font-size: 12px;
-  color: #546e7a;
+  font-size: 13px;
+  color: var(--tx3);
   flex-wrap: wrap;
 }
 
@@ -72,13 +72,13 @@
 }
 
 .tp-result-sep {
-  color: #21262d;
+  color: var(--tx5);
 }
 
 .tp-result-saved {
   color: #4ec994;
   margin-left: 4px;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* Sections */
@@ -87,8 +87,8 @@
 }
 
 .tp-label {
-  color: #546e7a;
-  font-size: 12px;
+  color: var(--tx3);
+  font-size: 13px;
   margin-bottom: 10px;
   letter-spacing: 0.05em;
 }
@@ -102,13 +102,13 @@
 /* Buttons */
 .tp-btn {
   padding: 6px 16px;
-  border: 1px solid #21262d;
+  border: 1px solid var(--bd);
   border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
-  background: #0d1117;
-  color: #546e7a;
+  background: var(--bg);
+  color: var(--tx3);
   letter-spacing: 0.06em;
   text-transform: lowercase;
   transition: all 0.15s;
@@ -167,11 +167,11 @@
 }
 
 .tp-empty {
-  color: #30363d;
-  font-size: 13px;
+  color: var(--tx4);
+  font-size: 14px;
   padding: 32px;
   text-align: center;
-  border: 1px dashed #21262d;
+  border: 1px dashed var(--bd);
   border-radius: 8px;
 }
 
@@ -181,8 +181,8 @@
   flex-direction: column;
   gap: 8px;
   padding: 14px 16px;
-  background: #0d1117;
-  border: 1px solid #21262d;
+  background: var(--bg);
+  border: 1px solid var(--bd);
   border-radius: 6px;
   cursor: pointer;
   text-align: left;
@@ -204,14 +204,14 @@
 
 .tp-snip-prompt {
   color: #4ec994;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   flex-shrink: 0;
 }
 
 .tp-snip-title {
-  color: #c9d1d9;
-  font-size: 12px;
+  color: var(--tx);
+  font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -226,20 +226,20 @@
 }
 
 .tp-snip-lines {
-  color: #30363d;
-  font-size: 10px;
+  color: var(--tx4);
+  font-size: 11px;
 }
 
 .tp-snip-diff {
-  color: #546e7a;
-  font-size: 10px;
+  color: var(--tx3);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .tp-snip-desc {
-  color: #546e7a;
-  font-size: 10px;
+  color: var(--tx3);
+  font-size: 11px;
   line-height: 1.5;
   white-space: nowrap;
   overflow: hidden;

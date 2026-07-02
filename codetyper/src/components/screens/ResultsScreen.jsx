@@ -103,7 +103,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
           </button>
           <button
             className="result-btn"
-            style={{ ...styles.btn, borderColor: "#30363d", color: "#8b949e" }}
+            style={{ ...styles.btn, borderColor: "var(--bd3)", color: "var(--tx2)" }}
             onClick={onMenu}
           >
             ← elegir otro
@@ -122,9 +122,8 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
 const styles = {
   root: {
     width: "100%",
-    height: "100%",  // ← era minHeight: "100vh"
-    // minHeight: "100vh",
-    background: "#0d1117",
+    height: "100%",
+    background: "var(--bg)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -142,23 +141,23 @@ const styles = {
     marginBottom: "40px",
   },
   langBadge: {
-    fontSize: "11px",
-    color: "#546e7a",
+    fontSize: "12px",
+    color: "var(--tx3)",
     letterSpacing: "0.15em",
     textTransform: "uppercase",
     marginBottom: "20px",
   },
   grade: {
     fontFamily: "'Syne', sans-serif",
-    fontSize: "96px",
+    fontSize: "97px",
     fontWeight: "800",
     lineHeight: 1,
     animation: "popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)",
     marginBottom: "12px",
   },
   gradeMsg: {
-    color: "#8b949e",
-    fontSize: "13px",
+    color: "var(--tx2)",
+    fontSize: "14px",
   },
   statsGrid: {
     display: "grid",
@@ -167,27 +166,27 @@ const styles = {
     marginBottom: "32px",
   },
   statCard: {
-    background: "#161b22",
-    border: "1px solid #21262d",
+    background: "var(--bg3)",
+    border: "1px solid var(--bd)",
     borderRadius: "10px",
     padding: "24px 16px",
     textAlign: "center",
   },
   statNum: {
-    fontSize: "36px",
+    fontSize: "37px",
     fontWeight: "700",
     marginBottom: "4px",
   },
   statLabel: {
-    fontSize: "10px",
-    color: "#546e7a",
+    fontSize: "11px",
+    color: "var(--tx3)",
     textTransform: "uppercase",
     letterSpacing: "0.12em",
     marginBottom: "4px",
   },
   statSub: {
-    fontSize: "10px",
-    color: "#30363d",
+    fontSize: "11px",
+    color: "var(--tx4)",
   },
   actions: {
     display: "flex",

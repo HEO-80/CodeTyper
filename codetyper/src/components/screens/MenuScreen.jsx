@@ -119,7 +119,7 @@ export default function MenuScreen({
       <div style={s.section}>
         <div style={s.label}>
           // choose a snippet{" "}
-          <span style={{ color: "#30363d" }}>({snippets.length} available)</span>
+          <span style={{ color: "var(--tx4)" }}>({snippets.length} available)</span>
         </div>
         {snippets.length === 0 ? (
           <div style={s.empty}>🚧 Snippets coming soon for this level...</div>
@@ -138,7 +138,7 @@ export default function MenuScreen({
       </div>
 
       <div style={s.footer}>
-        <span style={{ color: "#546e7a" }}>
+        <span style={{ color: "var(--tx3)" }}>
           Keyboard · Tab = auto-indent · Enter = new line
         </span>
       </div>
@@ -174,16 +174,16 @@ const s = {
   header:      { marginBottom: "36px", textAlign: "center" },
   logo:        { fontFamily: "'Syne', sans-serif", fontSize: "36px", fontWeight: "800", marginBottom: "10px", letterSpacing: "-0.02em" },
   logoAccent:  { color: "#82aaff", marginRight: "8px" },
-  logoText:    { color: "#c9d1d9" },
-  tagline:     { color: "#546e7a", fontSize: "13px", letterSpacing: "0.05em" },
+  logoText:    { color: "var(--tx)" },
+  tagline:     { color: "var(--tx3)", fontSize: "14px", letterSpacing: "0.05em" },
   topRow:      { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", marginBottom: "32px", flexWrap: "wrap" },
-  toggleRow:   { display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", background: "#0d1117", border: "1px solid #21262d", borderRadius: "8px", flexWrap: "wrap", flex: 1 },
-  toggleLabel: { color: "#8b949e", fontSize: "12px" },
-  toggleHint:  { color: "#30363d", fontSize: "11px", fontStyle: "italic" },
+  toggleRow:   { display: "flex", alignItems: "center", gap: "12px", padding: "12px 16px", background: "var(--bg)", border: "1px solid var(--bd)", borderRadius: "8px", flexWrap: "wrap", flex: 1 },
+  toggleLabel: { color: "var(--tx2)", fontSize: "13px" },
+  toggleHint:  { color: "var(--tx4)", fontSize: "12px", fontStyle: "italic" },
   section:     { marginBottom: "28px" },
-  label:       { color: "#546e7a", fontSize: "12px", marginBottom: "10px", letterSpacing: "0.05em" },
+  label:       { color: "var(--tx3)", fontSize: "13px", marginBottom: "10px", letterSpacing: "0.05em" },
   row:         { display: "flex", gap: "8px", flexWrap: "wrap" },
   grid:        { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: "12px" },
-  empty:       { color: "#30363d", fontSize: "13px", padding: "32px", textAlign: "center", border: "1px dashed #21262d", borderRadius: "8px" },
-  footer:      { marginTop: "32px", textAlign: "center", fontSize: "12px" },
+  empty:       { color: "var(--tx4)", fontSize: "14px", padding: "32px", textAlign: "center", border: "1px dashed var(--bd)", borderRadius: "8px" },
+  footer:      { marginTop: "32px", textAlign: "center", fontSize: "13px" },
 };

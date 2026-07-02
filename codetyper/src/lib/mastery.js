@@ -10,7 +10,7 @@ export const PHASES = [
     minSessions: 0,
     minCpm:      0,
     minAccuracy: 0,
-    color:       "#546e7a",
+    color:       "#6c8692",
     icon:        "○",
   },
   {

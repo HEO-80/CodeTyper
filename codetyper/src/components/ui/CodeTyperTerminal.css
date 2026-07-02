@@ -165,7 +165,7 @@
 .ct-green       { background: #4ec994; }
 
 .ct-tb-title {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ct-title);
   letter-spacing: 0.12em;
   flex: 1;
@@ -173,7 +173,7 @@
   text-transform: uppercase;
 }
 .ct-tb-close {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ct-text-dim);
   background: none; border: none;
   cursor: pointer;
@@ -203,31 +203,31 @@
   align-items: baseline;
   gap: 8px;
   min-height: 22px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 22px;
   color: var(--ct-text);
 }
 .ct-spacer { height: 8px; }
 
-.ct-prompt-sym  { color: var(--ct-prompt); font-size: 13px; white-space: nowrap; flex-shrink: 0; }
-.ct-typed-cmd   { color: var(--ct-cmd); font-size: 13px; }
+.ct-prompt-sym  { color: var(--ct-prompt); font-size: 14px; white-space: nowrap; flex-shrink: 0; }
+.ct-typed-cmd   { color: var(--ct-cmd); font-size: 14px; }
 .ct-system      { color: var(--ct-text); padding-left: 4px; }
 .ct-success     { color: var(--ct-success); }
 .ct-error       { color: #ff5555; }
 .ct-warn        { color: #ffcb6b; }
-.ct-info        { color: var(--ct-text); font-size: 12px; padding-left: 4px; }
-.ct-section     { color: var(--ct-section); font-size: 12px; margin-top: 6px; }
-.ct-item        { color: var(--ct-text); font-size: 12px; }
+.ct-info        { color: var(--ct-text); font-size: 13px; padding-left: 4px; }
+.ct-section     { color: var(--ct-section); font-size: 13px; margin-top: 6px; }
+.ct-item        { color: var(--ct-text); font-size: 13px; }
 .ct-item-active { color: var(--ct-success); font-weight: 500; }
 
 .ct-snippet-item {
   display: flex; align-items: center; gap: 10px;
-  padding-left: 16px; font-size: 12px;
+  padding-left: 16px; font-size: 13px;
 }
 .ct-snip-id    { color: var(--ct-cmd); min-width: 120px; }
 .ct-snip-sep   { color: var(--ct-border); }
 .ct-snip-title { color: var(--ct-success); flex: 1; }
-.ct-snip-lines { color: var(--ct-text-dim); font-size: 11px; }
+.ct-snip-lines { color: var(--ct-text-dim); font-size: 12px; }
 
 /* ── Banner ──────────────────────────────────────────────────────────────── */
 .ct-banner { margin-bottom: 12px; }
@@ -238,7 +238,7 @@
   box-shadow: 0 0 12px var(--ct-banner-glow);
 }
 .ct-banner-text {
-  font-size: 13px; font-weight: 700;
+  font-size: 14px; font-weight: 700;
   color: var(--ct-banner-border);
   letter-spacing: 0.15em;
 }
@@ -246,7 +246,7 @@
 /* ── Help ────────────────────────────────────────────────────────────────── */
 .ct-help {
   color: var(--ct-title);
-  font-size: 12px; line-height: 1.8; margin: 0;
+  font-size: 13px; line-height: 1.8; margin: 0;
   font-family: 'JetBrains Mono', monospace;
   white-space: pre;
 }
@@ -264,7 +264,7 @@
   background: transparent; border: none; outline: none;
   color: var(--ct-cmd);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; width: 100%;
+  font-size: 14px; width: 100%;
   caret-color: transparent; padding: 0; margin: 0;
 }
 .ct-input::selection { background: rgba(255,255,255,0.1); }
@@ -316,7 +316,7 @@
 .ct-hotkey-hint {
   position: absolute;
   bottom: 8px; right: 14px;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ct-border);
   letter-spacing: 0.06em;
   pointer-events: none; z-index: 20;

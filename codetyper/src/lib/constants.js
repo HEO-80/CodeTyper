@@ -1,17 +1,17 @@
 // ─── TOKEN COLORS ─────────────────────────────────────────────────────────────
 export const TOKEN_COLORS = {
-  keyword:      "#c792ea",
-  string:       "#f78c6c",
-  number:       "#f78c6c",
-  comment:      "#546e7a",
-  identifier:   "#82aaff",
-  "class-name": "#ffcb6b",
-  function:     "#82aaff",
-  type:         "#89ddff",
-  operator:     "#89ddff",
-  punctuation:  "#89ddff",
-  space:        "#607b96",
-  newline:      "#b1bbc6",
+  keyword:      "var(--c-kw)",
+  string:       "var(--c-str)",
+  number:       "var(--c-str)",
+  comment:      "var(--c-cm)",
+  identifier:   "var(--c-id)",
+  "class-name": "var(--c-cls)",
+  function:     "var(--c-id)",
+  type:         "var(--c-tp)",
+  operator:     "var(--c-tp)",
+  punctuation:  "var(--c-tp)",
+  space:        "var(--c-sp)",
+  newline:      "var(--c-nl)",
 };
 
 // ─── KEYWORDS PER LANGUAGE ────────────────────────────────────────────────────

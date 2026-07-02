@@ -24,7 +24,7 @@
   /* Language selector: smaller pills */
   .lang-btn {
     padding: 5px 12px !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
   }
 }
 
@@ -40,12 +40,12 @@
   .code-line-num {
     min-width: 24px !important;
     padding-right: 10px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 
   /* Code font smaller */
   .code-line-content {
-    font-size: 13px !important;
+    font-size: 14px !important;
     letter-spacing: 0 !important;
   }
 
@@ -56,7 +56,7 @@
 
   /* BottomBar: smaller text */
   .bottombar-stat-value {
-    font-size: 15px !important;
+    font-size: 16px !important;
   }
 
   /* Menu grid single column */
@@ -71,7 +71,7 @@
 
   /* Logo smaller */
   .menu-logo {
-    font-size: 28px !important;
+    font-size: 29px !important;
   }
 }
 
@@ -80,7 +80,7 @@
 
   /* Code font even smaller */
   .code-line-content {
-    font-size: 12px !important;
+    font-size: 13px !important;
     line-height: 24px !important;
   }
 
@@ -112,7 +112,7 @@
 
   /* Results grade smaller */
   .results-grade {
-    font-size: 72px !important;
+    font-size: 73px !important;
   }
 
   /* Language pills wrap nicely */
@@ -122,13 +122,13 @@
 
   .lang-btn {
     padding: 4px 10px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 
   /* Difficulty buttons */
   .diff-btn {
     padding: 4px 10px !important;
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 }
 

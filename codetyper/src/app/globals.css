@@ -1,9 +1,102 @@
 @import "tailwindcss";
 @import './responsive.css';
 
+/* ── Theme CSS variables ──────────────────────────────────────────────────── */
 :root {
   --background: #0d1117;
-  --foreground: #c9d1d9;
+  --foreground: #dde3ea;
+
+  /* Backgrounds */
+  --bg:  #0d1117;
+  --bg2: #080c10;
+  --bg3: #161b22;
+  --bg4: #1c2333;
+
+  /* Text */
+  --tx:  #dde3ea;
+  --tx2: #a3acb6;
+  --tx3: #6c8692;
+  --tx4: #484e55;
+  --tx5: #393e45;
+  --tx6: #8497a9;
+  --tx8: #556a7e;
+
+  /* Borders */
+  --bd:  #21262d;
+  --bd2: #161b22;
+  --bd3: #30363d;
+
+  /* Code syntax token colors */
+  --c-kw:  #c792ea;
+  --c-str: #f78c6c;
+  --c-id:  #82aaff;
+  --c-cls: #ffcb6b;
+  --c-tp:  #89ddff;
+  --c-cm:     #6c8692;
+  --c-cm-dim: #2a4a38;
+  --c-sp:     #607b96;
+  --c-nl:     #b1bbc6;
+  --c-un:     #8d9faf;
+
+  /* Language badge backgrounds */
+  --lang-js-bg: #1a1a0a;
+  --lang-ts-bg: #0a1020;
+  --lang-py-bg: #0a1a10;
+  --lang-sq-bg: #1a0e0a;
+  --lang-so-bg: #150a1a;
+  --lang-jv-bg: #1a1000;
+  --lang-cs-bg: #150a15;
+  --lang-ps-bg: #0a0f1e;
+  --lang-sh-bg: #0a1a12;
+  --lang-cl-bg: #1a0f0a;
+  --lang-en-bg: #0a1020;
+  --lang-ms-bg: #1a1500;
+}
+
+[data-theme="light"] {
+  --background: #f6f8fa;
+  --foreground: #1f2328;
+
+  --bg:  #f6f8fa;
+  --bg2: #eef0f3;
+  --bg3: #ffffff;
+  --bg4: #e8ecf0;
+
+  --tx:  #1f2328;
+  --tx2: #3a5060;
+  --tx3: #4a6475;
+  --tx4: #6a8090;
+  --tx5: #8090a0;
+  --tx6: #5a7080;
+  --tx8: #4a6070;
+
+  --bd:  #d0d7de;
+  --bd2: #e1e5e9;
+  --bd3: #b4bcc6;
+
+  --c-kw:  #8338ec;
+  --c-str: #c55027;
+  --c-id:  #1a56db;
+  --c-cls: #c28000;
+  --c-tp:  #0077b6;
+  --c-cm:     #4a6475;
+  --c-cm-dim: #5a8a6a;
+  --c-sp:     #4a6080;
+  --c-nl:     #7a9ab0;
+  --c-un:     #b0c4d0;
+
+  --lang-js-bg: #fffbec;
+  --lang-ts-bg: #f0f4ff;
+  --lang-py-bg: #eeffee;
+  --lang-sq-bg: #fff5f0;
+  --lang-so-bg: #faf0ff;
+  --lang-jv-bg: #fff8f0;
+  --lang-cs-bg: #faf0ff;
+  --lang-ps-bg: #f0f4ff;
+  --lang-sh-bg: #eeffee;
+  --lang-cl-bg: #fff5f0;
+  --lang-en-bg: #f0f4ff;
+  --lang-ms-bg: #fffbec;
 }
 
 @theme inline {
@@ -21,7 +114,140 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: var(--bg);
+  color: var(--tx);
   font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Scrollbars (global) ──────────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd) var(--bg);
+}
+*::-webkit-scrollbar       { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: var(--bg); }
+*::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
+
+/* ── Light mode: language card tinted backgrounds (AuthPanel) ─────────────── */
+[data-theme="light"] .lang-card:hover { background: var(--bg4); border-color: var(--bd3); }
+[data-theme="light"] .lang-card[data-lang="javascript"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="javascript"] { background: #fffbec; }
+[data-theme="light"] .lang-card[data-lang="typescript"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="typescript"] { background: #f0f4ff; }
+[data-theme="light"] .lang-card[data-lang="python"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="python"]     { background: #eeffee; }
+[data-theme="light"] .lang-card[data-lang="sql"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="sql"]        { background: #fff5f0; }
+[data-theme="light"] .lang-card[data-lang="solidity"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="solidity"]   { background: #faf0ff; }
+[data-theme="light"] .lang-card[data-lang="java"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="java"]       { background: #fff8f0; }
+[data-theme="light"] .lang-card[data-lang="csharp"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="csharp"]     { background: #faf0ff; }
+[data-theme="light"] .lang-card[data-lang="powershell"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="powershell"] { background: #f0f4ff; }
+[data-theme="light"] .lang-card[data-lang="bash"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="bash"]       { background: #eeffee; }
+[data-theme="light"] .lang-card[data-lang="cloud"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="cloud"]      { background: #fff5f0; }
+[data-theme="light"] .lang-card[data-lang="english"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="english"]    { background: #f0f4ff; }
+[data-theme="light"] .lang-card[data-lang="mindset"]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang="mindset"]    { background: #fffbec; }
+[data-theme="light"] .lang-card-detail { background: var(--bg4); border-color: var(--bd2); }
+
+/* ── Light mode: language selector btn hovers ─────────────────────────────── */
+[data-theme="light"] .lang-btn.javascript:hover, [data-theme="light"] .lang-btn.javascript.active { background: #fffbec; }
+[data-theme="light"] .lang-btn.typescript:hover, [data-theme="light"] .lang-btn.typescript.active { background: #f0f4ff; }
+[data-theme="light"] .lang-btn.python:hover,     [data-theme="light"] .lang-btn.python.active     { background: #eeffee; }
+[data-theme="light"] .lang-btn.sql:hover,        [data-theme="light"] .lang-btn.sql.active        { background: #fff5f0; }
+[data-theme="light"] .lang-btn.solidity:hover,   [data-theme="light"] .lang-btn.solidity.active   { background: #faf0ff; }
+[data-theme="light"] .lang-btn.java:hover,       [data-theme="light"] .lang-btn.java.active       { background: #fff8f0; }
+[data-theme="light"] .lang-btn.csharp:hover,     [data-theme="light"] .lang-btn.csharp.active     { background: #faf0ff; }
+[data-theme="light"] .lang-btn.powershell:hover, [data-theme="light"] .lang-btn.powershell.active { background: #f0f4ff; }
+[data-theme="light"] .lang-btn.bash:hover,       [data-theme="light"] .lang-btn.bash.active       { background: #eeffee; }
+[data-theme="light"] .lang-btn.cloud:hover,      [data-theme="light"] .lang-btn.cloud.active      { background: #fff5f0; }
+[data-theme="light"] .lang-btn.english:hover,    [data-theme="light"] .lang-btn.english.active    { background: #f0f4ff; }
+[data-theme="light"] .lang-btn.french:hover,     [data-theme="light"] .lang-btn.french.active     { background: #f0f4ff; }
+[data-theme="light"] .lang-btn.mindset:hover,    [data-theme="light"] .lang-btn.mindset.active    { background: #fffbec; }
+
+/* ── Light mode: snippet card hovers ──────────────────────────────────────── */
+[data-theme="light"] .snippet-card { background: var(--bg3); border-color: var(--bd); }
+[data-theme="light"] .snippet-card.beginner:hover    { background: #eeffee; }
+[data-theme="light"] .snippet-card.intermediate:hover { background: #fffbec; }
+[data-theme="light"] .snippet-card.advanced:hover    { background: #fff0f0; }
+[data-theme="light"] .snippet-card.b1:hover          { background: #f0f4ff; }
+[data-theme="light"] .snippet-card.b2:hover          { background: #faf0ff; }
+[data-theme="light"] .snippet-card.c1:hover          { background: #fff5f0; }
+[data-theme="light"] .snippet-card.a1:hover          { background: #eeffee; }
+[data-theme="light"] .snippet-card.a2:hover          { background: #eeffee; }
+[data-theme="light"] .snippet-card.c2:hover          { background: #f0ffff; }
+[data-theme="light"] .snippet-card.exam:hover        { background: #fffbec; }
+
+/* ── Light mode: MenuScreen category/diff buttons ─────────────────────────── */
+[data-theme="light"] .cat-btn.active  { background: var(--bg4); }
+[data-theme="light"] .diff-btn:hover  { background: #fffbec; }
+[data-theme="light"] .diff-btn.active { background: #fffbec; }
+[data-theme="light"] .topbar-toggle.active  { background: #eeffee; }
+[data-theme="light"] .topbar-toggle.inactive { background: var(--bg); border-color: var(--bd3); }
+[data-theme="light"] .toggle-comments-btn.active { background: #eeffee; }
+
+/* ── Light mode: practice mode ────────────────────────────────────────────── */
+[data-theme="light"] .practice-root,
+[data-theme="light"] .practice-code-area { background: var(--bg); }
+[data-theme="light"] .practice-panel     { background: rgba(238,240,243,0.97); }
+
+/* ── Light mode: terminal mode ────────────────────────────────────────────── */
+[data-theme="light"] .tm-root,
+[data-theme="light"] .tm-body  { background: var(--bg2); }
+[data-theme="light"] .tm-titlebar { background: var(--bg3); border-bottom-color: var(--bd2); }
+[data-theme="light"] .tm-statusbar { background: var(--bg4); border-top-color: var(--bd2); }
+
+/* ── Light mode: practice terminal page (tp-*) ────────────────────────────── */
+[data-theme="light"] .tp-btn { background: var(--bg3); }
+[data-theme="light"] .tp-btn:not(.lang):not(.diff):hover,
+[data-theme="light"] .tp-btn:not(.lang):not(.diff).active { background: #f0f4ff; }
+[data-theme="light"] .tp-btn.lang:hover,   [data-theme="light"] .tp-btn.lang.active { background: #faf0ff; }
+[data-theme="light"] .tp-btn.diff:hover,   [data-theme="light"] .tp-btn.diff.active { background: #fffbec; }
+[data-theme="light"] .tp-snippet-card      { background: var(--bg3); }
+[data-theme="light"] .tp-snippet-card:hover { background: #eeffee; }
+[data-theme="light"] .tp-header-badge      { background: #eeffee; border-color: #4ec994; }
+[data-theme="light"] .tp-result-banner     { background: #eeffee; border-color: #4ec994; }
+
+/* ── Light mode: AuthPanel ────────────────────────────────────────────────── */
+[data-theme="light"] .auth-panel { background: var(--bg3); border-color: var(--bd2); }
+[data-theme="light"] .auth-input { background: var(--bg); border-color: var(--bd); }
+[data-theme="light"] .auth-google-btn { background: var(--bg); }
+[data-theme="light"] .auth-submit { background: var(--bg4); }
+[data-theme="light"] .mini-stat { background: var(--bg4); }
+
+/* ── Light mode: Navbar ───────────────────────────────────────────────────── */
+[data-theme="light"] .navbar-user-btn { background: var(--bg3); border-color: var(--bd); }
+[data-theme="light"] .navbar-user-btn:hover,
+[data-theme="light"] .navbar-user-btn.active { background: #f0f4ff; }
+[data-theme="light"] .navbar-link:hover { background: var(--bg2); border-color: var(--bd); }
+[data-theme="light"] .navbar-link.active { background: #f0f4ff; border-color: #c0d0f0; }
+[data-theme="light"] .navbar-back-btn { background: var(--bg3); border-color: var(--bd3); }
+[data-theme="light"] .navbar-back-btn:hover { background: #f0f4ff; }
+[data-theme="light"] .navbar-hint kbd { background: var(--bg2); border-color: var(--bd); }
+
+/* ── Light mode: KeyboardOverlay ──────────────────────────────────────────── */
+[data-theme="light"] .kb-trigger { background: var(--bg3); border-color: var(--bd); }
+[data-theme="light"] .kb-panel   { background: var(--bg3); border-color: var(--bd3); }
+[data-theme="light"] .kb-key     { background: var(--bg4); border-color: var(--bd); }
+[data-theme="light"] .kb-key:hover { background: var(--bg); border-color: var(--bd3); }
+[data-theme="light"] .kb-key.kb-prog { background: #f0f4ff; border-color: #c0d0f0; }
+[data-theme="light"] .kb-key.kb-prog:hover { background: #e0ebff; border-color: #82aaff; }
+[data-theme="light"] .kb-key.kb-special { background: #f5f0ff; border-color: #e0d0f0; }
+[data-theme="light"] .kb-legend-dot.prog    { background: #f0f4ff; border-color: #82aaff; }
+[data-theme="light"] .kb-legend-dot.special { background: #f5f0ff; border-color: #c792ea; }
+[data-theme="light"] .kb-ctrl-btn.active { background: var(--bg4); }
+
+/* ── Light mode: error flash animation ───────────────────────────────────── */
+@keyframes errorFlash-light {
+  0%, 100% { background: var(--bg); }
+  50%       { background: #fff0f0; }
+}
+[data-theme="light"] .practice-code-area.error-flash {
+  animation: errorFlash-light 0.15s ease;
 }

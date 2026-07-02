@@ -17,23 +17,23 @@
 /* Category buttons */
 .cat-btn {
   padding: 8px 18px;
-  border: 1px solid #21262d;
+  border: 1px solid var(--bd);
   border-radius: 6px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   font-family: 'JetBrains Mono', monospace;
-  background: #0d1117;
-  color: #8b949e;
+  background: var(--bg);
+  color: var(--tx2);
   transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
 }
 .cat-btn:hover {
-  background: #161b22;
+  background: var(--bg3);
   color: #82aaff;
   border-color: #82aaff;
   transform: translateY(-2px);
 }
 .cat-btn.active {
-  background: #1c2333;
+  background: var(--bg4);
   color: #82aaff;
   border-color: #82aaff;
   font-weight: 500;
@@ -43,13 +43,13 @@
 /* Difficulty buttons */
 .diff-btn {
   padding: 5px 16px;
-  border: 1px solid #21262d;
+  border: 1px solid var(--bd);
   border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
-  background: #0d1117;
-  color: #546e7a;
+  background: var(--bg);
+  color: var(--tx3);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
@@ -71,14 +71,14 @@
 /* Comments toggle */
 .toggle-comments-btn {
   padding: 5px 14px;
-  border: 1px solid #30363d;
+  border: 1px solid var(--bd3);
   border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.04em;
   background: transparent;
-  color: #546e7a;
+  color: var(--tx3);
   transition: all 0.15s;
 }
 .toggle-comments-btn:hover {

@@ -33,7 +33,7 @@ export function TopBar({
   } else if (nextChar === "\n") {
     nextLabel = "↵ Enter";  nextColor = "#82aaff";
   } else if (nextChar === " ") {
-    nextLabel = "·";        nextColor = "#546e7a";
+    nextLabel = "·";        nextColor = "var(--tx3)";
   } else if (nextChar) {
     nextLabel = `"${nextChar}"`;  nextColor = "#c792ea";
   } else {
@@ -50,9 +50,9 @@ export function TopBar({
 
       {/* Center: breadcrumb */}
       <div style={s.breadcrumb}>
-        <span style={{ color: "#546e7a" }}>{language}</span>
-        <span style={{ color: "#30363d", margin: "0 6px" }}>/</span>
-        <span style={{ color: "#8b949e" }}>{title}</span>
+        <span style={{ color: "var(--tx3)" }}>{language}</span>
+        <span style={{ color: "var(--tx4)", margin: "0 6px" }}>/</span>
+        <span style={{ color: "var(--tx2)" }}>{title}</span>
       </div>
 
       {/* Right: live stats + toggles */}
@@ -72,7 +72,7 @@ export function TopBar({
         {/* Progress counter */}
         <span style={s.counter}>
           <span style={{ color: "#4ec994" }}>{cursor}</span>
-          <span style={{ color: "#30363d" }}>/{total}</span>
+          <span style={{ color: "var(--tx4)" }}>/{total}</span>
         </span>
 
         {/* Next snippet button */}
@@ -115,8 +115,8 @@ function MiniStat({ label, value, color }) {
 
 const ms = {
   wrap:  { display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" },
-  label: { color: "#30363d", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase" },
-  value: { fontSize: "13px", fontWeight: "500", lineHeight: 1 },
+  label: { color: "var(--tx4)", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase" },
+  value: { fontSize: "14px", fontWeight: "500", lineHeight: 1 },
 };
 
 const s = {
@@ -125,25 +125,25 @@ const s = {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "8px 20px",
-    borderBottom: "1px solid #21262d",
+    borderBottom: "1px solid var(--bd)",
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: "12px",
     gap: "12px",
     flexWrap: "nowrap",
     position: "sticky",
     top: 0,
-    background: "#0d1117",
+    background: "var(--bg)",
     zIndex: 100,
   },
   back: {
-    background: "none", border: "none", color: "#546e7a",
-    cursor: "pointer", fontSize: "11px",
+    background: "none", border: "none", color: "var(--tx3)",
+    cursor: "pointer", fontSize: "12px",
     fontFamily: "'JetBrains Mono', monospace",
     whiteSpace: "nowrap", padding: "4px 0",
     transition: "color 0.15s",
   },
   breadcrumb: {
-    fontSize: "11px", flex: 1, textAlign: "center",
+    fontSize: "12px", flex: 1, textAlign: "center",
     overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
     minWidth: 0,
   },
@@ -154,13 +154,13 @@ const s = {
   statsRow: {
     display: "flex", alignItems: "center",
     gap: "10px",
-    background: "#161b22",
-    border: "1px solid #21262d",
+    background: "var(--bg3)",
+    border: "1px solid var(--bd)",
     borderRadius: "6px",
     padding: "5px 12px",
   },
-  divider: { width: "1px", height: "20px", background: "#21262d" },
-  counter: { fontSize: "11px" },
+  divider: { width: "1px", height: "20px", background: "var(--bd)" },
+  counter: { fontSize: "12px" },
   nextBtn: {
     padding: "4px 12px",
     background: "transparent",
@@ -168,7 +168,7 @@ const s = {
     borderRadius: "4px",
     color: "#4ec994",
     cursor: "pointer",
-    fontSize: "10px",
+    fontSize: "11px",
     fontFamily: "'JetBrains Mono', monospace",
     letterSpacing: "0.05em",
     whiteSpace: "nowrap",
@@ -176,7 +176,7 @@ const s = {
   },
   toggleBtn: {
     padding: "3px 10px", borderRadius: "4px", cursor: "pointer",
-    fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+    fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
     letterSpacing: "0.04em", transition: "all 0.15s",
   },
 };
@@ -193,7 +193,7 @@ export function BottomBar({ errors, accuracy, elapsed, nextChar, isOnIndent, typ
   } else if (nextChar === "\n") {
     nextLabel = "↵ Enter";     nextColor = "#82aaff";
   } else if (nextChar === " ") {
-    nextLabel = "· space";     nextColor = "#546e7a";
+    nextLabel = "· space";     nextColor = "var(--tx3)";
   } else if (nextChar) {
     nextLabel = `"${nextChar}"`; nextColor = "#c792ea";
   } else {
@@ -222,10 +222,10 @@ function Stat({ label, value, color }) {
 const bs = {
   bar: {
     display: "flex", gap: "32px", padding: "14px 24px",
-    borderTop: "1px solid #21262d", justifyContent: "center",
+    borderTop: "1px solid var(--bd)", justifyContent: "center",
     fontFamily: "'JetBrains Mono', monospace", flexWrap: "wrap",
   },
   item:  { display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" },
-  label: { color: "#546e7a", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase" },
-  value: { fontSize: "16px", fontWeight: "500" },
+  label: { color: "var(--tx3)", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase" },
+  value: { fontSize: "17px", fontWeight: "500" },
 };

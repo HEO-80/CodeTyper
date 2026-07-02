@@ -203,7 +203,7 @@ function TerminalPageInner() {
       <div className="tp-section">
         <div className="tp-label">
           // choose a snippet{" "}
-          <span style={{ color: "#30363d" }}>({snippets.length} available)</span>
+          <span style={{ color: "var(--tx4)" }}>({snippets.length} available)</span>
         </div>
         {snippets.length === 0 ? (
           <div className="tp-empty">🚧 snippets coming soon...</div>
@@ -241,7 +241,7 @@ function TerminalPageInner() {
 export default function TerminalPage() {
   return (
     <Suspense fallback={
-      <div style={{ padding: "48px", color: "#546e7a", fontFamily: "monospace" }}>
+      <div style={{ padding: "48px", color: "var(--tx3)", fontFamily: "monospace" }}>
         loading terminal...
       </div>
     }>

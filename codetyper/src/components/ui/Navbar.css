@@ -2,8 +2,8 @@
 
 .navbar {
   width: 100%;
-  background: #080c10;
-  border-bottom: 1px solid #161b22;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--bd2);
   z-index: 200;
   font-family: 'JetBrains Mono', monospace;
   flex-shrink: 0;
@@ -23,8 +23,8 @@
 .navbar-user-btn {
   width: 32px; height: 32px;
   border-radius: 50%;
-  border: 1px solid #21262d;
-  background: #0d1117;
+  border: 1px solid var(--bd);
+  background: var(--bg);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
@@ -46,8 +46,8 @@
   display: block;
 }
 .navbar-user-icon {
-  color: #546e7a;
-  font-size: 13px;
+  color: var(--tx3);
+  font-size: 14px;
   font-family: 'JetBrains Mono', monospace;
   line-height: 1;
 }
@@ -62,13 +62,13 @@
   align-items: center;
   gap: 6px;
   font-family: 'Syne', sans-serif;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 800;
   letter-spacing: -0.02em;
   flex-shrink: 0;
 }
 .navbar-logo-accent { color: #82aaff; }
-.navbar-logo-text   { color: #c9d1d9; }
+.navbar-logo-text   { color: var(--tx); }
 .navbar-logo:hover .navbar-logo-text { color: #ffffff; }
 
 /* Links */
@@ -83,14 +83,14 @@
   padding: 5px 12px;
   border-radius: 4px;
   text-decoration: none;
-  font-size: 11px; color: #546e7a;
+  font-size: 12px; color: var(--tx3);
   letter-spacing: 0.08em; text-transform: lowercase;
   border: 1px solid transparent;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
-.navbar-link-icon { font-size: 12px; opacity: 0.7; }
+.navbar-link-icon { font-size: 13px; opacity: 0.7; }
 .navbar-link:hover {
-  color: #c9d1d9; background: #0d1117; border-color: #21262d;
+  color: var(--tx); background: var(--bg); border-color: var(--bd);
 }
 .navbar-link.active {
   color: #82aaff; background: #0d1520; border-color: #1c2d4a;
@@ -102,10 +102,10 @@
   display: flex; align-items: center; gap: 5px;
   padding: 5px 12px;
   border-radius: 4px;
-  border: 1px solid #30363d;
-  background: #0d1117;
-  color: #c9d1d9;
-  font-size: 11px;
+  border: 1px solid var(--bd3);
+  background: var(--bg);
+  color: var(--tx);
+  font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -118,7 +118,7 @@
   background: #0d1520;
 }
 .navbar-back-arrow {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
 }
 
@@ -132,29 +132,47 @@
   opacity: 1;
 }
 
+/* ── Theme toggle button ─────────────────────────────────────────────────── */
+.navbar-theme-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--bd);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--tx3);
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+  padding: 0;
+}
+.navbar-theme-btn:hover {
+  border-color: #82aaff;
+  color: #82aaff;
+  transform: scale(1.12);
+}
+.navbar-theme-icon {
+  display: block;
+  animation: theme-icon-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes theme-icon-in {
+  from { transform: rotate(-90deg) scale(0.4); opacity: 0; }
+  to   { transform: rotate(0deg)   scale(1);   opacity: 1; }
+}
+
 /* Alt+T hint */
 .navbar-hint {
   display: flex; align-items: center; gap: 4px;
-  font-size: 10px; color: #30363d;
+  font-size: 11px; color: var(--tx4);
   flex-shrink: 0; margin-left: auto;
 }
 .navbar-hint kbd {
   display: inline-block; padding: 2px 5px;
-  background: #0d1117; border: 1px solid #21262d;
+  background: var(--bg); border: 1px solid var(--bd);
   border-radius: 3px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; color: #546e7a;
+  font-size: 10px; color: var(--tx3);
 }
-.navbar-hint-label { margin-left: 4px; color: #21262d; }
-
-/* Scrollbar global */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #21262d #0d1117;
-}
-*::-webkit-scrollbar       { width: 6px; height: 6px; }
-*::-webkit-scrollbar-track { background: #0d1117; }
-*::-webkit-scrollbar-thumb { background: #21262d; border-radius: 3px; }
+.navbar-hint-label { margin-left: 4px; color: var(--tx5); }
 
 @media (max-width: 600px) {
   .navbar-hint { display: none; }

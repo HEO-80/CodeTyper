@@ -232,11 +232,11 @@ export default function PracticeScreen({
                 onClick={() => setPanelMode(m => m === "structure" ? null : "structure")}
                 style={{
                   padding: "4px 10px",
-                  border: `1px solid ${panelMode === "structure" ? meta.color : "#30363d"}`,
+                  border: `1px solid ${panelMode === "structure" ? meta.color : "var(--bd3)"}`,
                   borderRadius: "4px", cursor: "pointer",
                   background: panelMode === "structure" ? `${meta.color}15` : "transparent",
-                  color: panelMode === "structure" ? meta.color : "#546e7a",
-                  fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                  color: panelMode === "structure" ? meta.color : "var(--tx3)",
+                  fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
                   letterSpacing: "0.06em", transition: "all 0.15s",
                 }}
               >⬡ STRUCTURE</button>
@@ -244,11 +244,11 @@ export default function PracticeScreen({
                 onClick={() => setPanelMode(m => m === "keyboard" ? null : "keyboard")}
                 style={{
                   padding: "4px 10px",
-                  border: `1px solid ${panelMode === "keyboard" ? "#c792ea" : "#30363d"}`,
+                  border: `1px solid ${panelMode === "keyboard" ? "#c792ea" : "var(--bd3)"}`,
                   borderRadius: "4px", cursor: "pointer",
                   background: panelMode === "keyboard" ? "#c792ea15" : "transparent",
-                  color: panelMode === "keyboard" ? "#c792ea" : "#546e7a",
-                  fontSize: "10px", fontFamily: "'JetBrains Mono', monospace",
+                  color: panelMode === "keyboard" ? "#c792ea" : "var(--tx3)",
+                  fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
                   letterSpacing: "0.06em", transition: "all 0.15s",
                 }}
               >⌨ KBD</button>
@@ -282,7 +282,7 @@ export default function PracticeScreen({
                       const isError = errors.has(idx);
                       const color = isTyped
                         ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
-                        : isCommentLine ? "#3a7a4a" : "#8d9faf";
+                        : isCommentLine ? "var(--c-cm-dim)" : "var(--c-un)";
                       return (
                         <span key={idx} style={{ position: "relative", display: "inline-block" }}>
                           {isCursor && (
@@ -346,14 +346,14 @@ export default function PracticeScreen({
                 </span>
               </div>
               {structure.length === 0 && (
-                <div style={{ color: "#3d5266", fontSize: "11px", padding: "20px", textAlign: "center" }}>No structure detected</div>
+                <div style={{ color: "var(--tx8)", fontSize: "12px", padding: "20px", textAlign: "center" }}>No structure detected</div>
               )}
               {structure.map((sec, i) => {
                 const isActive = i === activeIndex;
                 const isDone = i < activeIndex;
                 const isLast = i === structure.length - 1;
-                const nodeColor = isDone ? "#3d5266" : isActive ? sec.color : "#21262d";
-                const textColor = isDone ? "#607b96" : isActive ? sec.color : "#3d5266";
+                const nodeColor = isDone ? "var(--tx8)" : isActive ? sec.color : "var(--bd)";
+                const textColor = isDone ? "var(--tx6)" : isActive ? sec.color : "var(--tx8)";
                 return (
                   <div key={sec.id} style={{
                     display: "flex", alignItems: "center",
@@ -370,22 +370,22 @@ export default function PracticeScreen({
                     <div style={{
                       width: "6px", height: "6px", borderRadius: "50%",
                       border: `1px solid ${nodeColor}`,
-                      background: isActive ? sec.color : isDone ? "#1e2d3d" : "transparent",
+                      background: isActive ? sec.color : isDone ? "var(--bg4)" : "transparent",
                       flexShrink: 0, marginRight: "6px",
                       boxShadow: isActive ? `0 0 5px ${sec.color}90` : "none",
                       animation: isActive ? "pulse-node 1.5s ease-in-out infinite" : "none",
                       transition: "all 0.2s",
                     }} />
-                    <span style={{ color: textColor, fontSize: "11px", marginRight: "4px", flexShrink: 0 }}>{sec.icon}</span>
+                    <span style={{ color: textColor, fontSize: "12px", marginRight: "4px", flexShrink: 0 }}>{sec.icon}</span>
                     <div style={{ flex: 1, overflow: "hidden" }}>
-                      <div style={{ fontSize: "11px", color: textColor, fontWeight: isActive ? "600" : "400", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", transition: "color 0.2s" }}>
+                      <div style={{ fontSize: "12px", color: textColor, fontWeight: isActive ? "600" : "400", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", transition: "color 0.2s" }}>
                         {sec.label}
                       </div>
-                      {sec.sublabel && <div style={{ fontSize: "9px", color: "#3d5266" }}>{sec.sublabel}</div>}
+                      {sec.sublabel && <div style={{ fontSize: "10px", color: "var(--tx8)" }}>{sec.sublabel}</div>}
                     </div>
-                    {isDone && <span style={{ color: "#4ec994", fontSize: "10px", flexShrink: 0, marginLeft: "4px" }}>✓</span>}
+                    {isDone && <span style={{ color: "#4ec994", fontSize: "11px", flexShrink: 0, marginLeft: "4px" }}>✓</span>}
                     {isActive && (
-                      <span style={{ fontSize: "9px", color: sec.color, border: `1px solid ${sec.color}`, borderRadius: "3px", padding: "1px 4px", flexShrink: 0, marginLeft: "4px", letterSpacing: "0.04em" }}>
+                      <span style={{ fontSize: "10px", color: sec.color, border: `1px solid ${sec.color}`, borderRadius: "3px", padding: "1px 4px", flexShrink: 0, marginLeft: "4px", letterSpacing: "0.04em" }}>
                         here
                       </span>
                     )}
@@ -401,8 +401,8 @@ export default function PracticeScreen({
                 { label: "left", value: Math.max(0, structure.length - activeIndex - 1) },
               ].map(({ label, value }) => (
                 <div key={label} style={{ textAlign: "center" }}>
-                  <div style={{ color: "#c9d1d9", fontSize: "16px", fontWeight: "600" }}>{value}</div>
-                  <div style={{ color: "#3d5266", fontSize: "10px", letterSpacing: "0.05em" }}>{label}</div>
+                  <div style={{ color: "var(--tx)", fontSize: "17px", fontWeight: "600" }}>{value}</div>
+                  <div style={{ color: "var(--tx8)", fontSize: "11px", letterSpacing: "0.05em" }}>{label}</div>
                 </div>
               ))}
             </div>
