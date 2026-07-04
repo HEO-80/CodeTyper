@@ -10,7 +10,7 @@ export const PHASES = [
     minSessions: 0,
     minCpm:      0,
     minAccuracy: 0,
-    color:       "#6c8692",
+    color:       "var(--tx3)",
     icon:        "○",
   },
   {
@@ -20,7 +20,7 @@ export const PHASES = [
     minSessions: 10,
     minCpm:      60,
     minAccuracy: 70,
-    color:       "#4ec994",
+    color:       "var(--hl-green)",
     icon:        "◔",
   },
   {
@@ -30,7 +30,7 @@ export const PHASES = [
     minSessions: 50,
     minCpm:      100,
     minAccuracy: 85,
-    color:       "#82aaff",
+    color:       "var(--hl-blue)",
     icon:        "◑",
   },
   {
@@ -40,7 +40,7 @@ export const PHASES = [
     minSessions: 150,
     minCpm:      150,
     minAccuracy: 92,
-    color:       "#c792ea",
+    color:       "var(--hl-purple)",
     icon:        "◕",
   },
   {
@@ -50,7 +50,7 @@ export const PHASES = [
     minSessions: 500,
     minCpm:      200,
     minAccuracy: 96,
-    color:       "#FCEE0A",
+    color:       "var(--hl-yellow)",
     icon:        "●",
   },
 ];

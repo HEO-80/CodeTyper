@@ -38,9 +38,9 @@
 }
 .topbar-toggle:hover { opacity: 0.8; }
 .topbar-toggle.active {
-  background: #1a2a1a;
-  border-color: #4ec994;
-  color: #4ec994;
+  background: var(--hl-green-bg);
+  border-color: var(--hl-green);
+  color: var(--hl-green);
 }
 .topbar-toggle.inactive {
   background: transparent;
@@ -56,7 +56,7 @@
 }
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #82aaff, #c792ea);
+  background: linear-gradient(90deg, var(--hl-blue), var(--hl-purple));
   transition: width 0.1s ease;
 }
 

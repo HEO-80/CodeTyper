@@ -30,11 +30,12 @@ function MoonIcon() {
   );
 }
 
-export default function Navbar({ onToggleAuth, authOpen }) {
+export default function Navbar({ onToggleAuth, authOpen,onOpenSettings }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const { hasBack, triggerBack } = useNav();
   const { isDark, toggleTheme } = useTheme();
+
 
   return (
     <nav className="navbar">
@@ -77,10 +78,16 @@ export default function Navbar({ onToggleAuth, authOpen }) {
             editor
           </Link>
 
-          <button className="navbar-link navbar-settings-btn" title="Settings (coming soon)">
+
+   <button
+            className="navbar-link navbar-settings-btn"
+            onClick={onOpenSettings}
+            title="Settings"
+          >
             <span className="navbar-link-icon">⚙</span>
             settings
           </button>
+
 
         </div>
 

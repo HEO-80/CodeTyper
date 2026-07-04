@@ -108,7 +108,7 @@
   top: 3px;
   width: 2px;
   height: 21px;
-  background: #82aaff;
+  background: var(--hl-blue);
   border-radius: 1px;
   z-index: 10;
   animation: blink 1s step-end infinite;
@@ -117,8 +117,8 @@
 /* ── Comment tag ─────────────────────────────────────────────────────────── */
 .comment-tag {
   font-size: 10px;
-  color: #4ec994;
-  border: 1px solid #2a5a3a;
+  color: var(--hl-green);
+  border: 1px solid var(--hl-green);
   border-radius: 3px;
   padding: 1px 4px;
   letter-spacing: 0.08em;
@@ -222,13 +222,13 @@
 }
 
 .mode-toggle-btn.active-editor {
-  background: #0d1520;
-  color: #82aaff;
+  background: var(--hl-blue-bg);
+  color: var(--hl-blue);
 }
 
 .mode-toggle-btn.active-terminal {
-  background: #0a1a10;
-  color: #4ec994;
+  background: var(--hl-green-bg);
+  color: var(--hl-green);
 }
 
 /* ── Mobile ──────────────────────────────────────────────────────────────── */

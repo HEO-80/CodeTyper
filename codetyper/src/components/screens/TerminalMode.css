@@ -82,8 +82,8 @@
   transition: all 0.15s;
 }
 .tm-mode-btn:hover {
-  border-color: #82aaff;
-  color: #82aaff;
+  border-color: var(--hl-blue);
+  color: var(--hl-blue);
 }
 
 /* ── Progress bar ────────────────────────────────────────────────────────── */
@@ -95,7 +95,7 @@
 }
 .tm-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4ec994, #82aaff);
+  background: linear-gradient(90deg, var(--hl-green), var(--hl-blue));
   transition: width 0.12s ease;
 }
 
@@ -143,7 +143,7 @@
 
 /* ── Prompt ──────────────────────────────────────────────────────────────── */
 .tm-prompt {
-  color: #4ec994;
+  color: var(--hl-green);
   font-size: 14px;
   font-weight: 500;
   margin-right: 12px;
@@ -173,7 +173,7 @@
   top: 4px;
   width: 2px;
   height: 18px;
-  background: #4ec994;
+  background: var(--hl-green);
   border-radius: 1px;
   z-index: 10;
   animation: tm-blink 1s step-end infinite;
@@ -185,7 +185,7 @@
   height: 18px;
   margin-left: 1px;
   vertical-align: middle;
-  background: #4ec994;
+  background: var(--hl-green);
   border-radius: 1px;
   animation: tm-blink 1s step-end infinite;
 }
@@ -217,7 +217,7 @@
 .tm-status-dot {
   width: 6px;
   height: 6px;
-  background: #4ec994;
+  background: var(--hl-green);
   border-radius: 50%;
   animation: tm-blink 2s ease-in-out infinite;
 }

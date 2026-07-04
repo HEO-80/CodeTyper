@@ -5,6 +5,7 @@ import { useSession }  from "next-auth/react";
 import Navbar          from "@/components/ui/Navbar";
 import AuthPanel       from "@/components/ui/AuthPanel";
 import GlobalTerminal  from "@/components/ui/GlobalTerminal";
+import SettingsScreen from "@/components/screens/SettingsScreen";
 
 // ── Context para refrescar stats desde cualquier pantalla ─────────────────────
 export const StatsRefreshContext = createContext(() => {});
@@ -30,6 +31,7 @@ export default function LayoutClient({ children }) {
   const [hasBack,      setHasBack]      = useState(false);
   const [isDark,       setIsDark]       = useState(true);
   const backRef = useRef(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -99,8 +101,11 @@ export default function LayoutClient({ children }) {
     <StatsRefreshContext.Provider value={fetchStats}>
       <NavContext.Provider value={navCtx}>
       <TerminalContext.Provider value={terminalCtx}>
-        <Navbar onToggleAuth={() => setAuthOpen(v => !v)} authOpen={authOpen} />
-
+ <Navbar
+  onToggleAuth={() => setAuthOpen(v => !v)}
+  authOpen={authOpen}
+  onOpenSettings={() => setSettingsOpen(true)}
+/>
         <div style={{ flex: 1, overflow: "hidden", display: "flex", width: "100%" }}>
           {children}
         </div>
@@ -115,6 +120,9 @@ export default function LayoutClient({ children }) {
       </TerminalContext.Provider>
       </NavContext.Provider>
     </StatsRefreshContext.Provider>
+    {settingsOpen && (
+  <SettingsScreen onClose={() => setSettingsOpen(false)} />
+)}
     </ThemeContext.Provider>
   );
 }

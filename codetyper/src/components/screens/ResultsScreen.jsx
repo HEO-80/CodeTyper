@@ -20,7 +20,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
     accuracy >= 75 ? "C" : "D";
 
   const gradeColors = {
-    S: "#ffcb6b", A: "#4ec994", B: "#82aaff", C: "#f78c6c", D: "#ff5555",
+    S: "var(--hl-yellow)", A: "var(--hl-green)", B: "var(--hl-blue)", C: "var(--hl-orange)", D: "var(--hl-red)",
   };
   const gradeColor = gradeColors[grade];
 
@@ -62,14 +62,14 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
         {/* Stats */}
         <div style={styles.statsGrid}>
           <div style={styles.statCard}>
-            <div style={{ ...styles.statNum, color: "#82aaff" }}>{cpm}</div>
+            <div style={{ ...styles.statNum, color: "var(--hl-blue)" }}>{cpm}</div>
             <div style={styles.statLabel}>CPM</div>
             <div style={styles.statSub}>caracteres por minuto</div>
           </div>
           <div style={styles.statCard}>
             <div style={{
               ...styles.statNum,
-              color: accuracy >= 95 ? "#4ec994" : accuracy >= 80 ? "#ffcb6b" : "#ff5555"
+              color: accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)"
             }}>
               {accuracy}%
             </div>
@@ -77,7 +77,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
             <div style={styles.statSub}>{totalErrors} errores cometidos</div>
           </div>
           <div style={styles.statCard}>
-            <div style={{ ...styles.statNum, color: "#c792ea" }}>{time}s</div>
+            <div style={{ ...styles.statNum, color: "var(--hl-purple)" }}>{time}s</div>
             <div style={styles.statLabel}>Tiempo</div>
             <div style={styles.statSub}>{tokens.length} caracteres totales</div>
           </div>
@@ -88,7 +88,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
           {hasNext && (
             <button
               className="result-btn"
-              style={{ ...styles.btn, borderColor: "#4ec994", color: "#4ec994", fontWeight: "600" }}
+              style={{ ...styles.btn, borderColor: "var(--hl-green)", color: "var(--hl-green)", fontWeight: "600" }}
               onClick={onNext}
             >
               siguiente →
@@ -96,7 +96,7 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
           )}
           <button
             className="result-btn"
-            style={{ ...styles.btn, borderColor: "#82aaff", color: "#82aaff" }}
+            style={{ ...styles.btn, borderColor: "var(--hl-blue)", color: "var(--hl-blue)" }}
             onClick={onRepeat}
           >
             ↺ repetir
@@ -197,7 +197,7 @@ const styles = {
   completedMsg: {
     textAlign: "center",
     marginTop: "20px",
-    color: "#ffcb6b",
+    color: "var(--hl-yellow)",
     fontSize: "13px",
     letterSpacing: "0.03em",
   },

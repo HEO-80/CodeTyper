@@ -27,20 +27,20 @@ export function TopBar({
   // Next key hint
   let nextLabel, nextColor;
   if (typedWrong) {
-    nextLabel = "⌫";        nextColor = "#ff5555";
+    nextLabel = "⌫";        nextColor = "var(--hl-red)";
   } else if (isOnIndent) {
-    nextLabel = "⇥ Tab";    nextColor = "#ffcb6b";
+    nextLabel = "⇥ Tab";    nextColor = "var(--hl-yellow)";
   } else if (nextChar === "\n") {
-    nextLabel = "↵ Enter";  nextColor = "#82aaff";
+    nextLabel = "↵ Enter";  nextColor = "var(--hl-blue)";
   } else if (nextChar === " ") {
     nextLabel = "·";        nextColor = "var(--tx3)";
   } else if (nextChar) {
-    nextLabel = `"${nextChar}"`;  nextColor = "#c792ea";
+    nextLabel = `"${nextChar}"`;  nextColor = "var(--hl-purple)";
   } else {
-    nextLabel = "✓";        nextColor = "#4ec994";
+    nextLabel = "✓";        nextColor = "var(--hl-green)";
   }
 
-  const accuracyColor = accuracy >= 95 ? "#4ec994" : accuracy >= 80 ? "#ffcb6b" : "#ff5555";
+  const accuracyColor = accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)";
 
   return (
     <div style={s.bar}>
@@ -60,18 +60,18 @@ export function TopBar({
 
         {/* Live stats */}
         <div style={s.statsRow}>
-          <MiniStat label="err"  value={errors ?? 0}      color={errors > 0 ? "#ff5555" : "#4ec994"} />
+          <MiniStat label="err"  value={errors ?? 0}      color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} />
           <div style={s.divider} />
           <MiniStat label="acc"  value={`${accuracy ?? 100}%`} color={accuracyColor} />
           <div style={s.divider} />
-          <MiniStat label="time" value={`${elapsed ?? 0}s`}    color="#82aaff" />
+          <MiniStat label="time" value={`${elapsed ?? 0}s`}    color="var(--hl-blue)" />
           <div style={s.divider} />
           <MiniStat label="next" value={nextLabel}              color={nextColor} />
         </div>
 
         {/* Progress counter */}
         <span style={s.counter}>
-          <span style={{ color: "#4ec994" }}>{cursor}</span>
+          <span style={{ color: "var(--hl-green)" }}>{cursor}</span>
           <span style={{ color: "var(--tx4)" }}>/{total}</span>
         </span>
 
@@ -164,9 +164,9 @@ const s = {
   nextBtn: {
     padding: "4px 12px",
     background: "transparent",
-    border: "1px solid #4ec994",
+    border: "1px solid var(--hl-green)",
     borderRadius: "4px",
-    color: "#4ec994",
+    color: "var(--hl-green)",
     cursor: "pointer",
     fontSize: "11px",
     fontFamily: "'JetBrains Mono', monospace",
@@ -187,24 +187,24 @@ export function BottomBar({ errors, accuracy, elapsed, nextChar, isOnIndent, typ
 
   let nextLabel, nextColor;
   if (typedWrong) {
-    nextLabel = "⌫ backspace"; nextColor = "#ff5555";
+    nextLabel = "⌫ backspace"; nextColor = "var(--hl-red)";
   } else if (isOnIndent) {
-    nextLabel = "⇥ Tab";       nextColor = "#ffcb6b";
+    nextLabel = "⇥ Tab";       nextColor = "var(--hl-yellow)";
   } else if (nextChar === "\n") {
-    nextLabel = "↵ Enter";     nextColor = "#82aaff";
+    nextLabel = "↵ Enter";     nextColor = "var(--hl-blue)";
   } else if (nextChar === " ") {
     nextLabel = "· space";     nextColor = "var(--tx3)";
   } else if (nextChar) {
-    nextLabel = `"${nextChar}"`; nextColor = "#c792ea";
+    nextLabel = `"${nextChar}"`; nextColor = "var(--hl-purple)";
   } else {
-    nextLabel = "✓ done";      nextColor = "#4ec994";
+    nextLabel = "✓ done";      nextColor = "var(--hl-green)";
   }
 
   return (
     <div style={bs.bar}>
-      <Stat label="errors"    value={errors}           color={errors > 0 ? "#ff5555" : "#4ec994"} />
-      <Stat label="accuracy"  value={`${accuracy}%`}  color={accuracy >= 95 ? "#4ec994" : accuracy >= 80 ? "#ffcb6b" : "#ff5555"} />
-      <Stat label="time"      value={`${elapsed}s`}   color="#82aaff" />
+      <Stat label="errors"    value={errors}           color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} />
+      <Stat label="accuracy"  value={`${accuracy}%`}  color={accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)"} />
+      <Stat label="time"      value={`${elapsed}s`}   color="var(--hl-blue)" />
       <Stat label="next"      value={nextLabel}        color={nextColor} />
     </div>
   );

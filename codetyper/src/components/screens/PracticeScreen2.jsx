@@ -5,7 +5,6 @@ import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
 import { useCodeStructure } from "@/hooks/useCodeStructure";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useSpeech } from "@/hooks/useSpeech";
 import TerminalMode from "@/components/screens/TerminalMode";
 import { KeyboardPanel } from "@/components/ui/KeyboardOverlay";
 import "./PracticeScreen.css";
@@ -47,42 +46,19 @@ function injectComments(code, language) {
 }
 
 const LANG_META = {
-  solidity:   { label: "Smart Contract",  icon: "◆", color: "#c792ea" },
-  javascript: { label: "JavaScript",      icon: "⬡", color: "#ffcb6b" },
-  typescript: { label: "TypeScript",      icon: "⬡", color: "#82aaff" },
-  csharp:     { label: ".NET Web API",    icon: "◈", color: "#82aaff" },
-  sql:        { label: "SQL Script",      icon: "▪", color: "#f78c6c" },
-  powershell: { label: "PowerShell",      icon: "▶", color: "#5391FE" },
-  bash:       { label: "Bash Script",     icon: "▶", color: "#4ec994" },
-  python:     { label: "Python",          icon: "⬡", color: "#4ec994" },
-  java:       { label: "Java",            icon: "◆", color: "#f89820" },
-  cloud:      { label: "Cloud Script",    icon: "⬡", color: "#f78c6c" },
-  english:    { label: "English",         icon: "⬡", color: "#4ec994" },
-  french:     { label: "Français",        icon: "⬡", color: "#82aaff" },
-  german:     { label: "Deutsch",         icon: "⬡", color: "#ffcb6b" },
-  italian:    { label: "Italiano",        icon: "⬡", color: "#f78c6c" },
-  portuguese: { label: "Português",       icon: "⬡", color: "#4ec994" },
-  romanian:   { label: "Română",          icon: "⬡", color: "#c792ea" },
-  japanese:   { label: "日本語",           icon: "⬡", color: "#f89820" },
-  russian:    { label: "Русский",         icon: "⬡", color: "#82aaff" },
-  chinese:    { label: "中文",             icon: "⬡", color: "#ff5555" },
+  solidity: { label: "Smart Contract", icon: "◆", color: "var(--hl-purple)" },
+  javascript: { label: "JavaScript", icon: "⬡", color: "var(--hl-yellow)" },
+  typescript: { label: "TypeScript", icon: "⬡", color: "var(--hl-blue)" },
+  csharp: { label: ".NET Web API", icon: "◈", color: "var(--hl-blue)" },
+  sql: { label: "SQL Script", icon: "▪", color: "var(--hl-orange)" },
+  powershell: { label: "PowerShell", icon: "▶", color: "var(--hl-msblue)" },
+  bash: { label: "Bash Script", icon: "▶", color: "var(--hl-green)" },
+  python: { label: "Python", icon: "⬡", color: "var(--hl-green)" },
+  java: { label: "Java", icon: "◆", color: "var(--hl-amber)" },
+  cloud: { label: "Cloud Script", icon: "⬡", color: "var(--hl-orange)" },
 };
 
 const LINE_HEIGHT = 28;
-
-// ─── Obtener líneas del código ────────────────────────────────────────────────
-function getCodeLines(code) {
-  return code.split("\n");
-}
-
-// ─── Obtener índice de línea actual ──────────────────────────────────────────
-function getCurrentLineIndex(tokens, cursor) {
-  let lineIndex = 0;
-  for (let i = 0; i < cursor && i < tokens.length; i++) {
-    if (tokens[i].char === "\n") lineIndex++;
-  }
-  return lineIndex;
-}
 
 export default function PracticeScreen({
   snippet, language, showComments,
@@ -97,43 +73,24 @@ export default function PracticeScreen({
   const [errorFlash, setErrorFlash] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [tick, setTick] = useState(0);
-  const [panelMode, setPanelMode] = useState("structure");
-  const [dictado, setDictado] = useState(false);
-  const lastSpokenLine = useRef(-1);
+  const [panelMode, setPanelMode] = useState("structure"); // "structure" | "keyboard" | null
 
   const containerRef = useRef(null);
   const scrollAreaRef = useRef(null);
   const timerRef = useRef(null);
   const isMobile = useIsMobile(768);
 
-  const { speak, stop, isSupported } = useSpeech(language);
-
   const showPanel = panelMode !== null && !isMobile;
   const panelWidth = panelMode === "keyboard" ? 320 : 280;
   const rawCode = showComments ? injectComments(snippet.code, language) : snippet.code;
   const { structure, activeIndex } = useCodeStructure(rawCode, language, cursor);
-  const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
+  const meta = LANG_META[language] || { label: language, icon: "◉", color: "var(--hl-blue)" };
 
-  // ─── Inicializar snippet ──────────────────────────────────────────────────
   useEffect(() => {
-    const newTokens = tokenize(rawCode, language);
-    setTokens(newTokens);
-    setCursor(0);
-    setErrors(new Set());
-    setTotalErrors(0);
-    setStartTime(null);
-    lastSpokenLine.current = -1;
+    setTokens(tokenize(rawCode, language));
+    setCursor(0); setErrors(new Set()); setTotalErrors(0); setStartTime(null);
     clearInterval(timerRef.current);
     setTimeout(() => containerRef.current?.focus(), 50);
-
-    // Leer la primera línea si dictado está activo
-    if (dictado && isSupported) {
-      const lines = getCodeLines(rawCode);
-      if (lines[0]) {
-        setTimeout(() => speak(lines[0]), 300);
-        lastSpokenLine.current = 0;
-      }
-    }
   }, [snippet, language]);
 
   useEffect(() => {
@@ -145,35 +102,6 @@ export default function PracticeScreen({
     if (startTime) timerRef.current = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(timerRef.current);
   }, [startTime]);
-
-  // ─── Leer línea siguiente cuando se cambia de línea ──────────────────────
-  useEffect(() => {
-    if (!dictado || !isSupported || tokens.length === 0) return;
-    const currentLine = getCurrentLineIndex(tokens, cursor);
-    const lines = getCodeLines(rawCode);
-
-    // Si avanzamos a una nueva línea y hay siguiente línea que leer
-    if (currentLine !== lastSpokenLine.current) {
-      const nextLineIndex = currentLine;
-      if (lines[nextLineIndex] !== undefined) {
-        lastSpokenLine.current = nextLineIndex;
-        // Pequeño delay para que no se solape con el tipeo
-        setTimeout(() => speak(lines[nextLineIndex]), 200);
-      }
-    }
-  }, [cursor, dictado, tokens, rawCode]);
-
-  // ─── Al activar dictado, leer línea actual ────────────────────────────────
-  useEffect(() => {
-    if (dictado && isSupported && tokens.length > 0) {
-      const currentLine = getCurrentLineIndex(tokens, cursor);
-      const lines = getCodeLines(rawCode);
-      lastSpokenLine.current = currentLine;
-      if (lines[currentLine]) speak(lines[currentLine]);
-    } else if (!dictado) {
-      stop();
-    }
-  }, [dictado]);
 
   // Cursor centering
   useEffect(() => {
@@ -248,31 +176,6 @@ export default function PracticeScreen({
   const isOnIndent = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
   const progress = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
 
-  // ─── Botón de dictado ─────────────────────────────────────────────────────
-  const DictadoButton = () => {
-    if (!isSupported) return null;
-    return (
-      <button
-        onClick={() => setDictado(d => !d)}
-        title={dictado ? "Desactivar dictado" : "Activar dictado — te lee cada línea antes de escribirla"}
-        style={{
-          padding: "4px 10px",
-          border: `1px solid ${dictado ? "#4ec994" : "var(--bd3)"}`,
-          borderRadius: "4px",
-          cursor: "pointer",
-          background: dictado ? "#4ec99415" : "transparent",
-          color: dictado ? "#4ec994" : "var(--tx3)",
-          fontSize: "11px",
-          fontFamily: "'JetBrains Mono', monospace",
-          letterSpacing: "0.06em",
-          transition: "all 0.15s",
-        }}
-      >
-        {dictado ? "🔊 VOZ ON" : "🔇 VOZ OFF"}
-      </button>
-    );
-  };
-
   const ModeToggle = ({ current }) => (
     <div className="mode-toggle">
       <button
@@ -324,7 +227,6 @@ export default function PracticeScreen({
         extraRight={
           !isMobile ? (
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <DictadoButton />
               <ModeToggle current="editor" />
               <button
                 onClick={() => setPanelMode(m => m === "structure" ? null : "structure")}
@@ -342,10 +244,10 @@ export default function PracticeScreen({
                 onClick={() => setPanelMode(m => m === "keyboard" ? null : "keyboard")}
                 style={{
                   padding: "4px 10px",
-                  border: `1px solid ${panelMode === "keyboard" ? "#c792ea" : "var(--bd3)"}`,
+                  border: `1px solid ${panelMode === "keyboard" ? "var(--hl-purple)" : "var(--bd3)"}`,
                   borderRadius: "4px", cursor: "pointer",
-                  background: panelMode === "keyboard" ? "#c792ea15" : "transparent",
-                  color: panelMode === "keyboard" ? "#c792ea" : "var(--tx3)",
+                  background: panelMode === "keyboard" ? "var(--hl-purple-bg)" : "transparent",
+                  color: panelMode === "keyboard" ? "var(--hl-purple)" : "var(--tx3)",
                   fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
                   letterSpacing: "0.06em", transition: "all 0.15s",
                 }}
@@ -361,7 +263,7 @@ export default function PracticeScreen({
         {/* Code area */}
         <div
           ref={scrollAreaRef}
-          className={`practice-code-area${errorFlash ? " error-flash" : ""}`}
+          className="practice-code-area"
           style={{ right: showPanel ? `${panelWidth}px` : "0" }}
         >
           <div className="practice-code-block">
@@ -379,17 +281,19 @@ export default function PracticeScreen({
                       const isCursor = idx === cursor;
                       const isError = errors.has(idx);
                       const color = isTyped
-                        ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
+                        ? isError ? "var(--hl-red)" : isCommentLine ? "var(--hl-green)" : getTokenColor(type)
                         : isCommentLine ? "var(--c-cm-dim)" : "var(--c-un)";
                       return (
                         <span key={idx} style={{ position: "relative", display: "inline-block" }}>
-                          {isCursor && <span className="code-cursor" />}
+                          {isCursor && (
+                            <span className="code-cursor" />
+                          )}
                           <span style={{
                             color,
                             fontWeight: isTyped && type === "keyword" ? "500" : "300",
                             fontStyle: isCommentLine ? "italic" : "normal",
                             transition: "color 0.04s",
-                            ...(isError ? { textDecoration: "underline", textDecorationColor: "#ff5555" } : {}),
+                            ...(isError ? { textDecoration: "underline", textDecorationColor: "var(--hl-red)" } : {}),
                           }}>
                             {char === " " ? "\u00A0" : char}
                           </span>
@@ -407,6 +311,7 @@ export default function PracticeScreen({
         {showPanel && (
           <div className="practice-panel" style={{ width: `${panelWidth}px` }}>
 
+            {/* Keyboard view */}
             {panelMode === "keyboard" && (
               <KeyboardPanel
                 accentColor={meta.color}
@@ -415,6 +320,7 @@ export default function PracticeScreen({
               />
             )}
 
+            {/* Structure view */}
             {panelMode === "structure" && (<>
             <div className="practice-panel-header">
               <span style={{ color: meta.color, fontSize: "16px" }}>{meta.icon}</span>
@@ -428,7 +334,7 @@ export default function PracticeScreen({
             <div className="practice-panel-progress-track">
               <div
                 className="practice-panel-progress-fill"
-                style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, #82aaff)` }}
+                style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, var(--hl-blue))` }}
               />
             </div>
 
@@ -477,7 +383,7 @@ export default function PracticeScreen({
                       </div>
                       {sec.sublabel && <div style={{ fontSize: "10px", color: "var(--tx8)" }}>{sec.sublabel}</div>}
                     </div>
-                    {isDone && <span style={{ color: "#4ec994", fontSize: "11px", flexShrink: 0, marginLeft: "4px" }}>✓</span>}
+                    {isDone && <span style={{ color: "var(--hl-green)", fontSize: "11px", flexShrink: 0, marginLeft: "4px" }}>✓</span>}
                     {isActive && (
                       <span style={{ fontSize: "10px", color: sec.color, border: `1px solid ${sec.color}`, borderRadius: "3px", padding: "1px 4px", flexShrink: 0, marginLeft: "4px", letterSpacing: "0.04em" }}>
                         here
@@ -491,8 +397,8 @@ export default function PracticeScreen({
             <div className="practice-panel-footer">
               {[
                 { label: "sections", value: structure.length },
-                { label: "done",     value: Math.max(0, activeIndex) },
-                { label: "left",     value: Math.max(0, structure.length - activeIndex - 1) },
+                { label: "done", value: Math.max(0, activeIndex) },
+                { label: "left", value: Math.max(0, structure.length - activeIndex - 1) },
               ].map(({ label, value }) => (
                 <div key={label} style={{ textAlign: "center" }}>
                   <div style={{ color: "var(--tx)", fontSize: "17px", fontWeight: "600" }}>{value}</div>

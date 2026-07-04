@@ -77,7 +77,7 @@ export default function MenuScreen({
       </div>
 
       {/* Category */}
-      <div style={s.section}>
+      <div className="menu-section" style={s.section}>
         <div style={s.label}>// category</div>
         <div style={s.row}>
           {Object.entries(CATEGORIES).map(([key, cat]) => (
@@ -100,7 +100,7 @@ export default function MenuScreen({
       />
 
       {/* Difficulty */}
-      <div style={s.section}>
+      <div className="menu-section" style={s.section}>
         <div style={s.label}>// difficulty</div>
         <div style={s.row}>
           {difficulties.map((diff) => (
@@ -116,7 +116,7 @@ export default function MenuScreen({
       </div>
 
       {/* Snippets */}
-      <div style={s.section}>
+      <div className="menu-section" style={s.section}>
         <div style={s.label}>
           // choose a snippet{" "}
           <span style={{ color: "var(--tx4)" }}>({snippets.length} available)</span>
@@ -173,7 +173,7 @@ const s = {
   root:        { width: "100%", maxWidth: "820px", margin: "0 auto", padding: "48px 24px", fontFamily: "'JetBrains Mono', monospace" },
   header:      { marginBottom: "36px", textAlign: "center" },
   logo:        { fontFamily: "'Syne', sans-serif", fontSize: "36px", fontWeight: "800", marginBottom: "10px", letterSpacing: "-0.02em" },
-  logoAccent:  { color: "#82aaff", marginRight: "8px" },
+  logoAccent:  { color: "var(--hl-blue)", marginRight: "8px" },
   logoText:    { color: "var(--tx)" },
   tagline:     { color: "var(--tx3)", fontSize: "14px", letterSpacing: "0.05em" },
   topRow:      { display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", marginBottom: "32px", flexWrap: "wrap" },

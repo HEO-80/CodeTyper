@@ -3,16 +3,16 @@
 import { useEffect, useRef } from "react";
 
 const LANG_META = {
-  solidity:   { label: "Smart Contract",  icon: "◆", color: "#c792ea" },
-  javascript: { label: "JavaScript",      icon: "⬡", color: "#ffcb6b" },
-  typescript: { label: "TypeScript",      icon: "⬡", color: "#82aaff" },
-  csharp:     { label: ".NET Web API",    icon: "◈", color: "#82aaff" },
-  sql:        { label: "SQL Script",      icon: "▪", color: "#f78c6c" },
-  powershell: { label: "PowerShell",      icon: "▶", color: "#5391FE" },
-  bash:       { label: "Bash Script",     icon: "▶", color: "#4ec994" },
-  python:     { label: "Python",          icon: "⬡", color: "#4ec994" },
-  java:       { label: "Java",            icon: "◆", color: "#f89820" },
-  cloud:      { label: "Cloud Script",    icon: "⬡", color: "#f78c6c" },
+  solidity:   { label: "Smart Contract",  icon: "◆", color: "var(--hl-purple)" },
+  javascript: { label: "JavaScript",      icon: "⬡", color: "var(--hl-yellow)" },
+  typescript: { label: "TypeScript",      icon: "⬡", color: "var(--hl-blue)" },
+  csharp:     { label: ".NET Web API",    icon: "◈", color: "var(--hl-blue)" },
+  sql:        { label: "SQL Script",      icon: "▪", color: "var(--hl-orange)" },
+  powershell: { label: "PowerShell",      icon: "▶", color: "var(--hl-msblue)" },
+  bash:       { label: "Bash Script",     icon: "▶", color: "var(--hl-green)" },
+  python:     { label: "Python",          icon: "⬡", color: "var(--hl-green)" },
+  java:       { label: "Java",            icon: "◆", color: "var(--hl-amber)" },
+  cloud:      { label: "Cloud Script",    icon: "⬡", color: "var(--hl-orange)" },
 };
 
 export default function ContextPanel({
@@ -26,7 +26,7 @@ export default function ContextPanel({
   onToggle,
 }) {
   const activeRef = useRef(null);
-  const meta = LANG_META[language] || { label: language, icon: "◉", color: "#82aaff" };
+  const meta = LANG_META[language] || { label: language, icon: "◉", color: "var(--hl-blue)" };
   const progress = total > 0 ? Math.round((cursor / total) * 100) : 0;
 
   // Auto-scroll active item into view
@@ -66,6 +66,7 @@ export default function ContextPanel({
               to   { opacity: 1; transform: translateX(0); }
             }
             .ctx-item:hover { background: rgba(255,255,255,0.03) !important; }
+            [data-theme="light"] .ctx-item:hover { background: rgba(0,0,0,0.05) !important; }
           `}</style>
 
           {/* Header */}
@@ -83,7 +84,7 @@ export default function ContextPanel({
               <div style={{
                 ...styles.progressFill,
                 width: `${progress}%`,
-                background: `linear-gradient(90deg, ${meta.color}, #82aaff)`,
+                background: `linear-gradient(90deg, ${meta.color}, var(--hl-blue))`,
               }} />
             </div>
             <span style={{ ...styles.progressLabel, color: meta.color }}>{progress}%</span>
@@ -286,7 +287,7 @@ const styles = {
   itemText: { flex: 1, overflow: "hidden" },
   itemLabel: { fontSize: "12px", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", transition: "color 0.2s" },
   itemSublabel: { fontSize: "11px", color: "var(--tx4)", display: "block" },
-  doneBadge: { fontSize: "10px", color: "#4ec994", flexShrink: 0 },
+  doneBadge: { fontSize: "10px", color: "var(--hl-green)", flexShrink: 0 },
   activeBadge: { fontSize: "9px", border: "1px solid", borderRadius: "3px", padding: "1px 4px", flexShrink: 0, letterSpacing: "0.04em" },
   footer: { display: "flex", justifyContent: "space-around", padding: "12px 16px", borderTop: "1px solid var(--bd)" },
   empty: { display: "flex", justifyContent: "center", padding: "32px" },

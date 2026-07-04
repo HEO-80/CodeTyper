@@ -20,89 +20,95 @@
 /* ── beginner (verde) ── */
 .snippet-card.beginner:hover {
   transform: translateY(-4px);
-  border-color: #4ec994;
+  border-color: var(--hl-green);
   box-shadow: 0 6px 24px rgba(78,201,148,0.2);
-  background: #0d1a14;
+  background: var(--hl-green-bg);
 }
-.snippet-card.beginner:hover .snip-title { color: #4ec994; }
+.snippet-card.beginner:hover .snip-title { color: var(--hl-green); }
 
 /* ── intermediate (amarillo) ── */
 .snippet-card.intermediate:hover {
   transform: translateY(-4px);
-  border-color: #ffcb6b;
+  border-color: var(--hl-yellow);
   box-shadow: 0 6px 24px rgba(255,203,107,0.2);
-  background: #1a1a0d;
+  background: var(--hl-yellow-bg);
 }
-.snippet-card.intermediate:hover .snip-title { color: #ffcb6b; }
+.snippet-card.intermediate:hover .snip-title { color: var(--hl-yellow); }
 
 /* ── advanced (rojo) ── */
 .snippet-card.advanced:hover {
   transform: translateY(-4px);
-  border-color: #ff5555;
+  border-color: var(--hl-red);
   box-shadow: 0 6px 24px rgba(255,85,85,0.2);
-  background: #1a0d0d;
+  background: var(--hl-red-bg);
 }
-.snippet-card.advanced:hover .snip-title { color: #ff5555; }
+.snippet-card.advanced:hover .snip-title { color: var(--hl-red); }
 
 /* ── b1 (azul) ── */
 .snippet-card.b1:hover {
   transform: translateY(-4px);
-  border-color: #82aaff;
+  border-color: var(--hl-blue);
   box-shadow: 0 6px 24px rgba(130,170,255,0.2);
-  background: #0d1020;
+  background: var(--hl-blue-bg);
 }
-.snippet-card.b1:hover .snip-title { color: #82aaff; }
+.snippet-card.b1:hover .snip-title { color: var(--hl-blue); }
 
 /* ── b2 (morado) ── */
 .snippet-card.b2:hover {
   transform: translateY(-4px);
-  border-color: #c792ea;
+  border-color: var(--hl-purple);
   box-shadow: 0 6px 24px rgba(199,146,234,0.2);
-  background: #140d1a;
+  background: var(--hl-purple-bg);
 }
-.snippet-card.b2:hover .snip-title { color: #c792ea; }
+.snippet-card.b2:hover .snip-title { color: var(--hl-purple); }
 
 /* ── c1 (naranja) ── */
 .snippet-card.c1:hover {
   transform: translateY(-4px);
-  border-color: #f78c6c;
+  border-color: var(--hl-orange);
   box-shadow: 0 6px 24px rgba(247,140,108,0.2);
-  background: #1a100d;
+  background: var(--hl-orange-bg);
 }
-.snippet-card.c1:hover .snip-title { color: #f78c6c; }
+.snippet-card.c1:hover .snip-title { color: var(--hl-orange); }
 
 /* ── a1 (verde claro) ── */
 .snippet-card.a1:hover {
   transform: translateY(-4px);
-  border-color: #4ec994;
+  border-color: var(--hl-green);
   box-shadow: 0 6px 24px rgba(78,201,148,0.2);
-  background: #0d1a14;
+  background: var(--hl-green-bg);
 }
-.snippet-card.a1:hover .snip-title { color: #4ec994; }
+.snippet-card.a1:hover .snip-title { color: var(--hl-green); }
 
 /* ── a2 (verde medio) ── */
 .snippet-card.a2:hover {
   transform: translateY(-4px);
-  border-color: #3ad9a0;
+  border-color: var(--hl-mint);
   box-shadow: 0 6px 24px rgba(58,217,160,0.2);
-  background: #0d1c16;
+  background: var(--hl-mint-bg);
 }
-.snippet-card.a2:hover .snip-title { color: #3ad9a0; }
+.snippet-card.a2:hover .snip-title { color: var(--hl-mint); }
 
 /* ── c2 (cian/teal) ── */
 .snippet-card.c2:hover {
   transform: translateY(-4px);
-  border-color: #56b6c2;
+  border-color: var(--hl-teal);
   box-shadow: 0 6px 24px rgba(86,182,194,0.2);
-  background: #0d1c20;
+  background: var(--hl-teal-bg);
 }
-.snippet-card.c2:hover .snip-title { color: #56b6c2; }
+.snippet-card.c2:hover .snip-title { color: var(--hl-teal); }
 
 /* ── exam (amarillo dorado) ── */
 .snippet-card.exam:hover {
   transform: translateY(-4px);
-  border-color: #ffcb6b;
+  border-color: var(--hl-yellow);
   box-shadow: 0 6px 24px rgba(255,203,107,0.3);
-  background: #1a160d;
+  background: var(--hl-yellow-bg);
 }
-.snippet-card.exam:hover .snip-title { color: #ffcb6b; }
+.snippet-card.exam:hover .snip-title { color: var(--hl-yellow); }
+
+/* ── Light mode: neutral shadow lift on hover (replaces the colored glow,
+   which reads too strong against a white card) ── */
+[data-theme="light"] .snippet-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}

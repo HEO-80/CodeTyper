@@ -2,40 +2,50 @@
 
 /* Pulse animations */
 @keyframes pulse-blue {
-  0%, 100% { box-shadow: 0 0 0 0px rgba(130,170,255,0); border-color: #82aaff; }
+  0%, 100% { box-shadow: 0 0 0 0px rgba(130,170,255,0); border-color: var(--hl-blue); }
   50%       { box-shadow: 0 0 8px 2px rgba(130,170,255,0.3); border-color: rgba(130,170,255,0.6); }
 }
 @keyframes pulse-yellow {
-  0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); border-color: #ffcb6b; }
+  0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); border-color: var(--hl-yellow); }
   50%       { box-shadow: 0 0 8px 2px rgba(255,203,107,0.3); border-color: rgba(255,203,107,0.6); }
 }
 @keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0px rgba(78,201,148,0); border-color: #4ec994; }
+  0%, 100% { box-shadow: 0 0 0 0px rgba(78,201,148,0); border-color: var(--hl-green); }
   50%       { box-shadow: 0 0 8px 2px rgba(78,201,148,0.3); border-color: rgba(78,201,148,0.6); }
+}
+
+/* Menu sections (category / difficulty / snippets) — separated panels */
+.menu-section {
+  border-radius: 10px;
+}
+[data-theme="light"] .menu-section {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  padding: 16px 18px;
 }
 
 /* Category buttons */
 .cat-btn {
   padding: 8px 18px;
-  border: 1px solid var(--bd);
+  border: 1px solid var(--bd3);
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
   font-family: 'JetBrains Mono', monospace;
-  background: var(--bg);
+  background: var(--btn-bg);
   color: var(--tx2);
   transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
 }
 .cat-btn:hover {
   background: var(--bg3);
-  color: #82aaff;
-  border-color: #82aaff;
+  color: var(--hl-blue);
+  border-color: var(--hl-blue);
   transform: translateY(-2px);
 }
 .cat-btn.active {
-  background: var(--bg4);
-  color: #82aaff;
-  border-color: #82aaff;
+  background: var(--hl-blue-bg);
+  color: var(--hl-blue);
+  border-color: var(--hl-blue);
   font-weight: 500;
   animation: pulse-blue 2s ease-in-out infinite;
 }
@@ -43,27 +53,27 @@
 /* Difficulty buttons */
 .diff-btn {
   padding: 5px 16px;
-  border: 1px solid var(--bd);
+  border: 1px solid var(--bd3);
   border-radius: 4px;
   cursor: pointer;
   font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
-  background: var(--bg);
-  color: var(--tx3);
+  background: var(--btn-bg);
+  color: var(--tx2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s;
 }
 .diff-btn:hover {
-  background: #1a1a0d;
-  color: #ffcb6b;
-  border-color: #ffcb6b;
+  background: var(--hl-yellow-bg);
+  color: var(--hl-yellow);
+  border-color: var(--hl-yellow);
   transform: translateY(-2px);
 }
 .diff-btn.active {
-  background: #1a2333;
-  color: #ffcb6b;
-  border-color: #ffcb6b;
+  background: var(--hl-yellow-bg);
+  color: var(--hl-yellow);
+  border-color: var(--hl-yellow);
   font-weight: 500;
   animation: pulse-yellow 2s ease-in-out infinite;
 }
@@ -86,8 +96,21 @@
   transform: translateY(-1px);
 }
 .toggle-comments-btn.active {
-  background: #1a2a1a;
-  color: #4ec994;
-  border-color: #4ec994;
+  background: var(--hl-green-bg);
+  color: var(--hl-green);
+  border-color: var(--hl-green);
   animation: pulse-green 2s ease-in-out infinite;
+}
+
+/* ── Light mode: neutral hover for inactive buttons, white active fill ──── */
+[data-theme="light"] .cat-btn:hover:not(.active),
+[data-theme="light"] .diff-btn:hover:not(.active) {
+  background: #dde1e7;
+  color: var(--tx2);
+  border-color: #9aa3af;
+}
+[data-theme="light"] .cat-btn.active,
+[data-theme="light"] .diff-btn.active {
+  background: #ffffff;
+  font-weight: 600;
 }

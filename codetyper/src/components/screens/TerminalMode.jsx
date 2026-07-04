@@ -184,15 +184,15 @@ export default function TerminalMode({
           <span className="tm-title">{language} — {snippet.title}</span>
           <div className="tm-titlebar-right">
             <span className="tm-stat">
-              <span style={{ color: totalErrors > 0 ? "#ff5555" : "#4ec994" }}>{totalErrors}</span>
+              <span style={{ color: totalErrors > 0 ? "var(--hl-red)" : "var(--hl-green)" }}>{totalErrors}</span>
               <span className="tm-stat-label">err</span>
             </span>
             <span className="tm-stat">
-              <span style={{ color: accuracy >= 95 ? "#4ec994" : "#ffcb6b" }}>{accuracy}%</span>
+              <span style={{ color: accuracy >= 95 ? "var(--hl-green)" : "var(--hl-yellow)" }}>{accuracy}%</span>
               <span className="tm-stat-label">acc</span>
             </span>
             <span className="tm-stat">
-              <span style={{ color: "#82aaff" }}>{elapsed}s</span>
+              <span style={{ color: "var(--hl-blue)" }}>{elapsed}s</span>
               <span className="tm-stat-label">time</span>
             </span>
             <button className="tm-mode-btn" onClick={onSwitchMode}>
@@ -240,7 +240,7 @@ export default function TerminalMode({
               const isTyped  = idx < cursor;
               const isCursor = idx === cursor;
               let color;
-              if (isCursor && wrongChar !== null) color = "#ff5555";
+              if (isCursor && wrongChar !== null) color = "var(--hl-red)";
               else if (isTyped) color = getTokenColor(type);
               else color = "var(--c-un)";
               const display = isCursor && wrongChar !== null ? wrongChar : char;
@@ -275,8 +275,8 @@ export default function TerminalMode({
 
         {cursor >= tokens.length && (
           <div className="tm-line tm-done-line">
-            <span className="tm-prompt" style={{ color: "#4ec994" }}>{prompt}</span>
-            <span style={{ color: "#4ec994" }}>✓ snippet complete</span>
+            <span className="tm-prompt" style={{ color: "var(--hl-green)" }}>{prompt}</span>
+            <span style={{ color: "var(--hl-green)" }}>✓ snippet complete</span>
           </div>
         )}
 
@@ -291,14 +291,14 @@ export default function TerminalMode({
         </span>
         <span className="tm-status-center">
           {wrongChar !== null
-            ? <span style={{ color: "#ff5555" }}>⌫ backspace to fix</span>
+            ? <span style={{ color: "var(--hl-red)" }}>⌫ backspace to fix</span>
             : cursor < tokens.length && tokens[cursor]?.char === "\n"
-            ? <span style={{ color: "#82aaff" }}>↵ press Enter</span>
+            ? <span style={{ color: "var(--hl-blue)" }}>↵ press Enter</span>
             : cursor < tokens.length && tokens[cursor]?.char === " "
             ? <span style={{ color: "var(--tx3)" }}>· space</span>
             : cursor < tokens.length
-            ? <span style={{ color: "#c792ea" }}>"{tokens[cursor]?.char}"</span>
-            : <span style={{ color: "#4ec994" }}>✓ done</span>
+            ? <span style={{ color: "var(--hl-purple)" }}>"{tokens[cursor]?.char}"</span>
+            : <span style={{ color: "var(--hl-green)" }}>✓ done</span>
           }
         </span>
         <span className="tm-status-right">

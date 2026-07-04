@@ -26,12 +26,15 @@
   --bd2: #161b22;
   --bd3: #30363d;
 
+  /* Unselected button fill (distinct from page bg) */
+  --btn-bg: var(--bg);
+
   /* Code syntax token colors */
-  --c-kw:  #c792ea;
-  --c-str: #f78c6c;
-  --c-id:  #82aaff;
-  --c-cls: #ffcb6b;
-  --c-tp:  #89ddff;
+  --c-kw:  var(--hl-purple);
+  --c-str: var(--hl-orange);
+  --c-id:  var(--hl-blue);
+  --c-cls: var(--hl-yellow);
+  --c-tp:  var(--hl-cyan);
   --c-cm:     #6c8692;
   --c-cm-dim: #2a4a38;
   --c-sp:     #607b96;
@@ -51,39 +54,67 @@
   --lang-cl-bg: #1a0f0a;
   --lang-en-bg: #0a1020;
   --lang-ms-bg: #1a1500;
+
+  /* Text color to use on top of a solid var(--accent)/hl-* background */
+  --on-accent: #0d1117;
+
+  /* Shared accent hues (per-language / per-difficulty badges, buttons, icons) */
+  --hl-blue:    #82aaff;
+  --hl-purple:  #c792ea;
+  --hl-yellow:  #ffcb6b;
+  --hl-orange:  #f78c6c;
+  --hl-green:   #4ec994;
+  --hl-red:     #ff5555;
+  --hl-msblue:  #5391FE;
+  --hl-cyan:    #89ddff;
+  --hl-skyblue: #60a5fa;
+  --hl-mint:    #3ad9a0;
+  --hl-teal:    #56b6c2;
+  --hl-amber:   #f89820;
+
+  /* Tinted surfaces for hover/active states (paired with the hues above) */
+  --hl-blue-bg:    #0d1520;
+  --hl-purple-bg:  #150d1a;
+  --hl-yellow-bg:  #1a1a0d;
+  --hl-orange-bg:  #1a100d;
+  --hl-green-bg:   #0d1a14;
+  --hl-red-bg:     #1a0d0d;
+  --hl-msblue-bg:  #0a0f1e;
+  --hl-cyan-bg:    #0a1a20;
+  --hl-skyblue-bg: #0a1020;
+  --hl-mint-bg:    #0d1c16;
+  --hl-teal-bg:    #0d1c20;
+  --hl-amber-bg:   #1a1000;
 }
 
 [data-theme="light"] {
-  --background: #f6f8fa;
-  --foreground: #1f2328;
+  --background: #f0f2f5;
+  --foreground: #111827;
 
-  --bg:  #f6f8fa;
-  --bg2: #eef0f3;
+  --bg:  #f0f2f5;
+  --bg2: #e4e7ed;
   --bg3: #ffffff;
-  --bg4: #e8ecf0;
+  --bg4: #d1d5db;
 
-  --tx:  #1f2328;
-  --tx2: #3a5060;
-  --tx3: #4a6475;
-  --tx4: #6a8090;
-  --tx5: #8090a0;
-  --tx6: #5a7080;
-  --tx8: #4a6070;
+  --tx:  #1a202c;
+  --tx2: #4a5568;
+  --tx3: #2d3748;
+  --tx4: #718096;
+  --tx5: #5b6472;
+  --tx6: #4a5568;
+  --tx8: #3f4b58;
 
-  --bd:  #d0d7de;
-  --bd2: #e1e5e9;
-  --bd3: #b4bcc6;
+  --bd:  #d0d5dd;
+  --bd2: #c8cdd6;
+  --bd3: #b8bfc9;
 
-  --c-kw:  #8338ec;
-  --c-str: #c55027;
-  --c-id:  #1a56db;
-  --c-cls: #c28000;
-  --c-tp:  #0077b6;
-  --c-cm:     #4a6475;
-  --c-cm-dim: #5a8a6a;
+  --btn-bg: #e8eaed;
+
+  --c-cm:     #4b5563;
+  --c-cm-dim: #4d7a5c;
   --c-sp:     #4a6080;
-  --c-nl:     #7a9ab0;
-  --c-un:     #b0c4d0;
+  --c-nl:     #6b7f92;
+  --c-un:     #7d8fa0;
 
   --lang-js-bg: #fffbec;
   --lang-ts-bg: #f0f4ff;
@@ -97,6 +128,35 @@
   --lang-cl-bg: #fff5f0;
   --lang-en-bg: #f0f4ff;
   --lang-ms-bg: #fffbec;
+
+  --on-accent: #ffffff;
+
+  /* Shared accent hues, darkened ~25-40% for legibility on light backgrounds */
+  --hl-blue:    #1a56db;
+  --hl-purple:  #8338ec;
+  --hl-yellow:  #946800;
+  --hl-orange:  #c55027;
+  --hl-green:   #1f7a4d;
+  --hl-red:     #c0392b;
+  --hl-msblue:  #2f5ea3;
+  --hl-cyan:    #0077b6;
+  --hl-skyblue: #0369a1;
+  --hl-mint:    #157347;
+  --hl-teal:    #0f7a8a;
+  --hl-amber:   #a15f00;
+
+  --hl-blue-bg:    #dbe6ff;
+  --hl-purple-bg:  #ecdcfb;
+  --hl-yellow-bg:  #f7e6b8;
+  --hl-orange-bg:  #ffdcc8;
+  --hl-green-bg:   #d3f3e0;
+  --hl-red-bg:     #ffd9d3;
+  --hl-msblue-bg:  #d7e6fb;
+  --hl-cyan-bg:    #cdf1fb;
+  --hl-skyblue-bg: #d7ecfb;
+  --hl-mint-bg:    #d0f3e2;
+  --hl-teal-bg:    #cdeef3;
+  --hl-amber-bg:   #f5dfb8;
 }
 
 @theme inline {
@@ -128,69 +188,25 @@ body {
 *::-webkit-scrollbar-track { background: var(--bg); }
 *::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
 
-/* ── Light mode: language card tinted backgrounds (AuthPanel) ─────────────── */
-[data-theme="light"] .lang-card:hover { background: var(--bg4); border-color: var(--bd3); }
-[data-theme="light"] .lang-card[data-lang="javascript"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="javascript"] { background: #fffbec; }
-[data-theme="light"] .lang-card[data-lang="typescript"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="typescript"] { background: #f0f4ff; }
-[data-theme="light"] .lang-card[data-lang="python"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="python"]     { background: #eeffee; }
-[data-theme="light"] .lang-card[data-lang="sql"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="sql"]        { background: #fff5f0; }
-[data-theme="light"] .lang-card[data-lang="solidity"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="solidity"]   { background: #faf0ff; }
-[data-theme="light"] .lang-card[data-lang="java"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="java"]       { background: #fff8f0; }
-[data-theme="light"] .lang-card[data-lang="csharp"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="csharp"]     { background: #faf0ff; }
-[data-theme="light"] .lang-card[data-lang="powershell"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="powershell"] { background: #f0f4ff; }
-[data-theme="light"] .lang-card[data-lang="bash"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="bash"]       { background: #eeffee; }
-[data-theme="light"] .lang-card[data-lang="cloud"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="cloud"]      { background: #fff5f0; }
-[data-theme="light"] .lang-card[data-lang="english"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="english"]    { background: #f0f4ff; }
-[data-theme="light"] .lang-card[data-lang="mindset"]:hover,
-[data-theme="light"] .lang-card.expanded[data-lang="mindset"]    { background: #fffbec; }
+/* ── Light mode: language card (AuthPanel) neutral tones ───────────────────── */
+/* Per-language hover/expanded backgrounds are handled directly in AuthPanel.css
+   via var(--hl-*-bg), which already resolves correctly for this theme. */
+[data-theme="light"] .lang-card:hover { border-color: var(--bd3); }
 [data-theme="light"] .lang-card-detail { background: var(--bg4); border-color: var(--bd2); }
 
-/* ── Light mode: language selector btn hovers ─────────────────────────────── */
-[data-theme="light"] .lang-btn.javascript:hover, [data-theme="light"] .lang-btn.javascript.active { background: #fffbec; }
-[data-theme="light"] .lang-btn.typescript:hover, [data-theme="light"] .lang-btn.typescript.active { background: #f0f4ff; }
-[data-theme="light"] .lang-btn.python:hover,     [data-theme="light"] .lang-btn.python.active     { background: #eeffee; }
-[data-theme="light"] .lang-btn.sql:hover,        [data-theme="light"] .lang-btn.sql.active        { background: #fff5f0; }
-[data-theme="light"] .lang-btn.solidity:hover,   [data-theme="light"] .lang-btn.solidity.active   { background: #faf0ff; }
-[data-theme="light"] .lang-btn.java:hover,       [data-theme="light"] .lang-btn.java.active       { background: #fff8f0; }
-[data-theme="light"] .lang-btn.csharp:hover,     [data-theme="light"] .lang-btn.csharp.active     { background: #faf0ff; }
-[data-theme="light"] .lang-btn.powershell:hover, [data-theme="light"] .lang-btn.powershell.active { background: #f0f4ff; }
-[data-theme="light"] .lang-btn.bash:hover,       [data-theme="light"] .lang-btn.bash.active       { background: #eeffee; }
-[data-theme="light"] .lang-btn.cloud:hover,      [data-theme="light"] .lang-btn.cloud.active      { background: #fff5f0; }
-[data-theme="light"] .lang-btn.english:hover,    [data-theme="light"] .lang-btn.english.active    { background: #f0f4ff; }
-[data-theme="light"] .lang-btn.french:hover,     [data-theme="light"] .lang-btn.french.active     { background: #f0f4ff; }
-[data-theme="light"] .lang-btn.mindset:hover,    [data-theme="light"] .lang-btn.mindset.active    { background: #fffbec; }
+/* ── Light mode: snippet card base tone ────────────────────────────────────── */
+/* Per-difficulty hover backgrounds are handled directly in SnippetCard.css
+   via var(--hl-*-bg). */
+[data-theme="light"] .snippet-card {
+  background: var(--bg3);
+  border-color: var(--bd);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
 
-/* ── Light mode: snippet card hovers ──────────────────────────────────────── */
-[data-theme="light"] .snippet-card { background: var(--bg3); border-color: var(--bd); }
-[data-theme="light"] .snippet-card.beginner:hover    { background: #eeffee; }
-[data-theme="light"] .snippet-card.intermediate:hover { background: #fffbec; }
-[data-theme="light"] .snippet-card.advanced:hover    { background: #fff0f0; }
-[data-theme="light"] .snippet-card.b1:hover          { background: #f0f4ff; }
-[data-theme="light"] .snippet-card.b2:hover          { background: #faf0ff; }
-[data-theme="light"] .snippet-card.c1:hover          { background: #fff5f0; }
-[data-theme="light"] .snippet-card.a1:hover          { background: #eeffee; }
-[data-theme="light"] .snippet-card.a2:hover          { background: #eeffee; }
-[data-theme="light"] .snippet-card.c2:hover          { background: #f0ffff; }
-[data-theme="light"] .snippet-card.exam:hover        { background: #fffbec; }
-
-/* ── Light mode: MenuScreen category/diff buttons ─────────────────────────── */
-[data-theme="light"] .cat-btn.active  { background: var(--bg4); }
-[data-theme="light"] .diff-btn:hover  { background: #fffbec; }
-[data-theme="light"] .diff-btn.active { background: #fffbec; }
-[data-theme="light"] .topbar-toggle.active  { background: #eeffee; }
-[data-theme="light"] .topbar-toggle.inactive { background: var(--bg); border-color: var(--bd3); }
-[data-theme="light"] .toggle-comments-btn.active { background: #eeffee; }
+/* ── Light mode: MenuScreen toggle-inactive neutral tone ───────────────────── */
+/* cat-btn / diff-btn / toggle-comments-btn active states are handled directly
+   in MenuScreen.css / SharedComponents.css via var(--hl-*-bg). */
+[data-theme="light"] .topbar-toggle.inactive { background: var(--btn-bg); border-color: var(--bd3); }
 
 /* ── Light mode: practice mode ────────────────────────────────────────────── */
 [data-theme="light"] .practice-root,
@@ -203,32 +219,27 @@ body {
 [data-theme="light"] .tm-titlebar { background: var(--bg3); border-bottom-color: var(--bd2); }
 [data-theme="light"] .tm-statusbar { background: var(--bg4); border-top-color: var(--bd2); }
 
-/* ── Light mode: practice terminal page (tp-*) ────────────────────────────── */
-[data-theme="light"] .tp-btn { background: var(--bg3); }
-[data-theme="light"] .tp-btn:not(.lang):not(.diff):hover,
-[data-theme="light"] .tp-btn:not(.lang):not(.diff).active { background: #f0f4ff; }
-[data-theme="light"] .tp-btn.lang:hover,   [data-theme="light"] .tp-btn.lang.active { background: #faf0ff; }
-[data-theme="light"] .tp-btn.diff:hover,   [data-theme="light"] .tp-btn.diff.active { background: #fffbec; }
-[data-theme="light"] .tp-snippet-card      { background: var(--bg3); }
-[data-theme="light"] .tp-snippet-card:hover { background: #eeffee; }
-[data-theme="light"] .tp-header-badge      { background: #eeffee; border-color: #4ec994; }
-[data-theme="light"] .tp-result-banner     { background: #eeffee; border-color: #4ec994; }
+/* ── Light mode: practice terminal page (tp-*) neutral tones ──────────────── */
+/* cat/lang/diff hover-active accents and the result banner are handled
+   directly in terminal.css via var(--hl-*)/var(--hl-*-bg); .tp-btn's fill
+   comes from var(--btn-bg) directly. */
+[data-theme="light"] .tp-snippet-card { background: var(--bg3); }
 
-/* ── Light mode: AuthPanel ────────────────────────────────────────────────── */
-[data-theme="light"] .auth-panel { background: var(--bg3); border-color: var(--bd2); }
+/* ── Light mode: AuthPanel (left stats panel) — stays darker than page bg,
+   distinct from the white cards/navbar, per var(--bg2)/var(--bd2) already
+   set on .auth-panel by default; only the stat tiles need to pop as white. */
 [data-theme="light"] .auth-input { background: var(--bg); border-color: var(--bd); }
 [data-theme="light"] .auth-google-btn { background: var(--bg); }
-[data-theme="light"] .auth-submit { background: var(--bg4); }
-[data-theme="light"] .mini-stat { background: var(--bg4); }
+[data-theme="light"] .mini-stat { background: var(--bg3); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+[data-theme="light"] .stat { background: var(--bg3); border-radius: 6px; padding: 4px 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-/* ── Light mode: Navbar ───────────────────────────────────────────────────── */
-[data-theme="light"] .navbar-user-btn { background: var(--bg3); border-color: var(--bd); }
-[data-theme="light"] .navbar-user-btn:hover,
-[data-theme="light"] .navbar-user-btn.active { background: #f0f4ff; }
+/* ── Light mode: Navbar — white surface, distinct from the stats panel ────── */
+/* user-btn/link/back-btn accent states are handled directly in Navbar.css
+   via var(--hl-blue)/var(--hl-blue-bg). */
+[data-theme="light"] .navbar { background: var(--bg3); border-bottom-color: var(--bd2); }
+[data-theme="light"] .navbar-user-btn { background: var(--bg); border-color: var(--bd); }
 [data-theme="light"] .navbar-link:hover { background: var(--bg2); border-color: var(--bd); }
-[data-theme="light"] .navbar-link.active { background: #f0f4ff; border-color: #c0d0f0; }
-[data-theme="light"] .navbar-back-btn { background: var(--bg3); border-color: var(--bd3); }
-[data-theme="light"] .navbar-back-btn:hover { background: #f0f4ff; }
+[data-theme="light"] .navbar-back-btn { background: var(--bg); border-color: var(--bd3); }
 [data-theme="light"] .navbar-hint kbd { background: var(--bg2); border-color: var(--bd); }
 
 /* ── Light mode: KeyboardOverlay ──────────────────────────────────────────── */
@@ -236,11 +247,10 @@ body {
 [data-theme="light"] .kb-panel   { background: var(--bg3); border-color: var(--bd3); }
 [data-theme="light"] .kb-key     { background: var(--bg4); border-color: var(--bd); }
 [data-theme="light"] .kb-key:hover { background: var(--bg); border-color: var(--bd3); }
-[data-theme="light"] .kb-key.kb-prog { background: #f0f4ff; border-color: #c0d0f0; }
-[data-theme="light"] .kb-key.kb-prog:hover { background: #e0ebff; border-color: #82aaff; }
-[data-theme="light"] .kb-key.kb-special { background: #f5f0ff; border-color: #e0d0f0; }
-[data-theme="light"] .kb-legend-dot.prog    { background: #f0f4ff; border-color: #82aaff; }
-[data-theme="light"] .kb-legend-dot.special { background: #f5f0ff; border-color: #c792ea; }
+/* kb-prog/kb-special tinted backgrounds already resolve via var(--hl-*-bg);
+   only their muted borders need a lighter counterpart here. */
+[data-theme="light"] .kb-key.kb-prog { border-color: #c0d0f0; }
+[data-theme="light"] .kb-key.kb-special { border-color: #e0d0f0; }
 [data-theme="light"] .kb-ctrl-btn.active { background: var(--bg4); }
 
 /* ── Light mode: error flash animation ───────────────────────────────────── */

@@ -294,21 +294,21 @@ function PanelKey({ keyData, showShift, isMainActive, isModifierActive }) {
 
   // Base visual state
   let bg      = isSpecial ? "var(--bg4)" : isProg ? "var(--bg3)" : "var(--bg3)";
-  let border  = `1px solid ${isProg && !isSpecial ? "#1a3a5c" : isSpecial ? "var(--bd3)" : "var(--bd)"}`;
+  let border  = `1px solid ${isProg && !isSpecial ? "var(--hl-blue)" : isSpecial ? "var(--bd3)" : "var(--bd)"}`;
   let shadow  = "none";
-  let txtColor = isSpecial ? "var(--tx3)" : isProg && !isSpecial ? "#82aaff" : "var(--tx2)";
+  let txtColor = isSpecial ? "var(--tx3)" : isProg && !isSpecial ? "var(--hl-blue)" : "var(--tx2)";
 
   // Active states override
   if (isMainActive) {
     bg       = "rgba(255,203,107,0.12)";
-    border   = "1px solid #ffcb6b";
+    border   = "1px solid var(--hl-yellow)";
     shadow   = "0 0 10px rgba(255,203,107,0.65)";
-    txtColor = "#ffcb6b";
+    txtColor = "var(--hl-yellow)";
   } else if (isModifierActive) {
     bg       = "rgba(130,170,255,0.12)";
-    border   = "1px solid #82aaff";
+    border   = "1px solid var(--hl-blue)";
     shadow   = "0 0 8px rgba(130,170,255,0.45)";
-    txtColor = "#82aaff";
+    txtColor = "var(--hl-blue)";
   }
 
   return (
@@ -327,7 +327,7 @@ function PanelKey({ keyData, showShift, isMainActive, isModifierActive }) {
         <span style={{
           position: "absolute", top: "1px", right: "2px",
           fontSize: "7px",
-          color: isMainActive ? "#ffcb6b" : "#ffcb6b60",
+          color: isMainActive ? "var(--hl-yellow)" : "#ffcb6b60",
           lineHeight: 1, userSelect: "none",
         }}>
           {keyData.shift}
@@ -355,7 +355,7 @@ function PanelKey({ keyData, showShift, isMainActive, isModifierActive }) {
   );
 }
 
-export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent }) {
+export function KeyboardPanel({ accentColor = "var(--hl-blue)", nextChar, isOnIndent }) {
   const [lang, setLang]       = useState("en");
   const [showShift, setShift] = useState(false);
   const rows = ROWS[lang];
@@ -474,7 +474,7 @@ export function KeyboardPanel({ accentColor = "#82aaff", nextChar, isOnIndent })
         display: "flex", gap: "10px", alignItems: "center",
       }}>
         <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--tx3)" }}>
-          <span style={{ width: "7px", height: "7px", borderRadius: "2px", background: "var(--bg3)", border: "1px solid #82aaff", display: "inline-block", flexShrink: 0 }} />
+          <span style={{ width: "7px", height: "7px", borderRadius: "2px", background: "var(--bg3)", border: "1px solid var(--hl-blue)", display: "inline-block", flexShrink: 0 }} />
           prog
         </span>
         <span style={{ fontSize: "10px", color: "var(--tx4)", marginLeft: "auto" }}>↑ shift · ↘ AltGr</span>
@@ -487,9 +487,9 @@ const sPill = {
   modifier: {
     padding: "4px 10px",
     background: "rgba(130,170,255,0.12)",
-    border: "1px solid #82aaff",
+    border: "1px solid var(--hl-blue)",
     borderRadius: "5px",
-    color: "#82aaff",
+    color: "var(--hl-blue)",
     fontSize: "11px",
     fontFamily: "'JetBrains Mono', monospace",
     fontWeight: "600",
@@ -498,9 +498,9 @@ const sPill = {
   key: {
     padding: "4px 10px",
     background: "rgba(255,203,107,0.12)",
-    border: "1px solid #ffcb6b",
+    border: "1px solid var(--hl-yellow)",
     borderRadius: "5px",
-    color: "#ffcb6b",
+    color: "var(--hl-yellow)",
     fontSize: "11px",
     fontFamily: "'JetBrains Mono', monospace",
     fontWeight: "600",
@@ -510,7 +510,7 @@ const sPill = {
 
 // Dot grid SVG icon — inspired by the image
 function KbDotGrid() {
-  const colors = ["#82aaff", "#4ec994", "#c792ea", "#ffcb6b", "#f78c6c", "#00F0FF"];
+  const colors = ["var(--hl-blue)", "var(--hl-green)", "var(--hl-purple)", "var(--hl-yellow)", "var(--hl-orange)", "#00F0FF"];
   const dots = [];
   for (let r = 0; r < 3; r++) {
     for (let c = 0; c < 4; c++) {

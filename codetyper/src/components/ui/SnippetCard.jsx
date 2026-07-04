@@ -3,16 +3,16 @@
 import "./SnippetCard.css";
 
 const DIFF_COLORS = {
-  beginner:     { bg: "rgba(78,201,148,0.15)",  color: "#4ec994" },
-  intermediate: { bg: "rgba(255,203,107,0.15)", color: "#ffcb6b" },
-  advanced:     { bg: "rgba(255,85,85,0.15)",   color: "#ff5555" },
-  a1:           { bg: "rgba(78,201,148,0.15)",  color: "#4ec994" },
-  a2:           { bg: "rgba(58,217,160,0.15)",  color: "#3ad9a0" },
-  b1:           { bg: "rgba(130,170,255,0.15)", color: "#82aaff" },
-  b2:           { bg: "rgba(199,146,234,0.15)", color: "#c792ea" },
-  c1:           { bg: "rgba(247,140,108,0.15)", color: "#f78c6c" },
-  c2:           { bg: "rgba(86,182,194,0.15)",  color: "#56b6c2" },
-  exam:         { bg: "rgba(255,203,107,0.15)", color: "#ffcb6b" },
+  beginner:     { bg: "rgba(78,201,148,0.15)",  color: "var(--hl-green)" },
+  intermediate: { bg: "rgba(255,203,107,0.15)", color: "var(--hl-yellow)" },
+  advanced:     { bg: "rgba(255,85,85,0.15)",   color: "var(--hl-red)" },
+  a1:           { bg: "rgba(78,201,148,0.15)",  color: "var(--hl-green)" },
+  a2:           { bg: "rgba(58,217,160,0.15)",  color: "var(--hl-mint)" },
+  b1:           { bg: "rgba(130,170,255,0.15)", color: "var(--hl-blue)" },
+  b2:           { bg: "rgba(199,146,234,0.15)", color: "var(--hl-purple)" },
+  c1:           { bg: "rgba(247,140,108,0.15)", color: "var(--hl-orange)" },
+  c2:           { bg: "rgba(86,182,194,0.15)",  color: "var(--hl-teal)" },
+  exam:         { bg: "rgba(255,203,107,0.15)", color: "var(--hl-yellow)" },
 };
 
 export default function SnippetCard({ snippet, onClick }) {
@@ -43,7 +43,7 @@ export default function SnippetCard({ snippet, onClick }) {
 
 const s = {
   title:   { fontSize: "14px", color: "var(--tx)", fontWeight: "500", marginBottom: "4px" },
-  desc:    { fontSize: "12px", color: "var(--tx3)", marginBottom: "8px" },
+  desc:    { fontSize: "12px", color: "var(--tx2)", marginBottom: "8px" },
   meta:    { display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" },
   badge:   { padding: "2px 8px", borderRadius: "3px", fontSize: "11px", letterSpacing: "0.04em" },
   lines:   { color: "var(--tx4)", fontSize: "12px" },

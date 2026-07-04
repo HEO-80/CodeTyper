@@ -7,10 +7,10 @@ import "./AuthPanel.css";
 // ── Fase colors & icons ───────────────────────────────────────────────────────
 const PHASE_COLORS = {
   1: "var(--tx3)",
-  2: "#4ec994",
-  3: "#82aaff",
-  4: "#c792ea",
-  5: "#FCEE0A",
+  2: "var(--hl-green)",
+  3: "var(--hl-blue)",
+  4: "var(--hl-purple)",
+  5: "var(--hl-yellow)",
 };
 const PHASE_ICONS = { 1: "○", 2: "◔", 3: "◑", 4: "◕", 5: "●" };
 const PHASE_DESCRIPTIONS = {
@@ -31,7 +31,7 @@ function formatTime(seconds) {
 }
 
 // ── Sparkline SVG ─────────────────────────────────────────────────────────────
-function Sparkline({ values = [], color = "#82aaff", width = 180, height = 32 }) {
+function Sparkline({ values = [], color = "var(--hl-blue)", width = 180, height = 32 }) {
   if (values.length < 2) return (
     <div style={{ height, display: "flex", alignItems: "center" }}>
       <span style={{ color: "var(--tx8)", fontSize: "10px" }}>pocas sesiones aún</span>
@@ -146,7 +146,7 @@ export default function AuthPanel({ session, stats, open }) {
         {stats && (
           <div className="auth-stats-row">
             <Stat label="sessions" value={stats.totalSessions} />
-            <Stat label="best CPM" value={stats.bestCpm} color="#82aaff" />
+            <Stat label="best CPM" value={stats.bestCpm} color="var(--hl-blue)" />
             <Stat label="chars"
               value={stats.totalChars > 9999
                 ? `${(stats.totalChars / 1000).toFixed(1)}k`
@@ -160,13 +160,13 @@ export default function AuthPanel({ session, stats, open }) {
           <div className="auth-extra-stats">
             <div className="auth-extra-stat">
               <span className="auth-extra-label">// precisión global</span>
-              <span className="auth-extra-value" style={{ color: "#4ec994" }}>
+              <span className="auth-extra-value" style={{ color: "var(--hl-green)" }}>
                 {globalAvgAccuracy != null ? `${globalAvgAccuracy}%` : "—"}
               </span>
             </div>
             <div className="auth-extra-stat">
               <span className="auth-extra-label">// tiempo total</span>
-              <span className="auth-extra-value" style={{ color: "#ffcb6b" }}>
+              <span className="auth-extra-value" style={{ color: "var(--hl-yellow)" }}>
                 {estimatedSeconds != null ? formatTime(estimatedSeconds) : "—"}
               </span>
             </div>
@@ -178,9 +178,9 @@ export default function AuthPanel({ session, stats, open }) {
           <div className="auth-sparkline-section">
             <div className="auth-section-label">// CPM últimas sesiones</div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Sparkline values={globalCpmHistory} color="#82aaff" width={155} height={30} />
+              <Sparkline values={globalCpmHistory} color="var(--hl-blue)" width={155} height={30} />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1px" }}>
-                <span style={{ color: "#82aaff", fontSize: "11px", fontWeight: 700 }}>
+                <span style={{ color: "var(--hl-blue)", fontSize: "11px", fontWeight: 700 }}>
                   {globalCpmHistory[globalCpmHistory.length - 1]}
                 </span>
                 <span style={{ color: "var(--tx8)", fontSize: "10px" }}>último</span>
@@ -218,7 +218,7 @@ export default function AuthPanel({ session, stats, open }) {
     // SIN backdrop aquí tampoco
     <div className={`auth-panel${open ? " auth-panel--open" : ""}`}>
       <div className="auth-title">
-        <span style={{ color: "#82aaff" }}>◉</span> CodeTyper
+        <span style={{ color: "var(--hl-blue)" }}>◉</span> CodeTyper
       </div>
 
       <button className="auth-google-btn" onClick={handleGoogle}>
@@ -296,10 +296,10 @@ function LangCard({ lang, data, expanded, onToggle }) {
           <div className="lang-card-phase-desc">{PHASE_DESCRIPTIONS[data.phase]}</div>
 
           <div className="lang-card-grid">
-            <MiniStat label="Mejor CPM"    value={data.bestCpm}           color="#82aaff" />
-            <MiniStat label="Avg CPM"      value={data.avgCpm}            color="#82aaff" />
-            <MiniStat label="Precisión"    value={`${data.avgAccuracy}%`} color="#4ec994" />
-            <MiniStat label="Consistencia" value={`${data.consistency}%`} color="#ffcb6b" />
+            <MiniStat label="Mejor CPM"    value={data.bestCpm}           color="var(--hl-blue)" />
+            <MiniStat label="Avg CPM"      value={data.avgCpm}            color="var(--hl-blue)" />
+            <MiniStat label="Precisión"    value={`${data.avgAccuracy}%`} color="var(--hl-green)" />
+            <MiniStat label="Consistencia" value={`${data.consistency}%`} color="var(--hl-yellow)" />
           </div>
 
           {/* Sparkline por lenguaje */}
@@ -313,7 +313,7 @@ function LangCard({ lang, data, expanded, onToggle }) {
           {data.improvementPct !== 0 && (
             <div className="lang-card-improvement">
               <span>Mejora desde inicio: </span>
-              <span style={{ color: data.improvementPct > 0 ? "#4ec994" : "#ff5555", fontWeight: "600" }}>
+              <span style={{ color: data.improvementPct > 0 ? "var(--hl-green)" : "var(--hl-red)", fontWeight: "600" }}>
                 {data.improvementPct > 0 ? "+" : ""}{data.improvementPct}%
               </span>
             </div>

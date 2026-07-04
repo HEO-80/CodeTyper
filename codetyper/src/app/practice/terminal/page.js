@@ -133,11 +133,11 @@ function TerminalPageInner() {
         <div className="tp-result-banner">
           <span className="tp-result-icon">✓</span>
           <span>snippet completado —</span>
-          <span className="tp-result-stat" style={{ color: "#82aaff" }}>
+          <span className="tp-result-stat" style={{ color: "var(--hl-blue)" }}>
             {Math.round((lastResult.tokens.length / Math.max(Math.round((lastResult.endTime - lastResult.startTime) / 1000), 1)) * 60)} CPM
           </span>
           <span className="tp-result-sep">·</span>
-          <span className="tp-result-stat" style={{ color: "#4ec994" }}>
+          <span className="tp-result-stat" style={{ color: "var(--hl-green)" }}>
             {Math.round(((lastResult.tokens.length - lastResult.totalErrors) / lastResult.tokens.length) * 100)}% precisión
           </span>
           {session && <span className="tp-result-saved">· guardado ✓</span>}
