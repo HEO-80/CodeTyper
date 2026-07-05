@@ -1,0 +1,87 @@
+/* instructions-detail.css — /instrucciones/[slug] page */
+
+.instr-root {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.instr-header {
+  margin-bottom: 32px;
+}
+
+.instr-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-bottom: 16px;
+}
+
+.instr-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--tx);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.instr-subtitle {
+  color: var(--tx3);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.instr-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.instr-paragraph {
+  color: var(--tx2);
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.instr-other-label {
+  color: var(--tx3);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.instr-other-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.instr-other-chip {
+  padding: 6px 14px;
+  border: 1px solid var(--bd3);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--btn-bg);
+  color: var(--tx3);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.instr-other-chip:hover {
+  color: var(--tx);
+  border-color: var(--tx3);
+}
+
+.instr-not-found {
+  color: var(--tx3);
+  font-size: 13px;
+}

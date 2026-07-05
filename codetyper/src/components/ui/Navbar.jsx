@@ -30,7 +30,7 @@ function MoonIcon() {
   );
 }
 
-export default function Navbar({ onToggleAuth, authOpen,onOpenSettings }) {
+export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onToggleInstructions, instructionsOpen }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const { hasBack, triggerBack } = useNav();
@@ -90,6 +90,16 @@ export default function Navbar({ onToggleAuth, authOpen,onOpenSettings }) {
 
 
         </div>
+
+        {/* Instructions toggle */}
+        <button
+          className={`navbar-link navbar-instructions-btn${instructionsOpen ? " active" : ""}`}
+          onClick={onToggleInstructions}
+          title="Instrucciones"
+        >
+          <span className="navbar-link-icon">?</span>
+          instrucciones
+        </button>
 
         {/* Theme toggle */}
         <button

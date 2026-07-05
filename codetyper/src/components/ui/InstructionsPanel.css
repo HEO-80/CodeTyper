@@ -1,0 +1,167 @@
+/* InstructionsPanel.css */
+
+/* Panel — mismas dimensiones que auth-panel, espejado al lado derecho */
+.instructions-panel {
+  position: fixed;
+  top: 48px;
+  right: 0;
+  width: 220px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg2);
+  border-left: 1px solid var(--bd2);
+  border-bottom: 1px solid var(--bd2);
+  padding: 16px 12px;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  z-index: 160;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd) var(--bg2);
+  box-sizing: border-box;
+}
+
+.instructions-panel--open {
+  display: flex;
+}
+
+.instructions-panel::-webkit-scrollbar       { width: 3px; }
+.instructions-panel::-webkit-scrollbar-track { background: var(--bg2); }
+.instructions-panel::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 2px; }
+
+/* ── Header ── */
+.instructions-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--bd2);
+}
+.instructions-panel-title {
+  color: var(--tx3);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+.instructions-panel-close {
+  background: none;
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  color: var(--tx3);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s;
+}
+.instructions-panel-close:hover {
+  border-color: var(--hl-red);
+  color: var(--hl-red);
+}
+
+/* ── List ── */
+.instructions-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Card — mismo estilo que SnippetCard ── */
+.instructions-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.instructions-card:active {
+  transform: translateY(-1px) !important;
+}
+.instructions-card:focus-visible {
+  outline: 2px solid var(--hl-blue);
+  outline-offset: 2px;
+}
+.instructions-card-title {
+  font-size: 13px;
+  color: var(--tx);
+  font-weight: 500;
+  transition: color 0.18s;
+}
+.instructions-card-desc {
+  font-size: 11px;
+  color: var(--tx2);
+  line-height: 1.4;
+}
+.instructions-card-arrow {
+  font-size: 11px;
+  color: var(--tx4);
+  align-self: flex-end;
+  opacity: 0.6;
+  transition: color 0.18s;
+}
+
+/* ── Color variants (mismo sistema que SnippetCard/LanguageSelector) ── */
+.instructions-card.blue:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-blue);
+  box-shadow: 0 6px 24px rgba(130,170,255,0.2);
+  background: var(--hl-blue-bg);
+}
+.instructions-card.blue:hover .instructions-card-title,
+.instructions-card.blue:hover .instructions-card-arrow { color: var(--hl-blue); }
+
+.instructions-card.green:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-green);
+  box-shadow: 0 6px 24px rgba(78,201,148,0.2);
+  background: var(--hl-green-bg);
+}
+.instructions-card.green:hover .instructions-card-title,
+.instructions-card.green:hover .instructions-card-arrow { color: var(--hl-green); }
+
+.instructions-card.purple:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-purple);
+  box-shadow: 0 6px 24px rgba(199,146,234,0.2);
+  background: var(--hl-purple-bg);
+}
+.instructions-card.purple:hover .instructions-card-title,
+.instructions-card.purple:hover .instructions-card-arrow { color: var(--hl-purple); }
+
+.instructions-card.yellow:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-yellow);
+  box-shadow: 0 6px 24px rgba(255,203,107,0.2);
+  background: var(--hl-yellow-bg);
+}
+.instructions-card.yellow:hover .instructions-card-title,
+.instructions-card.yellow:hover .instructions-card-arrow { color: var(--hl-yellow); }
+
+.instructions-card.orange:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-orange);
+  box-shadow: 0 6px 24px rgba(247,140,108,0.2);
+  background: var(--hl-orange-bg);
+}
+.instructions-card.orange:hover .instructions-card-title,
+.instructions-card.orange:hover .instructions-card-arrow { color: var(--hl-orange); }
+
+.instructions-card.teal:hover {
+  transform: translateY(-4px);
+  border-color: var(--hl-teal);
+  box-shadow: 0 6px 24px rgba(86,182,194,0.2);
+  background: var(--hl-teal-bg);
+}
+.instructions-card.teal:hover .instructions-card-title,
+.instructions-card.teal:hover .instructions-card-arrow { color: var(--hl-teal); }
+
+/* Light mode: neutral shadow lift on hover, igual que SnippetCard */
+[data-theme="light"] .instructions-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}

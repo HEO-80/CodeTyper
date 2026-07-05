@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef, createContext, useCo
 import { useSession }  from "next-auth/react";
 import Navbar          from "@/components/ui/Navbar";
 import AuthPanel       from "@/components/ui/AuthPanel";
+import InstructionsPanel from "@/components/ui/InstructionsPanel";
 import GlobalTerminal  from "@/components/ui/GlobalTerminal";
 import SettingsScreen from "@/components/screens/SettingsScreen";
 
@@ -32,6 +33,7 @@ export default function LayoutClient({ children }) {
   const [isDark,       setIsDark]       = useState(true);
   const backRef = useRef(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -105,6 +107,8 @@ export default function LayoutClient({ children }) {
   onToggleAuth={() => setAuthOpen(v => !v)}
   authOpen={authOpen}
   onOpenSettings={() => setSettingsOpen(true)}
+  onToggleInstructions={() => setInstructionsOpen(v => !v)}
+  instructionsOpen={instructionsOpen}
 />
         <div style={{ flex: 1, overflow: "hidden", display: "flex", width: "100%" }}>
           {children}
@@ -115,6 +119,10 @@ export default function LayoutClient({ children }) {
           stats={stats}
           open={authOpen}
           onClose={() => setAuthOpen(false)}
+        />
+        <InstructionsPanel
+          open={instructionsOpen}
+          onClose={() => setInstructionsOpen(false)}
         />
         <GlobalTerminal open={terminalOpen} onClose={() => setTerminalOpen(false)} />
       </TerminalContext.Provider>

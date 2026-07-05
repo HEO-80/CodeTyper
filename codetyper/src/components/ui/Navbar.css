@@ -132,6 +132,13 @@
   opacity: 1;
 }
 
+/* Instructions button — styled like a link but as <button> */
+.navbar-instructions-btn {
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 /* ── Theme toggle button ─────────────────────────────────────────────────── */
 .navbar-theme-btn {
   width: 30px; height: 30px;

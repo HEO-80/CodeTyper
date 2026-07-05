@@ -16,6 +16,11 @@ const LANG_LABELS = {
   english:    "English",
   french:     "Français",
   mindset:    "Mindset",
+  german:     "Deutsch",
+  italian:    "Italiano",
+  portuguese: "Português",
+  romanian:   "Română",
+  japan:      "日本語",
 };
 
 export default function LanguageSelector({ languages, selected, onChange }) {
