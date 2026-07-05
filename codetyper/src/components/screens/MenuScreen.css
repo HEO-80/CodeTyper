@@ -42,6 +42,11 @@
   border-color: var(--hl-blue);
   transform: translateY(-2px);
 }
+.cat-btn:focus-visible,
+.diff-btn:focus-visible {
+  outline: 2px solid var(--hl-blue);
+  outline-offset: 2px;
+}
 .cat-btn.active {
   background: var(--hl-blue-bg);
   color: var(--hl-blue);

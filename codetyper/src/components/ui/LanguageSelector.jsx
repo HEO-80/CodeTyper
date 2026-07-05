@@ -28,6 +28,8 @@ export default function LanguageSelector({ languages, selected, onChange }) {
             key={lang}
             className={`lang-btn ${lang}${selected === lang ? " active" : ""}`}
             onClick={() => onChange(lang)}
+            data-nav-item
+            data-nav-group="language"
           >
             {LANG_LABELS[lang] || lang}
           </button>

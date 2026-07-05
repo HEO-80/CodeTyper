@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
@@ -100,6 +101,9 @@ export default function PracticeScreen({
   const [panelMode, setPanelMode] = useState("structure");
   const [dictado, setDictado] = useState(false);
   const lastSpokenLine = useRef(-1);
+  const speakTimeoutRef = useRef(null);
+  const tokensRef = useRef(tokens);
+  tokensRef.current = tokens;
 
   const containerRef = useRef(null);
   const scrollAreaRef = useRef(null);
@@ -146,34 +150,35 @@ export default function PracticeScreen({
     return () => clearInterval(timerRef.current);
   }, [startTime]);
 
-  // ─── Leer línea siguiente cuando se cambia de línea ──────────────────────
+  // ─── Al desactivar dictado, callar y olvidar la última línea leída ───────
   useEffect(() => {
-    if (!dictado || !isSupported || tokens.length === 0) return;
-    const currentLine = getCurrentLineIndex(tokens, cursor);
-    const lines = getCodeLines(rawCode);
-
-    // Si avanzamos a una nueva línea y hay siguiente línea que leer
-    if (currentLine !== lastSpokenLine.current) {
-      const nextLineIndex = currentLine;
-      if (lines[nextLineIndex] !== undefined) {
-        lastSpokenLine.current = nextLineIndex;
-        // Pequeño delay para que no se solape con el tipeo
-        setTimeout(() => speak(lines[nextLineIndex]), 200);
-      }
-    }
-  }, [cursor, dictado, tokens, rawCode]);
-
-  // ─── Al activar dictado, leer línea actual ────────────────────────────────
-  useEffect(() => {
-    if (dictado && isSupported && tokens.length > 0) {
-      const currentLine = getCurrentLineIndex(tokens, cursor);
-      const lines = getCodeLines(rawCode);
-      lastSpokenLine.current = currentLine;
-      if (lines[currentLine]) speak(lines[currentLine]);
-    } else if (!dictado) {
+    if (!dictado) {
+      clearTimeout(speakTimeoutRef.current);
       stop();
+      lastSpokenLine.current = -1;
     }
-  }, [dictado]);
+  }, [dictado, stop]);
+
+  // ─── Leer la línea actual cuando cambia de línea o se activa el dictado ──
+  // No devolvemos una función de limpieza: cursor cambia en cada pulsación,
+  // así que un cleanup por-render cancelaría la voz programada antes de que
+  // sonara si el usuario escribe más rápido que el pequeño delay de abajo.
+  // Usamos una ref para tokens (no el array en las deps): pasar el array
+  // completo aquí confundía la memoización entre renders y a veces
+  // desincronizaba el efecto de las pulsaciones rápidas.
+  useEffect(() => {
+    if (!dictado || !isSupported || tokensRef.current.length === 0) return;
+    const currentLine = getCurrentLineIndex(tokensRef.current, cursor);
+    const lines = getCodeLines(rawCode);
+    if (currentLine === lastSpokenLine.current || lines[currentLine] === undefined) return;
+    lastSpokenLine.current = currentLine;
+    clearTimeout(speakTimeoutRef.current);
+    // Pequeño delay para que no se solape con el tipeo
+    speakTimeoutRef.current = setTimeout(() => speak(lines[currentLine]), 200);
+  }, [cursor, dictado, rawCode, isSupported, speak]);
+
+  // ─── Limpiar el timeout pendiente al desmontar ───────────────────────────
+  useEffect(() => () => clearTimeout(speakTimeoutRef.current), []);
 
   // Cursor centering
   useEffect(() => {
@@ -195,6 +200,13 @@ export default function PracticeScreen({
     snippet, language, tokens, totalErrors,
     startTime: startTime || Date.now(), endTime: Date.now(),
   }), [snippet, language, tokens, totalErrors, startTime]);
+
+  const repeatCurrentLine = useCallback(() => {
+    if (!isSupported || tokens.length === 0) return;
+    const currentLine = getCurrentLineIndex(tokens, cursor);
+    const lines = getCodeLines(rawCode);
+    if (lines[currentLine]) speak(lines[currentLine]);
+  }, [isSupported, tokens, cursor, rawCode, speak]);
 
   const handleKeyDown = useCallback((e) => {
     if (mode !== "editor") return;
@@ -273,6 +285,30 @@ export default function PracticeScreen({
     );
   };
 
+  // ─── Botón de repetir línea ───────────────────────────────────────────────
+  const RepeatButton = () => {
+    if (!isSupported || !dictado) return null;
+    return (
+      <button
+        onClick={repeatCurrentLine}
+        title="Repetir la línea actual"
+        style={{
+          padding: "4px 8px",
+          border: "1px solid var(--bd3)",
+          borderRadius: "4px",
+          cursor: "pointer",
+          background: "transparent",
+          color: "var(--tx3)",
+          fontSize: "12px",
+          fontFamily: "'JetBrains Mono', monospace",
+          transition: "all 0.15s",
+        }}
+      >
+        🔁
+      </button>
+    );
+  };
+
   const ModeToggle = ({ current }) => (
     <div className="mode-toggle">
       <button
@@ -325,6 +361,7 @@ export default function PracticeScreen({
           !isMobile ? (
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <DictadoButton />
+              <RepeatButton />
               <ModeToggle current="editor" />
               <button
                 onClick={() => setPanelMode(m => m === "structure" ? null : "structure")}

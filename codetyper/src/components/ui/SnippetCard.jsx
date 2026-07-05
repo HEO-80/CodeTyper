@@ -24,6 +24,16 @@ export default function SnippetCard({ snippet, onClick }) {
     <div
       className={`snippet-card ${snippet.difficulty}`}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      data-nav-item
+      data-nav-group="snippet"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <div className="snip-title" style={s.title}>{snippet.title}</div>
       {snippet.description && (

@@ -13,6 +13,10 @@
 .snippet-card:active {
   transform: translateY(-1px) !important;
 }
+.snippet-card:focus-visible {
+  outline: 2px solid var(--hl-blue);
+  outline-offset: 2px;
+}
 .snippet-card .snip-title {
   transition: color 0.18s;
 }

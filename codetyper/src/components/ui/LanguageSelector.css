@@ -12,6 +12,10 @@
   letter-spacing: 0.03em;
   transition: background 0.15s, color 0.15s, transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
+.lang-btn:focus-visible {
+  outline: 2px solid var(--hl-blue);
+  outline-offset: 2px;
+}
 
 /* ── JavaScript ── */
 @keyframes pulse-javascript {

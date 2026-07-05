@@ -3,7 +3,7 @@
 import { useState, useEffect }   from "react";
 import { useSession }             from "next-auth/react";
 import MenuScreen                 from "@/components/screens/MenuScreen";
-import PracticeScreen             from "@/components/screens/PracticeScreen2";
+import PracticeScreen             from "@/components/screens/PracticeScreen";
 import ResultsScreen              from "@/components/screens/ResultsScreen";
 import { useStatsRefresh, useTerminal, useNav } from "@/components/ui/LayoutClient";
 import { getNextSnippet } from "@/data/snippets";

@@ -1,12 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CATEGORIES, getSnippets } from "@/data/snippets";
 import { DIFFICULTIES } from "@/lib/constants";
 import LanguageSelector from "@/components/ui/LanguageSelector";
 import SnippetCard      from "@/components/ui/SnippetCard";
 import "./MenuScreen.css";
 import "../ui/TerminalTrigger.css";
+
+// ─── Navegación con flechas ───────────────────────────────────────────────────
+// Izquierda/derecha se mueven dentro de la fila actual (categoría, idioma,
+// dificultad o snippets) usando la posición real en pantalla, así que
+// funciona igual de bien si la fila envuelve en varias líneas.
+// Arriba/abajo cambian de sección siguiendo el orden visual de la pantalla
+// (categoría → idioma → dificultad → snippets), salvo dentro de la rejilla
+// de snippets, donde arriba/abajo se mueven entre filas de la propia rejilla
+// y solo "suben" de sección al llegar a la fila superior.
+const GROUP_ORDER = ["category", "language", "difficulty", "snippet"];
+
+function findClosestInDirection(current, candidates, direction) {
+  const rect = current.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  let best = null;
+  let bestScore = Infinity;
+  for (const el of candidates) {
+    if (el === current) continue;
+    const r = el.getBoundingClientRect();
+    const ex = r.left + r.width / 2;
+    const ey = r.top + r.height / 2;
+    const dx = ex - cx;
+    const dy = ey - cy;
+    let primary, secondary;
+    if (direction === "ArrowRight") { if (dx <= 1) continue; primary = dx; secondary = Math.abs(dy); }
+    else if (direction === "ArrowLeft") { if (dx >= -1) continue; primary = -dx; secondary = Math.abs(dy); }
+    else if (direction === "ArrowDown") { if (dy <= 1) continue; primary = dy; secondary = Math.abs(dx); }
+    else if (direction === "ArrowUp") { if (dy >= -1) continue; primary = -dy; secondary = Math.abs(dx); }
+    else continue;
+    const score = primary + secondary * 2; // penaliza el desalineado diagonal
+    if (score < bestScore) { bestScore = score; best = el; }
+  }
+  return best;
+}
+
+// Al saltar a otra sección, entra por la fila de arriba (si venimos de subir)
+// o la de abajo (si venimos de bajar), alineado por posición horizontal.
+function pickGroupEntry(items, activeRect, direction) {
+  const tops = items.map((el) => el.getBoundingClientRect().top);
+  const edgeTop = direction === "ArrowDown" ? Math.min(...tops) : Math.max(...tops);
+  const rowItems = items.filter((el) => Math.abs(el.getBoundingClientRect().top - edgeTop) < 4);
+  const cx = activeRect.left + activeRect.width / 2;
+  let best = rowItems[0];
+  let bestDist = Infinity;
+  for (const el of rowItems) {
+    const r = el.getBoundingClientRect();
+    const dist = Math.abs(r.left + r.width / 2 - cx);
+    if (dist < bestDist) { bestDist = dist; best = el; }
+  }
+  return best;
+}
 
 export default function MenuScreen({
   onStart,
@@ -18,6 +70,7 @@ export default function MenuScreen({
   const [selectedCategory,   setSelectedCategory]   = useState("programming");
   const [selectedLang,       setSelectedLang]       = useState("javascript");
   const [selectedDifficulty, setSelectedDifficulty] = useState("beginner");
+  const rootRef = useRef(null);
 
   const currentCategory = CATEGORIES[selectedCategory];
   const difficulties = selectedCategory === "languages"
@@ -36,8 +89,45 @@ export default function MenuScreen({
     setSelectedDifficulty(cat === "languages" ? "a1" : "beginner");
   };
 
+  // Flechas: solo actúa si el foco ya está en uno de estos elementos (no le
+  // roba las flechas a otras partes de la página, como el scroll o la navbar).
+  const handleArrowNav = (e) => {
+    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) return;
+    const active = document.activeElement;
+    if (!active?.hasAttribute("data-nav-item")) return;
+    const root = rootRef.current;
+    if (!root) return;
+    const items = Array.from(root.querySelectorAll("[data-nav-item]"));
+    const group = active.getAttribute("data-nav-group");
+    const groupItems = items.filter((el) => el.getAttribute("data-nav-group") === group);
+
+    // Izquierda/derecha: moverse dentro de la fila/rejilla actual.
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      const next = findClosestInDirection(active, groupItems, e.key);
+      if (next) { e.preventDefault(); next.focus(); }
+      return;
+    }
+
+    // Dentro de la rejilla de snippets, arriba/abajo navegan primero por filas
+    // de la propia rejilla; solo cambian de sección si no hay fila en esa dirección.
+    if (group === "snippet") {
+      const next = findClosestInDirection(active, groupItems, e.key);
+      if (next) { e.preventDefault(); next.focus(); return; }
+      if (e.key !== "ArrowUp") return; // no hay sección después de snippets
+    }
+
+    // Cambiar de sección (categoría ⇄ idioma ⇄ dificultad ⇄ snippets).
+    const idx = GROUP_ORDER.indexOf(group);
+    const targetGroup = e.key === "ArrowDown" ? GROUP_ORDER[idx + 1] : GROUP_ORDER[idx - 1];
+    if (!targetGroup) return;
+    const targetItems = items.filter((el) => el.getAttribute("data-nav-group") === targetGroup);
+    if (targetItems.length === 0) return;
+    const entry = pickGroupEntry(targetItems, active.getBoundingClientRect(), e.key);
+    if (entry) { e.preventDefault(); entry.focus(); }
+  };
+
   return (
-    <div style={s.root}>
+    <div style={s.root} ref={rootRef} onKeyDown={handleArrowNav}>
 
       {/* Header */}
       <div style={s.header}>
@@ -85,6 +175,8 @@ export default function MenuScreen({
               key={key}
               className={`cat-btn${selectedCategory === key ? " active" : ""}`}
               onClick={() => handleCategoryChange(key)}
+              data-nav-item
+              data-nav-group="category"
             >
               {cat.label}
             </button>
@@ -108,6 +200,8 @@ export default function MenuScreen({
               key={diff}
               className={`diff-btn${selectedDifficulty === diff ? " active" : ""}`}
               onClick={() => setSelectedDifficulty(diff)}
+              data-nav-item
+              data-nav-group="difficulty"
             >
               {diff}
             </button>

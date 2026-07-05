@@ -1,6 +1,6 @@
 "use client";
 
-
+import { useEffect, useRef } from "react";
 import { LANGUAGE_LABELS } from "@/lib/constants";
 import { getNextSnippet } from "@/data/snippets";
 import "./ResultsScreen.css";
@@ -32,6 +32,35 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
     D: "No te rindas, la constancia es la clave 🧠",
   };
 
+  // ─── Acciones navegables con teclado (← → para moverse, Enter para elegir) ──
+  const actions = [
+    hasNext && {
+      key: "next",
+      label: "siguiente →",
+      onClick: onNext,
+      style: { borderColor: "var(--hl-green)", color: "var(--hl-green)", fontWeight: "600" },
+    },
+    { key: "repeat", label: "↺ repetir", onClick: onRepeat, style: { borderColor: "var(--hl-blue)", color: "var(--hl-blue)" } },
+    { key: "menu", label: "← elegir otro", onClick: onMenu, style: { borderColor: "var(--bd3)", color: "var(--tx2)" } },
+  ].filter(Boolean);
+
+  const btnRefs = useRef([]);
+
+  // Al entrar en la pantalla, foco directo en la primera opción (siguiente, si existe)
+  useEffect(() => {
+    btnRefs.current[0]?.focus();
+  }, []);
+
+  const handleActionsKeyDown = (e) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const idx = btnRefs.current.findIndex((b) => b === document.activeElement);
+    const current = idx === -1 ? 0 : idx;
+    const delta = e.key === "ArrowRight" ? 1 : -1;
+    const nextIdx = (current + delta + actions.length) % actions.length;
+    btnRefs.current[nextIdx]?.focus();
+  };
+
   return (
     <div style={styles.root}>
       <style>{`
@@ -44,7 +73,12 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
           80% { transform: scale(1.1); }
           100% { transform: scale(1); opacity: 1; }
         }
+        @keyframes resultBtnBlink {
+          0%, 100% { opacity: 1; box-shadow: 0 0 0 2px currentColor; }
+          50% { opacity: 0.55; box-shadow: 0 0 0 2px transparent; }
+        }
         .result-btn:hover { opacity: 0.8; transform: translateY(-1px); }
+        .result-btn:focus { outline: none; animation: resultBtnBlink 1s ease-in-out infinite; }
       `}</style>
 
       <div style={styles.wrap}>
@@ -84,30 +118,19 @@ export default function ResultsScreen({ result, onRepeat, onMenu, onNext, hasNex
         </div>
 
         {/* Actions */}
-        <div style={styles.actions}>
-          {hasNext && (
+        <div style={styles.actions} onKeyDown={handleActionsKeyDown}>
+          {actions.map((action, i) => (
             <button
+              key={action.key}
+              ref={(el) => { btnRefs.current[i] = el; }}
               className="result-btn"
-              style={{ ...styles.btn, borderColor: "var(--hl-green)", color: "var(--hl-green)", fontWeight: "600" }}
-              onClick={onNext}
+              style={{ ...styles.btn, ...action.style }}
+              onClick={action.onClick}
+              onMouseEnter={(e) => e.currentTarget.focus()}
             >
-              siguiente →
+              {action.label}
             </button>
-          )}
-          <button
-            className="result-btn"
-            style={{ ...styles.btn, borderColor: "var(--hl-blue)", color: "var(--hl-blue)" }}
-            onClick={onRepeat}
-          >
-            ↺ repetir
-          </button>
-          <button
-            className="result-btn"
-            style={{ ...styles.btn, borderColor: "var(--bd3)", color: "var(--tx2)" }}
-            onClick={onMenu}
-          >
-            ← elegir otro
-          </button>
+          ))}
         </div>
         {!hasNext && (
           <p style={styles.completedMsg}>
