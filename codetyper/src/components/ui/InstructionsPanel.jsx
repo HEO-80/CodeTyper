@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { INSTRUCTIONS } from "@/data/instructions";
+import { INSTRUCTION_CARDS } from "@/data/instructions";
 import "./InstructionsPanel.css";
 
 export default function InstructionsPanel({ open, onClose }) {
   const router = useRouter();
 
-  const handleNavigate = (slug) => {
+  const handleNavigate = (id) => {
     onClose();
-    router.push(`/instrucciones/${slug}`);
+    router.push(`/instrucciones/${id}`);
   };
 
   return (
@@ -22,21 +22,25 @@ export default function InstructionsPanel({ open, onClose }) {
       </div>
 
       <div className="instructions-panel-list">
-        {INSTRUCTIONS.map((item) => (
+        {INSTRUCTION_CARDS.map((item) => (
           <div
-            key={item.slug}
-            className={`instructions-card ${item.color}`}
-            onClick={() => handleNavigate(item.slug)}
+            key={item.id}
+            className="instructions-card"
+            style={{ "--card-color": item.color }}
+            onClick={() => handleNavigate(item.id)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                handleNavigate(item.slug);
+                handleNavigate(item.id);
               }
             }}
           >
-            <div className="instructions-card-title">{item.title}</div>
+            <div className="instructions-card-head">
+              <span className="instructions-card-icon">{item.icon}</span>
+              <span className="instructions-card-title">{item.title}</span>
+            </div>
             <div className="instructions-card-desc">{item.description}</div>
             <div className="instructions-card-arrow">→</div>
           </div>

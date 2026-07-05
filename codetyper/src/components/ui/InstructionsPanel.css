@@ -87,6 +87,17 @@
   outline: 2px solid var(--hl-blue);
   outline-offset: 2px;
 }
+.instructions-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.instructions-card-icon {
+  font-size: 15px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: filter 0.18s;
+}
 .instructions-card-title {
   font-size: 13px;
   color: var(--tx);
@@ -106,60 +117,19 @@
   transition: color 0.18s;
 }
 
-/* ── Color variants (mismo sistema que SnippetCard/LanguageSelector) ── */
-.instructions-card.blue:hover {
+/* ── Hover — iluminación con el color propio de cada card (mismo efecto que
+   SnippetCard.css: lift, borde de color, fondo teñido, glow), pero data-driven
+   vía la custom property --card-color en vez de una clase fija por color ── */
+.instructions-card:hover {
   transform: translateY(-4px);
-  border-color: var(--hl-blue);
-  box-shadow: 0 6px 24px rgba(130,170,255,0.2);
-  background: var(--hl-blue-bg);
+  border-color: var(--card-color);
+  background: color-mix(in srgb, var(--card-color) 12%, var(--bg));
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--card-color) 30%, transparent);
 }
-.instructions-card.blue:hover .instructions-card-title,
-.instructions-card.blue:hover .instructions-card-arrow { color: var(--hl-blue); }
-
-.instructions-card.green:hover {
-  transform: translateY(-4px);
-  border-color: var(--hl-green);
-  box-shadow: 0 6px 24px rgba(78,201,148,0.2);
-  background: var(--hl-green-bg);
+.instructions-card:hover .instructions-card-title,
+.instructions-card:hover .instructions-card-arrow {
+  color: var(--card-color);
 }
-.instructions-card.green:hover .instructions-card-title,
-.instructions-card.green:hover .instructions-card-arrow { color: var(--hl-green); }
-
-.instructions-card.purple:hover {
-  transform: translateY(-4px);
-  border-color: var(--hl-purple);
-  box-shadow: 0 6px 24px rgba(199,146,234,0.2);
-  background: var(--hl-purple-bg);
-}
-.instructions-card.purple:hover .instructions-card-title,
-.instructions-card.purple:hover .instructions-card-arrow { color: var(--hl-purple); }
-
-.instructions-card.yellow:hover {
-  transform: translateY(-4px);
-  border-color: var(--hl-yellow);
-  box-shadow: 0 6px 24px rgba(255,203,107,0.2);
-  background: var(--hl-yellow-bg);
-}
-.instructions-card.yellow:hover .instructions-card-title,
-.instructions-card.yellow:hover .instructions-card-arrow { color: var(--hl-yellow); }
-
-.instructions-card.orange:hover {
-  transform: translateY(-4px);
-  border-color: var(--hl-orange);
-  box-shadow: 0 6px 24px rgba(247,140,108,0.2);
-  background: var(--hl-orange-bg);
-}
-.instructions-card.orange:hover .instructions-card-title,
-.instructions-card.orange:hover .instructions-card-arrow { color: var(--hl-orange); }
-
-.instructions-card.teal:hover {
-  transform: translateY(-4px);
-  border-color: var(--hl-teal);
-  box-shadow: 0 6px 24px rgba(86,182,194,0.2);
-  background: var(--hl-teal-bg);
-}
-.instructions-card.teal:hover .instructions-card-title,
-.instructions-card.teal:hover .instructions-card-arrow { color: var(--hl-teal); }
 
 /* Light mode: neutral shadow lift on hover, igual que SnippetCard */
 [data-theme="light"] .instructions-card:hover {

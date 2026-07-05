@@ -1,87 +1,307 @@
-/* instructions-detail.css — /instrucciones/[slug] page */
+/* InstructionPage.css — /instrucciones/[id] page */
 
-.instr-root {
+.instr-page {
   width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 48px 24px 64px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
   font-family: 'JetBrains Mono', monospace;
+  -webkit-overflow-scrolling: touch;
 }
 
-.instr-header {
-  margin-bottom: 32px;
+.instr-page-inner {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
 }
 
-.instr-badge {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  border-radius: 3px;
-  padding: 3px 10px;
-  margin-bottom: 16px;
+/* ── Back button ── */
+.instr-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--bd3);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--tx);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  margin-bottom: 28px;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.instr-back-btn:hover {
+  color: var(--hl-blue);
+  border-color: var(--hl-blue);
+  background: var(--hl-blue-bg);
+}
+.instr-back-arrow {
+  font-size: 14px;
+  line-height: 1;
 }
 
-.instr-title {
+/* ── Header — gradiente sutil con el color de la card ── */
+.instr-page-header {
+  position: relative;
+  padding: 32px 28px;
+  margin-bottom: 28px;
+  border-radius: 12px;
+  border: 1px solid var(--bd2);
+  background:
+    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--card-color) 16%, transparent), transparent 60%),
+    var(--bg2);
+  overflow: hidden;
+}
+
+.instr-page-icon {
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.instr-page-title {
   font-family: 'Syne', sans-serif;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--tx);
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   letter-spacing: -0.02em;
 }
 
-.instr-subtitle {
-  color: var(--tx3);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.instr-body {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 40px;
-}
-
-.instr-paragraph {
+.instr-page-intro {
   color: var(--tx2);
   font-size: 14px;
   line-height: 1.7;
   margin: 0;
+  max-width: 60ch;
 }
 
-.instr-other-label {
-  color: var(--tx3);
+/* ── Sections ── */
+.instr-page-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.instr-section-card {
+  background: var(--bg2);
+  border: 1px solid var(--bd2);
+  border-left: 3px solid var(--card-color);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+
+.instr-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tx);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.instr-section-text {
+  color: var(--tx2);
   font-size: 13px;
-  letter-spacing: 0.05em;
-  margin-bottom: 10px;
+  line-height: 1.7;
+  margin: 0;
 }
 
-.instr-other-row {
+/* ── Code block — mismo tokenizer que el editor ── */
+.instr-code-block {
+  margin-top: 14px;
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+.instr-code-line {
+  display: flex;
+  gap: 14px;
+  white-space: pre;
+}
+.instr-code-linenum {
+  color: var(--tx4);
+  font-size: 12px;
+  min-width: 18px;
+  text-align: right;
+  user-select: none;
+  flex-shrink: 0;
+}
+.instr-code-content {
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0.02em;
+  white-space: pre;
+}
+
+/* ── Swatches (lenguajes-y-colores) ── */
+.instr-swatch-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 14px;
+}
+.instr-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--swatch-color) 50%, var(--bd));
+  background: color-mix(in srgb, var(--swatch-color) 10%, var(--bg));
+  color: var(--tx2);
+  font-size: 12px;
+}
+.instr-swatch-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--swatch-color);
+  flex-shrink: 0;
 }
 
-.instr-other-chip {
-  padding: 6px 14px;
-  border: 1px solid var(--bd3);
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  background: var(--btn-bg);
-  color: var(--tx3);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+/* ── Index — rejilla con enlace a todas las guías (solo en la card índice) ── */
+.instr-index-section {
+  margin-bottom: 36px;
 }
-.instr-other-chip:hover {
+.instr-index-label {
+  color: var(--tx3);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.instr-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.instr-index-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg2);
+  border: 1px solid var(--bd2);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.instr-index-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--card-color);
+  background: color-mix(in srgb, var(--card-color) 10%, var(--bg));
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--card-color) 25%, transparent);
+}
+.instr-index-card:focus-visible {
+  outline: 2px solid var(--hl-blue);
+  outline-offset: 2px;
+}
+.instr-index-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.instr-index-card-icon {
+  font-size: 15px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.instr-index-card-title {
+  font-size: 13px;
   color: var(--tx);
-  border-color: var(--tx3);
+  font-weight: 500;
+  transition: color 0.18s;
+}
+.instr-index-card:hover .instr-index-card-title { color: var(--card-color); }
+.instr-index-card-desc {
+  font-size: 11px;
+  color: var(--tx2);
+  line-height: 1.4;
+}
+.instr-index-card-arrow {
+  font-size: 11px;
+  color: var(--tx4);
+  align-self: flex-end;
+  opacity: 0.6;
+  transition: color 0.18s;
+}
+.instr-index-card:hover .instr-index-card-arrow { color: var(--card-color); }
+
+/* ── Footer — navegación anterior / siguiente ── */
+.instr-page-footer {
+  display: flex;
+  gap: 12px;
+}
+
+.instr-nav-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--bd2);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s, background 0.18s;
+}
+.instr-nav-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--nav-color);
+  background: color-mix(in srgb, var(--nav-color) 10%, var(--bg));
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--nav-color) 25%, transparent);
+}
+.instr-nav-next {
+  justify-content: flex-end;
+  text-align: right;
+}
+.instr-nav-arrow {
+  font-size: 16px;
+  color: var(--tx4);
+  flex-shrink: 0;
+  transition: color 0.18s;
+}
+.instr-nav-btn:hover .instr-nav-arrow { color: var(--nav-color); }
+.instr-nav-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.instr-nav-label {
+  color: var(--tx4);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.instr-nav-title {
+  color: var(--tx);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .instr-not-found {
   color: var(--tx3);
   font-size: 13px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .instr-page-inner { padding: 20px 16px 80px; }
+  .instr-page-header { padding: 24px 18px; }
+  .instr-page-title { font-size: 24px; }
+  .instr-page-icon { font-size: 28px; }
+  .instr-section-card { padding: 16px; }
+  .instr-page-footer { flex-direction: column; }
+  .instr-nav-next { justify-content: flex-start; text-align: left; }
+  .instr-nav-btn:hover { transform: none; }
 }
