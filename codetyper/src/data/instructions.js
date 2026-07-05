@@ -96,6 +96,20 @@ export const INSTRUCTION_CARDS = [
     color: "#82aaff",
     icon: "📈",
   },
+  {
+    id: "navegacion-teclado",
+    title: "Navegación por teclado",
+    description: "Toda la app se puede manejar sin ratón. Tab para moverte, flechas para navegar, Enter para seleccionar",
+    color: "#c792ea",
+    icon: "⌨",
+  },
+  {
+    id: "terminal-integrada",
+    title: "Terminal integrada",
+    description: "Accede directamente a cualquier snippet escribiendo el lenguaje, nivel y nombre. Escribe help para ver los comandos",
+    color: "#4ec994",
+    icon: "$",
+  },
 ];
 
 export function getInstructionCard(id) {

@@ -259,6 +259,65 @@ export const INSTRUCTION_CONTENT = {
       },
     ],
   },
+
+  "navegacion-teclado": {
+    intro:
+      "CodeTyper está diseñado para que puedas practicar sin tocar el ratón en ningún momento. Todo es accesible desde el teclado.",
+    sections: [
+      {
+        title: "Tab — moverse entre secciones",
+        content:
+          "Presiona Tab para saltar entre las zonas principales de la página (Navbar, panel izquierdo, categorías, lenguajes, dificultades, snippets).",
+      },
+      {
+        title: "Flechas — navegar dentro de una sección",
+        content:
+          "Una vez dentro de una sección, usa las flechas arriba/abajo o izquierda/derecha para moverte entre los botones y opciones.",
+      },
+      {
+        title: "Enter — seleccionar",
+        content:
+          "Pulsa Enter para activar el botón o elemento enfocado, igual que un click.",
+      },
+      {
+        title: "Escape — cerrar paneles",
+        content:
+          "Cierra el panel de instrucciones, el de usuario o cualquier overlay abierto.",
+      },
+      {
+        title: "Alt + T — abrir terminal",
+        content:
+          "Atajo directo para abrir la terminal desde cualquier pantalla sin usar el ratón.",
+      },
+    ],
+  },
+
+  "terminal-integrada": {
+    intro:
+      "CodeTyper incluye una terminal integrada (Alt + T) desde la que puedes moverte, cambiar de lenguaje y lanzar cualquier snippet escribiendo comandos, sin tocar el ratón.",
+    sections: [
+      {
+        title: "help — ver todos los comandos",
+        content:
+          "Escribe help en cualquier momento para ver la lista completa de comandos disponibles, con su sintaxis exacta.",
+      },
+      {
+        title: "cd <lenguaje> y difficulty <nivel>",
+        content:
+          "cd javascript cambia el lenguaje activo; difficulty intermediate cambia el nivel. Usa ls para ver qué lenguajes están disponibles.",
+      },
+      {
+        title: "snippets, run <id> y start",
+        content:
+          "snippets lista los ejercicios disponibles para el lenguaje y nivel actuales; run <id> lanza uno concreto (por ejemplo run js-beg-001); start lanza directamente el primero de la lista.",
+      },
+      {
+        title: "status, whoami y clear",
+        content:
+          "status muestra el estado completo de tu sesión (lenguaje, nivel, snippets disponibles); whoami un resumen rápido; clear limpia la pantalla de la terminal.",
+      },
+    ],
+  },
 };
 
 export function getInstructionContent(id) {
