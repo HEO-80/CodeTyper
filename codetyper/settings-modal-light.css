@@ -1,0 +1,52 @@
+/* ============================================================
+   CodeTyper — Settings Modal (Light Mode)
+   Extiende theme-light.css. Aplica SOLO al tema light del modal.
+   ============================================================ */
+
+:root[data-theme="light"],
+.light,
+.theme-light {
+  --ct-modal-bg:        #e4e7ec; /* contenedor del modal */
+  --ct-modal-body:      #eef0f3; /* cuerpo scrollable */
+  --ct-modal-chrome:    #ced4dd; /* header + footer */
+  --ct-modal-cardhead:  #f7f8fa; /* franja // etiqueta de cada card */
+
+  --ct-shadow-modal:    0 24px 60px rgba(20,30,55,.34), 0 4px 12px rgba(20,30,55,.20);
+  --ct-shadow-save:     0 4px 12px rgba(47,111,237,.36);
+}
+
+/* ---- Overlay + contenedor ---- */
+.light .settings-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 30px; background: rgba(30,38,52,.32); backdrop-filter: blur(2px); }
+.light .settings-modal   { width: 660px; max-width: 100%; max-height: 88vh; overflow: hidden; display: flex; flex-direction: column; background: var(--ct-modal-bg); border: 1px solid var(--ct-border-chrome); border-radius: 18px; box-shadow: var(--ct-shadow-modal); }
+
+/* ---- Header / footer (chrome) ---- */
+.light .settings-header  { background: var(--ct-modal-chrome); border-bottom: 1px solid var(--ct-border-chrome); }
+.light .settings-footer  { background: var(--ct-modal-chrome); border-top: 1px solid var(--ct-border-chrome); }
+
+/* ---- Cuerpo + cards de grupo ---- */
+.light .settings-body    { background: var(--ct-modal-body); overflow-y: auto; display: flex; flex-direction: column; gap: 18px; padding: 20px 24px; }
+.light .settings-group   { flex-shrink: 0; /* <-- CLAVE: que no se aplasten */
+                           background: var(--ct-surface); border: 1px solid var(--ct-border-panel); border-radius: 14px; box-shadow: var(--ct-shadow-panel); overflow: hidden; }
+.light .settings-group__label { background: var(--ct-modal-cardhead); border-bottom: 1px solid #eceef2; padding: 13px 20px; font-size: 13px; color: var(--ct-text-label); }
+
+/* ---- Segmentos (reposo) ---- */
+.light .seg { background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); border-radius: 9px; padding: 8px 15px; font-weight: 600; box-shadow: var(--ct-shadow-button); cursor: pointer; transition: all .12s; }
+
+/* ---- Segmentos activos (rellenan con su color) ---- */
+.light .seg.is-active--theme { background: var(--ct-amber-bg); color: var(--ct-amber); border-color: var(--ct-amber); box-shadow: 0 3px 9px rgba(184,121,27,.30); }
+.light .seg.is-active--blue  { background: var(--ct-blue-bg);  color: var(--ct-blue);  border-color: var(--ct-blue);  box-shadow: 0 3px 9px rgba(47,111,237,.28); }
+.light .seg.is-active--on    { background: var(--ct-green-bg); color: var(--ct-green); border-color: var(--ct-green); box-shadow: 0 3px 9px rgba(21,151,78,.30); }
+.light .seg.is-active--off   { background: #fbe4ee; color: var(--ct-rose); border-color: var(--ct-rose); box-shadow: 0 3px 9px rgba(210,77,138,.28); }
+
+/* ---- Lista de fuentes (vertical) ---- */
+.light .font-item          { text-align: left; background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); border-radius: 9px; padding: 10px 16px; box-shadow: 0 2px 5px rgba(30,41,59,.12); cursor: pointer; font-weight: 500; }
+.light .font-item.is-active{ background: var(--ct-blue-bg); color: var(--ct-blue); border-color: var(--ct-blue); font-weight: 600; box-shadow: 0 3px 9px rgba(47,111,237,.26); }
+
+/* ---- Swatches de color de acento ---- */
+.light .accent-dot          { width: 30px; height: 30px; border-radius: 50%; padding: 0; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(30,41,59,.22); cursor: pointer; transition: all .12s; }
+.light .accent-dot.is-active{ border: 2px solid #fff; box-shadow: 0 0 0 2px currentColor, 0 3px 8px rgba(0,0,0,.28); }
+/* nota: pon color:<accent> en el swatch para que currentColor/halo use su tono */
+
+/* ---- Botones del footer ---- */
+.light .btn-reset { background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); border-radius: 9px; padding: 10px 18px; font-weight: 600; box-shadow: var(--ct-shadow-button); cursor: pointer; }
+.light .btn-save  { background: var(--ct-blue); color: #fff; border: 1px solid #2258c9; border-radius: 9px; padding: 11px 24px; font-weight: 700; box-shadow: var(--ct-shadow-save); cursor: pointer; }
