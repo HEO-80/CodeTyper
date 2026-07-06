@@ -122,10 +122,12 @@ export default function SettingsScreen({ onClose }) {
               <div className="settings-options">
                 <button
                   className={`settings-opt-btn${isDark ? " active" : ""}`}
+                  data-variant="theme"
                   onClick={() => !isDark && toggleTheme()}
                 >🌙 Oscuro</button>
                 <button
                   className={`settings-opt-btn${!isDark ? " active" : ""}`}
+                  data-variant="theme"
                   onClick={() => isDark && toggleTheme()}
                 >☀️ Claro</button>
               </div>
@@ -220,10 +222,12 @@ export default function SettingsScreen({ onClose }) {
               <div className="settings-options">
                 <button
                   className={`settings-opt-btn${settings.showLineNumbers ? " active" : ""}`}
+                  data-variant="on"
                   onClick={() => update("showLineNumbers", true)}
                 >ON</button>
                 <button
                   className={`settings-opt-btn${!settings.showLineNumbers ? " active" : ""}`}
+                  data-variant="off"
                   onClick={() => update("showLineNumbers", false)}
                 >OFF</button>
               </div>
@@ -244,10 +248,12 @@ export default function SettingsScreen({ onClose }) {
               <div className="settings-options">
                 <button
                   className={`settings-opt-btn${settings.smoothScroll ? " active" : ""}`}
+                  data-variant="on"
                   onClick={() => update("smoothScroll", true)}
                 >ON</button>
                 <button
                   className={`settings-opt-btn${!settings.smoothScroll ? " active" : ""}`}
+                  data-variant="off"
                   onClick={() => update("smoothScroll", false)}
                 >OFF</button>
               </div>
@@ -262,10 +268,12 @@ export default function SettingsScreen({ onClose }) {
               <div className="settings-options">
                 <button
                   className={`settings-opt-btn${settings.soundEnabled ? " active" : ""}`}
+                  data-variant="on"
                   onClick={() => update("soundEnabled", true)}
                 >ON</button>
                 <button
                   className={`settings-opt-btn${!settings.soundEnabled ? " active" : ""}`}
+                  data-variant="off"
                   onClick={() => update("soundEnabled", false)}
                 >OFF</button>
               </div>

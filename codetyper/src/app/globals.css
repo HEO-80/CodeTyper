@@ -175,6 +175,7 @@
   --ct-green:  #15974e; --ct-green-bg: #dcf5e4; --ct-green-bd: #a9e3bf;
   --ct-amber:  #b8791b; --ct-amber-bg: #fbedcf; --ct-amber-bd: #eecf8f;
   --ct-purple: #7b52e0;
+  --ct-rose:   #d24d8a; --ct-rose-bg:  #fbe4ee;
 
   --ct-shadow-button:     0 3px 7px rgba(30,41,59,.16), 0 1px 2px rgba(30,41,59,.10);
   --ct-shadow-card:       0 5px 16px rgba(30,41,59,.13), 0 2px 4px rgba(30,41,59,.08);
@@ -184,6 +185,15 @@
 
   --ct-radius:    12px;
   --ct-radius-sm: 8px;
+
+  /* ---- settings-modal-spec.md: modal de Settings ---- */
+  --ct-modal-bg:       #e4e7ec; /* contenedor del modal */
+  --ct-modal-body:     #eef0f3; /* cuerpo scrollable */
+  --ct-modal-chrome:   #ced4dd; /* header + footer */
+  --ct-modal-cardhead: #f7f8fa; /* franja "// etiqueta" de cada card */
+
+  --ct-shadow-modal: 0 24px 60px rgba(20,30,55,.34), 0 4px 12px rgba(20,30,55,.20);
+  --ct-shadow-save:  0 4px 12px rgba(47,111,237,.36);
 }
 
 [data-theme="light"] body { background: var(--ct-bg-root); }
@@ -271,10 +281,14 @@ body {
 /* ── Light mode: Navbar — chrome gris tenue, igual que sidebar/instrucciones
    (spec §1: navbar + laterales más apagados que el centro) ───────────────── */
 [data-theme="light"] .navbar { background: var(--ct-bg-chrome); border-bottom-color: var(--ct-border-chrome); }
-[data-theme="light"] .navbar-user-btn { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .navbar-user-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
+/* editor/settings/instrucciones en reposo: mismo pill blanco elevado que el
+   resto del light mode; :not(.active) para no pisar el estado activo (azul). */
+[data-theme="light"] .navbar-link:not(.active) { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
 [data-theme="light"] .navbar-link:hover { background: var(--ct-surface); border-color: var(--ct-border-button); }
 [data-theme="light"] .navbar-back-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
-[data-theme="light"] .navbar-hint kbd { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .navbar-theme-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
+[data-theme="light"] .navbar-hint kbd { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
 
 /* ── Light mode: panel de instrucciones (derecho) — mismo chrome (spec §5) ─── */
 [data-theme="light"] .instructions-panel { background: var(--ct-bg-chrome); border-left-color: var(--ct-border-chrome); }
@@ -322,3 +336,110 @@ body {
 [data-theme="light"] .practice-code-area.error-flash {
   animation: errorFlash-light 0.15s ease;
 }
+
+/* ── Light mode: Settings modal (settings-modal-spec.md) ───────────────────
+   Modal = app en miniatura: header/footer chrome gris, cuerpo gris claro,
+   cada .settings-section = card blanca elevada con franja "// etiqueta". ── */
+[data-theme="light"] .settings-overlay { background: rgba(30,38,52,.32); backdrop-filter: blur(2px); }
+
+[data-theme="light"] .settings-panel {
+  background: var(--ct-modal-bg);
+  border-color: var(--ct-border-chrome);
+  border-radius: 18px;
+  box-shadow: var(--ct-shadow-modal);
+}
+
+[data-theme="light"] .settings-header { background: var(--ct-modal-chrome); border-bottom-color: var(--ct-border-chrome); }
+[data-theme="light"] .settings-footer { background: var(--ct-modal-chrome); border-top-color: var(--ct-border-chrome); }
+[data-theme="light"] .settings-close {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .settings-close:hover { border-color: var(--hl-red); color: var(--hl-red); }
+
+[data-theme="light"] .settings-body { background: var(--ct-modal-body); padding: 20px 24px; }
+
+/* Cada sección = card blanca elevada; la etiqueta "// ..." se estira a los
+   bordes de la card (margin negativo = padding de .settings-section) para
+   formar la franja de cabecera, y overflow:hidden la recorta a las esquinas. */
+[data-theme="light"] .settings-section {
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-panel);
+  border-radius: 14px;
+  box-shadow: var(--ct-shadow-panel);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+[data-theme="light"] .settings-section:last-child { margin-bottom: 0; }
+[data-theme="light"] .settings-section-label {
+  margin: -16px -24px 14px;
+  padding: 13px 24px;
+  background: var(--ct-modal-cardhead);
+  border-bottom: 1px solid #eceef2;
+  color: #5b626c;
+}
+
+[data-theme="light"] .settings-row-title { color: #15181d; }
+[data-theme="light"] .settings-row-desc  { color: #8b929c; }
+
+/* Segmentos (reposo): blancos con sombra. Activo se rellena de azul por
+   defecto (Tamaño de fuente, Cursor); Tema/Números de línea/Scroll/Sonido
+   usan data-variant para su propio color de acento. */
+[data-theme="light"] .settings-opt-btn {
+  background: var(--ct-surface);
+  color: #3c434e;
+  border-color: var(--ct-border-button);
+  border-radius: 9px;
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .settings-opt-btn:hover { border-color: var(--ct-blue); color: var(--ct-blue); }
+[data-theme="light"] .settings-opt-btn.active {
+  background: var(--ct-blue-bg);
+  border-color: var(--ct-blue);
+  color: var(--ct-blue);
+  box-shadow: 0 3px 9px rgba(47,111,237,.28);
+}
+[data-theme="light"] .settings-opt-btn[data-variant="theme"].active {
+  background: var(--ct-amber-bg);
+  border-color: var(--ct-amber);
+  color: var(--ct-amber);
+  box-shadow: 0 3px 9px rgba(184,121,27,.30);
+}
+[data-theme="light"] .settings-opt-btn[data-variant="on"].active {
+  background: var(--ct-green-bg);
+  border-color: var(--ct-green);
+  color: var(--ct-green);
+  box-shadow: 0 3px 9px rgba(21,151,78,.30);
+}
+[data-theme="light"] .settings-opt-btn[data-variant="off"].active {
+  background: var(--ct-rose-bg);
+  border-color: var(--ct-rose);
+  color: var(--ct-rose);
+  box-shadow: 0 3px 9px rgba(210,77,138,.28);
+}
+
+/* Lista de fuentes (vertical): sombra más suave en reposo */
+[data-theme="light"] .settings-font-btn { box-shadow: 0 2px 5px rgba(30,41,59,.12); }
+[data-theme="light"] .settings-font-btn.active { box-shadow: 0 3px 9px rgba(47,111,237,.26); }
+
+/* Swatches de color de acento: activo = anillo blanco + halo del color (--c) */
+[data-theme="light"] .settings-color-btn { box-shadow: 0 2px 5px rgba(30,41,59,.22); }
+[data-theme="light"] .settings-color-btn.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px var(--c), 0 3px 8px rgba(0,0,0,.28);
+}
+
+[data-theme="light"] .settings-reset-btn {
+  background: var(--ct-surface);
+  color: #3c434e;
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .settings-save-btn {
+  background: var(--ct-blue);
+  border: 1px solid #2258c9;
+  color: #fff;
+  box-shadow: var(--ct-shadow-save);
+}
+[data-theme="light"] .settings-save-btn.saved { background: var(--ct-green); }
