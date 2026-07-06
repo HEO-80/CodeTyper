@@ -1,11 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { INSTRUCTION_CARDS } from "@/data/instructions";
 import "./InstructionsPanel.css";
 
 export default function InstructionsPanel({ open, onClose }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleNavigate = (id) => {
     onClose();
@@ -25,7 +26,7 @@ export default function InstructionsPanel({ open, onClose }) {
         {INSTRUCTION_CARDS.map((item) => (
           <div
             key={item.id}
-            className="instructions-card"
+            className={`instructions-card${pathname === `/instrucciones/${item.id}` ? " instructions-card--active" : ""}`}
             style={{ "--card-color": item.color }}
             onClick={() => handleNavigate(item.id)}
             role="button"

@@ -19,9 +19,11 @@
   border-radius: 10px;
 }
 [data-theme="light"] .menu-section {
-  background: var(--bg3);
-  border: 1px solid var(--bd);
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-panel);
+  border-radius: var(--ct-radius, 12px);
   padding: 16px 18px;
+  box-shadow: var(--ct-shadow-panel);
 }
 
 /* Category buttons */
@@ -118,4 +120,27 @@
 [data-theme="light"] .diff-btn.active {
   background: #ffffff;
   font-weight: 600;
+}
+
+/* ── Light mode: botones elevados con sombra + acentos exactos del spec ──── */
+[data-theme="light"] .cat-btn,
+[data-theme="light"] .diff-btn {
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .toggle-comments-btn:not(.active) {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .cat-btn.active {
+  border: 1.5px solid var(--ct-blue);
+  color: var(--tx);
+  box-shadow: 0 2px 10px rgba(47,111,237,.18);
+}
+[data-theme="light"] .diff-btn.active {
+  background: var(--ct-amber-bg);
+  color: var(--ct-amber);
+  border-color: var(--ct-amber);
+  box-shadow: 0 2px 10px rgba(184,121,27,.18);
 }

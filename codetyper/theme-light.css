@@ -1,0 +1,93 @@
+/* ============================================================
+   CodeTyper — Light Mode Theme
+   Escala de grises por zonas + profundidad 3D con sombras.
+   Aplica SOLO al tema light. No tocar el dark.
+   ============================================================ */
+
+:root[data-theme="light"],
+.light,
+.theme-light {
+  /* ---- ZONAS (de más oscuro a más claro) ---- */
+  --ct-bg-root:        #e4e7ec; /* fondo raíz de la app (se ve en gaps) */
+  --ct-bg-chrome:      #ced4dd; /* navbar + sidebar + panel instrucciones (gris tenue) */
+  --ct-bg-chrome-deep: #c4cbd5; /* pie del sidebar (logout) */
+  --ct-bg-main:        #f4f6f9; /* area central, casi blanco */
+  --ct-surface:        #ffffff; /* cards / botones / recuadros elevados */
+
+  /* ---- BORDES ---- */
+  --ct-border-chrome:  #adb4c0; /* separadores de navbar/paneles */
+  --ct-border-panel:   #bcc3ce; /* borde de cards/paneles blancos */
+  --ct-border-button:  #a9b0bc; /* borde de botones blancos (mas oscuro) */
+  --ct-border-label:   #c4cad3; /* borde de chips de etiqueta // ... */
+  --ct-border-card-top:#b4bbc6; /* borde superior 3px de card snippet */
+
+  /* ---- TEXTO ---- */
+  --ct-text:           #15181d; /* principal (ink) */
+  --ct-text-sub:       #3c434e; /* secundario */
+  --ct-text-faint:     #9aa1ac; /* tenue / captions */
+  --ct-text-label:     #5b626c; /* etiquetas // ... */
+
+  /* ---- ACENTOS ---- */
+  --ct-blue:        #2f6fed;  --ct-blue-bg:   #e8f0fe;
+  --ct-green:       #15974e;  --ct-green-bg:  #dcf5e4;  --ct-green-bd: #a9e3bf;
+  --ct-amber:       #b8791b;  --ct-amber-bg:  #fbedcf;  --ct-amber-bd: #eecf8f;
+  --ct-purple:      #7b52e0;
+  --ct-rose:        #d24d8a;
+  --ct-neutral:     #aeb4bd;  /* lenguaje sin empezar */
+
+  /* ---- SOMBRAS (profundidad 3D, dos capas) ---- */
+  --ct-shadow-button:  0 3px 7px rgba(30,41,59,.16), 0 1px 2px rgba(30,41,59,.10);
+  --ct-shadow-card:    0 5px 16px rgba(30,41,59,.13), 0 2px 4px rgba(30,41,59,.08);
+  --ct-shadow-panel:   0 4px 12px rgba(30,41,59,.11), 0 1px 3px rgba(30,41,59,.07);
+  --ct-shadow-terminal:0 4px 12px rgba(20,30,55,.28);
+  --ct-shadow-card-hover: 0 10px 26px rgba(21,151,78,.18);
+
+  --ct-radius:      12px;
+  --ct-radius-sm:   8px;
+}
+
+/* ============================================================
+   EJEMPLOS DE USO — adapta los selectores a tus componentes
+   ============================================================ */
+
+.light .app            { background: var(--ct-bg-root); color: var(--ct-text); }
+
+/* --- Chrome: navbar + paneles laterales (gris tenue) --- */
+.light .navbar         { background: var(--ct-bg-chrome); border-bottom: 1px solid var(--ct-border-chrome); box-shadow: 0 2px 8px rgba(20,30,55,.09); }
+.light .sidebar        { background: var(--ct-bg-chrome); border-right: 1px solid var(--ct-border-chrome); }
+.light .instructions   { background: var(--ct-bg-chrome); border-left: 1px solid var(--ct-border-chrome); }
+.light .sidebar-footer { background: var(--ct-bg-chrome-deep); border-top: 1px solid var(--ct-border-chrome); }
+
+/* --- Centro casi blanco --- */
+.light .main           { background: var(--ct-bg-main); }
+
+/* --- Cards / paneles blancos elevados --- */
+.light .card,
+.light .panel          { background: var(--ct-surface); border: 1px solid var(--ct-border-panel); border-radius: var(--ct-radius); box-shadow: var(--ct-shadow-panel); }
+
+/* --- Card de snippet --- */
+.light .snippet-card   { background: var(--ct-surface); border: 1px solid var(--ct-border-panel); border-top: 3px solid var(--ct-border-card-top); border-radius: var(--ct-radius); box-shadow: var(--ct-shadow-card); transition: all .14s; cursor: pointer; }
+.light .snippet-card:hover { transform: translateY(-3px); border-top-color: var(--ct-green); box-shadow: var(--ct-shadow-card-hover); }
+
+/* --- Botones / pills seleccionables (reposo) --- */
+.light .btn,
+.light .pill           { background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); border-radius: var(--ct-radius-sm); box-shadow: var(--ct-shadow-button); font-weight: 600; transition: all .12s; }
+
+/* --- Estados activos --- */
+.light .pill--category.is-active  { background: var(--ct-surface); border: 1.5px solid var(--ct-blue);  color: var(--ct-text); box-shadow: 0 2px 10px rgba(47,111,237,.18); }
+.light .pill--lang.is-active      { background: var(--ct-green-bg); border-color: var(--ct-green); color: var(--ct-green); }
+.light .pill--difficulty.is-active{ background: var(--ct-amber-bg); border-color: var(--ct-amber); color: var(--ct-amber); }
+
+/* --- Botón editor (activo) / settings --- */
+.light .btn--editor    { background: var(--ct-blue-bg); color: var(--ct-blue); border: 1px solid var(--ct-blue); box-shadow: 0 3px 8px rgba(47,111,237,.22); }
+
+/* --- Botón TERMINAL (oscuro sólido) --- */
+.light .btn--terminal  { background: #15181d; color: #e8f0e8; border: 1px solid #15181d; box-shadow: var(--ct-shadow-terminal); }
+
+/* --- Chip de etiqueta // ... --- */
+.light .section-label  { display: inline-block; background: var(--ct-surface); border: 1px solid var(--ct-border-label); border-radius: 7px; padding: 5px 13px; color: var(--ct-text-label); box-shadow: 0 1px 2px rgba(20,30,55,.05); }
+
+/* --- Instrucciones: card activa --- */
+.light .instr-card.is-active { border: 1px solid var(--ct-purple); box-shadow: 0 4px 16px rgba(123,82,224,.15); }
+.light .instr-card.is-active .instr-title,
+.light .instr-card.is-active .instr-arrow { color: var(--ct-purple); }

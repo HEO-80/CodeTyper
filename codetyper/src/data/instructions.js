@@ -110,6 +110,13 @@ export const INSTRUCTION_CARDS = [
     color: "#4ec994",
     icon: "$",
   },
+  {
+    id: "comentarios-explicativos",
+    title: "Comentarios explicativos",
+    description: "Actívalos para que cada línea del snippet lleve un comentario en inglés explicando qué hace",
+    color: "#56b6c2",
+    icon: "💬",
+  },
 ];
 
 export function getInstructionCard(id) {

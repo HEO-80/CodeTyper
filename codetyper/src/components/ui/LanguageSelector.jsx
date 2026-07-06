@@ -26,7 +26,7 @@ const LANG_LABELS = {
 export default function LanguageSelector({ languages, selected, onChange }) {
   return (
     <div style={s.section}>
-      <div style={s.label}>// selecciona lenguaje</div>
+      <div className="section-label" style={s.label}>// selecciona lenguaje</div>
       <div style={s.row}>
         {languages.map((lang) => (
           <button

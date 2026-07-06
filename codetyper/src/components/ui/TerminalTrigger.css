@@ -56,6 +56,20 @@
   box-shadow: 0 0 12px rgba(252, 238, 10, 0.3), 0 0 24px rgba(252, 238, 10, 0.1);
 }
 
+/* Light mode: solid dark pill instead of transparent hacker-green outline
+   (light-mode-spec.md §2: "Botón TERMINAL (oscuro sólido)") */
+[data-theme="light"] .tt-btn {
+  background: #15181d;
+  color: #e8f0e8;
+  border-color: #15181d;
+  box-shadow: var(--ct-shadow-terminal);
+}
+[data-theme="light"] .tt-btn:hover,
+[data-theme="light"] .tt-btn.tt-active {
+  color: #080c10;
+  border-color: #FCEE0A;
+}
+
 /* Pulse dot — shows terminal is open */
 .tt-pulse {
   position: relative;

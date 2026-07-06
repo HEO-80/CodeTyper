@@ -318,6 +318,33 @@ export const INSTRUCTION_CONTENT = {
       },
     ],
   },
+
+  "comentarios-explicativos": {
+    intro:
+      "Cada snippet se puede practicar de dos formas: solo el código, o con un comentario explicativo en inglés encima de cada línea. Actívalo o desactívalo con el botón 'English comments' del menú, o desde el propio editor mientras practicas.",
+    sections: [
+      {
+        title: "Dónde activarlo",
+        content:
+          "El botón está arriba del todo en el menú principal, junto al selector de categoría, y también dentro del editor mientras practicas — puedes cambiarlo en cualquier momento sin perder tu progreso en el snippet.",
+      },
+      {
+        title: "Qué añade cada comentario",
+        content:
+          "Con los comentarios activados, encima de cada línea de código aparece una breve frase en inglés que explica qué hace esa línea concreta — por ejemplo 'Define a function' antes de una función, o 'Initialize the instance' antes de un constructor.",
+      },
+      {
+        title: "Por qué en inglés",
+        content:
+          "El comentario está en inglés a propósito: así practicas la sintaxis del lenguaje de programación y, de paso, el inglés técnico que te vas a encontrar en documentación, código real y entrevistas.",
+      },
+      {
+        title: "Cuándo conviene cada modo",
+        content:
+          "Con comentarios activados entiendes el 'por qué' de cada línea mientras aprendes un snippet nuevo; con comentarios desactivados practicas solo el código puro, ideal cuando ya conoces el patrón y quieres centrarte en velocidad y precisión.",
+      },
+    ],
+  },
 };
 
 export function getInstructionContent(id) {

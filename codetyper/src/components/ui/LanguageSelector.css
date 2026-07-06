@@ -17,6 +17,13 @@
   outline-offset: 2px;
 }
 
+/* Light mode: elevated white pill at rest (spec §2/§3); per-language hover/
+   active colors above are left untouched — they're the language identity. */
+[data-theme="light"] .lang-btn {
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+
 /* ── JavaScript ── */
 @keyframes pulse-javascript {
   0%, 100% { box-shadow: 0 0 0 0px rgba(255,203,107,0); }

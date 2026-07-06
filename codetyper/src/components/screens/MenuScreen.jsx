@@ -168,7 +168,7 @@ export default function MenuScreen({
 
       {/* Category */}
       <div className="menu-section" style={s.section}>
-        <div style={s.label}>// category</div>
+        <div className="section-label" style={s.label}>// category</div>
         <div style={s.row}>
           {Object.entries(CATEGORIES).map(([key, cat]) => (
             <button
@@ -193,7 +193,7 @@ export default function MenuScreen({
 
       {/* Difficulty */}
       <div className="menu-section" style={s.section}>
-        <div style={s.label}>// difficulty</div>
+        <div className="section-label" style={s.label}>// difficulty</div>
         <div style={s.row}>
           {difficulties.map((diff) => (
             <button
@@ -211,7 +211,7 @@ export default function MenuScreen({
 
       {/* Snippets */}
       <div className="menu-section" style={s.section}>
-        <div style={s.label}>
+        <div className="section-label" style={s.label}>
           // choose a snippet{" "}
           <span style={{ color: "var(--tx4)" }}>({snippets.length} available)</span>
         </div>
@@ -264,7 +264,7 @@ function TerminalSVGIcon() {
 }
 
 const s = {
-  root:        { width: "100%", maxWidth: "820px", margin: "0 auto", padding: "48px 24px", fontFamily: "'JetBrains Mono', monospace" },
+  root:        { width: "100%", maxWidth: "820px", margin: "0 auto", padding: "48px 24px", fontFamily: "'JetBrains Mono', monospace", background: "var(--bg)" },
   header:      { marginBottom: "36px", textAlign: "center" },
   logo:        { fontFamily: "'Syne', sans-serif", fontSize: "36px", fontWeight: "800", marginBottom: "10px", letterSpacing: "-0.02em" },
   logoAccent:  { color: "var(--hl-blue)", marginRight: "8px" },

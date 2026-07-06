@@ -91,7 +91,7 @@
   --background: #f0f2f5;
   --foreground: #111827;
 
-  --bg:  #f0f2f5;
+  --bg:  #f4f6f9;
   --bg2: #e4e7ed;
   --bg3: #ffffff;
   --bg4: #d1d5db;
@@ -108,7 +108,7 @@
   --bd2: #c8cdd6;
   --bd3: #b8bfc9;
 
-  --btn-bg: #e8eaed;
+  --btn-bg: #ffffff;
 
   --c-cm:     #4b5563;
   --c-cm-dim: #4d7a5c;
@@ -157,7 +157,36 @@
   --hl-mint-bg:    #d0f3e2;
   --hl-teal-bg:    #cdeef3;
   --hl-amber-bg:   #f5dfb8;
+
+  /* ---- light-mode-spec.md: escala de zonas + profundidad 3D ----
+     Solo se usan dentro de bloques [data-theme="light"]; no existen en dark. */
+  --ct-bg-root:        #e4e7ec; /* fondo raíz (gaps) */
+  --ct-bg-chrome:      #ced4dd; /* navbar + sidebar + panel instrucciones */
+  --ct-bg-chrome-deep: #c4cbd5; /* pie del sidebar */
+  --ct-surface:        #ffffff; /* cards / botones elevados */
+
+  --ct-border-chrome:   #adb4c0;
+  --ct-border-panel:    #bcc3ce;
+  --ct-border-button:   #a9b0bc;
+  --ct-border-label:    #c4cad3;
+  --ct-border-card-top: #b4bbc6;
+
+  --ct-blue:   #2f6fed; --ct-blue-bg:  #e8f0fe;
+  --ct-green:  #15974e; --ct-green-bg: #dcf5e4; --ct-green-bd: #a9e3bf;
+  --ct-amber:  #b8791b; --ct-amber-bg: #fbedcf; --ct-amber-bd: #eecf8f;
+  --ct-purple: #7b52e0;
+
+  --ct-shadow-button:     0 3px 7px rgba(30,41,59,.16), 0 1px 2px rgba(30,41,59,.10);
+  --ct-shadow-card:       0 5px 16px rgba(30,41,59,.13), 0 2px 4px rgba(30,41,59,.08);
+  --ct-shadow-panel:      0 4px 12px rgba(30,41,59,.11), 0 1px 3px rgba(30,41,59,.07);
+  --ct-shadow-terminal:   0 4px 12px rgba(20,30,55,.28);
+  --ct-shadow-card-hover: 0 10px 26px rgba(21,151,78,.18);
+
+  --ct-radius:    12px;
+  --ct-radius-sm: 8px;
 }
+
+[data-theme="light"] body { background: var(--ct-bg-root); }
 
 @theme inline {
   --color-background: var(--background);
@@ -194,13 +223,14 @@ body {
 [data-theme="light"] .lang-card:hover { border-color: var(--bd3); }
 [data-theme="light"] .lang-card-detail { background: var(--bg4); border-color: var(--bd2); }
 
-/* ── Light mode: snippet card base tone ────────────────────────────────────── */
-/* Per-difficulty hover backgrounds are handled directly in SnippetCard.css
-   via var(--hl-*-bg). */
+/* ── Light mode: snippet card base tone (light-mode-spec.md §2/§3) ─────────── */
+/* Per-difficulty hover border/bg are handled directly in SnippetCard.css
+   via var(--hl-*-bg); this only sets the elevated "surface" look at rest. */
 [data-theme="light"] .snippet-card {
-  background: var(--bg3);
-  border-color: var(--bd);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  background: var(--ct-surface);
+  border-color: var(--ct-border-panel);
+  border-top: 3px solid var(--ct-border-card-top);
+  box-shadow: var(--ct-shadow-card);
 }
 
 /* ── Light mode: MenuScreen toggle-inactive neutral tone ───────────────────── */
@@ -225,22 +255,53 @@ body {
    comes from var(--btn-bg) directly. */
 [data-theme="light"] .tp-snippet-card { background: var(--bg3); }
 
-/* ── Light mode: AuthPanel (left stats panel) — stays darker than page bg,
-   distinct from the white cards/navbar, per var(--bg2)/var(--bd2) already
-   set on .auth-panel by default; only the stat tiles need to pop as white. */
-[data-theme="light"] .auth-input { background: var(--bg); border-color: var(--bd); }
-[data-theme="light"] .auth-google-btn { background: var(--bg); }
-[data-theme="light"] .mini-stat { background: var(--bg3); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-[data-theme="light"] .stat { background: var(--bg3); border-radius: 6px; padding: 4px 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+/* ── Light mode: AuthPanel (left sidebar) — chrome gris tenue (spec §1) ────── */
+[data-theme="light"] .auth-panel { background: var(--ct-bg-chrome); border-right-color: var(--ct-border-chrome); }
+[data-theme="light"] .auth-signout {
+  background: var(--ct-bg-chrome-deep);
+  border-top: 1px solid var(--ct-border-chrome);
+  padding-top: 10px;
+  padding-bottom: 2px;
+}
+[data-theme="light"] .auth-input { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .auth-google-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
+[data-theme="light"] .mini-stat { background: var(--ct-surface); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+[data-theme="light"] .stat { background: var(--ct-surface); border-radius: 6px; padding: 4px 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-/* ── Light mode: Navbar — white surface, distinct from the stats panel ────── */
-/* user-btn/link/back-btn accent states are handled directly in Navbar.css
-   via var(--hl-blue)/var(--hl-blue-bg). */
-[data-theme="light"] .navbar { background: var(--bg3); border-bottom-color: var(--bd2); }
-[data-theme="light"] .navbar-user-btn { background: var(--bg); border-color: var(--bd); }
-[data-theme="light"] .navbar-link:hover { background: var(--bg2); border-color: var(--bd); }
-[data-theme="light"] .navbar-back-btn { background: var(--bg); border-color: var(--bd3); }
-[data-theme="light"] .navbar-hint kbd { background: var(--bg2); border-color: var(--bd); }
+/* ── Light mode: Navbar — chrome gris tenue, igual que sidebar/instrucciones
+   (spec §1: navbar + laterales más apagados que el centro) ───────────────── */
+[data-theme="light"] .navbar { background: var(--ct-bg-chrome); border-bottom-color: var(--ct-border-chrome); }
+[data-theme="light"] .navbar-user-btn { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .navbar-link:hover { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .navbar-back-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
+[data-theme="light"] .navbar-hint kbd { background: var(--ct-surface); border-color: var(--ct-border-button); }
+
+/* ── Light mode: panel de instrucciones (derecho) — mismo chrome (spec §5) ─── */
+[data-theme="light"] .instructions-panel { background: var(--ct-bg-chrome); border-left-color: var(--ct-border-chrome); }
+[data-theme="light"] .instructions-card {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-panel);
+  box-shadow: var(--ct-shadow-panel);
+}
+[data-theme="light"] .instructions-panel-close { background: var(--ct-surface); border-color: var(--ct-border-button); }
+[data-theme="light"] .instructions-card--active {
+  border-color: var(--ct-purple);
+  box-shadow: 0 4px 16px rgba(123,82,224,.15);
+}
+[data-theme="light"] .instructions-card--active .instructions-card-title,
+[data-theme="light"] .instructions-card--active .instructions-card-arrow {
+  color: var(--ct-purple);
+}
+
+/* ── Light mode: chips de etiqueta "// ..." (spec §4) ──────────────────────── */
+[data-theme="light"] .section-label {
+  display: inline-block;
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-label);
+  border-radius: 7px;
+  padding: 5px 13px;
+  box-shadow: 0 1px 2px rgba(20,30,55,.05);
+}
 
 /* ── Light mode: KeyboardOverlay ──────────────────────────────────────────── */
 [data-theme="light"] .kb-trigger { background: var(--bg3); border-color: var(--bd); }
