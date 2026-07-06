@@ -198,6 +198,32 @@
 
 [data-theme="light"] body { background: var(--ct-bg-root); }
 
+/* ---- settings-modal-dark-spec.md: modal de Settings (dark) ----
+   Escala propia de elevación para el modal: el cuerpo es lo más oscuro,
+   header/footer/cards son un tono más claro (chrome/surface). ---- */
+[data-theme="dark"] {
+  --ctd-modal-bg:       #14181f; /* contenedor del modal */
+  --ctd-modal-body:     #0e1218; /* cuerpo scrollable (lo más oscuro) */
+  --ctd-modal-chrome:   #1b212b; /* header + footer */
+  --ctd-modal-cardhead: #171c24; /* franja "// etiqueta" de cada card */
+  --ctd-surface:        #1c222c; /* cards de grupo */
+  --ctd-seg:            #222a35; /* segmento en reposo */
+
+  --ctd-border:      #2a313c; /* bordes de chrome/modal */
+  --ctd-border-card: #2f3742; /* borde de cards */
+  --ctd-border-seg:  #3a4453; /* borde de segmentos */
+
+  --ctd-blue:  #2f6fed; --ctd-blue-lt:  #7aa6ff;
+  --ctd-green: #15974e; --ctd-green-lt: #4cd08a;
+  --ctd-amber: #b8791b; --ctd-amber-lt: #e6ad46;
+  --ctd-rose:  #d24d8a; --ctd-rose-lt:  #f083b6;
+
+  --ctd-shadow-modal: 0 30px 70px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5);
+  --ctd-shadow-card:  0 4px 14px rgba(0,0,0,.42), 0 1px 3px rgba(0,0,0,.3);
+  --ctd-shadow-seg:   0 2px 6px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  --ctd-shadow-save:  0 4px 14px rgba(47,111,237,.5);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -228,10 +254,17 @@ body {
 *::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
 
 /* ── Light mode: language card (AuthPanel) neutral tones ───────────────────── */
-/* Per-language hover/expanded backgrounds are handled directly in AuthPanel.css
-   via var(--hl-*-bg), which already resolves correctly for this theme. */
+/* El borde/glow por lenguaje (hover + pulso al expandir) se queda coloreado,
+   igual que en dark, pero el relleno debe ser blanco como el resto de cards
+   del light mode (p.ej. .instructions-card) en vez del tinte pastel de
+   var(--hl-*-bg). El "[data-lang]" extra iguala/supera la especificidad de
+   las reglas por lenguaje en AuthPanel.css sin depender del orden de carga. */
 [data-theme="light"] .lang-card:hover { border-color: var(--bd3); }
-[data-theme="light"] .lang-card-detail { background: var(--bg4); border-color: var(--bd2); }
+[data-theme="light"] .lang-card[data-lang]:hover,
+[data-theme="light"] .lang-card.expanded[data-lang] {
+  background: var(--ct-surface);
+}
+[data-theme="light"] .lang-card-detail { background: var(--ct-surface); border-color: var(--ct-border-panel); }
 
 /* ── Light mode: snippet card base tone (light-mode-spec.md §2/§3) ─────────── */
 /* Per-difficulty hover border/bg are handled directly in SnippetCard.css
@@ -280,7 +313,7 @@ body {
 
 /* ── Light mode: Navbar — chrome gris tenue, igual que sidebar/instrucciones
    (spec §1: navbar + laterales más apagados que el centro) ───────────────── */
-[data-theme="light"] .navbar { background: var(--ct-bg-chrome); border-bottom-color: var(--ct-border-chrome); }
+[data-theme="light"] .navbar { background: var(--ct-bg-chrome); border-bottom-color: var(--ct-border-chrome); box-shadow: 0 2px 8px rgba(20,30,55,.09); }
 [data-theme="light"] .navbar-user-btn { background: var(--ct-surface); border-color: var(--ct-border-button); box-shadow: var(--ct-shadow-button); }
 /* editor/settings/instrucciones en reposo: mismo pill blanco elevado que el
    resto del light mode; :not(.active) para no pisar el estado activo (azul). */
@@ -443,3 +476,114 @@ body {
   box-shadow: var(--ct-shadow-save);
 }
 [data-theme="light"] .settings-save-btn.saved { background: var(--ct-green); }
+
+/* ── Dark mode: Settings modal (settings-modal-dark-spec.md) ───────────────
+   Cuerpo = lo más oscuro; header/footer = chrome; cada .settings-section =
+   card "surface" elevada; el control activo se rellena con su acento
+   atenuado + glow (box-shadow 0 0 0 1px <acento>). ── */
+[data-theme="dark"] .settings-overlay { background: rgba(4,7,12,.62); backdrop-filter: blur(3px); }
+
+[data-theme="dark"] .settings-panel {
+  background: var(--ctd-modal-bg);
+  border-color: var(--ctd-border);
+  border-radius: 18px;
+  box-shadow: var(--ctd-shadow-modal);
+}
+
+[data-theme="dark"] .settings-header { background: var(--ctd-modal-chrome); border-bottom-color: var(--ctd-border); }
+[data-theme="dark"] .settings-footer { background: var(--ctd-modal-chrome); border-top-color: var(--ctd-border); }
+[data-theme="dark"] .settings-close {
+  background: var(--ctd-seg);
+  color: #c2cad6;
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+
+[data-theme="dark"] .settings-body { background: var(--ctd-modal-body); padding: 20px 24px; }
+
+/* Card de grupo elevada; la etiqueta "// ..." se estira a los bordes de la
+   card (mismo truco de margin negativo que en light) para la franja de cabecera. */
+[data-theme="dark"] .settings-section {
+  background: var(--ctd-surface);
+  border: 1px solid var(--ctd-border-card);
+  border-radius: 14px;
+  box-shadow: var(--ctd-shadow-card);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+[data-theme="dark"] .settings-section:last-child { margin-bottom: 0; }
+[data-theme="dark"] .settings-section-label {
+  margin: -16px -24px 14px;
+  padding: 13px 24px;
+  background: var(--ctd-modal-cardhead);
+  border-bottom: 1px solid #262d38;
+  color: #7b8695;
+}
+
+[data-theme="dark"] .settings-row-title { color: #eef1f5; }
+[data-theme="dark"] .settings-row-desc  { color: #8a93a1; }
+
+/* Segmentos (reposo): superficie clara sobre el cuerpo oscuro. Activo se
+   rellena con el acento atenuado (~12-18% alpha) + glow; data-variant
+   distingue Tema/Números de línea/Scroll/Sonido, igual que en light. */
+[data-theme="dark"] .settings-opt-btn {
+  background: var(--ctd-seg);
+  color: #c2cad6;
+  border-color: var(--ctd-border-seg);
+  border-radius: 9px;
+  box-shadow: var(--ctd-shadow-seg);
+}
+[data-theme="dark"] .settings-opt-btn.active {
+  background: rgba(47,111,237,.18);
+  color: var(--ctd-blue-lt);
+  border-color: var(--ctd-blue);
+  box-shadow: 0 0 0 1px rgba(47,111,237,.5), 0 3px 10px rgba(47,111,237,.3);
+}
+[data-theme="dark"] .settings-opt-btn[data-variant="theme"].active {
+  background: rgba(184,121,27,.16);
+  color: var(--ctd-amber-lt);
+  border-color: var(--ctd-amber);
+  box-shadow: 0 0 0 1px rgba(184,121,27,.5), 0 3px 10px rgba(184,121,27,.28);
+}
+[data-theme="dark"] .settings-opt-btn[data-variant="on"].active {
+  background: rgba(21,151,78,.18);
+  color: var(--ctd-green-lt);
+  border-color: var(--ctd-green);
+  box-shadow: 0 0 0 1px rgba(21,151,78,.5), 0 3px 10px rgba(21,151,78,.3);
+}
+[data-theme="dark"] .settings-opt-btn[data-variant="off"].active {
+  background: rgba(210,77,138,.18);
+  color: var(--ctd-rose-lt);
+  border-color: var(--ctd-rose);
+  box-shadow: 0 0 0 1px rgba(210,77,138,.5), 0 3px 10px rgba(210,77,138,.28);
+}
+
+/* Lista de fuentes (vertical) */
+[data-theme="dark"] .settings-font-btn { box-shadow: 0 2px 5px rgba(0,0,0,.35); }
+[data-theme="dark"] .settings-font-btn.active {
+  background: rgba(47,111,237,.18);
+  color: var(--ctd-blue-lt);
+  border-color: var(--ctd-blue);
+  box-shadow: 0 0 0 1px rgba(47,111,237,.5), 0 3px 10px rgba(47,111,237,.3);
+}
+
+/* Swatches de color de acento: activo = anillo recortado contra el fondo + halo */
+[data-theme="dark"] .settings-color-btn { box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+[data-theme="dark"] .settings-color-btn.active {
+  border-color: var(--ctd-modal-body);
+  box-shadow: 0 0 0 2px var(--c), 0 3px 10px rgba(0,0,0,.55);
+}
+
+[data-theme="dark"] .settings-reset-btn {
+  background: var(--ctd-seg);
+  color: #c2cad6;
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+[data-theme="dark"] .settings-save-btn {
+  background: var(--ctd-blue);
+  border: 1px solid #5a8bff;
+  color: #fff;
+  box-shadow: var(--ctd-shadow-save);
+}
+[data-theme="dark"] .settings-save-btn.saved { background: var(--ctd-green); }

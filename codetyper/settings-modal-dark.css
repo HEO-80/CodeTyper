@@ -1,0 +1,78 @@
+/* ============================================================
+   CodeTyper — Settings Modal (DARK Mode)
+   Aplica SOLO al tema dark del modal de Settings.
+   Reutiliza las mismas clases que settings-modal-light.css.
+   ============================================================ */
+
+:root[data-theme="dark"],
+.dark,
+.theme-dark {
+  --ctd-modal-bg:       #14181f; /* contenedor del modal */
+  --ctd-modal-body:     #0e1218; /* cuerpo (lo más oscuro) */
+  --ctd-modal-chrome:   #1b212b; /* header + footer */
+  --ctd-modal-cardhead: #171c24; /* franja // etiqueta */
+  --ctd-surface:        #1c222c; /* cards de grupo + segmentos activos base */
+  --ctd-seg:            #222a35; /* segmento en reposo */
+
+  --ctd-border:         #2a313c; /* bordes de chrome/modal */
+  --ctd-border-card:    #2f3742; /* borde de cards */
+  --ctd-border-seg:     #3a4453; /* borde de segmentos */
+
+  --ctd-text:           #eef1f5;
+  --ctd-text-sub:       #c2cad6;
+  --ctd-text-faint:     #8a93a1;
+  --ctd-text-label:     #7b8695;
+
+  /* acentos: base / versión luminosa para texto en dark */
+  --ctd-blue:   #2f6fed;  --ctd-blue-lt:   #7aa6ff;
+  --ctd-green:  #15974e;  --ctd-green-lt:  #4cd08a;
+  --ctd-amber:  #b8791b;  --ctd-amber-lt:  #e6ad46;
+  --ctd-rose:   #d24d8a;  --ctd-rose-lt:   #f083b6;
+
+  --ctd-shadow-modal: 0 30px 70px rgba(0,0,0,.65), 0 6px 18px rgba(0,0,0,.5);
+  --ctd-shadow-card:  0 4px 14px rgba(0,0,0,.42), 0 1px 3px rgba(0,0,0,.3);
+  --ctd-shadow-seg:   0 2px 6px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  --ctd-shadow-save:  0 4px 14px rgba(47,111,237,.5);
+}
+
+/* ---- Overlay + contenedor ---- */
+.dark .settings-overlay { background: rgba(4,7,12,.62); backdrop-filter: blur(3px); }
+.dark .settings-modal   { background: var(--ctd-modal-bg); border: 1px solid var(--ctd-border); box-shadow: var(--ctd-shadow-modal); }
+
+/* ---- Header / footer (chrome) ---- */
+.dark .settings-header  { background: var(--ctd-modal-chrome); border-bottom: 1px solid var(--ctd-border); }
+.dark .settings-footer  { background: var(--ctd-modal-chrome); border-top: 1px solid var(--ctd-border); }
+
+/* ---- Cuerpo + cards ---- */
+.dark .settings-body    { background: var(--ctd-modal-body); }
+.dark .settings-group   { flex-shrink: 0; background: var(--ctd-surface); border: 1px solid var(--ctd-border-card); box-shadow: var(--ctd-shadow-card); }
+.dark .settings-group__label { background: var(--ctd-modal-cardhead); border-bottom: 1px solid #262d38; color: var(--ctd-text-label); }
+
+/* ---- Textos ---- */
+.dark .settings-row__title { color: var(--ctd-text); }
+.dark .settings-row__desc  { color: var(--ctd-text-faint); }
+
+/* ---- Segmentos (reposo) ---- */
+.dark .seg { background: var(--ctd-seg); color: var(--ctd-text-sub); border: 1px solid var(--ctd-border-seg); box-shadow: var(--ctd-shadow-seg); }
+
+/* ---- Segmentos activos (rellenan atenuado + glow) ---- */
+.dark .seg[data-variant="theme"].is-active { background: rgba(184,121,27,.16); color: var(--ctd-amber-lt); border-color: var(--ctd-amber); box-shadow: 0 0 0 1px rgba(184,121,27,.5), 0 3px 10px rgba(184,121,27,.28); }
+.dark .seg[data-variant="blue"].is-active  { background: rgba(47,111,237,.18); color: var(--ctd-blue-lt);  border-color: var(--ctd-blue);  box-shadow: 0 0 0 1px rgba(47,111,237,.5), 0 3px 10px rgba(47,111,237,.3); }
+.dark .seg[data-variant="on"].is-active    { background: rgba(21,151,78,.18);  color: var(--ctd-green-lt); border-color: var(--ctd-green); box-shadow: 0 0 0 1px rgba(21,151,78,.5), 0 3px 10px rgba(21,151,78,.3); }
+.dark .seg[data-variant="off"].is-active   { background: rgba(210,77,138,.18); color: var(--ctd-rose-lt);  border-color: var(--ctd-rose);  box-shadow: 0 0 0 1px rgba(210,77,138,.5), 0 3px 10px rgba(210,77,138,.28); }
+
+/* ---- Lista de fuentes ---- */
+.dark .font-item          { background: var(--ctd-seg); color: var(--ctd-text-sub); border: 1px solid var(--ctd-border-seg); box-shadow: 0 2px 5px rgba(0,0,0,.35); }
+.dark .font-item.is-active{ background: rgba(47,111,237,.18); color: var(--ctd-blue-lt); border-color: var(--ctd-blue); box-shadow: 0 0 0 1px rgba(47,111,237,.5), 0 3px 10px rgba(47,111,237,.3); }
+
+/* ---- Swatches de color de acento ---- */
+.dark .accent-dot          { border: 2px solid transparent; box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+.dark .accent-dot.is-active{ border: 2px solid var(--ctd-modal-body); box-shadow: 0 0 0 2px currentColor, 0 3px 10px rgba(0,0,0,.55); }
+/* pon color:<accent> en el swatch para que el anillo currentColor use su tono */
+
+/* ---- Botones del footer ---- */
+.dark .btn-reset { background: var(--ctd-seg); color: var(--ctd-text-sub); border: 1px solid var(--ctd-border-seg); box-shadow: var(--ctd-shadow-seg); }
+.dark .btn-save  { background: var(--ctd-blue); color: #fff; border: 1px solid #5a8bff; box-shadow: var(--ctd-shadow-save); }
+
+/* ---- Botón ✕ ---- */
+.dark .settings-close { background: var(--ctd-seg); color: var(--ctd-text-sub); border: 1px solid var(--ctd-border-seg); box-shadow: var(--ctd-shadow-seg); }
