@@ -244,3 +244,177 @@
   user-select: none;
   line-height: 1;
 }
+
+/* ============================================================================
+   COMPACT KEYBOARD PANEL — embedded in PracticeScreen's right panel
+   (KeyboardPanel / PanelKey). Base rules mirror the previous inline styles
+   1:1 so dark mode is pixel-identical; [data-theme="light"] blocks below add
+   the elevated-white-key look from practice-screen-spec.md §4.
+   ========================================================================== */
+.kbd-panel { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+
+.kbd-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--bd2);
+  flex-shrink: 0;
+}
+.kbd-panel-title { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; }
+.kbd-panel-header-ctrls { display: flex; gap: 4px; }
+.kbd-panel-ctrl-btn { padding: 2px 7px; font-size: 9px; }
+
+.kbd-rows {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 10px 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.kbd-row { display: flex; gap: 3px; align-items: stretch; }
+
+.kbd-key {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 24px;
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 2px 3px;
+  cursor: default;
+  overflow: hidden;
+  transition: background 0.1s, border-color 0.1s, box-shadow 0.1s, transform 0.1s, filter 0.1s;
+}
+/* Hover — one rule for both themes, so light behaves exactly like dark */
+.kbd-key:hover { transform: translateY(-1px); filter: brightness(1.1); }
+
+.kbd-key--wide  { flex-grow: 1.7; }
+.kbd-key--space { flex-grow: 5; justify-content: center; align-items: center; }
+.kbd-key--special { background: var(--bg4); border-color: var(--bd3); }
+.kbd-key--prog    { border-color: var(--hl-blue); }
+
+.kbd-key__main {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--tx2);
+  line-height: 1;
+  user-select: none;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.kbd-key--special .kbd-key__main { font-size: 7px; color: var(--tx3); }
+.kbd-key--prog .kbd-key__main    { color: var(--hl-blue); font-weight: 500; }
+.kbd-key--space .kbd-key__main   { font-size: 11px; color: var(--tx4); letter-spacing: 0.1em; }
+
+.kbd-key__shift {
+  position: absolute; top: 1px; right: 2px;
+  font-size: 7px; color: #ffcb6b60;
+  line-height: 1; user-select: none;
+}
+.kbd-key__alt {
+  position: absolute; bottom: 2px; right: 2px;
+  font-size: 6px; color: #4ec99460;
+  line-height: 1; user-select: none;
+}
+
+/* Tecla que toca pulsar ahora mismo */
+.kbd-key.is-target {
+  background: rgba(255,203,107,0.12);
+  border: 1px solid var(--hl-yellow);
+  box-shadow: 0 0 10px rgba(255,203,107,0.65);
+}
+.kbd-key.is-target .kbd-key__main  { color: var(--hl-yellow); font-weight: 700; }
+.kbd-key.is-target .kbd-key__shift { color: var(--hl-yellow); }
+
+/* Modificador activo (Shift/AltGr) */
+.kbd-key.is-mod {
+  background: rgba(130,170,255,0.12);
+  border: 1px solid var(--hl-blue);
+  box-shadow: 0 0 8px rgba(130,170,255,0.45);
+}
+.kbd-key.is-mod .kbd-key__main { color: var(--hl-blue); font-weight: 700; }
+
+/* Combo readout — "Shift + t" */
+.kbd-combo-bar {
+  padding: 8px 10px;
+  border-top: 1px solid var(--bd2);
+  flex-shrink: 0;
+  min-height: 38px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.kbd-combo-pill {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.kbd-combo-pill--mod { background: rgba(130,170,255,0.12); border: 1px solid var(--hl-blue);   color: var(--hl-blue); }
+.kbd-combo-pill--key { background: rgba(255,203,107,0.12); border: 1px solid var(--hl-yellow); color: var(--hl-yellow); }
+.kbd-combo-plus  { color: var(--tx3); font-size: 14px; line-height: 1; }
+.kbd-combo-empty { color: var(--tx5); font-size: 10px; letter-spacing: 0.06em; }
+
+/* Legend footer */
+.kbd-footer {
+  padding: 5px 10px;
+  border-top: 1px solid var(--bd2);
+  flex-shrink: 0;
+  display: flex; gap: 10px; align-items: center;
+}
+.kbd-footer-legend { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--tx3); }
+.kbd-footer-legend-dot {
+  width: 7px; height: 7px; border-radius: 2px;
+  background: var(--bg3); border: 1px solid var(--hl-blue);
+  display: inline-block; flex-shrink: 0;
+}
+.kbd-footer-note { font-size: 10px; color: var(--tx4); margin-left: auto; }
+
+/* ---------- LIGHT MODE — practice-screen-spec.md §4 ---------- */
+[data-theme="light"] .kbd-panel-header,
+[data-theme="light"] .kbd-combo-bar { border-color: var(--ct-border-panel); }
+[data-theme="light"] .kbd-footer {
+  border-color: var(--ct-border-panel);
+  background: var(--ct-bg-chrome-deep);
+}
+[data-theme="light"] .kbd-panel-ctrl-btn.active {
+  background: var(--ct-blue-bg); border-color: var(--ct-blue); color: var(--ct-blue);
+}
+
+[data-theme="light"] .kbd-row { gap: 5px; }
+
+[data-theme="light"] .kbd-key {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-card-top);
+  box-shadow: var(--ct-shadow-key);
+}
+[data-theme="light"] .kbd-key--special { background: var(--ct-surface); border-color: var(--ct-border-card-top); }
+[data-theme="light"] .kbd-key--prog    { border-color: var(--ct-blue); }
+[data-theme="light"] .kbd-key__main         { color: var(--ct-text-sub); }
+[data-theme="light"] .kbd-key--special .kbd-key__main { color: var(--ct-text-faint); }
+[data-theme="light"] .kbd-key--prog .kbd-key__main    { color: var(--ct-blue); }
+[data-theme="light"] .kbd-key--space .kbd-key__main   { color: var(--ct-text-faint); }
+
+[data-theme="light"] .kbd-key.is-target {
+  background: var(--ct-amber-bg);
+  border: 1.5px solid var(--ct-amber);
+  box-shadow: 0 0 0 2px rgba(184,121,27,.2), 0 4px 10px rgba(184,121,27,.34);
+}
+[data-theme="light"] .kbd-key.is-target .kbd-key__main  { color: var(--ct-amber); }
+[data-theme="light"] .kbd-key.is-target .kbd-key__shift { color: var(--ct-amber); }
+
+[data-theme="light"] .kbd-key.is-mod {
+  background: var(--ct-blue-bg);
+  border: 1px solid var(--ct-blue);
+  box-shadow: 0 2px 5px rgba(47,111,237,.2);
+}
+[data-theme="light"] .kbd-key.is-mod .kbd-key__main { color: var(--ct-blue); }
+
+[data-theme="light"] .kbd-combo-pill--mod { background: var(--ct-blue-bg);  border-color: var(--ct-blue);  color: var(--ct-blue); }
+[data-theme="light"] .kbd-combo-pill--key { background: var(--ct-amber-bg); border-color: var(--ct-amber); color: var(--ct-amber); }
+[data-theme="light"] .kbd-combo-plus,
+[data-theme="light"] .kbd-combo-empty { color: var(--ct-text-faint); }
+[data-theme="light"] .kbd-footer-legend { color: var(--ct-text-sub); }
+[data-theme="light"] .kbd-footer-legend-dot { background: var(--ct-surface); border-color: var(--ct-blue); }
+[data-theme="light"] .kbd-footer-note { color: var(--ct-text-faint); }

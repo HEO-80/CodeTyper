@@ -101,6 +101,7 @@ export default function PracticeScreen({
   const [tick, setTick] = useState(0);
   const [panelMode, setPanelMode] = useState("structure");
   const [dictado, setDictado] = useState(false);
+  const [transOpen, setTransOpen] = useState(false);
   const lastSpokenLine = useRef(-1);
   const speakTimeoutRef = useRef(null);
   const tokensRef = useRef(tokens);
@@ -268,6 +269,7 @@ export default function PracticeScreen({
     if (!isSupported) return null;
     return (
       <button
+        className={`subnav-toggle-btn${dictado ? " is-active" : ""}`}
         onClick={() => setDictado(d => !d)}
         title={dictado ? "Desactivar dictado" : "Activar dictado — te lee cada línea antes de escribirla"}
         style={{
@@ -360,6 +362,15 @@ export default function PracticeScreen({
         errors={totalErrors} accuracy={accuracy} elapsed={elapsed}
         nextChar={currentToken?.char} isOnIndent={isOnIndent}
         onNext={onNext} hasNext={hasNext}
+        extraLeft={
+          !isMobile ? (
+            <button
+              className={`subnav-trans-btn${transOpen ? " is-active" : ""}`}
+              onClick={() => setTransOpen(v => !v)}
+              title="Traducción de las líneas al idioma nativo"
+            >⇄ traducción</button>
+          ) : null
+        }
         extraRight={
           !isMobile ? (
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
@@ -367,6 +378,7 @@ export default function PracticeScreen({
               <RepeatButton />
               <ModeToggle current="editor" />
               <button
+                className={`subnav-toggle-btn subnav-toggle-btn--structure${panelMode === "structure" ? " is-active" : ""}`}
                 onClick={() => setPanelMode(m => m === "structure" ? null : "structure")}
                 style={{
                   padding: "4px 10px",
@@ -379,6 +391,7 @@ export default function PracticeScreen({
                 }}
               >⬡ STRUCTURE</button>
               <button
+                className={`subnav-toggle-btn subnav-toggle-btn--kbd${panelMode === "keyboard" ? " is-active" : ""}`}
                 onClick={() => setPanelMode(m => m === "keyboard" ? null : "keyboard")}
                 style={{
                   padding: "4px 10px",
@@ -398,11 +411,38 @@ export default function PracticeScreen({
 
       <div className="practice-layout">
 
+        {/* Translation panel — left counterpart of the right practice-panel */}
+        {transOpen && !isMobile && (
+          <div className="trans-panel">
+            <div className="trans-panel__head">
+              <span>⇄ traducción · {meta.label}</span>
+              <button className="trans-panel__close" onClick={() => setTransOpen(false)}>✕</button>
+            </div>
+            <div className="trans-panel__body">
+              {Array.isArray(snippet?.translations) && snippet.translations.length > 0 ? (
+                snippet.translations.map((text, i) => (
+                  <div key={i} className="trans-card">
+                    <span className="trans-card__num">{i + 1}</span>
+                    <span className="trans-card__text">{text}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="trans-card trans-card--empty">
+                  <span className="trans-card__text">Traducción no disponible todavía para este fragmento.</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Code area */}
         <div
           ref={scrollAreaRef}
           className={`practice-code-area${errorFlash ? " error-flash" : ""}`}
-          style={{ right: showPanel ? `${panelWidth}px` : "0" }}
+          style={{
+            left: transOpen && !isMobile ? "320px" : "0",
+            right: showPanel ? `${panelWidth}px` : "0",
+          }}
         >
           <div className="practice-code-block">
             {lines.map((lineTokens, lineIdx) => {

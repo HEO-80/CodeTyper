@@ -1,0 +1,75 @@
+/* ============================================================
+   CodeTyper — Practice Screen (Light Mode)
+   Extiende theme-light.css. Aplica SOLO al tema light.
+   Adapta los selectores .clase a los reales de tu proyecto.
+   ============================================================ */
+
+:root[data-theme="light"],
+.light,
+.theme-light {
+  --ct-subnav-bg:    #eef0f3;  /* sub-navbar: gris claro, un paso sobre el centro */
+  --ct-subnav-bd:    #cfd4dc;
+  --ct-key-bg:       #ffffff;  /* tecla en reposo */
+  --ct-key-bd:       #b4bbc6;
+
+  --ct-shadow-key:      0 2px 3px rgba(30,41,59,.18), 0 1px 1px rgba(30,41,59,.12);
+  --ct-shadow-subnav:   0 2px 5px rgba(30,41,59,.13);   /* botones del sub-navbar */
+  --ct-shadow-capsule:  0 3px 8px rgba(30,41,59,.12);   /* cápsula de stats */
+  --ct-shadow-transcard:0 2px 6px rgba(30,41,59,.10);   /* card de traducción */
+
+  /* highlight ámbar de "tecla a pulsar" */
+  --ct-key-hl-bg:  #fbedcf;
+  --ct-key-hl-bd:  #b8791b;
+  --ct-key-hl-fg:  #b8791b;
+}
+
+/* ---------- SUB-NAVBAR ---------- */
+.light .subnav          { background: var(--ct-subnav-bg); border-bottom: 1px solid var(--ct-subnav-bd); box-shadow: 0 1px 4px rgba(20,30,55,.05); display: flex; align-items: center; gap: 14px; padding: 0 22px; }
+.light .subnav .btn     { background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); border-radius: 8px; padding: 7px 13px; font-weight: 600; box-shadow: var(--ct-shadow-subnav); cursor: pointer; }
+.light .subnav .btn.is-active { background: var(--ct-blue-bg); color: var(--ct-blue); border-color: var(--ct-blue); box-shadow: 0 3px 8px rgba(47,111,237,.2); }
+.light .subnav .btn--structure.is-active { background: #f0ebfb; color: var(--ct-purple); border-color: var(--ct-purple); box-shadow: 0 3px 8px rgba(123,82,224,.2); }
+
+/* Cápsula de stats (una pieza blanca elevada) */
+.light .stats-capsule       { display: flex; align-items: stretch; background: var(--ct-surface); border: 1px solid var(--ct-border-panel); border-radius: 10px; overflow: hidden; box-shadow: var(--ct-shadow-capsule); }
+.light .stats-capsule__cell  { padding: 6px 14px; text-align: center; border-right: 1px solid #e7eaef; }
+.light .stats-capsule__cell:last-child { border-right: none; }
+.light .stats-capsule__label { font-size: 10px; color: var(--ct-text-faint); letter-spacing: .5px; }
+.light .stat--err  { color: #d0392b; } .light .stat--acc { color: var(--ct-green); }
+.light .stat--time { color: var(--ct-amber); } .light .stat--next { color: var(--ct-purple); }
+
+/* ---------- ÁREA CENTRAL (texto centrado) ---------- */
+.light .typing-area   { background: var(--ct-bg-main); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 44px 56px; overflow-y: auto; }
+.light .typing-inner  { width: 100%; max-width: 720px; }
+.light .typing-line   { display: flex; gap: 22px; margin-bottom: 8px; font-size: 21px; letter-spacing: .5px; }
+.light .typing-line__num { color: #b0b6bf; width: 20px; text-align: right; flex-shrink: 0; }
+.light .typing-line__text        { color: #aab1bb; }
+.light .typing-line.is-active .typing-line__text { color: var(--ct-text-sub); font-weight: 500; }
+
+/* ---------- TECLADO (panel derecho) ---------- */
+.light .kbd-panel   { width: 396px; flex-shrink: 0; background: var(--ct-bg-chrome); border-left: 1px solid var(--ct-border-chrome); display: flex; flex-direction: column; }
+.light .kbd-row     { display: flex; gap: 5px; }
+.light .kbd-key     { flex: 1 1 0; min-width: 0; height: 30px; padding: 0 2px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; background: var(--ct-key-bg); color: var(--ct-text-sub); border: 1px solid var(--ct-key-bd); box-shadow: var(--ct-shadow-key); }
+.light .kbd-key--wide  { flex-grow: 1.6; font-size: 9.5px; color: var(--ct-text-faint); }
+.light .kbd-key--space { flex-grow: 6; }
+/* tecla a pulsar (highlight ámbar) */
+.light .kbd-key.is-target { background: var(--ct-key-hl-bg); color: var(--ct-key-hl-fg); border: 1.5px solid var(--ct-key-hl-bd); box-shadow: 0 0 0 2px rgba(184,121,27,.2), 0 4px 10px rgba(184,121,27,.34); }
+/* modificador activo (Shift) */
+.light .kbd-key.is-mod    { background: var(--ct-blue-bg); color: var(--ct-blue); border: 1px solid var(--ct-blue); box-shadow: 0 2px 5px rgba(47,111,237,.2); }
+.light .kbd-footer  { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid var(--ct-border-panel); background: var(--ct-bg-chrome-deep); font-size: 11px; color: var(--ct-text-sub); }
+
+/* ---------- FOOTER (barra inferior con la tecla) ---------- */
+.light .practice-footer { display: flex; align-items: center; justify-content: center; gap: 60px; height: 96px; background: var(--ct-bg-chrome); border-top: 1px solid var(--ct-border-chrome); box-shadow: 0 -2px 8px rgba(20,30,55,.08); }
+.light .footer-stat__label { font-size: 11px; color: #8b929c; letter-spacing: 1px; }
+.light .footer-stat__value { font-size: 26px; font-weight: 700; }
+/* tecla objetivo grande e iluminada */
+.light .next-key { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 22px; font-weight: 700; background: var(--ct-key-hl-bg); color: var(--ct-key-hl-fg); border: 2px solid var(--ct-key-hl-bd); box-shadow: 0 0 0 3px rgba(184,121,27,.18), 0 6px 16px rgba(184,121,27,.32); }
+.light .next-key--mod { width: auto; height: auto; padding: 8px 16px; font-size: 15px; border-radius: 10px; background: var(--ct-surface); color: var(--ct-text-sub); border: 1px solid var(--ct-border-button); box-shadow: 0 3px 7px rgba(30,41,59,.18); }
+
+/* ---------- PANEL DE TRADUCCIÓN (izquierda, opcional) ---------- */
+.light .trans-panel     { width: 320px; flex-shrink: 0; background: var(--ct-bg-chrome); border-right: 1px solid var(--ct-border-chrome); display: flex; flex-direction: column; overflow-y: auto; }
+.light .trans-panel__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--ct-border-panel); position: sticky; top: 0; background: var(--ct-bg-chrome); font-size: 13px; color: var(--ct-text-label); font-weight: 600; }
+.light .trans-panel__body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.light .trans-card  { background: var(--ct-surface); border: 1px solid var(--ct-border-panel); border-radius: 10px; padding: 11px 14px; box-shadow: var(--ct-shadow-transcard); display: flex; gap: 8px; align-items: baseline; }
+.light .trans-card__num  { font-size: 11px; color: #b0b6bf; flex-shrink: 0; }
+.light .trans-card__text { font-size: 13px; color: var(--ct-text-sub); font-weight: 500; }
+/* botón traducción del sub-navbar: usa .btn / .btn.is-active de arriba */

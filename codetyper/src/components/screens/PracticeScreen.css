@@ -57,6 +57,7 @@
   scrollbar-color: var(--bd) var(--bg);
    display: flex;
   justify-content: center;
+  transition: left 0.2s ease, right 0.2s ease;
 }
 .practice-code-area::-webkit-scrollbar       { width: 4px; }
 .practice-code-area::-webkit-scrollbar-track { background: var(--bg); }
@@ -196,6 +197,73 @@
   flex-shrink: 0;
 }
 
+/* ── Translation panel (left counterpart of .practice-panel) ────────────────── */
+.trans-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  border-right: 1px solid var(--bd2);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: rgba(8, 13, 20, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.trans-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--bd2);
+  position: sticky;
+  top: 0;
+  background: inherit;
+  font-size: 12px;
+  color: var(--tx2);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.trans-panel__close {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--bd3);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tx3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.trans-panel__close:hover { color: var(--hl-red); border-color: var(--hl-red); }
+
+.trans-panel__body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trans-card {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  padding: 9px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.trans-card__num  { font-size: 11px; color: var(--tx4); flex-shrink: 0; }
+.trans-card__text { font-size: 13px; color: var(--tx2); }
+.trans-card--empty { justify-content: center; text-align: center; color: var(--tx4); }
+.trans-card--empty .trans-card__text { color: var(--tx4); font-style: italic; }
+
+/* ── Subnav toggle buttons (dictado/structure/kbd) — base hook ─────────────── */
+.subnav-toggle-btn { }
+
 /* ── Mode toggle ─────────────────────────────────────────────────────────── */
 .mode-toggle {
   display: flex;
@@ -248,4 +316,88 @@
   .practice-panel {
     display: none;
   }
+  .trans-panel {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   LIGHT MODE — practice-screen-spec.md §3, §4 (paneles), §6
+   ========================================================================== */
+
+/* Área central — texto centrado, casi blanco (--bg ya es #f4f6f9 en light) */
+[data-theme="light"] .practice-code-area {
+  flex-direction: column;
+  align-items: center;
+}
+[data-theme="light"] .practice-line-num {
+  color: var(--ct-text-faint);
+}
+[data-theme="light"] .practice-line-content {
+  letter-spacing: 0.5px;
+}
+
+/* Paneles laterales (estructura/teclado a la derecha, traducción a la
+   izquierda) pasan de overlay difuminado oscuro a "chrome" sólido claro */
+[data-theme="light"] .practice-panel,
+[data-theme="light"] .trans-panel {
+  background: var(--ct-bg-chrome);
+  backdrop-filter: none;
+  border-color: var(--ct-border-chrome);
+}
+[data-theme="light"] .practice-panel-header,
+[data-theme="light"] .practice-panel-progress-track,
+[data-theme="light"] .practice-panel-footer,
+[data-theme="light"] .trans-panel__head {
+  border-color: var(--ct-border-panel);
+}
+[data-theme="light"] .trans-panel__head { color: var(--ct-text-label); }
+[data-theme="light"] .trans-panel__close {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+  width: 28px; height: 28px;
+}
+[data-theme="light"] .trans-card {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-panel);
+  border-radius: 10px;
+  padding: 11px 14px;
+  box-shadow: var(--ct-shadow-transcard);
+}
+[data-theme="light"] .trans-card__num  { color: var(--ct-text-faint); }
+[data-theme="light"] .trans-card__text { color: var(--ct-text-sub); font-weight: 500; }
+[data-theme="light"] .trans-card--empty .trans-card__text { color: var(--ct-text-faint); font-weight: 400; }
+
+/* Toggles del sub-navbar (VOZ/STRUCTURE/KBD): blancos elevados en reposo */
+[data-theme="light"] .subnav-toggle-btn {
+  background: var(--ct-surface) !important;
+  border-color: var(--ct-border-button) !important;
+  box-shadow: var(--ct-shadow-subnav);
+}
+[data-theme="light"] .subnav-toggle-btn.is-active {
+  box-shadow: 0 3px 8px rgba(30,41,59,.15);
+}
+[data-theme="light"] .subnav-toggle-btn--kbd.is-active {
+  border-color: var(--ct-purple) !important;
+  background: #f0ebfb !important;
+  color: var(--ct-purple) !important;
+  box-shadow: 0 3px 8px rgba(123,82,224,.2);
+}
+
+/* Mode toggle (editor/terminal): inactivo pasa a blanco elevado */
+[data-theme="light"] .mode-toggle {
+  border-color: var(--ct-border-button);
+}
+[data-theme="light"] .mode-toggle-btn {
+  background: var(--ct-surface);
+  color: var(--ct-text-sub);
+}
+[data-theme="light"] .mode-toggle-btn.active-editor {
+  background: var(--ct-blue-bg);
+  color: var(--ct-blue);
+}
+[data-theme="light"] .mode-toggle-btn.active-terminal {
+  background: var(--ct-green-bg);
+  color: var(--ct-green);
 }

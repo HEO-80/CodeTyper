@@ -292,63 +292,25 @@ function PanelKey({ keyData, showShift, isMainActive, isModifierActive }) {
   const isSpecial = isLabel || keyData.wide || keyData.space;
   const isProg    = PROG_SYMBOLS.has(keyData.main) || PROG_SYMBOLS.has(keyData.shift);
 
-  // Base visual state
-  let bg      = isSpecial ? "var(--bg4)" : isProg ? "var(--bg3)" : "var(--bg3)";
-  let border  = `1px solid ${isProg && !isSpecial ? "var(--hl-blue)" : isSpecial ? "var(--bd3)" : "var(--bd)"}`;
-  let shadow  = "none";
-  let txtColor = isSpecial ? "var(--tx3)" : isProg && !isSpecial ? "var(--hl-blue)" : "var(--tx2)";
-
-  // Active states override
-  if (isMainActive) {
-    bg       = "rgba(255,203,107,0.12)";
-    border   = "1px solid var(--hl-yellow)";
-    shadow   = "0 0 10px rgba(255,203,107,0.65)";
-    txtColor = "var(--hl-yellow)";
-  } else if (isModifierActive) {
-    bg       = "rgba(130,170,255,0.12)";
-    border   = "1px solid var(--hl-blue)";
-    shadow   = "0 0 8px rgba(130,170,255,0.45)";
-    txtColor = "var(--hl-blue)";
-  }
+  const className = [
+    "kbd-key",
+    keyData.space ? "kbd-key--space" : "",
+    keyData.wide  ? "kbd-key--wide"  : "",
+    isProg && !isSpecial ? "kbd-key--prog" : "",
+    isSpecial ? "kbd-key--special" : "",
+    isMainActive ? "is-target" : "",
+    isModifierActive ? "is-mod" : "",
+  ].filter(Boolean).join(" ");
 
   return (
-    <div style={{
-      position: "relative",
-      flex: keyData.space ? 5 : keyData.wide ? 1.7 : 1,
-      height: "24px",
-      background: bg, border, boxShadow: shadow,
-      borderRadius: "4px",
-      display: "flex", alignItems: "flex-end", justifyContent: "flex-start",
-      padding: "2px 3px",
-      cursor: "default", overflow: "hidden", minWidth: 0,
-      transition: "background 0.1s, border-color 0.1s, box-shadow 0.1s",
-    }}>
+    <div className={className}>
       {!isSpecial && keyData.shift && (
-        <span style={{
-          position: "absolute", top: "1px", right: "2px",
-          fontSize: "7px",
-          color: isMainActive ? "var(--hl-yellow)" : "#ffcb6b60",
-          lineHeight: 1, userSelect: "none",
-        }}>
-          {keyData.shift}
-        </span>
+        <span className="kbd-key__shift">{keyData.shift}</span>
       )}
       {keyData.alt && (
-        <span style={{
-          position: "absolute", bottom: "2px", right: "2px",
-          fontSize: "6px", color: "#4ec99460", lineHeight: 1, userSelect: "none",
-        }}>
-          {keyData.alt}
-        </span>
+        <span className="kbd-key__alt">{keyData.alt}</span>
       )}
-      <span style={{
-        fontSize: isSpecial ? "7px" : "9px",
-        color: txtColor,
-        fontFamily: "'JetBrains Mono', monospace",
-        fontWeight: isMainActive || isModifierActive ? "700" : isProg && !isSpecial ? "500" : "300",
-        lineHeight: 1, userSelect: "none",
-        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-      }}>
+      <span className="kbd-key__main">
         {keyData.label || display}
       </span>
     </div>
@@ -383,45 +345,33 @@ export function KeyboardPanel({ accentColor = "var(--hl-blue)", nextChar, isOnIn
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
+    <div className="kbd-panel">
 
       {/* Header */}
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "10px 12px 8px",
-        borderBottom: "1px solid var(--bd2)",
-        flexShrink: 0,
-      }}>
-        <span style={{ color: accentColor, fontSize: "10px", fontWeight: "700", letterSpacing: "0.1em" }}>
+      <div className="kbd-panel-header">
+        <span className="kbd-panel-title" style={{ color: accentColor }}>
           ⌨ KEYBOARD
         </span>
-        <div style={{ display: "flex", gap: "4px" }}>
+        <div className="kbd-panel-header-ctrls">
           <button
-            className={`kb-ctrl-btn${showShift ? " active" : ""}`}
-            style={{ padding: "2px 7px", fontSize: "9px" }}
+            className={`kb-ctrl-btn kbd-panel-ctrl-btn${showShift ? " active" : ""}`}
             onClick={() => setShift((s) => !s)}
           >⇧</button>
           <button
-            className={`kb-ctrl-btn${lang === "en" ? " active" : ""}`}
-            style={{ padding: "2px 7px", fontSize: "9px" }}
+            className={`kb-ctrl-btn kbd-panel-ctrl-btn${lang === "en" ? " active" : ""}`}
             onClick={() => setLang("en")}
           >EN</button>
           <button
-            className={`kb-ctrl-btn${lang === "es" ? " active" : ""}`}
-            style={{ padding: "2px 7px", fontSize: "9px" }}
+            className={`kb-ctrl-btn kbd-panel-ctrl-btn${lang === "es" ? " active" : ""}`}
             onClick={() => setLang("es")}
           >ES</button>
         </div>
       </div>
 
       {/* Compact keyboard rows */}
-      <div style={{
-        flex: 1, overflowY: "auto", overflowX: "hidden",
-        padding: "10px 8px",
-        display: "flex", flexDirection: "column", gap: "4px",
-      }}>
+      <div className="kbd-rows">
         {rows.map((row, rowIdx) => (
-          <div key={rowIdx} style={{ display: "flex", gap: "3px", alignItems: "stretch" }}>
+          <div key={rowIdx} className="kbd-row">
             {row.map((key, keyIdx) => {
               const isMainActive = combo?.rowIdx === rowIdx && combo?.keyIdx === keyIdx;
               const isModifierActive =
@@ -442,71 +392,33 @@ export function KeyboardPanel({ accentColor = "var(--hl-blue)", nextChar, isOnIn
       </div>
 
       {/* Combo display — what to press right now */}
-      <div style={{
-        padding: "8px 10px",
-        borderTop: "1px solid var(--bd2)",
-        flexShrink: 0,
-        minHeight: "38px",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
-      }}>
+      <div className="kbd-combo-bar">
         {comboDisplay ? (
           <>
             {comboDisplay.modifier && (
               <>
-                <span style={sPill.modifier}>{comboDisplay.modifier}</span>
-                <span style={{ color: "var(--tx3)", fontSize: "14px", lineHeight: 1 }}>+</span>
+                <span className="kbd-combo-pill kbd-combo-pill--mod">{comboDisplay.modifier}</span>
+                <span className="kbd-combo-plus">+</span>
               </>
             )}
-            <span style={sPill.key}>{comboDisplay.keyName}</span>
+            <span className="kbd-combo-pill kbd-combo-pill--key">{comboDisplay.keyName}</span>
           </>
         ) : (
-          <span style={{ color: "var(--tx5)", fontSize: "10px", letterSpacing: "0.06em" }}>
-            — empieza a escribir —
-          </span>
+          <span className="kbd-combo-empty">— empieza a escribir —</span>
         )}
       </div>
 
       {/* Legend */}
-      <div style={{
-        padding: "5px 10px",
-        borderTop: "1px solid var(--bd2)",
-        flexShrink: 0,
-        display: "flex", gap: "10px", alignItems: "center",
-      }}>
-        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--tx3)" }}>
-          <span style={{ width: "7px", height: "7px", borderRadius: "2px", background: "var(--bg3)", border: "1px solid var(--hl-blue)", display: "inline-block", flexShrink: 0 }} />
+      <div className="kbd-footer">
+        <span className="kbd-footer-legend">
+          <span className="kbd-footer-legend-dot" />
           prog
         </span>
-        <span style={{ fontSize: "10px", color: "var(--tx4)", marginLeft: "auto" }}>↑ shift · ↘ AltGr</span>
+        <span className="kbd-footer-note">↑ shift · ↘ AltGr</span>
       </div>
     </div>
   );
 }
-
-const sPill = {
-  modifier: {
-    padding: "4px 10px",
-    background: "rgba(130,170,255,0.12)",
-    border: "1px solid var(--hl-blue)",
-    borderRadius: "5px",
-    color: "var(--hl-blue)",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    fontWeight: "600",
-    letterSpacing: "0.04em",
-  },
-  key: {
-    padding: "4px 10px",
-    background: "rgba(255,203,107,0.12)",
-    border: "1px solid var(--hl-yellow)",
-    borderRadius: "5px",
-    color: "var(--hl-yellow)",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    fontWeight: "600",
-    letterSpacing: "0.04em",
-  },
-};
 
 // Dot grid SVG icon — inspired by the image
 function KbDotGrid() {

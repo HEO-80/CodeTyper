@@ -194,6 +194,19 @@
 
   --ct-shadow-modal: 0 24px 60px rgba(20,30,55,.34), 0 4px 12px rgba(20,30,55,.20);
   --ct-shadow-save:  0 4px 12px rgba(47,111,237,.36);
+
+  /* ---- practice-screen-spec.md: sub-navbar / teclado / footer / traducción ---- */
+  --ct-subnav-bg: #eef0f3; /* sub-navbar: un paso más claro que el centro */
+  --ct-subnav-bd: #cfd4dc;
+
+  --ct-text-sub:   #3c434e; /* texto de línea activa, botones sub-navbar, teclas */
+  --ct-text-faint: #b0b6bf; /* números de línea, contadores tenues */
+  --ct-text-label: #4b5563; /* headers de panel (traducción, teclado) */
+
+  --ct-shadow-key:       0 2px 3px rgba(30,41,59,.18), 0 1px 1px rgba(30,41,59,.12);
+  --ct-shadow-subnav:    0 2px 5px rgba(30,41,59,.13);
+  --ct-shadow-capsule:   0 3px 8px rgba(30,41,59,.12);
+  --ct-shadow-transcard: 0 2px 6px rgba(30,41,59,.10);
 }
 
 [data-theme="light"] body { background: var(--ct-bg-root); }

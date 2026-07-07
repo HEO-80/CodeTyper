@@ -12,76 +12,91 @@ export function ProgressBar({ value, max }) {
   );
 }
 
-// --- TopBar ------------------------------------------------------------------
-// Contains: back button | breadcrumb | live stats | toggles
+// --- Descomposición de la tecla siguiente en modificador + tecla física ------
+// Reutiliza la misma idea que KeyboardPanel (Shift + letra), para que TopBar
+// y BottomBar puedan mostrar "⇧ Shift + t" en vez de solo `"T"`.
+const US_SHIFT_MAP = {
+  "!": "1", "@": "2", "#": "3", "$": "4", "%": "5", "^": "6", "&": "7",
+  "*": "8", "(": "9", ")": "0", "_": "-", "+": "=", "~": "`",
+  "{": "[", "}": "]", "|": "\\", ":": ";", '"': "'", "<": ",", ">": ".", "?": "/",
+};
+
+function decomposeNextKey({ typedWrong, isOnIndent, nextChar }) {
+  if (typedWrong)            return { mod: null,       label: "⌫",      wide: false, kind: "err"  };
+  if (isOnIndent)            return { mod: null,       label: "⇥ Tab",  wide: true,  kind: "tab"  };
+  if (nextChar === "\n")     return { mod: null,       label: "↵ Enter",wide: true,  kind: "enter"};
+  if (nextChar === " ")      return { mod: null,       label: "␣",      wide: false, kind: "space"};
+  if (!nextChar)             return { mod: null,       label: "✓",      wide: false, kind: "done" };
+  if (/^[A-Z]$/.test(nextChar))
+                              return { mod: "⇧ Shift",  label: nextChar.toLowerCase(), wide: false, kind: "char" };
+  if (US_SHIFT_MAP[nextChar])
+                              return { mod: "⇧ Shift",  label: US_SHIFT_MAP[nextChar], wide: false, kind: "char" };
+  return { mod: null, label: nextChar, wide: false, kind: "char" };
+}
+
+// --- TopBar (sub-navbar) ------------------------------------------------------
+// Contains: back button | translation toggle | breadcrumb | stats capsule | toggles
 export function TopBar({
   language, title, cursor, total,
   onBack,
   showComments, onToggleComments,
   errors, accuracy, elapsed,
   nextChar, isOnIndent, typedWrong,
-  extraRight,
+  extraLeft, extraRight,
   onNext, hasNext,
 }) {
-
-  // Next key hint
-  let nextLabel, nextColor;
-  if (typedWrong) {
-    nextLabel = "⌫";        nextColor = "var(--hl-red)";
-  } else if (isOnIndent) {
-    nextLabel = "⇥ Tab";    nextColor = "var(--hl-yellow)";
-  } else if (nextChar === "\n") {
-    nextLabel = "↵ Enter";  nextColor = "var(--hl-blue)";
-  } else if (nextChar === " ") {
-    nextLabel = "·";        nextColor = "var(--tx3)";
-  } else if (nextChar) {
-    nextLabel = `"${nextChar}"`;  nextColor = "var(--hl-purple)";
-  } else {
-    nextLabel = "✓";        nextColor = "var(--hl-green)";
-  }
+  const combo = decomposeNextKey({ typedWrong, isOnIndent, nextChar });
+  const nextColorVar =
+    combo.kind === "err"   ? "var(--hl-red)" :
+    combo.kind === "tab"   ? "var(--hl-yellow)" :
+    combo.kind === "enter" ? "var(--hl-blue)" :
+    combo.kind === "space" ? "var(--tx3)" :
+    combo.kind === "done"  ? "var(--hl-green)" : "var(--hl-purple)";
 
   const accuracyColor = accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)";
 
   return (
-    <div style={s.bar}>
+    <div className="subnav">
 
-      {/* Left: back */}
-      <button style={s.back} onClick={onBack}>← back</button>
+      {/* Left: back + translation toggle */}
+      <button className="subnav-back" onClick={onBack}>← back</button>
+      {extraLeft}
 
       {/* Center: breadcrumb */}
-      <div style={s.breadcrumb}>
-        <span style={{ color: "var(--tx3)" }}>{language}</span>
-        <span style={{ color: "var(--tx4)", margin: "0 6px" }}>/</span>
-        <span style={{ color: "var(--tx2)" }}>{title}</span>
+      <div className="subnav-breadcrumb">
+        <span className="subnav-breadcrumb-lang">{language}</span>
+        <span className="subnav-breadcrumb-sep">/</span>
+        <span className="subnav-breadcrumb-title">{title}</span>
       </div>
 
-      {/* Right: live stats + toggles */}
-      <div style={s.right}>
+      {/* Right: stats capsule + toggles */}
+      <div className="subnav-right">
 
-        {/* Live stats */}
-        <div style={s.statsRow}>
-          <MiniStat label="err"  value={errors ?? 0}      color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} />
-          <div style={s.divider} />
-          <MiniStat label="acc"  value={`${accuracy ?? 100}%`} color={accuracyColor} />
-          <div style={s.divider} />
-          <MiniStat label="time" value={`${elapsed ?? 0}s`}    color="var(--hl-blue)" />
-          <div style={s.divider} />
-          <MiniStat label="next" value={nextLabel}              color={nextColor} />
+        {/* Stats capsule — one elevated piece */}
+        <div className="stats-capsule">
+          <div className="stats-capsule__cell">
+            <MiniStat label="err"  value={errors ?? 0}      color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} className="stat--err" />
+          </div>
+          <div className="stats-capsule__cell">
+            <MiniStat label="acc"  value={`${accuracy ?? 100}%`} color={accuracyColor} className="stat--acc" />
+          </div>
+          <div className="stats-capsule__cell">
+            <MiniStat label="time" value={`${elapsed ?? 0}s`}    color="var(--hl-blue)" className="stat--time" />
+          </div>
+          <div className="stats-capsule__cell">
+            <MiniStat label="next" value={combo.label}           color={nextColorVar} className="stat--next" />
+          </div>
         </div>
 
         {/* Progress counter */}
-        <span style={s.counter}>
-          <span style={{ color: "var(--hl-green)" }}>{cursor}</span>
-          <span style={{ color: "var(--tx4)" }}>/{total}</span>
+        <span className="subnav-counter">
+          <span className="subnav-counter-cursor">{cursor}</span>
+          <span className="subnav-counter-total">/{total}</span>
         </span>
 
         {/* Next snippet button */}
         {hasNext && onNext && (
-          <button
-            onClick={onNext}
-            style={s.nextBtn}
-            title="Siguiente snippet"
-          >
+          <button onClick={onNext} className="subnav-next-btn" title="Siguiente snippet">
             siguiente →
           </button>
         )}
@@ -104,128 +119,57 @@ export function TopBar({
   );
 }
 
-function MiniStat({ label, value, color }) {
+function MiniStat({ label, value, color, className }) {
   return (
-    <div style={ms.wrap}>
-      <span style={ms.label}>{label}</span>
-      <span style={{ ...ms.value, color }}>{value}</span>
+    <div className={`mini-stat-wrap ${className || ""}`}>
+      <span className="mini-stat-label">{label}</span>
+      <span className="mini-stat-value" style={{ color }}>{value}</span>
     </div>
   );
 }
 
-const ms = {
-  wrap:  { display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" },
-  label: { color: "var(--tx4)", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase" },
-  value: { fontSize: "14px", fontWeight: "500", lineHeight: 1 },
-};
-
-const s = {
-  bar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "8px 20px",
-    borderBottom: "1px solid var(--bd)",
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: "12px",
-    gap: "12px",
-    flexWrap: "nowrap",
-    position: "sticky",
-    top: 0,
-    background: "var(--bg)",
-    zIndex: 100,
-  },
-  back: {
-    background: "none", border: "none", color: "var(--tx3)",
-    cursor: "pointer", fontSize: "12px",
-    fontFamily: "'JetBrains Mono', monospace",
-    whiteSpace: "nowrap", padding: "4px 0",
-    transition: "color 0.15s",
-  },
-  breadcrumb: {
-    fontSize: "12px", flex: 1, textAlign: "center",
-    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-    minWidth: 0,
-  },
-  right: {
-    display: "flex", alignItems: "center",
-    gap: "12px", whiteSpace: "nowrap", flexShrink: 0,
-  },
-  statsRow: {
-    display: "flex", alignItems: "center",
-    gap: "10px",
-    background: "var(--bg3)",
-    border: "1px solid var(--bd)",
-    borderRadius: "6px",
-    padding: "5px 12px",
-  },
-  divider: { width: "1px", height: "20px", background: "var(--bd)" },
-  counter: { fontSize: "12px" },
-  nextBtn: {
-    padding: "4px 12px",
-    background: "transparent",
-    border: "1px solid var(--hl-green)",
-    borderRadius: "4px",
-    color: "var(--hl-green)",
-    cursor: "pointer",
-    fontSize: "11px",
-    fontFamily: "'JetBrains Mono', monospace",
-    letterSpacing: "0.05em",
-    whiteSpace: "nowrap",
-    transition: "all 0.15s",
-  },
-  toggleBtn: {
-    padding: "3px 10px", borderRadius: "4px", cursor: "pointer",
-    fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
-    letterSpacing: "0.04em", transition: "all 0.15s",
-  },
-};
-
-// --- BottomBar ---------------------------------------------------------------
+// --- BottomBar (footer) -------------------------------------------------------
 // Kept as secondary info (can be hidden on small screens)
 export function BottomBar({ errors, accuracy, elapsed, nextChar, isOnIndent, typedWrong }) {
-
-  let nextLabel, nextColor;
-  if (typedWrong) {
-    nextLabel = "⌫ backspace"; nextColor = "var(--hl-red)";
-  } else if (isOnIndent) {
-    nextLabel = "⇥ Tab";       nextColor = "var(--hl-yellow)";
-  } else if (nextChar === "\n") {
-    nextLabel = "↵ Enter";     nextColor = "var(--hl-blue)";
-  } else if (nextChar === " ") {
-    nextLabel = "· space";     nextColor = "var(--tx3)";
-  } else if (nextChar) {
-    nextLabel = `"${nextChar}"`; nextColor = "var(--hl-purple)";
-  } else {
-    nextLabel = "✓ done";      nextColor = "var(--hl-green)";
-  }
+  const combo = decomposeNextKey({ typedWrong, isOnIndent, nextChar });
+  const nextColorVar =
+    combo.kind === "err"   ? "var(--hl-red)" :
+    combo.kind === "tab"   ? "var(--hl-yellow)" :
+    combo.kind === "enter" ? "var(--hl-blue)" :
+    combo.kind === "space" ? "var(--tx3)" :
+    combo.kind === "done"  ? "var(--hl-green)" : "var(--hl-purple)";
 
   return (
-    <div style={bs.bar}>
-      <Stat label="errors"    value={errors}           color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} />
-      <Stat label="accuracy"  value={`${accuracy}%`}  color={accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)"} />
-      <Stat label="time"      value={`${elapsed}s`}   color="var(--hl-blue)" />
-      <Stat label="next"      value={nextLabel}        color={nextColor} />
+    <div className="practice-footer">
+      <Stat label="errors"   value={errors}          color={errors > 0 ? "var(--hl-red)" : "var(--hl-green)"} modifier="err" />
+      <Stat label="accuracy" value={`${accuracy}%`}  color={accuracy >= 95 ? "var(--hl-green)" : accuracy >= 80 ? "var(--hl-yellow)" : "var(--hl-red)"} modifier="acc" />
+      <Stat label="time"     value={`${elapsed}s`}   color="var(--hl-blue)" modifier="time" />
+
+      <div className="footer-divider" />
+
+      <div className="footer-next">
+        <span className="footer-stat__label">NEXT KEY</span>
+        <div className="footer-next-combo">
+          {combo.mod && (
+            <>
+              <span className="next-key next-key--mod">{combo.mod}</span>
+              <span className="next-key-plus">+</span>
+            </>
+          )}
+          <span className={`next-key${combo.wide ? " next-key--wide" : ""}`} style={{ color: nextColorVar }}>
+            {combo.label}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
 
-function Stat({ label, value, color }) {
+function Stat({ label, value, color, modifier }) {
   return (
-    <div style={bs.item}>
-      <span style={bs.label}>{label}</span>
-      <span style={{ ...bs.value, color }}>{value}</span>
+    <div className={`footer-stat footer-stat--${modifier}`}>
+      <span className="footer-stat__label">{label}</span>
+      <span className="footer-stat__value" style={{ color }}>{value}</span>
     </div>
   );
 }
-
-const bs = {
-  bar: {
-    display: "flex", gap: "32px", padding: "14px 24px",
-    borderTop: "1px solid var(--bd)", justifyContent: "center",
-    fontFamily: "'JetBrains Mono', monospace", flexWrap: "wrap",
-  },
-  item:  { display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" },
-  label: { color: "var(--tx3)", fontSize: "11px", letterSpacing: "0.08em", textTransform: "uppercase" },
-  value: { fontSize: "17px", fontWeight: "500" },
-};
