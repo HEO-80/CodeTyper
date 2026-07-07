@@ -7,6 +7,8 @@ import AuthPanel       from "@/components/ui/AuthPanel";
 import InstructionsPanel from "@/components/ui/InstructionsPanel";
 import GlobalTerminal  from "@/components/ui/GlobalTerminal";
 import SettingsScreen from "@/components/screens/SettingsScreen";
+import AudioPanel      from "@/components/ui/AudioPanel";
+import { MUSIC_TRACKS, AMBIENT_TRACKS } from "@/data/audioTracks";
 
 // ── Context para refrescar stats desde cualquier pantalla ─────────────────────
 export const StatsRefreshContext = createContext(() => {});
@@ -24,6 +26,16 @@ export const useNav = () => useContext(NavContext);
 export const ThemeContext = createContext({ isDark: true, toggleTheme: () => {} });
 export const useTheme = () => useContext(ThemeContext);
 
+// ── Context para el audio de fondo (música / ambiente) ────────────────────────
+export const AudioContext = createContext(null);
+export const useAudio = () => useContext(AudioContext);
+
+const DEFAULT_AUDIO_STATE = {
+  musicEnabled: false,   musicTrack: MUSIC_TRACKS[0]?.id ?? null,     musicVolume: 50,
+  ambientEnabled: false, ambientTrack: AMBIENT_TRACKS[0]?.id ?? null, ambientVolume: 65,
+  keyboardStyle: "membrana",
+};
+
 export default function LayoutClient({ children }) {
   const { data: session } = useSession();
   const [authOpen,     setAuthOpen]     = useState(false);
@@ -34,6 +46,66 @@ export default function LayoutClient({ children }) {
   const backRef = useRef(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
+  const [audioOpen, setAudioOpen] = useState(false);
+  const [audioState, setAudioState] = useState(DEFAULT_AUDIO_STATE);
+  const musicRef = useRef(null);
+  const ambientRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("codetyper-audio") || "null");
+      // musicEnabled/ambientEnabled no se restauran: los navegadores bloquean
+      // el autoplay sin gesto del usuario, así que arrancar "encendido" desde
+      // aquí dejaría el botón diciendo "sonando" sin sonar de verdad.
+      if (saved) setAudioState(prev => ({ ...prev, ...saved, musicEnabled: false, ambientEnabled: false }));
+    } catch (e) {}
+  }, []);
+
+  const updateAudio = useCallback((patch) => {
+    setAudioState(prev => {
+      const next = { ...prev, ...patch };
+      try { localStorage.setItem("codetyper-audio", JSON.stringify(next)); } catch (e) {}
+      return next;
+    });
+  }, []);
+
+  const randomizeAudio = useCallback((kind) => {
+    const list = kind === "music" ? MUSIC_TRACKS : AMBIENT_TRACKS;
+    if (!list.length) return;
+    const currentId = kind === "music" ? audioState.musicTrack : audioState.ambientTrack;
+    const pool = list.filter(t => t.id !== currentId);
+    const pick = (pool.length ? pool : list)[Math.floor(Math.random() * (pool.length ? pool.length : list.length))];
+    updateAudio(kind === "music"
+      ? { musicTrack: pick.id, musicEnabled: true }
+      : { ambientTrack: pick.id, ambientEnabled: true });
+  }, [audioState.musicTrack, audioState.ambientTrack, updateAudio]);
+
+  // Volumen en vivo
+  useEffect(() => { if (musicRef.current) musicRef.current.volume = audioState.musicVolume / 100; }, [audioState.musicVolume]);
+  useEffect(() => { if (ambientRef.current) ambientRef.current.volume = audioState.ambientVolume / 100; }, [audioState.ambientVolume]);
+
+  // Play/pause — sigue sonando aunque se cierre el panel, porque los <audio>
+  // viven aquí (LayoutClient), no dentro de AudioPanel.
+  useEffect(() => {
+    const el = musicRef.current;
+    if (!el) return;
+    if (audioState.musicEnabled && audioState.musicTrack) el.play().catch(() => {});
+    else el.pause();
+  }, [audioState.musicEnabled, audioState.musicTrack]);
+  useEffect(() => {
+    const el = ambientRef.current;
+    if (!el) return;
+    if (audioState.ambientEnabled && audioState.ambientTrack) el.play().catch(() => {});
+    else el.pause();
+  }, [audioState.ambientEnabled, audioState.ambientTrack]);
+
+  const musicSrc   = MUSIC_TRACKS.find(t => t.id === audioState.musicTrack)?.file;
+  const ambientSrc = AMBIENT_TRACKS.find(t => t.id === audioState.ambientTrack)?.file;
+
+  const audioCtx = useMemo(
+    () => ({ ...audioState, update: updateAudio, randomize: randomizeAudio }),
+    [audioState, updateAudio, randomizeAudio]
+  );
 
   useEffect(() => {
     try {
@@ -100,6 +172,7 @@ export default function LayoutClient({ children }) {
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+    <AudioContext.Provider value={audioCtx}>
     <StatsRefreshContext.Provider value={fetchStats}>
       <NavContext.Provider value={navCtx}>
       <TerminalContext.Provider value={terminalCtx}>
@@ -107,6 +180,7 @@ export default function LayoutClient({ children }) {
   onToggleAuth={() => setAuthOpen(v => !v)}
   authOpen={authOpen}
   onOpenSettings={() => setSettingsOpen(true)}
+  onOpenAudio={() => setAudioOpen(true)}
   onToggleInstructions={() => setInstructionsOpen(v => !v)}
   instructionsOpen={instructionsOpen}
 />
@@ -125,12 +199,21 @@ export default function LayoutClient({ children }) {
           onClose={() => setInstructionsOpen(false)}
         />
         <GlobalTerminal open={terminalOpen} onClose={() => setTerminalOpen(false)} />
+
+        {/* Reproductores persistentes: viven aquí para seguir sonando aunque
+            se cierre el panel de Audio o se navegue entre pantallas. */}
+        <audio ref={musicRef}   src={musicSrc}   loop preload="none" />
+        <audio ref={ambientRef} src={ambientSrc} loop preload="none" />
       </TerminalContext.Provider>
       </NavContext.Provider>
     </StatsRefreshContext.Provider>
     {settingsOpen && (
   <SettingsScreen onClose={() => setSettingsOpen(false)} />
 )}
+    {audioOpen && (
+  <AudioPanel onClose={() => setAudioOpen(false)} />
+)}
+    </AudioContext.Provider>
     </ThemeContext.Provider>
   );
 }

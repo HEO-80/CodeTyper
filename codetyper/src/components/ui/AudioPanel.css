@@ -1,0 +1,80 @@
+/* ── AudioPanel.css ──────────────────────────────────────────────────────────
+   Reutiliza las clases .settings-* (SettingsScreen.css + su theming light/dark
+   en globals.css); aquí solo se define lo que ese modal no tenía: el slider
+   de volumen y el hint del footer. ───────────────────────────────────────── */
+
+/* Lista de pistas: fila propia de ancho completo, envuelve en varias líneas
+   en vez de forzar el ancho fijo de 160px de .settings-font-btn (pensado
+   para nombres de fuente, no para títulos de canciones más largos). */
+.audio-track-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -6px 0 14px;
+}
+.audio-track-btn {
+  text-align: left;
+}
+
+.audio-volume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 160px;
+}
+
+.audio-volume-value {
+  width: 34px;
+  text-align: right;
+  font-size: 11px;
+  color: var(--tx3);
+  flex-shrink: 0;
+}
+
+.audio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bd);
+  cursor: pointer;
+}
+.audio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent, var(--hl-blue));
+  border: 2px solid var(--bg2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.audio-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent, var(--hl-blue));
+  border: 2px solid var(--bg2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.audio-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bd);
+}
+
+[data-theme="light"] .audio-slider { background: var(--ct-border-button); }
+[data-theme="light"] .audio-slider::-webkit-slider-thumb { border-color: var(--ct-surface); }
+[data-theme="light"] .audio-slider::-moz-range-thumb      { border-color: var(--ct-surface); }
+
+[data-theme="dark"] .audio-slider::-webkit-slider-thumb { border-color: var(--ctd-surface, var(--bg2)); }
+[data-theme="dark"] .audio-slider::-moz-range-thumb      { border-color: var(--ctd-surface, var(--bg2)); }
+
+.audio-footer-hint {
+  font-size: 12px;
+  color: var(--tx3);
+}

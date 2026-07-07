@@ -225,3 +225,44 @@ Pendiente/fuera de alcance (dime si quieres que lo haga): la fila s.toggleRow de
 Ese background task ya no es relevante — era de la búsqueda de chromium-cli al inicio de la sesión, cuando terminé usando las herramientas MCP de Playwright en su lugar. No requiere ninguna acción.
 
 ✻ Cooked for 10s
+
+  Read 1 file, called playwright 4 times, ran 1 shell command
+
+Ahora se ven bien. Pruebo que la reproducción funcione: selecciono una pista y compruebo el estado del elemento <audio>.
+
+  Called playwright 5 times
+
+Confirmado: al cerrar el panel (✕), la música sigue sonando (musicPaused: false) — el reproductor vive en LayoutClient, no en el modal. Ahora reviso el light mode y el botón "Aleatorio".
+
+  Read 1 file, called playwright 6 times
+
+Aleatorio funciona: cambió a "Gritty Noir (ASMR Jazz)" yla última sección (teclado) y confirmo que dark mode no se rompió.
+
+  Read 1 file, called playwright 3 times
+
+Todo el panel se ve correcto, incluida la pestaña de teclado (por ahora solo selección, sin sonido real como se pidió). Confirmo dark mode intacto y cierro.
+
+  Read 1 file, called playwright 2 times
+
+Perfecto, dark mode también se ve consistente con glow eunciona en ambos temas.
+
+Resumen
+
+Archivos movidos: codetyper/sounds/** → codetyper/public/sounds/** (con git mv, necesario para que Next.js pueda servirlos — antes estaban fuera de public/ y no eran accesibles).
+
+Nuevos archivos:
+- src/data/audioTracks.js — catálogo de pistas (música, ambiente, estilos de teclado).
+- src/components/ui/AudioPanel.jsx + AudioPanel.css — eles .settings-* para heredar gratis todo el estilolight/dark ya construido (cards, ON/OFF con glow, pills, sombras).
+
+Modificados:
+- Navbar.jsx/.css — botón "🎧 audio" junto a "settings", mismo estilo (.navbar-link).
+- LayoutClient.jsx — nuevo AudioContext + los dos <audiontados de forma persistente ahí, para que sigan sonandoaunque cierres el panel o cambies de pantalla. Estado guardado en localStorage (codetyper-audio).
+
+Funciona ahora mismo:
+- Música de fondo: ON/OFF, selector de 6 pistas, volumenatorio.
+- Ambiente: ON/OFF, selector de pistas (de momento 2 lluvias), volumen (65% por defecto, más presente), botón Aleatorio.
+- Ambas pueden sonar a la vez (música + ambiente superpu
+
+Pendiente a propósito (como pediste): pestaña "teclado" rana, mecánico, Keychron K10 Pro, máquina de escribir)pero sin disparo real por tecla todavía — eso lo dejamos para una siguiente iteración.
+
+✻ Sautéed for 10m 36s

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useNav, useTheme } from "@/components/ui/LayoutClient";
+import { useNav, useTheme, useAudio } from "@/components/ui/LayoutClient";
 import "./Navbar.css";
 
 function SunIcon() {
@@ -30,11 +30,12 @@ function MoonIcon() {
   );
 }
 
-export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onToggleInstructions, instructionsOpen }) {
+export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onOpenAudio, onToggleInstructions, instructionsOpen }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const { hasBack, triggerBack } = useNav();
   const { isDark, toggleTheme } = useTheme();
+  const audio = useAudio();
 
 
   return (
@@ -88,6 +89,14 @@ export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onToggl
             settings
           </button>
 
+          <button
+            className="navbar-link navbar-audio-btn"
+            onClick={onOpenAudio}
+            title="Audio"
+          >
+            <span className="navbar-link-icon">🎧</span>
+            audio
+          </button>
 
         </div>
 
@@ -100,6 +109,45 @@ export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onToggl
           <span className="navbar-link-icon">?</span>
           instrucciones
         </button>
+
+        {/* Mini reproductor de música — play/pause, siguiente, volumen */}
+        <div className="navbar-audio-mini">
+          <span className="navbar-audio-mini-label">música</span>
+          <button
+            className="navbar-audio-mini-btn"
+            onClick={() => audio.update({ musicEnabled: !audio.musicEnabled })}
+            title={audio.musicEnabled ? "Pausar música" : "Reproducir música"}
+          >{audio.musicEnabled ? "⏸" : "▶"}</button>
+          <button
+            className="navbar-audio-mini-btn"
+            onClick={() => audio.randomize("music")}
+            title="Siguiente pista"
+          >⏭</button>
+          <input
+            type="range" min="0" max="100"
+            value={audio.musicVolume}
+            onChange={e => audio.update({ musicVolume: Number(e.target.value) })}
+            className="navbar-audio-mini-slider"
+            title="Volumen de la música"
+          />
+        </div>
+
+        {/* Mini reproductor de ambiente — play/stop, volumen */}
+        <div className="navbar-audio-mini">
+          <span className="navbar-audio-mini-label">ambient</span>
+          <button
+            className="navbar-audio-mini-btn"
+            onClick={() => audio.update({ ambientEnabled: !audio.ambientEnabled })}
+            title={audio.ambientEnabled ? "Detener ambiente" : "Reproducir ambiente"}
+          >{audio.ambientEnabled ? "⏹" : "▶"}</button>
+          <input
+            type="range" min="0" max="100"
+            value={audio.ambientVolume}
+            onChange={e => audio.update({ ambientVolume: Number(e.target.value) })}
+            className="navbar-audio-mini-slider"
+            title="Volumen del ambiente"
+          />
+        </div>
 
         {/* Theme toggle */}
         <button

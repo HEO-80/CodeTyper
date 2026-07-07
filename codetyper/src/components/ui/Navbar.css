@@ -139,6 +139,97 @@
   flex-shrink: 0;
 }
 
+/* Audio button — styled like a link but as <button> */
+.navbar-audio-btn {
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Mini reproductor de audio (música / ambiente) ───────────────────────── */
+.navbar-audio-mini {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--bd);
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.navbar-audio-mini-label {
+  font-size: 10px;
+  color: var(--tx4);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  margin-right: 2px;
+}
+.navbar-audio-mini-btn {
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--tx3);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.navbar-audio-mini-btn:hover {
+  color: var(--hl-blue);
+  background: var(--hl-blue-bg);
+}
+.navbar-audio-mini-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 54px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bd);
+  cursor: pointer;
+}
+.navbar-audio-mini-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent, var(--hl-blue));
+  border: 1.5px solid var(--bg2);
+  cursor: pointer;
+}
+.navbar-audio-mini-slider::-moz-range-thumb {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent, var(--hl-blue));
+  border: 1.5px solid var(--bg2);
+  cursor: pointer;
+}
+.navbar-audio-mini-slider::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bd);
+}
+
+/* Light mode: mismo tratamiento elevado que el resto de controles del navbar */
+[data-theme="light"] .navbar-audio-mini {
+  background: var(--ct-surface);
+  border-color: var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .navbar-audio-mini-slider { background: var(--ct-border-button); }
+[data-theme="light"] .navbar-audio-mini-slider::-webkit-slider-thumb { border-color: var(--ct-surface); }
+[data-theme="light"] .navbar-audio-mini-slider::-moz-range-thumb      { border-color: var(--ct-surface); }
+
+@media (max-width: 900px) {
+  .navbar-audio-mini-label { display: none; }
+  .navbar-audio-mini-slider { width: 40px; }
+}
+@media (max-width: 760px) {
+  .navbar-audio-mini { display: none; }
+}
+
 /* ── Theme toggle button ─────────────────────────────────────────────────── */
 .navbar-theme-btn {
   width: 30px; height: 30px;
