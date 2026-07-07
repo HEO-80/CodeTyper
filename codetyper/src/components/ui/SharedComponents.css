@@ -183,8 +183,31 @@
   border-bottom-color: var(--ct-subnav-bd);
   box-shadow: 0 1px 4px rgba(20,30,55,.05);
 }
-[data-theme="light"] .subnav-back { color: var(--ct-text-sub); }
-[data-theme="light"] .subnav-back:hover { color: var(--ct-blue); }
+[data-theme="light"] .subnav-back {
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-button);
+  box-shadow: var(--ct-shadow-subnav);
+  color: var(--ct-text-sub);
+}
+[data-theme="light"] .subnav-back:hover { color: var(--ct-blue); border-color: var(--ct-blue); }
+
+/* ── Altura/padding uniformes para TODOS los botones del sub-navbar ──
+   El contenido (icono+texto) ya no decide la altura: la fija el botón. ── */
+[data-theme="light"] .subnav-right { gap: 9px; }
+[data-theme="light"] .subnav-back,
+[data-theme="light"] .subnav-trans-btn,
+[data-theme="light"] .subnav-next-btn,
+[data-theme="light"] .topbar-toggle {
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1;
+}
 [data-theme="light"] .subnav-breadcrumb-lang,
 [data-theme="light"] .subnav-breadcrumb-title { color: var(--ct-text-sub); }
 [data-theme="light"] .subnav-breadcrumb-sep { color: var(--ct-border-button); }

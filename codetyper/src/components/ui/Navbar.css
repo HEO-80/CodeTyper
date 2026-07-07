@@ -300,6 +300,39 @@
   .navbar-kbd-toggle { display: none; }
 }
 
+/* ── Altura/padding uniformes para TODOS los botones del navbar superior ──
+   El contenido (icono+texto) ya no decide la altura: la fija el botón. ── */
+[data-theme="light"] .navbar-links,
+[data-theme="light"] .navbar-hint {
+  gap: 9px;
+}
+[data-theme="light"] .navbar-link,
+[data-theme="light"] .navbar-instructions-btn,
+[data-theme="light"] .navbar-back-btn,
+[data-theme="light"] .navbar-kbd-toggle {
+  box-sizing: border-box;
+  height: 36px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1;
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-button);
+  box-shadow: var(--ct-shadow-button);
+}
+[data-theme="light"] .navbar-settings-btn,
+[data-theme="light"] .navbar-audio-btn {
+  opacity: 1;
+}
+[data-theme="light"] .navbar-audio-mini {
+  height: 36px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
 /* ── Theme toggle button ─────────────────────────────────────────────────── */
 .navbar-theme-btn {
   width: 30px; height: 30px;

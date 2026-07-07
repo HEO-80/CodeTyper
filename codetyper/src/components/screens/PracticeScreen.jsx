@@ -10,6 +10,7 @@ import { useSpeech } from "@/hooks/useSpeech";
 import { useAudio } from "@/components/ui/LayoutClient";
 import TerminalMode from "@/components/screens/TerminalMode";
 import { KeyboardPanel } from "@/components/ui/KeyboardOverlay";
+import { findTranslation, LANGUAGE_CATEGORIES } from "@/data/snippets/languages/translationLoader";
 import "./PracticeScreen.css";
 
 // ─── Inject English comments ──────────────────────────────────────────────────
@@ -77,6 +78,16 @@ function getCodeLines(code) {
   return code.split("\n");
 }
 
+// ─── Índice del primer token de una línea ─────────────────────────────────────
+function getLineStartIndex(tokens, lineIndex) {
+  let line = 0;
+  for (let i = 0; i < tokens.length; i++) {
+    if (line === lineIndex) return i;
+    if (tokens[i].char === "\n") line++;
+  }
+  return tokens.length;
+}
+
 // ─── Obtener índice de línea actual ──────────────────────────────────────────
 function getCurrentLineIndex(tokens, cursor) {
   let lineIndex = 0;
@@ -102,6 +113,7 @@ export default function PracticeScreen({
   const [panelMode, setPanelMode] = useState("structure");
   const [dictado, setDictado] = useState(false);
   const [transOpen, setTransOpen] = useState(false);
+  const [translation, setTranslation] = useState(null);
   const lastSpokenLine = useRef(-1);
   const speakTimeoutRef = useRef(null);
   const tokensRef = useRef(tokens);
@@ -152,6 +164,17 @@ export default function PracticeScreen({
     if (startTime) timerRef.current = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(timerRef.current);
   }, [startTime]);
+
+  // ─── Cargar la traducción cuando se abre el panel (o cambia el snippet) ──
+  useEffect(() => {
+    if (!transOpen) return;
+    let cancelled = false;
+    setTranslation(null);
+    findTranslation(snippet, language, "es").then(result => {
+      if (!cancelled) setTranslation(result);
+    });
+    return () => { cancelled = true; };
+  }, [transOpen, snippet, language]);
 
   // ─── Al desactivar dictado, callar y olvidar la última línea leída ───────
   useEffect(() => {
@@ -262,6 +285,17 @@ export default function PracticeScreen({
   const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
   const currentToken = tokens[cursor];
   const isOnIndent = currentToken?.char === " " && cursor > 0 && tokens[cursor - 1]?.char === "\n";
+
+  // ─── Línea y palabra activas, para el panel de traducción ─────────────────
+  const isLanguageCategory = LANGUAGE_CATEGORIES.includes(language);
+  const activeLineIndex = getCurrentLineIndex(tokens, cursor);
+  let activeWordIndex = 0;
+  if (transOpen && isLanguageCategory) {
+    const lineStart = getLineStartIndex(tokens, activeLineIndex);
+    for (let i = lineStart; i < cursor; i++) {
+      if (tokens[i]?.char === " ") activeWordIndex++;
+    }
+  }
   const progress = tokens.length > 0 ? Math.round((cursor / tokens.length) * 100) : 0;
 
   // ─── Botón de dictado ─────────────────────────────────────────────────────
@@ -295,6 +329,7 @@ export default function PracticeScreen({
     if (!isSupported || !dictado) return null;
     return (
       <button
+        className="subnav-toggle-btn"
         onClick={repeatCurrentLine}
         title="Repetir la línea actual"
         style={{
@@ -373,7 +408,7 @@ export default function PracticeScreen({
         }
         extraRight={
           !isMobile ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div className="subnav-toolbar" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <DictadoButton />
               <RepeatButton />
               <ModeToggle current="editor" />
@@ -419,13 +454,38 @@ export default function PracticeScreen({
               <button className="trans-panel__close" onClick={() => setTransOpen(false)}>✕</button>
             </div>
             <div className="trans-panel__body">
-              {Array.isArray(snippet?.translations) && snippet.translations.length > 0 ? (
-                snippet.translations.map((text, i) => (
-                  <div key={i} className="trans-card">
-                    <span className="trans-card__num">{i + 1}</span>
-                    <span className="trans-card__text">{text}</span>
-                  </div>
-                ))
+              {!isLanguageCategory ? (
+                <div className="trans-card trans-card--empty">
+                  <span className="trans-card__text">La traducción solo está disponible para las lecciones de idiomas.</span>
+                </div>
+              ) : Array.isArray(translation?.lines) && translation.lines.length > 0 ? (
+                translation.lines.map((text, i) => {
+                  const isDone = i < activeLineIndex;
+                  const isActive = i === activeLineIndex;
+                  const words = text.split(" ");
+                  return (
+                    <div
+                      key={i}
+                      className={`trans-card${isActive ? " is-active" : ""}${isDone ? " is-done" : ""}`}
+                      style={isActive ? { borderColor: meta.color, background: `${meta.color}14` } : undefined}
+                    >
+                      <span className="trans-card__num">{isDone ? "✓" : i + 1}</span>
+                      <span className="trans-card__text">
+                        {isActive
+                          ? words.map((w, wi) => (
+                              <span
+                                key={wi}
+                                className={`trans-word${wi <= activeWordIndex ? " is-active" : ""}`}
+                                style={wi <= activeWordIndex ? { color: meta.color } : undefined}
+                              >
+                                {w}{wi < words.length - 1 ? " " : ""}
+                              </span>
+                            ))
+                          : text}
+                      </span>
+                    </div>
+                  );
+                })
               ) : (
                 <div className="trans-card trans-card--empty">
                   <span className="trans-card__text">Traducción no disponible todavía para este fragmento.</span>

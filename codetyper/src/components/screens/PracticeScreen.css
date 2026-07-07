@@ -255,11 +255,25 @@
   display: flex;
   gap: 8px;
   align-items: baseline;
+  transition: opacity 0.2s, border-color 0.2s, background 0.2s;
 }
 .trans-card__num  { font-size: 11px; color: var(--tx4); flex-shrink: 0; }
-.trans-card__text { font-size: 13px; color: var(--tx2); }
+.trans-card__text { font-size: 13px; color: var(--tx3); }
 .trans-card--empty { justify-content: center; text-align: center; color: var(--tx4); }
 .trans-card--empty .trans-card__text { color: var(--tx4); font-style: italic; }
+
+/* Línea activa — borde/fondo del color del lenguaje (inline), texto normal
+   más presente que las pendientes */
+.trans-card.is-active .trans-card__text { color: var(--tx2); }
+.trans-card.is-active .trans-card__num  { color: var(--tx2); }
+
+/* Línea ya completada — atenuada + check verde */
+.trans-card.is-done { opacity: 0.5; }
+.trans-card.is-done .trans-card__num { color: var(--hl-green); font-weight: 700; }
+
+/* Palabra correspondiente al progreso del cursor en la línea activa */
+.trans-word { color: var(--tx3); }
+.trans-word.is-active { font-weight: 700; }
 
 /* ── Subnav toggle buttons (dictado/structure/kbd) — base hook ─────────────── */
 .subnav-toggle-btn { }
@@ -366,8 +380,14 @@
   box-shadow: var(--ct-shadow-transcard);
 }
 [data-theme="light"] .trans-card__num  { color: var(--ct-text-faint); }
-[data-theme="light"] .trans-card__text { color: var(--ct-text-sub); font-weight: 500; }
+[data-theme="light"] .trans-card__text { color: var(--ct-text-faint); font-weight: 400; }
 [data-theme="light"] .trans-card--empty .trans-card__text { color: var(--ct-text-faint); font-weight: 400; }
+[data-theme="light"] .trans-card.is-active .trans-card__text,
+[data-theme="light"] .trans-card.is-active .trans-card__num { color: var(--ct-text-sub); font-weight: 500; }
+[data-theme="light"] .trans-card.is-done .trans-card__num { color: var(--ct-green); }
+[data-theme="light"] .trans-word { color: var(--ct-text-faint); }
+
+[data-theme="light"] .subnav-toolbar { gap: 9px !important; }
 
 /* Toggles del sub-navbar (VOZ/STRUCTURE/KBD): blancos elevados en reposo */
 [data-theme="light"] .subnav-toggle-btn {
@@ -385,19 +405,41 @@
   box-shadow: 0 3px 8px rgba(123,82,224,.2);
 }
 
-/* Mode toggle (editor/terminal): inactivo pasa a blanco elevado */
+/* Mode toggle (editor/terminal): dos píldoras sueltas, no un segmento fundido */
 [data-theme="light"] .mode-toggle {
-  border-color: var(--ct-border-button);
+  border: none;
+  gap: 9px;
 }
 [data-theme="light"] .mode-toggle-btn {
   background: var(--ct-surface);
+  border: 1px solid var(--ct-border-button);
+  box-shadow: var(--ct-shadow-subnav);
   color: var(--ct-text-sub);
+}
+[data-theme="light"] .mode-toggle-btn:first-child {
+  border-right: none;
 }
 [data-theme="light"] .mode-toggle-btn.active-editor {
   background: var(--ct-blue-bg);
+  border-color: var(--ct-blue);
   color: var(--ct-blue);
 }
 [data-theme="light"] .mode-toggle-btn.active-terminal {
   background: var(--ct-green-bg);
+  border-color: var(--ct-green);
   color: var(--ct-green);
+}
+
+/* ── Altura/padding uniformes — mismo trato que el resto del sub-navbar ──── */
+[data-theme="light"] .subnav-toggle-btn,
+[data-theme="light"] .mode-toggle-btn {
+  box-sizing: border-box !important;
+  height: 34px !important;
+  padding: 0 13px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px;
+  border-radius: 8px !important;
+  font-size: 12.5px !important;
+  line-height: 1;
 }
