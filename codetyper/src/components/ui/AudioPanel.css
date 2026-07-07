@@ -15,6 +15,10 @@
 .audio-track-btn {
   text-align: left;
 }
+.audio-track-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 .audio-volume {
   display: flex;

@@ -149,6 +149,16 @@ export default function Navbar({ onToggleAuth, authOpen, onOpenSettings, onOpenA
           />
         </div>
 
+        {/* Sonido de teclado — solo on/off, el volumen se ajusta en el panel de Audio */}
+        <button
+          className={`navbar-kbd-toggle${audio.keyboardEnabled ? " on" : " off"}`}
+          onClick={() => audio.update({ keyboardEnabled: !audio.keyboardEnabled })}
+          title={audio.keyboardEnabled ? "Silenciar teclado" : "Activar sonido de teclado"}
+        >
+          <span className="navbar-link-icon">{audio.keyboardEnabled ? "🔊" : "🔈"}</span>
+          teclado {audio.keyboardEnabled ? "ON" : "OFF"}
+        </button>
+
         {/* Theme toggle */}
         <button
           className="navbar-theme-btn"

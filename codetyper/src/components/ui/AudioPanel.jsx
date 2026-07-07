@@ -167,17 +167,54 @@ export default function AudioPanel({ onClose }) {
 
             <div className="settings-row">
               <div className="settings-row-info">
+                <span className="settings-row-title">Sonido de teclado</span>
+                <span className="settings-row-desc">Un clic distinto (al azar) por cada tecla que pulsas al practicar</span>
+              </div>
+              <div className="settings-options">
+                <button
+                  className={`settings-opt-btn${audio.keyboardEnabled ? " active" : ""}`}
+                  data-variant="on"
+                  onClick={() => audio.update({ keyboardEnabled: true })}
+                >ON</button>
+                <button
+                  className={`settings-opt-btn${!audio.keyboardEnabled ? " active" : ""}`}
+                  data-variant="off"
+                  onClick={() => audio.update({ keyboardEnabled: false })}
+                >OFF</button>
+              </div>
+            </div>
+
+            <div className="settings-row">
+              <div className="settings-row-info">
+                <span className="settings-row-title">Volumen</span>
+                <span className="settings-row-desc">60% recomendado</span>
+              </div>
+              <div className="audio-volume">
+                <input
+                  type="range" min="0" max="100"
+                  value={audio.keyboardVolume}
+                  onChange={e => audio.update({ keyboardVolume: Number(e.target.value) })}
+                  className="audio-slider"
+                />
+                <span className="audio-volume-value">{audio.keyboardVolume}%</span>
+              </div>
+            </div>
+
+            <div className="settings-row">
+              <div className="settings-row-info">
                 <span className="settings-row-title">Estilo de teclado</span>
-                <span className="settings-row-desc">Próximamente sonará en cada tecla — de momento solo puedes elegir el estilo</span>
+                <span className="settings-row-desc">Los demás estilos aún no tienen sonido asignado</span>
               </div>
             </div>
             <div className="audio-track-grid">
               {KEYBOARD_STYLES.map(k => (
                 <button
                   key={k.id}
-                  className={`settings-opt-btn audio-track-btn${audio.keyboardStyle === k.id ? " active" : ""}`}
-                  onClick={() => audio.update({ keyboardStyle: k.id })}
-                >{k.label}</button>
+                  disabled={!k.enabled}
+                  className={`settings-opt-btn audio-track-btn${audio.keyboardStyle === k.id ? " active" : ""}${!k.enabled ? " disabled" : ""}`}
+                  onClick={() => k.enabled && audio.update({ keyboardStyle: k.id })}
+                  title={k.enabled ? undefined : "Próximamente"}
+                >{k.label}{!k.enabled ? " (próximamente)" : ""}</button>
               ))}
             </div>
           </section>

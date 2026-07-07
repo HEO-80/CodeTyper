@@ -8,7 +8,7 @@ import InstructionsPanel from "@/components/ui/InstructionsPanel";
 import GlobalTerminal  from "@/components/ui/GlobalTerminal";
 import SettingsScreen from "@/components/screens/SettingsScreen";
 import AudioPanel      from "@/components/ui/AudioPanel";
-import { MUSIC_TRACKS, AMBIENT_TRACKS } from "@/data/audioTracks";
+import { MUSIC_TRACKS, AMBIENT_TRACKS, KEYBOARD_SOUNDS } from "@/data/audioTracks";
 
 // ── Context para refrescar stats desde cualquier pantalla ─────────────────────
 export const StatsRefreshContext = createContext(() => {});
@@ -33,7 +33,8 @@ export const useAudio = () => useContext(AudioContext);
 const DEFAULT_AUDIO_STATE = {
   musicEnabled: false,   musicTrack: MUSIC_TRACKS[0]?.id ?? null,     musicVolume: 50,
   ambientEnabled: false, ambientTrack: AMBIENT_TRACKS[0]?.id ?? null, ambientVolume: 65,
-  keyboardStyle: "membrana",
+  keyboardEnabled: false, keyboardVolume: 60,
+  keyboardStyle: "virtualzero-rapido",
 };
 
 export default function LayoutClient({ children }) {
@@ -80,6 +81,17 @@ export default function LayoutClient({ children }) {
       : { ambientTrack: pick.id, ambientEnabled: true });
   }, [audioState.musicTrack, audioState.ambientTrack, updateAudio]);
 
+  // Sonido de tecla — uno nuevo por pulsación (no reutiliza un <audio> único
+  // porque al escribir rápido se solapan varias pulsaciones antes de que
+  // termine el clic anterior).
+  const playKeyClick = useCallback(() => {
+    if (!audioState.keyboardEnabled || !KEYBOARD_SOUNDS.length) return;
+    const file = KEYBOARD_SOUNDS[Math.floor(Math.random() * KEYBOARD_SOUNDS.length)];
+    const click = new Audio(file);
+    click.volume = audioState.keyboardVolume / 100;
+    click.play().catch(() => {});
+  }, [audioState.keyboardEnabled, audioState.keyboardVolume]);
+
   // Volumen en vivo
   useEffect(() => { if (musicRef.current) musicRef.current.volume = audioState.musicVolume / 100; }, [audioState.musicVolume]);
   useEffect(() => { if (ambientRef.current) ambientRef.current.volume = audioState.ambientVolume / 100; }, [audioState.ambientVolume]);
@@ -103,8 +115,8 @@ export default function LayoutClient({ children }) {
   const ambientSrc = AMBIENT_TRACKS.find(t => t.id === audioState.ambientTrack)?.file;
 
   const audioCtx = useMemo(
-    () => ({ ...audioState, update: updateAudio, randomize: randomizeAudio }),
-    [audioState, updateAudio, randomizeAudio]
+    () => ({ ...audioState, update: updateAudio, randomize: randomizeAudio, playKeyClick }),
+    [audioState, updateAudio, randomizeAudio, playKeyClick]
   );
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents
 import { useCodeStructure } from "@/hooks/useCodeStructure";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useSpeech } from "@/hooks/useSpeech";
+import { useAudio } from "@/components/ui/LayoutClient";
 import TerminalMode from "@/components/screens/TerminalMode";
 import { KeyboardPanel } from "@/components/ui/KeyboardOverlay";
 import "./PracticeScreen.css";
@@ -111,6 +112,7 @@ export default function PracticeScreen({
   const isMobile = useIsMobile(768);
 
   const { speak, stop, isSupported } = useSpeech(language);
+  const audio = useAudio();
 
   const showPanel = panelMode !== null && !isMobile;
   const panelWidth = panelMode === "keyboard" ? 320 : 280;
@@ -211,6 +213,7 @@ export default function PracticeScreen({
   const handleKeyDown = useCallback((e) => {
     if (mode !== "editor") return;
     if (["Shift", "Control", "Alt", "Meta", "CapsLock", "Escape"].includes(e.key)) return;
+    audio?.playKeyClick?.();
     if (e.key === " " || e.key === "Enter" || e.key === "Tab") e.preventDefault();
     const expected = tokens[cursor];
     if (!expected) return;
@@ -239,7 +242,7 @@ export default function PracticeScreen({
       setErrorFlash(true);
       setTimeout(() => setErrorFlash(false), 150);
     }
-  }, [mode, tokens, cursor, startTime, buildResult, onFinish]);
+  }, [mode, tokens, cursor, startTime, buildResult, onFinish, audio]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
