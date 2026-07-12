@@ -116,3 +116,24 @@
 [data-theme="light"] .snippet-card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Dark mode — superficie un paso más clara que el body (para no fundirse) +
+   borde superior de nivel siempre visible en reposo (no solo en :hover).
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] .snippet-card {
+  background: var(--ctd-modal-body);
+  border-color: var(--ctd-border-card);
+  box-shadow: var(--ctd-shadow-card);
+}
+
+[data-theme="dark"] .snippet-card.beginner     { border-top: 3px solid var(--hl-green); }
+[data-theme="dark"] .snippet-card.intermediate { border-top: 3px solid var(--hl-yellow); }
+[data-theme="dark"] .snippet-card.advanced     { border-top: 3px solid var(--hl-red); }
+[data-theme="dark"] .snippet-card.b1           { border-top: 3px solid var(--hl-blue); }
+[data-theme="dark"] .snippet-card.b2           { border-top: 3px solid var(--hl-purple); }
+[data-theme="dark"] .snippet-card.c1           { border-top: 3px solid var(--hl-orange); }
+[data-theme="dark"] .snippet-card.a1           { border-top: 3px solid var(--hl-green); }
+[data-theme="dark"] .snippet-card.a2           { border-top: 3px solid var(--hl-mint); }
+[data-theme="dark"] .snippet-card.c2           { border-top: 3px solid var(--hl-teal); }
+[data-theme="dark"] .snippet-card.exam         { border-top: 3px solid var(--hl-yellow); }

@@ -56,6 +56,14 @@
   box-shadow: 0 0 12px rgba(252, 238, 10, 0.3), 0 0 24px rgba(252, 238, 10, 0.1);
 }
 
+/* Dark mode: el botón vive sobre --ctd-surface (fila de comments card), le
+   agregamos profundidad de reposo para que no se vea plano; el borde/texto
+   real hoy es verde (no rojo/vino) así que la sombra usa el token neutro de
+   card en vez de inventar un rojo que no existe en el diseño actual. */
+[data-theme="dark"] .tt-btn {
+  box-shadow: var(--ctd-shadow-card);
+}
+
 /* Light mode: solid dark pill instead of transparent hacker-green outline
    (light-mode-spec.md §2: "Botón TERMINAL (oscuro sólido)") */
 [data-theme="light"] .tt-btn {

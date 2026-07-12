@@ -1,5 +1,51 @@
 /* ── LanguageSelector.css ────────────────────────────────────────────────────── */
 
+/* Dark mode — card de la sección + reposo de los pills, mismo lenguaje visual
+   que Settings dark. Los colores por-lenguaje en :hover/.active se dejan
+   intactos (no se colapsan a un ámbar genérico: es una feature deliberada). */
+[data-theme="dark"] .menu-lang-card {
+  background: var(--ctd-surface);
+  border: 1px solid var(--ctd-border-card);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: var(--ctd-shadow-card);
+  overflow: hidden;
+}
+[data-theme="dark"] .menu-lang-card .section-label {
+  margin: -16px -18px 14px;
+  padding: 10px 18px;
+  background: var(--ctd-modal-cardhead);
+  border-bottom: 1px solid #262d38;
+  color: #7b8695;
+}
+[data-theme="dark"] .lang-btn {
+  background: var(--ctd-seg);
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+
+/* Light mode — card blanca elevada, mismo patrón que Settings light
+   (.menu-section ya lo usa para category/difficulty). La franja de
+   cabecera va en globals.css junto a la de .menu-section. */
+[data-theme="light"] .menu-lang-card {
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border-panel);
+  border-radius: var(--ct-radius, 12px);
+  padding: 16px 18px;
+  box-shadow: var(--ct-shadow-panel);
+  overflow: hidden;
+}
+
+/* Hover en light — tinte verde uniforme para todos los idiomas no
+   seleccionados (a diferencia de dark, que conserva el color propio de cada
+   lenguaje). El seleccionado (.active) sigue con su color propio intacto. */
+[data-theme="light"] .lang-btn:hover:not(.active) {
+  background: var(--hl-green-bg);
+  border-color: var(--hl-green);
+  color: var(--hl-green);
+  box-shadow: 0 3px 9px rgba(31,122,77,.28);
+}
+
 .lang-btn {
   padding: 7px 18px;
   border: 1px solid var(--bd3);

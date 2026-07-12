@@ -25,7 +25,7 @@ const LANG_LABELS = {
 
 export default function LanguageSelector({ languages, selected, onChange }) {
   return (
-    <div style={s.section}>
+    <div className="menu-lang-card" style={s.section}>
       <div className="section-label" style={s.label}>// selecciona lenguaje</div>
       <div style={s.row}>
         {languages.map((lang) => (

@@ -379,3 +379,38 @@
   .navbar-hint { display: none; }
   .navbar-inner { gap: 12px; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Dark mode — navbar como chrome (un tono más claro que el body), iconos y
+   mini-reproductores en superficie --ctd-seg, mismo lenguaje que Settings.
+   ══════════════════════════════════════════════════════════════════════════ */
+[data-theme="dark"] .navbar {
+  background: var(--ctd-modal-chrome);
+  border-bottom-color: var(--ctd-border);
+}
+
+/* Botón "editor" activo — mismo patrón azul + glow que Settings dark */
+[data-theme="dark"] .navbar-link.active {
+  background: rgba(47,111,237,.18);
+  color: var(--ctd-blue-lt);
+  border-color: var(--ctd-blue);
+  box-shadow: 0 0 0 1px rgba(47,111,237,.5), 0 3px 10px rgba(47,111,237,.3);
+}
+
+/* Iconos ⚙ / 🎧 / ❓ + sol — de planos a superficie --ctd-seg con sombra */
+[data-theme="dark"] .navbar-settings-btn,
+[data-theme="dark"] .navbar-audio-btn,
+[data-theme="dark"] .navbar-instructions-btn:not(.active),
+[data-theme="dark"] .navbar-theme-btn {
+  background: var(--ctd-seg);
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+
+/* Mini-reproductores de música / ambient */
+[data-theme="dark"] .navbar-audio-mini {
+  background: var(--ctd-seg);
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+[data-theme="dark"] .navbar-audio-mini-slider { background: var(--ctd-border-seg); }

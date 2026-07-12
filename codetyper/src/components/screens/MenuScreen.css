@@ -57,6 +57,15 @@
   animation: pulse-blue 2s ease-in-out infinite;
 }
 
+.custom-cat-btn {
+  border-style: dashed;
+}
+.custom-cat-btn:hover {
+  background: var(--hl-purple-bg, var(--bg3));
+  color: var(--hl-purple, var(--hl-blue));
+  border-color: var(--hl-purple, var(--hl-blue));
+}
+
 /* Difficulty buttons */
 .diff-btn {
   padding: 5px 16px;
@@ -143,4 +152,199 @@
   color: var(--ct-amber);
   border-color: var(--ct-amber);
   box-shadow: 0 2px 10px rgba(184,121,27,.18);
+}
+
+/* ── Light mode: hover coloreado por categoría/nivel (reemplaza el gris
+   neutro de arriba para .programming/.languages/.mindset y cada nivel de
+   dificultad — más específico, así que gana sobre la regla gris genérica).
+   El .active no se toca, sigue con su relleno de siempre. ── */
+[data-theme="light"] .cat-btn.programming:hover:not(.active),
+[data-theme="light"] .cat-btn.languages:hover:not(.active) {
+  background: var(--ct-blue-bg);
+  border-color: var(--ct-blue);
+  color: var(--ct-blue);
+  box-shadow: 0 3px 9px rgba(47,111,237,.24);
+}
+[data-theme="light"] .cat-btn.mindset:hover:not(.active) {
+  background: var(--ct-rose-bg);
+  border-color: var(--ct-rose);
+  color: var(--ct-rose);
+  box-shadow: 0 3px 9px rgba(210,77,138,.24);
+}
+
+[data-theme="light"] .diff-btn.beginner:hover:not(.active),
+[data-theme="light"] .diff-btn.a1:hover:not(.active) {
+  background: var(--hl-green-bg);
+  border-color: var(--hl-green);
+  color: var(--hl-green);
+  box-shadow: 0 3px 9px rgba(31,122,77,.28);
+}
+[data-theme="light"] .diff-btn.a2:hover:not(.active) {
+  background: var(--hl-mint-bg);
+  border-color: var(--hl-mint);
+  color: var(--hl-mint);
+  box-shadow: 0 3px 9px rgba(21,115,71,.28);
+}
+[data-theme="light"] .diff-btn.b1:hover:not(.active) {
+  background: var(--hl-blue-bg);
+  border-color: var(--hl-blue);
+  color: var(--hl-blue);
+  box-shadow: 0 3px 9px rgba(26,86,219,.24);
+}
+[data-theme="light"] .diff-btn.b2:hover:not(.active) {
+  background: var(--hl-purple-bg);
+  border-color: var(--hl-purple);
+  color: var(--hl-purple);
+  box-shadow: 0 3px 9px rgba(131,56,236,.22);
+}
+[data-theme="light"] .diff-btn.c1:hover:not(.active) {
+  background: var(--hl-orange-bg);
+  border-color: var(--hl-orange);
+  color: var(--hl-orange);
+  box-shadow: 0 3px 9px rgba(197,80,39,.24);
+}
+[data-theme="light"] .diff-btn.c2:hover:not(.active) {
+  background: var(--hl-teal-bg);
+  border-color: var(--hl-teal);
+  color: var(--hl-teal);
+  box-shadow: 0 3px 9px rgba(15,122,138,.24);
+}
+[data-theme="light"] .diff-btn.intermediate:hover:not(.active),
+[data-theme="light"] .diff-btn.exam:hover:not(.active) {
+  background: var(--hl-yellow-bg);
+  border-color: var(--hl-yellow);
+  color: var(--hl-yellow);
+  box-shadow: 0 3px 9px rgba(148,104,0,.24);
+}
+[data-theme="light"] .diff-btn.advanced:hover:not(.active) {
+  background: var(--hl-red-bg);
+  border-color: var(--hl-red);
+  color: var(--hl-red);
+  box-shadow: 0 3px 9px rgba(192,57,43,.24);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Dark mode — cards por zona (category / difficulty / snippets / comments),
+   mismo lenguaje visual que Settings dark: card --ctd-surface + franja
+   cabecera --ctd-modal-cardhead para "// etiqueta" + pills --ctd-seg.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] .menu-section {
+  background: var(--ctd-surface);
+  border: 1px solid var(--ctd-border-card);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: var(--ctd-shadow-card);
+  overflow: hidden;
+}
+
+/* Franja cabecera "// category" / "// difficulty" / "// choose a snippet" —
+   mismo truco de margin negativo que .settings-section-label. */
+[data-theme="dark"] .menu-section .section-label {
+  margin: -16px -18px 14px;
+  padding: 10px 18px;
+  background: var(--ctd-modal-cardhead);
+  border-bottom: 1px solid #262d38;
+  color: #7b8695;
+}
+
+/* Card de la fila comments+terminal — sin franja cabecera (no tiene "// label"),
+   el fondo/borde vienen inline así que hace falta !important para el dark. */
+[data-theme="dark"] .menu-comments-card {
+  background: var(--ctd-surface) !important;
+  border-color: var(--ctd-border-card) !important;
+  box-shadow: var(--ctd-shadow-card);
+}
+
+/* Pills en reposo — .active ya tiene su propio color/pulso (azul/ámbar/verde)
+   y gana por especificidad, así que esto solo afecta el estado inactivo. */
+[data-theme="dark"] .toggle-comments-btn {
+  background: var(--ctd-seg);
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+
+/* Category / difficulty en reposo — fondo más oscuro que --ctd-seg para que
+   el icono+texto resalte más por contraste. .active se deja intacto (sigue
+   siendo el pulso azul/ámbar de siempre). */
+[data-theme="dark"] .cat-btn:not(.active),
+[data-theme="dark"] .diff-btn:not(.active) {
+  background: var(--ctd-modal-chrome);
+  border-color: var(--ctd-border-seg);
+  box-shadow: var(--ctd-shadow-seg);
+}
+
+/* Hover de category — no selecciondas se iluminan con el color de esa
+   categoría (azul Programación, verde Idiomas, rosa Mentalidad) + glow. El
+   activo nunca entra aquí (:not(.active)), así su pulso no se interrumpe. */
+[data-theme="dark"] .cat-btn.programming:hover:not(.active) {
+  background: rgba(47,111,237,.16);
+  border-color: var(--ctd-blue);
+  color: var(--ctd-blue-lt);
+  box-shadow: 0 4px 14px rgba(47,111,237,.28);
+}
+[data-theme="dark"] .cat-btn.languages:hover:not(.active) {
+  background: rgba(21,151,78,.16);
+  border-color: var(--ctd-green);
+  color: var(--ctd-green-lt);
+  box-shadow: 0 4px 14px rgba(21,151,78,.28);
+}
+[data-theme="dark"] .cat-btn.mindset:hover:not(.active) {
+  background: rgba(210,77,138,.16);
+  border-color: var(--ctd-rose);
+  color: var(--ctd-rose-lt);
+  box-shadow: 0 4px 14px rgba(210,77,138,.28);
+}
+
+/* Hover de difficulty — mismo criterio, coloreado por nivel (mismos tonos
+   que ya usan las snippet cards/badges para ese nivel, para ser coherentes). */
+[data-theme="dark"] .diff-btn.beginner:hover:not(.active),
+[data-theme="dark"] .diff-btn.a1:hover:not(.active) {
+  background: rgba(78,201,148,.16);
+  border-color: var(--hl-green);
+  color: var(--hl-green);
+  box-shadow: 0 4px 14px rgba(78,201,148,.28);
+}
+[data-theme="dark"] .diff-btn.intermediate:hover:not(.active),
+[data-theme="dark"] .diff-btn.exam:hover:not(.active) {
+  background: rgba(255,203,107,.16);
+  border-color: var(--hl-yellow);
+  color: var(--hl-yellow);
+  box-shadow: 0 4px 14px rgba(255,203,107,.28);
+}
+[data-theme="dark"] .diff-btn.advanced:hover:not(.active) {
+  background: rgba(255,85,85,.16);
+  border-color: var(--hl-red);
+  color: var(--hl-red);
+  box-shadow: 0 4px 14px rgba(255,85,85,.28);
+}
+[data-theme="dark"] .diff-btn.a2:hover:not(.active) {
+  background: rgba(58,217,160,.16);
+  border-color: var(--hl-mint);
+  color: var(--hl-mint);
+  box-shadow: 0 4px 14px rgba(58,217,160,.28);
+}
+[data-theme="dark"] .diff-btn.b1:hover:not(.active) {
+  background: rgba(130,170,255,.16);
+  border-color: var(--hl-blue);
+  color: var(--hl-blue);
+  box-shadow: 0 4px 14px rgba(130,170,255,.28);
+}
+[data-theme="dark"] .diff-btn.b2:hover:not(.active) {
+  background: rgba(199,146,234,.16);
+  border-color: var(--hl-purple);
+  color: var(--hl-purple);
+  box-shadow: 0 4px 14px rgba(199,146,234,.28);
+}
+[data-theme="dark"] .diff-btn.c1:hover:not(.active) {
+  background: rgba(247,140,108,.16);
+  border-color: var(--hl-orange);
+  color: var(--hl-orange);
+  box-shadow: 0 4px 14px rgba(247,140,108,.28);
+}
+[data-theme="dark"] .diff-btn.c2:hover:not(.active) {
+  background: rgba(86,182,194,.16);
+  border-color: var(--hl-teal);
+  color: var(--hl-teal);
+  box-shadow: 0 4px 14px rgba(86,182,194,.28);
 }

@@ -1,0 +1,180 @@
+/* ── CustomTextModal.css ─────────────────────────────────────────────────────── */
+
+.custom-text-panel {
+  max-width: 620px;
+}
+
+.custom-title-input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  background: var(--btn-bg);
+  color: var(--tx);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.custom-title-input:focus {
+  outline: none;
+  border-color: var(--accent, var(--hl-blue));
+}
+
+.custom-text-area {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bd);
+  border-radius: 6px;
+  background: var(--btn-bg);
+  color: var(--tx);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.custom-text-area:focus {
+  outline: none;
+  border-color: var(--accent, var(--hl-blue));
+}
+
+/* Cargar desde archivo */
+.custom-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.custom-file-label {
+  font-size: 11px;
+  color: var(--tx3);
+}
+
+.custom-file-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.custom-file-btn {
+  padding: 5px 12px;
+  border: 1px dashed var(--bd);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--tx3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.custom-file-btn:hover {
+  border-color: var(--accent, var(--hl-blue));
+  color: var(--accent, var(--hl-blue));
+}
+
+.custom-file-hint {
+  font-size: 11px;
+  color: var(--hl-yellow);
+  font-style: italic;
+}
+
+/* Lista de agregados */
+.custom-empty {
+  color: var(--tx4);
+  font-size: 12px;
+  padding: 16px;
+  text-align: center;
+  border: 1px dashed var(--bd);
+  border-radius: 8px;
+}
+
+.custom-saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd) var(--bg2);
+}
+
+.custom-saved-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--bd2);
+  border-radius: 6px;
+  background: var(--btn-bg);
+}
+
+.custom-saved-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--tx2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.custom-saved-title:hover {
+  color: var(--accent, var(--hl-blue));
+}
+
+.custom-saved-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.custom-icon-btn {
+  background: none;
+  border: 1px solid var(--bd);
+  border-radius: 5px;
+  color: var(--tx3);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 3px 7px;
+  transition: all 0.15s;
+}
+.custom-icon-btn:hover {
+  border-color: var(--accent, var(--hl-blue));
+  color: var(--accent, var(--hl-blue));
+}
+.custom-icon-btn--danger:hover {
+  border-color: var(--hl-red);
+  color: var(--hl-red);
+}
+
+/* Edición inline */
+.custom-edit-block {
+  width: 100%;
+  padding: 4px 0;
+}
+
+.custom-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.custom-footer-hint {
+  font-size: 11px;
+  color: var(--tx4);
+}
+
+.settings-save-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}

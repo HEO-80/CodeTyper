@@ -5,6 +5,7 @@ import { CATEGORIES, getSnippets } from "@/data/snippets";
 import { DIFFICULTIES } from "@/lib/constants";
 import LanguageSelector from "@/components/ui/LanguageSelector";
 import SnippetCard      from "@/components/ui/SnippetCard";
+import CustomTextModal  from "@/components/screens/CustomTextModal";
 import "./MenuScreen.css";
 import "../ui/TerminalTrigger.css";
 
@@ -70,6 +71,7 @@ export default function MenuScreen({
   const [selectedCategory,   setSelectedCategory]   = useState("programming");
   const [selectedLang,       setSelectedLang]       = useState("javascript");
   const [selectedDifficulty, setSelectedDifficulty] = useState("beginner");
+  const [customOpen, setCustomOpen] = useState(false);
   const rootRef = useRef(null);
 
   const currentCategory = CATEGORIES[selectedCategory];
@@ -141,7 +143,7 @@ export default function MenuScreen({
       {/* Top row: comments toggle + terminal button */}
       <div style={s.topRow}>
         {/* Comments toggle */}
-        <div style={s.toggleRow}>
+        <div className="menu-comments-card" style={s.toggleRow}>
           <span style={s.toggleLabel}>English comments</span>
           <button
             className={`toggle-comments-btn${showComments ? " active" : ""}`}
@@ -173,7 +175,7 @@ export default function MenuScreen({
           {Object.entries(CATEGORIES).map(([key, cat]) => (
             <button
               key={key}
-              className={`cat-btn${selectedCategory === key ? " active" : ""}`}
+              className={`cat-btn ${key}${selectedCategory === key ? " active" : ""}`}
               onClick={() => handleCategoryChange(key)}
               data-nav-item
               data-nav-group="category"
@@ -181,8 +183,27 @@ export default function MenuScreen({
               {cat.label}
             </button>
           ))}
+          <button
+            className="cat-btn custom-cat-btn"
+            onClick={() => setCustomOpen(true)}
+            data-nav-item
+            data-nav-group="category"
+            title="Practica con tu propio texto o código"
+          >
+            ✎ Personalizado
+          </button>
         </div>
       </div>
+
+      {customOpen && (
+        <CustomTextModal
+          onClose={() => setCustomOpen(false)}
+          onStart={(snippet, lang, difficulty) => {
+            setCustomOpen(false);
+            onStart(snippet, lang, difficulty);
+          }}
+        />
+      )}
 
       {/* Language */}
       <LanguageSelector
@@ -198,7 +219,7 @@ export default function MenuScreen({
           {difficulties.map((diff) => (
             <button
               key={diff}
-              className={`diff-btn${selectedDifficulty === diff ? " active" : ""}`}
+              className={`diff-btn ${diff}${selectedDifficulty === diff ? " active" : ""}`}
               onClick={() => setSelectedDifficulty(diff)}
               data-nav-item
               data-nav-group="difficulty"
