@@ -15,6 +15,20 @@ export const LANGUAGE_CATEGORIES = [
 const TRANSLATION_TOPICS = {
   english: {
     a1: ["greetings"],
+    a2: ["daily"],
+    b1: ["conversations"],
+    b2: ["business", "expressions"],
+    c1: ["technical"],
+    exam: ["full"],
+  },
+  french: {
+    a1: ["salutations"],
+    a2: ["quotidien"],
+    b1: ["conversations"],
+    b2: ["professionnel"],
+    c1: ["technique"],
+    c2: ["litteraire"],
+    exam: ["index"],
   },
 };
 

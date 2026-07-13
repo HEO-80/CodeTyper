@@ -46,16 +46,28 @@
 }
 
 /* ── Code scroll area ────────────────────────────────────────────────────── */
+/* El hueco lateral (344px = ancho del panel más ancho posible, 320px del
+   teclado/traducción, + 24px de aire) se reserva SIEMPRE en escritorio, esté
+   o no abierto un panel en ese momento. Así el texto nunca se desplaza al
+   abrir/cerrar paneles y nunca puede quedar tapado por ninguno. El texto se
+   alinea a la izquierda (no centrado) para que empiece justo tras el hueco
+   izquierdo, en vez de flotar en medio del área visible. */
 .practice-code-area {
   position: absolute;
   inset: 0;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
   background: var(--bg);
   scrollbar-width: thin;
   scrollbar-color: var(--bd) var(--bg);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+}
+@media (min-width: 769px) {
+  .practice-code-area {
+    left: 344px;
+    right: 344px;
+  }
 }
 .practice-code-area::-webkit-scrollbar       { width: 4px; }
 .practice-code-area::-webkit-scrollbar-track { background: var(--bg); }
@@ -65,19 +77,29 @@
   animation: errorFlash 0.15s ease;
 }
 
-/* ── Code block (centered content) ──────────────────────────────────────── */
+/* ── Code block (left-aligned within the scroll area) ─────────────────────── */
+/* width:100% hace que el bloque siempre rellene TODO el hueco disponible
+   (hasta justo antes del panel derecho) en vez de quedarse en un ancho fijo
+   estrecho; así las líneas envuelven (ver .practice-line-content) solo
+   cuando de verdad no cabe, no antes de tiempo. Sin max-width: el límite ya
+   lo pone el padding lateral de .practice-code-area. */
 .practice-code-block {
-  max-width: none;
-  margin: 0 auto;
-  max-width: 720px;
+  width: 100%;
+  margin: 0;
   padding: 40px 24px 300px;
+  box-sizing: border-box;
 }
 
 /* ── Code line ───────────────────────────────────────────────────────────── */
+/* Las líneas largas ya no se salen por el lateral con scroll horizontal:
+   se envuelven (flex-wrap) dentro del mismo ancho reservado, así se puede
+   ver y escribir todo el texto sin tocar el ratón. align-items: flex-start
+   (en vez de center) para que el número de línea quede arriba cuando el
+   contenido ocupa varias filas envueltas. */
 .practice-line {
   display: flex;
-  align-items: center;
-  height: 28px;
+  align-items: flex-start;
+  min-height: 28px;
 }
 
 .practice-line-num {
@@ -88,14 +110,16 @@
   padding-right: 16px;
   text-align: right;
   flex-shrink: 0;
+  line-height: 28px;
 }
 
 .practice-line-content {
   font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 28px;
-  white-space: pre;
+  white-space: normal;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 4px;
 }
@@ -256,7 +280,16 @@
   transition: opacity 0.2s, border-color 0.2s, background 0.2s;
 }
 .trans-card__num  { font-size: 11px; color: var(--tx4); flex-shrink: 0; }
-.trans-card__text { font-size: 13px; color: var(--tx3); }
+/* flex:1 + min-width:0 — sin esto, un ítem flex no se encoge por debajo del
+   ancho de su contenido sin saltos (default min-width:auto), y las frases
+   largas se salen de la tarjeta en vez de envolver dentro del panel. */
+.trans-card__text {
+  font-size: 13px;
+  color: var(--tx3);
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
 .trans-card--empty { justify-content: center; text-align: center; color: var(--tx4); }
 .trans-card--empty .trans-card__text { color: var(--tx4); font-style: italic; }
 
@@ -313,6 +346,10 @@
 
 /* ── Mobile ──────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* Sin paneles laterales que evitar en móvil: se mantiene centrado. */
+  .practice-code-area {
+    justify-content: center;
+  }
   .practice-code-block {
     padding: 32px 12px 200px;
   }

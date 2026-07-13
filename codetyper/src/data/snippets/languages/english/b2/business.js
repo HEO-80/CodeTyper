@@ -4,7 +4,7 @@ const businessSnippets = [
   {
     id: "en-int-biz-01",
     title: "Professional Email",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Writing a formal business email",
     code: `Subject: Project Update - Q2 Delivery Timeline
 
@@ -24,7 +24,7 @@ Alex`,
   {
     id: "en-int-biz-02",
     title: "Meeting Request",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Requesting and confirming a business meeting",
     code: `Subject: Request for Technical Review Meeting
 
@@ -44,7 +44,7 @@ Alex`,
   {
     id: "en-int-biz-03",
     title: "Slack Status Update",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Professional async communication in English",
     code: `Good morning team, here is my daily standup update.
 

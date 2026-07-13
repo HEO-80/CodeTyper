@@ -4,7 +4,7 @@ const expressionsSnippets = [
   {
     id: "en-int-exp-01",
     title: "Phrasal Verbs at Work",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Common phrasal verbs used in a tech workplace",
     code: `We need to sort out the deployment issues by Friday.
 The team is looking into the performance problem right now.
@@ -18,7 +18,7 @@ I will follow up with the design team after this meeting.`,
   {
     id: "en-int-exp-02",
     title: "Conditional Sentences",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Using conditionals in professional contexts",
     code: `If we finish the API today, we can start testing tomorrow.
 If the build fails, the pipeline will send an alert automatically.
@@ -32,7 +32,7 @@ Provided that the tests pass, we will deploy to production tonight.`,
   {
     id: "en-int-exp-03",
     title: "Describing Problems",
-    difficulty: "intermediate",
+    difficulty: "b2",
     description: "Explaining technical issues clearly in English",
     code: `The application crashes whenever a user uploads a large file.
 It seems like the memory is not being freed after each request.

@@ -1,12 +1,12 @@
 "use client";
 "use no memo";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { tokenize, getTokenColor } from "@/lib/tokenizer";
 import { ProgressBar, TopBar, BottomBar } from "@/components/ui/SharedComponents";
 import { useCodeStructure } from "@/hooks/useCodeStructure";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { useSpeech } from "@/hooks/useSpeech";
+import { useSpeech, detectSpeechLanguage } from "@/hooks/useSpeech";
 import { useAudio } from "@/components/ui/LayoutClient";
 import TerminalMode from "@/components/screens/TerminalMode";
 import { KeyboardPanel } from "@/components/ui/KeyboardOverlay";
@@ -71,8 +71,6 @@ const LANG_META = {
   chinese:    { label: "中文",             icon: "⬡", color: "#ff5555" },
 };
 
-const LINE_HEIGHT = 28;
-
 // ─── Obtener líneas del código ────────────────────────────────────────────────
 function getCodeLines(code) {
   return code.split("\n");
@@ -114,6 +112,7 @@ export default function PracticeScreen({
   const [dictado, setDictado] = useState(false);
   const [transOpen, setTransOpen] = useState(false);
   const [translation, setTranslation] = useState(null);
+  const [showLineNumbers, setShowLineNumbers] = useState(true);
   const lastSpokenLine = useRef(-1);
   const speakTimeoutRef = useRef(null);
   const tokensRef = useRef(tokens);
@@ -124,7 +123,14 @@ export default function PracticeScreen({
   const timerRef = useRef(null);
   const isMobile = useIsMobile(768);
 
-  const { speak, stop, isSupported } = useSpeech(language);
+  // "personalizado" no trae una categoría de idioma fiable (el usuario pega
+  // cualquier texto), así que se detecta por contenido; el resto de
+  // categorías ya saben su idioma y siguen usando su voz de siempre.
+  const speechLanguage = useMemo(
+    () => (language === "custom" ? detectSpeechLanguage(snippet.code) : language),
+    [language, snippet.code]
+  );
+  const { speak, stop, isSupported } = useSpeech(speechLanguage);
   const audio = useAudio();
 
   const showPanel = panelMode !== null && !isMobile;
@@ -206,19 +212,18 @@ export default function PracticeScreen({
   // ─── Limpiar el timeout pendiente al desmontar ───────────────────────────
   useEffect(() => () => clearTimeout(speakTimeoutRef.current), []);
 
-  // Cursor centering
+  // Cursor centering — se mide la posición real del cursor en el DOM en vez
+  // de asumir una altura fija por línea, porque ahora las líneas largas
+  // envuelven (ver .practice-line-content) y pueden ocupar varias filas.
   useEffect(() => {
     const area = scrollAreaRef.current;
     if (!area) return;
-    const rawLines = rawCode.split("\n");
-    let lineIndex = 0;
-    let charCount = 0;
-    for (let i = 0; i < rawLines.length; i++) {
-      charCount += rawLines[i].length + 1;
-      if (charCount > cursor) { lineIndex = i; break; }
-    }
-    const cursorY = lineIndex * LINE_HEIGHT;
-    const targetScrollTop = cursorY - area.clientHeight / 2 + LINE_HEIGHT / 2;
+    const cursorEl = area.querySelector(".code-cursor");
+    if (!cursorEl) return;
+    const areaRect = area.getBoundingClientRect();
+    const cursorRect = cursorEl.getBoundingClientRect();
+    const cursorOffsetTop = cursorRect.top - areaRect.top + area.scrollTop;
+    const targetScrollTop = cursorOffsetTop - area.clientHeight / 2 + cursorRect.height / 2;
     area.scrollTo({ top: Math.max(0, targetScrollTop), behavior: "smooth" });
   }, [cursor]);
 
@@ -280,6 +285,52 @@ export default function PracticeScreen({
     else currentLine.push({ ...token, idx });
   });
   if (currentLine.length > 0) lines.push(currentLine);
+
+  // Agrupa cada línea en "palabras" (rachas de caracteres sin espacio) antes de
+  // pintarla: cada palabra se envuelve en un span inline-flex, que es un único
+  // ítem flex indivisible. Así, cuando la línea envuelve (flex-wrap) porque no
+  // cabe en el ancho disponible, el salto cae siempre en un espacio y nunca
+  // parte una palabra a la mitad.
+  const renderLineWords = (lineTokens, isCommentLine) => {
+    const words = [];
+    let current = [];
+    for (const token of lineTokens) {
+      if (token.char === " ") {
+        if (current.length) { words.push(current); current = []; }
+        words.push([token]);
+      } else {
+        current.push(token);
+      }
+    }
+    if (current.length) words.push(current);
+
+    return words.map((word, wi) => (
+      <span key={wi} style={{ display: "inline-flex" }}>
+        {word.map(({ char, type, idx }) => {
+          const isTyped = idx < cursor;
+          const isCursor = idx === cursor;
+          const isError = errors.has(idx);
+          const color = isTyped
+            ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
+            : isCommentLine ? "var(--c-cm-dim)" : "var(--c-un)";
+          return (
+            <span key={idx} style={{ position: "relative", display: "inline-block" }}>
+              {isCursor && <span className="code-cursor" />}
+              <span style={{
+                color,
+                fontWeight: isTyped && type === "keyword" ? "500" : "300",
+                fontStyle: isCommentLine ? "italic" : "normal",
+                transition: "color 0.04s",
+                ...(isError ? { textDecoration: "underline", textDecorationColor: "#ff5555" } : {}),
+              }}>
+                {char === " " ? " " : char}
+              </span>
+            </span>
+          );
+        })}
+      </span>
+    ));
+  };
 
   const elapsed = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
   const accuracy = cursor > 0 ? Math.round(((cursor - totalErrors) / cursor) * 100) : 100;
@@ -438,6 +489,20 @@ export default function PracticeScreen({
                   letterSpacing: "0.06em", transition: "all 0.15s",
                 }}
               >⌨ KBD</button>
+              <button
+                className={`subnav-toggle-btn subnav-toggle-btn--linenum${showLineNumbers ? " is-active" : ""}`}
+                onClick={() => setShowLineNumbers(v => !v)}
+                title="Mostrar/ocultar números de línea"
+                style={{
+                  padding: "4px 10px",
+                  border: `1px solid ${showLineNumbers ? "#89ddff" : "var(--bd3)"}`,
+                  borderRadius: "4px", cursor: "pointer",
+                  background: showLineNumbers ? "#89ddff15" : "transparent",
+                  color: showLineNumbers ? "#89ddff" : "var(--tx3)",
+                  fontSize: "11px", fontFamily: "'JetBrains Mono', monospace",
+                  letterSpacing: "0.06em", transition: "all 0.15s",
+                }}
+              ># LINES</button>
             </div>
           ) : null
         }
@@ -505,33 +570,14 @@ export default function PracticeScreen({
               const isCommentLine = lineTokens.length > 0 && lineTokens[0]?.type === "comment";
               return (
                 <div key={lineIdx} className="practice-line">
-                  <span className="practice-line-num">{lineIdx + 1}</span>
+                  {showLineNumbers && (
+                    <span className="practice-line-num">{lineIdx + 1}</span>
+                  )}
                   <span className="practice-line-content">
                     {isCommentLine && !isMobile && (
                       <span className="comment-tag">EN</span>
                     )}
-                    {lineTokens.map(({ char, type, idx }) => {
-                      const isTyped = idx < cursor;
-                      const isCursor = idx === cursor;
-                      const isError = errors.has(idx);
-                      const color = isTyped
-                        ? isError ? "#ff5555" : isCommentLine ? "#4ec994" : getTokenColor(type)
-                        : isCommentLine ? "var(--c-cm-dim)" : "var(--c-un)";
-                      return (
-                        <span key={idx} style={{ position: "relative", display: "inline-block" }}>
-                          {isCursor && <span className="code-cursor" />}
-                          <span style={{
-                            color,
-                            fontWeight: isTyped && type === "keyword" ? "500" : "300",
-                            fontStyle: isCommentLine ? "italic" : "normal",
-                            transition: "color 0.04s",
-                            ...(isError ? { textDecoration: "underline", textDecorationColor: "#ff5555" } : {}),
-                          }}>
-                            {char === " " ? "\u00A0" : char}
-                          </span>
-                        </span>
-                      );
-                    })}
+                    {renderLineWords(lineTokens, isCommentLine)}
                   </span>
                 </div>
               );
