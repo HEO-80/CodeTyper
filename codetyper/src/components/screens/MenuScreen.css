@@ -18,12 +18,14 @@
 .menu-section {
   border-radius: 10px;
 }
+/* Marco gris del contenedor exterior — los botones/cards de dentro se
+   mantienen blancos (--ct-surface) para que resalten sobre este fondo. */
 [data-theme="light"] .menu-section {
-  background: var(--ct-surface);
-  border: 1px solid var(--ct-border-panel);
+  background: #e4e7ec;
+  border: 1px solid #c4cad3;
   border-radius: var(--ct-radius, 12px);
   padding: 16px 18px;
-  box-shadow: var(--ct-shadow-panel);
+  box-shadow: 0 4px 12px rgba(30,41,59,.09), 0 1px 3px rgba(30,41,59,.06);
 }
 
 /* Category buttons */

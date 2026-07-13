@@ -499,10 +499,6 @@ export default function PracticeScreen({
         <div
           ref={scrollAreaRef}
           className={`practice-code-area${errorFlash ? " error-flash" : ""}`}
-          style={{
-            left: transOpen && !isMobile ? "320px" : "0",
-            right: showPanel ? `${panelWidth}px` : "0",
-          }}
         >
           <div className="practice-code-block">
             {lines.map((lineTokens, lineIdx) => {

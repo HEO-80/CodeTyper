@@ -360,8 +360,8 @@ body {
 [data-theme="light"] .menu-lang-card .section-label {
   margin: -16px -18px 14px;
   padding: 10px 18px;
-  background: var(--ct-modal-cardhead);
-  border-bottom: 1px solid #eceef2;
+  background: #dde1e8;
+  border-bottom: 1px solid #c4cad3;
   color: #5b626c;
 }
 

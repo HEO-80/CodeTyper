@@ -5,6 +5,47 @@ import "./SettingsScreen.css";
 import "./CustomTextModal.css";
 
 const STORAGE_KEY = "codetyper-custom-texts";
+const MAX_LINE_LENGTH = 72;
+const MAX_CHARS = 4000;
+
+// Pegar texto sin saltos de línea reales (ej. copiado de un PDF o una web)
+// deja todo en una única línea gigante: no se ve dentro del encuadre y el
+// editor se relentiza al tener que montar miles de caracteres en una sola
+// fila sin wrap. Partimos cada línea demasiado larga por palabras para que
+// quepa en el ancho de práctica y baje en varias líneas, como el resto de
+// snippets.
+function wrapPlainText(text, maxLen = MAX_LINE_LENGTH) {
+  return text
+    .split("\n")
+    .map((line) => {
+      if (line.length <= maxLen) return line;
+      const words = line.split(" ");
+      const wrapped = [];
+      let current = "";
+      for (let word of words) {
+        while (word.length > maxLen) {
+          if (current) { wrapped.push(current); current = ""; }
+          wrapped.push(word.slice(0, maxLen));
+          word = word.slice(maxLen);
+        }
+        if (!current) current = word;
+        else if ((current + " " + word).length <= maxLen) current += " " + word;
+        else { wrapped.push(current); current = word; }
+      }
+      if (current) wrapped.push(current);
+      return wrapped.join("\n");
+    })
+    .join("\n");
+}
+
+// Límite defensivo: un pegado descomunal (ej. un libro entero) sí puede
+// colgar el navegador porque cada carácter se monta como su propio nodo del
+// DOM. Se recorta antes de tokenizar/guardar.
+function prepareCustomCode(rawText) {
+  const truncated = rawText.length > MAX_CHARS;
+  const clipped = truncated ? rawText.slice(0, MAX_CHARS) : rawText;
+  return { code: wrapPlainText(clipped), truncated };
+}
 
 function loadCustomTexts() {
   try {
@@ -27,6 +68,7 @@ export default function CustomTextModal({ onClose, onStart }) {
   const [editTitle, setEditTitle] = useState("");
   const [editText,  setEditText]  = useState("");
   const [fileHint,  setFileHint]  = useState(null);
+  const [lengthWarning, setLengthWarning] = useState(false);
 
   const persist = (list) => {
     setSaved(list);
@@ -36,13 +78,20 @@ export default function CustomTextModal({ onClose, onStart }) {
   const handleAccept = () => {
     const trimmed = text.trim();
     if (!trimmed) return;
-    const snippet = { id: `custom-${Date.now()}`, title: title.trim() || "Texto personalizado", code: text };
+    const { code, truncated } = prepareCustomCode(text);
+    if (truncated) {
+      setLengthWarning(true);
+      setTimeout(() => setLengthWarning(false), 4000);
+    }
+    const snippet = { id: `custom-${Date.now()}`, title: title.trim() || "Texto personalizado", code };
     persist([{ ...snippet, createdAt: Date.now() }, ...saved]);
     onStart(snippet, "custom", "personalizado");
   };
 
   const handleUse = (item) => {
-    onStart({ id: item.id, title: item.title, code: item.code }, "custom", "personalizado");
+    // Auto-repara entradas guardadas antes de este fix (una sola línea larga).
+    const { code } = prepareCustomCode(item.code);
+    onStart({ id: item.id, title: item.title, code }, "custom", "personalizado");
   };
 
   const handleDelete = (id) => {
@@ -57,8 +106,9 @@ export default function CustomTextModal({ onClose, onStart }) {
   };
 
   const saveEdit = (id) => {
+    const { code } = prepareCustomCode(editText);
     persist(saved.map(s => (
-      s.id === id ? { ...s, title: editTitle.trim() || "Texto personalizado", code: editText } : s
+      s.id === id ? { ...s, title: editTitle.trim() || "Texto personalizado", code } : s
     )));
     setEditingId(null);
   };
@@ -172,7 +222,9 @@ export default function CustomTextModal({ onClose, onStart }) {
         {/* Footer */}
         <div className="settings-footer">
           <span className="custom-footer-hint">
-            {text.trim() ? "Se guardará al aceptar" : "Pega un texto para practicar"}
+            {lengthWarning
+              ? `Texto recortado a ${MAX_CHARS} caracteres para que no se relentice`
+              : text.trim() ? "Se guardará al aceptar" : "Pega un texto para practicar"}
           </span>
           <button
             className="settings-save-btn"

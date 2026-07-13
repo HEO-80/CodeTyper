@@ -49,15 +49,13 @@
 .practice-code-area {
   position: absolute;
   inset: 0;
-  right: 280px;
   overflow-y: auto;
   overflow-x: auto;
   background: var(--bg);
   scrollbar-width: thin;
   scrollbar-color: var(--bd) var(--bg);
-   display: flex;
+  display: flex;
   justify-content: center;
-  transition: left 0.2s ease, right 0.2s ease;
 }
 .practice-code-area::-webkit-scrollbar       { width: 4px; }
 .practice-code-area::-webkit-scrollbar-track { background: var(--bg); }
@@ -340,10 +338,6 @@
    ========================================================================== */
 
 /* Área central — texto centrado, casi blanco (--bg ya es #f4f6f9 en light) */
-[data-theme="light"] .practice-code-area {
-  flex-direction: column;
-  align-items: center;
-}
 [data-theme="light"] .practice-line-num {
   color: var(--ct-text-faint);
 }
