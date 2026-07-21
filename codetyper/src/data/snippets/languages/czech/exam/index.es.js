@@ -1,0 +1,55 @@
+// src/data/snippets/languages/czech/exam/index.es.js
+
+const examEs = {
+  "cs-exam-01": {
+    title: "Carta formal — solicitud de empleo",
+    lines: [
+      "Asunto: Solicitud de puesto de ingeniero de software",
+      "",
+      "Estimado/a señor/a,",
+      "",
+      "Me permito responder a su anuncio publicado en el portal de empleo.",
+      "He leído con interés la descripción del puesto y estoy convencido",
+      "de que mi experiencia y habilidades se ajustan a sus requisitos.",
+      "",
+      "Tengo cinco años de experiencia en el desarrollo de aplicaciones web.",
+      "Me especializo en JavaScript, TypeScript y frameworks frontend modernos.",
+      "He trabajado en equipos internacionales y estoy acostumbrado a metodologías ágiles.",
+      "",
+      "Entre mis puntos fuertes destacan la capacidad de aprender nuevas tecnologías rápidamente,",
+      "las habilidades comunicativas y el interés por el código de calidad y la arquitectura limpia.",
+      "Soy una persona motivada a la que le gusta asumir responsabilidad en su trabajo.",
+      "",
+      "En el adjunto encontrará mi currículum y portfolio.",
+      "Estaré encantado si me invitan a una entrevista personal.",
+      "Estoy disponible a partir de la semana que viene.",
+      "",
+      "Atentamente,",
+      "Alex Novák",
+    ],
+  },
+  "cs-exam-02": {
+    title: "Ensayo — Tecnología y sociedad",
+    lines: [
+      "La tecnología como espejo de la sociedad",
+      "",
+      "Cada tecnología que adoptamos reorganiza nuestra atención,",
+      "transforma nuestras relaciones y renegocia silenciosamente",
+      "lo que consideramos natural, necesario o posible.",
+      "",
+      "La revolución digital ha traído posibilidades de comunicación sin precedentes.",
+      "Nunca en la historia de la humanidad fue tan fácil compartir ideas,",
+      "colaborar a través de continentes o acceder al conocimiento.",
+      "",
+      "Al mismo tiempo trae nuevos desafíos que las generaciones anteriores no conocían:",
+      "sobrecarga de información, dependencia de la aprobación de los demás,",
+      "fragmentación de la atención y erosión de la capacidad de concentración profunda.",
+      "",
+      "La pregunta no es si aceptar o rechazar la tecnología.",
+      "Está en cómo usarla de manera consciente e intencionada,",
+      "para que sirva a nuestros valores y no los moldee por nosotros.",
+    ],
+  },
+};
+
+export default examEs;

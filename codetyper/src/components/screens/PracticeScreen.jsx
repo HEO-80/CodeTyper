@@ -66,9 +66,10 @@ const LANG_META = {
   italian:    { label: "Italiano",        icon: "⬡", color: "#f78c6c" },
   portuguese: { label: "Português",       icon: "⬡", color: "#4ec994" },
   romanian:   { label: "Română",          icon: "⬡", color: "#c792ea" },
-  japanese:   { label: "日本語",           icon: "⬡", color: "#f89820" },
-  russian:    { label: "Русский",         icon: "⬡", color: "#82aaff" },
+  japan:      { label: "日本語",           icon: "⬡", color: "#f89820" },
+  czech:      { label: "Čeština",         icon: "⬡", color: "#c792ea" },
   chinese:    { label: "中文",             icon: "⬡", color: "#ff5555" },
+  russian:    { label: "Русский",         icon: "⬡", color: "#82aaff" },
 };
 
 // ─── Obtener líneas del código ────────────────────────────────────────────────

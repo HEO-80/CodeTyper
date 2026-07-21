@@ -7,8 +7,9 @@
 // Categorías bajo "languages" — el panel de traducción solo tiene sentido aquí.
 export const LANGUAGE_CATEGORIES = [
   "english", "french", "german", "italian",
-  "portuguese", "romanian", "japanese", "russian", "chinese",
+  "portuguese", "romanian", "japan", "russian", "chinese", "czech",
 ];
+
 
 // Topics con archivo de traducción disponible, por idioma/dificultad.
 // Al añadir un nuevo <topic>.<uiLang>.js, añade su nombre aquí.
@@ -28,6 +29,69 @@ const TRANSLATION_TOPICS = {
     b2: ["professionnel"],
     c1: ["technique"],
     c2: ["litteraire"],
+    exam: ["index"],
+  },
+  german: {
+    a1: ["begruessung"],
+    a2: ["alltag"],
+    b1: ["gespraeche"],
+    b2: ["beruflich"],
+    c1: ["technik"],
+    c2: ["literarisch"],
+    exam: ["index"],
+  },
+  portuguese: {
+    a1: ["saudacoes"],
+    a2: ["cotidiano"],
+    b1: ["conversas"],
+    b2: ["profissional"],
+    c1: ["tecnico"],
+    c2: ["literario"],
+    exam: ["index"],
+  },
+  italian: {
+    a1: ["saluti"],
+    a2: ["quotidiano"],
+    b1: ["conversazioni"],
+    b2: ["professionale"],
+    c1: ["tecnico"],
+    c2: ["letterario"],
+    exam: ["index"],
+  },
+  japan: {
+    a1: ["aisatsu"],
+    a2: ["nichijou"],
+    b1: ["kaiwa"],
+    b2: ["bijinesu"],
+    c1: ["gijutsu"],
+    c2: ["bungaku"],
+    exam: ["index"],
+  },
+  czech: {
+    a1: ["pozdravy"],
+    a2: ["kazdy_den"],
+    b1: ["cestovani"],
+    b2: ["spolecnost"],
+    c1: ["mysleni"],
+    c2: ["literatura"],
+    exam: ["index"],
+  },
+  romanian: {
+    a1: ["salutari"],
+    a2: ["zilnic"],
+    b1: ["conversatii"],
+    b2: ["profesional"],
+    c1: ["tehnic"],
+    c2: ["literar"],
+    exam: ["index"],
+  },
+  chinese: {
+    a1: ["wenhao"],
+    a2: ["richang"],
+    b1: ["duihua"],
+    b2: ["shangwu"],
+    c1: ["jishu"],
+    c2: ["wenxue"],
     exam: ["index"],
   },
 };

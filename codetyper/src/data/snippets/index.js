@@ -20,6 +20,8 @@ import portuguese from "./languages/portuguese";
 import romanian from "./languages/romanian";
 import italian from "./languages/italian";
 import japan from "./languages/japan";
+import czech from "./languages/czech";
+import chinese from "./languages/chinese";
 
 
 // 🚧 Próximamente:
@@ -55,6 +57,8 @@ export const SNIPPETS = {
   romanian,
   italian,
   japan,
+  czech,
+  chinese,
   typescript,
   python,
   java,
@@ -73,7 +77,7 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english", "french", "german", "portuguese", "romanian", "italian", "japan"],
+    languages: ["english", "french", "german", "portuguese", "romanian", "italian", "japan", "czech", "chinese"],
   },
   mindset: {
     label: "🧠 Mentalidad",

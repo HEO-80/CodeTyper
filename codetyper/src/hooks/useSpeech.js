@@ -10,6 +10,7 @@ const LANG_VOICES = {
   portuguese:  "pt-PT",
   romanian:    "ro-RO",
   japan:       "ja-JP",
+  czech:       "cs-CZ",
   russian:     "ru-RU",
   chinese:     "zh-CN",
   mindset:     "es-ES",
