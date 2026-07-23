@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import mammoth from "mammoth";
 import "./SettingsScreen.css";
 import "./CustomTextModal.css";
 
 const STORAGE_KEY = "codetyper-custom-texts";
 const MAX_LINE_LENGTH = 72;
-const MAX_CHARS = 4000;
+const MAX_LINES = 220;
+const MAX_CHARS = 16000;
 
 // Pegar texto sin saltos de línea reales (ej. copiado de un PDF o una web)
 // deja todo en una única línea gigante: no se ve dentro del encuadre y el
@@ -38,13 +40,18 @@ function wrapPlainText(text, maxLen = MAX_LINE_LENGTH) {
     .join("\n");
 }
 
-// Límite defensivo: un pegado descomunal (ej. un libro entero) sí puede
-// colgar el navegador porque cada carácter se monta como su propio nodo del
-// DOM. Se recorta antes de tokenizar/guardar.
+// Límite defensivo: un pegado descomunal (ej. un libro entero, o un docx con
+// miles de líneas) sí puede relentizar el editor porque cada carácter se
+// monta como su propio nodo del DOM. Se recorta a ~200 líneas antes de
+// tokenizar/guardar, con un tope de caracteres extra por si alguna línea
+// suelta es gigante.
 function prepareCustomCode(rawText) {
-  const truncated = rawText.length > MAX_CHARS;
-  const clipped = truncated ? rawText.slice(0, MAX_CHARS) : rawText;
-  return { code: wrapPlainText(clipped), truncated };
+  const allLines = rawText.split("\n");
+  const linesTruncated = allLines.length > MAX_LINES;
+  const byLines = linesTruncated ? allLines.slice(0, MAX_LINES).join("\n") : rawText;
+  const charsTruncated = byLines.length > MAX_CHARS;
+  const clipped = charsTruncated ? byLines.slice(0, MAX_CHARS) : byLines;
+  return { code: wrapPlainText(clipped), truncated: linesTruncated || charsTruncated };
 }
 
 function loadCustomTexts() {
@@ -67,8 +74,12 @@ export default function CustomTextModal({ onClose, onStart }) {
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editText,  setEditText]  = useState("");
-  const [fileHint,  setFileHint]  = useState(null);
   const [lengthWarning, setLengthWarning] = useState(false);
+  const [loadingKind, setLoadingKind] = useState(null); // "txt" | "word" | "pdf" | null
+  const [fileError, setFileError] = useState(null);
+  const txtInputRef = useRef(null);
+  const docxInputRef = useRef(null);
+  const pdfInputRef = useRef(null);
 
   const persist = (list) => {
     setSaved(list);
@@ -113,10 +124,68 @@ export default function CustomTextModal({ onClose, onStart }) {
     setEditingId(null);
   };
 
-  const handleFileClick = (kind) => {
-    setFileHint(kind);
-    setTimeout(() => setFileHint(null), 2000);
+  const titleFromFilename = (name) => name.replace(/\.[^.]+$/, "");
+
+  // Extractores: cada uno recibe el File y devuelve el texto plano.
+  const extractTxt = (file) => file.text();
+
+  const extractDocx = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer });
+    return result.value;
   };
+
+  const extractPdf = async (file) => {
+    const pdfjsLib = await import("pdfjs-dist");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+      "pdfjs-dist/build/pdf.worker.min.mjs",
+      import.meta.url
+    ).toString();
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const pages = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      // Cada item trae hasEOL cuando pdf.js detecta fin de línea por su
+      // posición en la página; sin esto, todo el texto de la página
+      // saldría pegado en una sola línea larguísima.
+      let pageText = "";
+      for (const item of content.items) {
+        pageText += item.str + (item.hasEOL ? "\n" : "");
+      }
+      pages.push(pageText);
+    }
+    return pages.join("\n\n");
+  };
+
+  const runFileLoad = async (kind, file, extract, errorMsg) => {
+    setFileError(null);
+    setLoadingKind(kind);
+    try {
+      const extracted = (await extract(file)).trim();
+      if (!extracted) {
+        setFileError("No se ha encontrado texto en ese archivo.");
+        return;
+      }
+      setText(extracted);
+      if (!title.trim()) setTitle(titleFromFilename(file.name));
+    } catch {
+      setFileError(errorMsg);
+    } finally {
+      setLoadingKind(null);
+    }
+  };
+
+  const makeFileHandler = (kind, extract, errorMsg) => (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (file) runFileLoad(kind, file, extract, errorMsg);
+  };
+
+  const handleTxtChange = makeFileHandler("txt", extractTxt, "No se ha podido leer el archivo .txt.");
+  const handleDocxChange = makeFileHandler("word", extractDocx, "No se ha podido leer el archivo .docx.");
+  const handlePdfChange = makeFileHandler("pdf", extractPdf, "No se ha podido leer el archivo .pdf.");
 
   return (
     <div className="settings-overlay" onClick={onClose}>
@@ -152,15 +221,42 @@ export default function CustomTextModal({ onClose, onStart }) {
               rows={8}
             />
 
-            {/* Cargar desde archivo — solo visual por ahora */}
+            {/* Cargar desde archivo */}
             <div className="custom-file-row">
               <span className="custom-file-label">Cargar desde archivo:</span>
               <div className="custom-file-buttons">
-                <button type="button" className="custom-file-btn" onClick={() => handleFileClick("txt")}>📄 TXT</button>
-                <button type="button" className="custom-file-btn" onClick={() => handleFileClick("word")}>📝 Word</button>
-                <button type="button" className="custom-file-btn" onClick={() => handleFileClick("pdf")}>📕 PDF</button>
+                <button type="button" className="custom-file-btn" onClick={() => txtInputRef.current?.click()} disabled={!!loadingKind}>
+                  📄 {loadingKind === "txt" ? "Cargando…" : "TXT"}
+                </button>
+                <button type="button" className="custom-file-btn" onClick={() => docxInputRef.current?.click()} disabled={!!loadingKind}>
+                  📝 {loadingKind === "word" ? "Cargando…" : "Word"}
+                </button>
+                <button type="button" className="custom-file-btn" onClick={() => pdfInputRef.current?.click()} disabled={!!loadingKind}>
+                  📕 {loadingKind === "pdf" ? "Cargando…" : "PDF"}
+                </button>
               </div>
-              {fileHint && <span className="custom-file-hint">Próximamente disponible</span>}
+              <input
+                ref={txtInputRef}
+                type="file"
+                accept=".txt"
+                className="custom-file-input-hidden"
+                onChange={handleTxtChange}
+              />
+              <input
+                ref={docxInputRef}
+                type="file"
+                accept=".docx"
+                className="custom-file-input-hidden"
+                onChange={handleDocxChange}
+              />
+              <input
+                ref={pdfInputRef}
+                type="file"
+                accept=".pdf"
+                className="custom-file-input-hidden"
+                onChange={handlePdfChange}
+              />
+              {fileError && <span className="custom-file-hint custom-file-error">{fileError}</span>}
             </div>
           </section>
 
@@ -223,7 +319,7 @@ export default function CustomTextModal({ onClose, onStart }) {
         <div className="settings-footer">
           <span className="custom-footer-hint">
             {lengthWarning
-              ? `Texto recortado a ${MAX_CHARS} caracteres para que no se relentice`
+              ? `Texto recortado a ${MAX_LINES} líneas para que no se relentice`
               : text.trim() ? "Se guardará al aceptar" : "Pega un texto para practicar"}
           </span>
           <button

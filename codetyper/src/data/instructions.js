@@ -20,6 +20,7 @@ export const INSTRUCTION_CARDS = [
       "CodeTyper valida cada pulsación en tiempo real contra el código del snippet. Un carácter correcto avanza el cursor; uno incorrecto se marca como error sin dejarte avanzar hasta corregirlo.",
       "Elige categoría (Programación, Idiomas, Mentalidad), lenguaje y dificultad desde el menú principal antes de empezar.",
       "Al terminar un snippet ves tus resultados: CPM, precisión y errores. Si estás logueado, la sesión se guarda automáticamente y tu progreso avanza por niveles.",
+      "¿Te atascas en un carácter? Pulsa Tab para saltarlo y seguir sin penalización. Y en Idiomas, si una letra lleva un acento que no está en el teclado español (ä, ø, ř, ș, ß...), escribir la letra sin acento también se da por válido.",
     ],
   },
   {

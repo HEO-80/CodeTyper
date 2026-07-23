@@ -72,6 +72,18 @@ const LANG_META = {
   russian:    { label: "Русский",         icon: "⬡", color: "#82aaff" },
 };
 
+// ─── Letras acentuadas alcanzables desde un teclado español ───────────────────
+// Para el resto (ä, ø, ř, ș, ß...) aceptamos también la letra base sin acento,
+// ya que no hay forma de escribirlas sin cambiar de teclado.
+const SPANISH_KEYBOARD_ACCENTS = new Set(["á","é","í","ó","ú","ü","ñ","Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"]);
+
+function baseLetterFallback(char) {
+  if (SPANISH_KEYBOARD_ACCENTS.has(char)) return null;
+  if (char === "ß") return "s";
+  const stripped = char.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  return stripped !== char ? stripped : null;
+}
+
 // ─── Obtener líneas del código ────────────────────────────────────────────────
 function getCodeLines(code) {
   return code.split("\n");
@@ -109,9 +121,16 @@ export default function PracticeScreen({
   const [errorFlash, setErrorFlash] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [tick, setTick] = useState(0);
-  const [panelMode, setPanelMode] = useState("structure");
+  const [panelMode, setPanelMode] = useState(() => {
+    if (typeof window === "undefined") return "structure";
+    const saved = window.localStorage.getItem("ct_panelMode");
+    return saved === "null" ? null : saved || "structure";
+  });
   const [dictado, setDictado] = useState(false);
-  const [transOpen, setTransOpen] = useState(false);
+  const [transOpen, setTransOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("ct_transOpen") === "true";
+  });
   const [translation, setTranslation] = useState(null);
   const [showLineNumbers, setShowLineNumbers] = useState(true);
   const lastSpokenLine = useRef(-1);
@@ -182,6 +201,15 @@ export default function PracticeScreen({
     });
     return () => { cancelled = true; };
   }, [transOpen, snippet, language]);
+
+  // ─── Recordar la configuración de paneles entre prácticas (localStorage) ─
+  useEffect(() => {
+    window.localStorage.setItem("ct_panelMode", panelMode === null ? "null" : panelMode);
+  }, [panelMode]);
+
+  useEffect(() => {
+    window.localStorage.setItem("ct_transOpen", String(transOpen));
+  }, [transOpen]);
 
   // ─── Al desactivar dictado, callar y olvidar la última línea leída ───────
   useEffect(() => {
@@ -260,7 +288,8 @@ export default function PracticeScreen({
     }
     if (!startTime) setStartTime(Date.now());
     const typedChar = e.key === "Enter" ? "\n" : e.key;
-    if (typedChar === expected.char) {
+    const isMatch = typedChar === expected.char || typedChar === baseLetterFallback(expected.char);
+    if (isMatch) {
       setCursor((prev) => {
         const next = prev + 1;
         if (next >= tokens.length) { clearInterval(timerRef.current); setTimeout(() => onFinish(buildResult()), 300); }

@@ -80,6 +80,27 @@
   font-style: italic;
 }
 
+.custom-file-error {
+  color: var(--hl-red);
+}
+
+.custom-file-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.custom-file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Lista de agregados */
 .custom-empty {
   color: var(--tx4);

@@ -51,15 +51,33 @@ export default function LayoutClient({ children }) {
   const [audioState, setAudioState] = useState(DEFAULT_AUDIO_STATE);
   const musicRef = useRef(null);
   const ambientRef = useRef(null);
+  const audioStateRef = useRef(audioState);
+  audioStateRef.current = audioState;
 
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem("codetyper-audio") || "null");
-      // musicEnabled/ambientEnabled no se restauran: los navegadores bloquean
-      // el autoplay sin gesto del usuario, así que arrancar "encendido" desde
-      // aquí dejaría el botón diciendo "sonando" sin sonar de verdad.
-      if (saved) setAudioState(prev => ({ ...prev, ...saved, musicEnabled: false, ambientEnabled: false }));
+      if (saved) setAudioState(prev => ({ ...prev, ...saved }));
     } catch (e) {}
+  }, []);
+
+  // Los navegadores bloquean el autoplay sin gesto del usuario: si music/ambient
+  // quedaron activados de una sesión anterior, el <audio>.play() del efecto de
+  // abajo será rechazado en silencio. Con el primer clic/tecla/touch del usuario
+  // reintentamos reproducir lo que deba sonar según el estado restaurado (se lee
+  // por ref porque el listener se registra una sola vez, antes de que termine
+  // de cargar el estado guardado).
+  useEffect(() => {
+    const resumeOnGesture = () => {
+      if (audioStateRef.current.musicEnabled) musicRef.current?.play().catch(() => {});
+      if (audioStateRef.current.ambientEnabled) ambientRef.current?.play().catch(() => {});
+    };
+    window.addEventListener("pointerdown", resumeOnGesture, { once: true });
+    window.addEventListener("keydown", resumeOnGesture, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
+    };
   }, []);
 
   const updateAudio = useCallback((patch) => {

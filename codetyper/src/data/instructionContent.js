@@ -50,6 +50,16 @@ export const INSTRUCTION_CONTENT = {
         content:
           "Al terminar el snippet ves tu CPM (caracteres por minuto), tu precisión y el tiempo total. Si tienes una cuenta, la sesión se guarda automáticamente y tu progreso avanza por fases.",
       },
+      {
+        title: "¿Atascado en un carácter? Usa Tab",
+        content:
+          "Si te quedas parado en un carácter que no encuentras en tu teclado, pulsa Tab: da el carácter por escrito y avanza al siguiente, sin marcarlo como error.",
+      },
+      {
+        title: "Acentos que no están en el teclado español",
+        content:
+          "En los snippets de Idiomas puede aparecer una letra con un acento que el teclado español no tiene (como ä, ö, ø, ç, ř, š, ș o ß). En esos casos no hace falta cambiar de teclado: escribe la misma letra sin el acento y se acepta igual. Los acentos que sí existen en el teclado español (á, é, í, ó, ú, ü, ñ) siguen pidiéndose tal cual, ya que esos sí puedes escribirlos directamente.",
+      },
     ],
   },
 
@@ -268,6 +278,11 @@ export const INSTRUCTION_CONTENT = {
         title: "Tab — moverse entre secciones",
         content:
           "Presiona Tab para saltar entre las zonas principales de la página (Navbar, panel izquierdo, categorías, lenguajes, dificultades, snippets).",
+      },
+      {
+        title: "Tab dentro del editor — saltar un carácter",
+        content:
+          "Mientras estás escribiendo un snippet, Tab cambia de función: en vez de moverte por la página, da por escrito el carácter donde estás atascado y pasa al siguiente, sin contar error. Útil para símbolos o acentos que no encuentras en tu teclado.",
       },
       {
         title: "Flechas — navegar dentro de una sección",
