@@ -1,0 +1,55 @@
+// src/data/snippets/languages/ukrainian/exam/index.es.js
+
+const examEs = {
+  "uk-exam-01": {
+    title: "Carta formal — solicitud de empleo",
+    lines: [
+      "Asunto: Solicitud para el puesto de Ingeniero de Software",
+      "",
+      "Estimados señores,",
+      "",
+      "Me dirijo a ustedes en relación con el anuncio publicado en el portal de empleo.",
+      "Leí con interés la descripción del puesto y creo que mi experiencia",
+      "responde plenamente a sus requisitos.",
+      "",
+      "Tengo cinco años de experiencia en el desarrollo de aplicaciones web.",
+      "Me especializo en JavaScript, TypeScript y frameworks modernos de frontend.",
+      "He trabajado en equipos internacionales y conozco bien las metodologías ágiles.",
+      "",
+      "Entre mis puntos fuertes está la capacidad de aprender rápido nuevas tecnologías,",
+      "mis habilidades de comunicación y mi interés por el código limpio y la arquitectura.",
+      "Soy una persona motivada que asume con gusto la responsabilidad de su trabajo.",
+      "",
+      "Adjunto mi currículum y mi portafolio.",
+      "Estaré muy contento si me invitan a una entrevista personal.",
+      "Estoy disponible desde la próxima semana.",
+      "",
+      "Atentamente,",
+      "Alex Kovalenko",
+    ],
+  },
+  "uk-exam-02": {
+    title: "Ensayo — Tecnología y sociedad",
+    lines: [
+      "La tecnología como espejo de la sociedad",
+      "",
+      "Cada tecnología que adoptamos reorganiza nuestra atención,",
+      "transforma nuestras relaciones y renegocia en silencio",
+      "lo que consideramos natural, necesario o posible.",
+      "",
+      "La revolución digital trajo posibilidades sin precedentes de comunicación.",
+      "Nunca en la historia de la humanidad fue tan fácil compartir ideas,",
+      "colaborar a través de continentes o acceder al conocimiento.",
+      "",
+      "Al mismo tiempo, trae nuevos desafíos que las generaciones anteriores no conocían:",
+      "sobrecarga de información, dependencia de la aprobación ajena,",
+      "fragmentación de la atención y erosión de la capacidad de concentración profunda.",
+      "",
+      "La pregunta no es si debemos adoptar o rechazar la tecnología.",
+      "Es cómo usarla de manera consciente e intencionada,",
+      "para que sirva a nuestros valores, en lugar de que nos los moldee a nosotros.",
+    ],
+  },
+};
+
+export default examEs;

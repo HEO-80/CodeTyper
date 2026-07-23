@@ -63,6 +63,33 @@ export const INSTRUCTION_CONTENT = {
     ],
   },
 
+  "acentos-y-caracteres-especiales": {
+    intro:
+      "Al practicar Idiomas te vas a encontrar letras que no existen en el teclado español. CodeTyper tiene dos salidas para que eso nunca sea un obstáculo: saltar el carácter con Tab, o escribirlo tal y como se escribiría de verdad desde tu teclado.",
+    sections: [
+      {
+        title: "¿Atascado? Pulsa Tab",
+        content:
+          "Si no encuentras un símbolo o acento en tu teclado, pulsa Tab: da el carácter por escrito y pasas al siguiente, sin que se cuente como error. Es la salida rápida para cualquier carácter imposible de teclear.",
+      },
+      {
+        title: "Acentos que no están en el teclado español",
+        content:
+          "Letras como ä, ö, ø, ç, ř, š o ș no se pueden escribir directamente desde un teclado español ni inglés. No hace falta cambiar de teclado ni memorizar combinaciones: escribe la misma letra sin el acento (a, o, o, c, r, s...) y CodeTyper la acepta igual, porque así es como realmente se escribiría con el teclado que tienes.",
+      },
+      {
+        title: "Los acentos que sí tiene el teclado español",
+        content:
+          "Á, é, í, ó, ú, ü, ñ, ¿ y ¡ se piden tal cual, con su acento — el teclado español los escribe directamente, así que no hay atajo para ellos.",
+      },
+      {
+        title: "La 'ß' alemana no es una 'B'",
+        content:
+          "En los snippets de alemán aparece una letra con forma parecida a una 'B' minúscula: es la 'ß' (eszett), una letra propia del alfabeto alemán equivalente a una 's' fuerte, sin ninguna relación con la 'B'. No está en el teclado español ni en el inglés — igual que con el resto de acentos, simplemente escribe una 's' normal y se acepta como correcta.",
+      },
+    ],
+  },
+
   "modo-audio": {
     intro:
       "El modo audio convierte cada snippet en dictado: escuchas la línea antes de escribirla, en el idioma y acento correctos.",
@@ -138,15 +165,18 @@ export const INSTRUCTION_CONTENT = {
         content:
           "Los idiomas de la categoría Idiomas también tienen su propio color, independiente de los lenguajes de programación.",
         swatches: [
-          { name: "English", color: "#4ec994" },
-          { name: "Français", color: "#82aaff" },
-          { name: "Deutsch", color: "#ffcb6b" },
+          { name: "Inglés", color: "#4ec994" },
+          { name: "Francés", color: "#82aaff" },
+          { name: "Alemán", color: "#ffcb6b" },
           { name: "Italiano", color: "#f78c6c" },
-          { name: "Português", color: "#4ec994" },
-          { name: "Română", color: "#c792ea" },
-          { name: "日本語", color: "#f78c6c" },
-          { name: "Русский", color: "#82aaff" },
-          { name: "中文", color: "#ff5555" },
+          { name: "Portugués", color: "#4ec994" },
+          { name: "Rumano", color: "#c792ea" },
+          { name: "Japonés", color: "#f78c6c" },
+          { name: "Ruso", color: "#82aaff" },
+          { name: "Chino", color: "#ff5555" },
+          { name: "Griego", color: "#89ddff" },
+          { name: "Coreano", color: "#ff5555" },
+          { name: "Ucraniano", color: "#ffcb6b" },
         ],
       },
       {

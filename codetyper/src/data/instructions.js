@@ -24,6 +24,18 @@ export const INSTRUCTION_CARDS = [
     ],
   },
   {
+    id: "acentos-y-caracteres-especiales",
+    title: "Acentos y caracteres especiales",
+    description: "Qué hacer si te atascas en un acento o símbolo raro: usa Tab para saltarlo y aprende qué acentos se aceptan sin cambiar de teclado",
+    color: "#c792ea",
+    icon: "🔤",
+    content: [
+      "Si te quedas atascado en un carácter que no encuentras en tu teclado, pulsa Tab: lo da por escrito y pasas al siguiente, sin que cuente como error.",
+      "En Idiomas, los acentos que el teclado español no tiene (ä, ö, ø, ç, ř, š, ș...) se aceptan escribiendo la misma letra sin el acento.",
+      "La 'ß' alemana no es una letra rara ni una 'B': es el eszett, equivalente a una 's' fuerte. Tampoco está en el teclado español, así que se escribe igual, con una 's'.",
+    ],
+  },
+  {
     id: "modo-audio",
     title: "Modo audio y dictado",
     description: "Activa la voz para que te lea cada línea antes de escribirla. Incluye botón de repetir",
@@ -51,7 +63,7 @@ export const INSTRUCTION_CARDS = [
     content: [
       "Cada lenguaje tiene un color de acento propio que se repite en botones, tarjetas y estadísticas, para que lo identifiques de un vistazo.",
       "En Programación: JavaScript, TypeScript, Python, SQL, Solidity, Java, C#, PowerShell, Bash y Cloud.",
-      "En Idiomas: inglés, francés, alemán, portugués, rumano, italiano y japonés, organizados por nivel de A1 a C2 y exámenes.",
+      "En Idiomas: inglés, francés, alemán, portugués, rumano, italiano, japonés, checo, chino, ruso, griego, coreano y ucraniano, organizados por nivel de A1 a C2 y exámenes.",
     ],
   },
   {

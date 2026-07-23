@@ -9,6 +9,7 @@ import GlobalTerminal  from "@/components/ui/GlobalTerminal";
 import SettingsScreen from "@/components/screens/SettingsScreen";
 import AudioPanel      from "@/components/ui/AudioPanel";
 import { MUSIC_TRACKS, AMBIENT_TRACKS, KEYBOARD_SOUNDS } from "@/data/audioTracks";
+import { DEFAULT_SETTINGS, loadSettings, applyVisualSettings } from "@/data/editorSettings";
 
 // ── Context para refrescar stats desde cualquier pantalla ─────────────────────
 export const StatsRefreshContext = createContext(() => {});
@@ -32,7 +33,9 @@ export const useAudio = () => useContext(AudioContext);
 
 const DEFAULT_AUDIO_STATE = {
   musicEnabled: false,   musicTrack: MUSIC_TRACKS[0]?.id ?? null,     musicVolume: 50,
+  musicShuffle: false,
   ambientEnabled: false, ambientTrack: AMBIENT_TRACKS[0]?.id ?? null, ambientVolume: 65,
+  ambientShuffle: false,
   keyboardEnabled: false, keyboardVolume: 60,
   keyboardStyle: "virtualzero-rapido",
 };
@@ -129,6 +132,27 @@ export default function LayoutClient({ children }) {
     else el.pause();
   }, [audioState.ambientEnabled, audioState.ambientTrack]);
 
+  // Modo aleatorio — con "loop" desactivado, el navegador sí dispara "ended"
+  // al terminar la pista, y ahí encadenamos otra al azar en vez de repetirla.
+  useEffect(() => {
+    const el = musicRef.current;
+    if (!el) return;
+    const handleEnded = () => {
+      if (audioStateRef.current.musicShuffle) randomizeAudio("music");
+    };
+    el.addEventListener("ended", handleEnded);
+    return () => el.removeEventListener("ended", handleEnded);
+  }, [randomizeAudio]);
+  useEffect(() => {
+    const el = ambientRef.current;
+    if (!el) return;
+    const handleEnded = () => {
+      if (audioStateRef.current.ambientShuffle) randomizeAudio("ambient");
+    };
+    el.addEventListener("ended", handleEnded);
+    return () => el.removeEventListener("ended", handleEnded);
+  }, [randomizeAudio]);
+
   const musicSrc   = MUSIC_TRACKS.find(t => t.id === audioState.musicTrack)?.file;
   const ambientSrc = AMBIENT_TRACKS.find(t => t.id === audioState.ambientTrack)?.file;
 
@@ -145,6 +169,12 @@ export default function LayoutClient({ children }) {
         document.documentElement.setAttribute('data-theme', 'light');
       }
     } catch(e) {}
+  }, []);
+
+  // Aplica fuente/tamaño/acento guardados en Settings desde el primer render,
+  // sin esperar a que el usuario abra ese panel.
+  useEffect(() => {
+    applyVisualSettings({ ...DEFAULT_SETTINGS, ...loadSettings() });
   }, []);
 
   const toggleTheme = useCallback(() => {
@@ -232,8 +262,8 @@ export default function LayoutClient({ children }) {
 
         {/* Reproductores persistentes: viven aquí para seguir sonando aunque
             se cierre el panel de Audio o se navegue entre pantallas. */}
-        <audio ref={musicRef}   src={musicSrc}   loop preload="none" />
-        <audio ref={ambientRef} src={ambientSrc} loop preload="none" />
+        <audio ref={musicRef}   src={musicSrc}   loop={!audioState.musicShuffle}   preload="none" />
+        <audio ref={ambientRef} src={ambientSrc} loop={!audioState.ambientShuffle} preload="none" />
       </TerminalContext.Provider>
       </NavContext.Provider>
     </StatsRefreshContext.Provider>

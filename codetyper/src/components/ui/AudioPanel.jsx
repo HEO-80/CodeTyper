@@ -81,12 +81,17 @@ export default function AudioPanel({ onClose }) {
             <div className="settings-row">
               <div className="settings-row-info">
                 <span className="settings-row-title">Aleatorio</span>
-                <span className="settings-row-desc">Cambia a otra pista de música al azar</span>
+                <span className="settings-row-desc">Al terminar cada pista, encadena otra al azar</span>
               </div>
               <div className="settings-options">
                 <button
-                  className="settings-reset-btn"
-                  onClick={() => audio.randomize("music")}
+                  className={`settings-opt-btn${audio.musicShuffle ? " active" : ""}`}
+                  onClick={() => {
+                    const next = !audio.musicShuffle;
+                    audio.update({ musicShuffle: next });
+                    if (next) audio.randomize("music");
+                  }}
+                  title={audio.musicShuffle ? "Desactivar aleatorio" : "Activar aleatorio"}
                 >🔀 Aleatorio</button>
               </div>
             </div>
@@ -150,12 +155,17 @@ export default function AudioPanel({ onClose }) {
             <div className="settings-row">
               <div className="settings-row-info">
                 <span className="settings-row-title">Aleatorio</span>
-                <span className="settings-row-desc">Cambia a otro sonido ambiente al azar</span>
+                <span className="settings-row-desc">Al terminar cada sonido, encadena otro al azar</span>
               </div>
               <div className="settings-options">
                 <button
-                  className="settings-reset-btn"
-                  onClick={() => audio.randomize("ambient")}
+                  className={`settings-opt-btn${audio.ambientShuffle ? " active" : ""}`}
+                  onClick={() => {
+                    const next = !audio.ambientShuffle;
+                    audio.update({ ambientShuffle: next });
+                    if (next) audio.randomize("ambient");
+                  }}
+                  title={audio.ambientShuffle ? "Desactivar aleatorio" : "Activar aleatorio"}
                 >🔀 Aleatorio</button>
               </div>
             </div>

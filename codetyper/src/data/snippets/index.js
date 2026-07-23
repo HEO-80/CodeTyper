@@ -22,6 +22,10 @@ import italian from "./languages/italian";
 import japan from "./languages/japan";
 import czech from "./languages/czech";
 import chinese from "./languages/chinese";
+import russian from "./languages/russian";
+import greek from "./languages/greek";
+import korean from "./languages/korean";
+import ukrainian from "./languages/ukrainian";
 
 
 // 🚧 Próximamente:
@@ -59,6 +63,10 @@ export const SNIPPETS = {
   japan,
   czech,
   chinese,
+  russian,
+  greek,
+  korean,
+  ukrainian,
   typescript,
   python,
   java,
@@ -77,7 +85,7 @@ export const CATEGORIES = {
   },
   languages: {
     label: "🌍 Idiomas",
-    languages: ["english", "french", "german", "portuguese", "romanian", "italian", "japan", "czech", "chinese"],
+    languages: ["english", "french", "german", "portuguese", "romanian", "italian", "japan", "czech", "chinese", "russian", "greek", "korean", "ukrainian"],
   },
   mindset: {
     label: "🧠 Mentalidad",

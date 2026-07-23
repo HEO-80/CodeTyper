@@ -2,65 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "@/components/ui/LayoutClient";
+import {
+  FONTS, FONT_SIZES, CURSOR_STYLES, ACCENT_COLORS,
+  DEFAULT_SETTINGS, loadSettings, saveSettings, applyVisualSettings,
+} from "@/data/editorSettings";
 import "./SettingsScreen.css";
-
-const FONTS = [
-  { id: "jetbrains", label: "JetBrains Mono", value: "'JetBrains Mono', monospace" },
-  { id: "fira",      label: "Fira Code",       value: "'Fira Code', monospace" },
-  { id: "cascadia",  label: "Cascadia Code",   value: "'Cascadia Code', monospace" },
-  { id: "ibm",       label: "IBM Plex Mono",   value: "'IBM Plex Mono', monospace" },
-];
-
-const FONT_SIZES = [
-  { id: "sm",  label: "Small",  value: "14px" },
-  { id: "md",  label: "Medium", value: "16px" },
-  { id: "lg",  label: "Large",  value: "18px" },
-  { id: "xl",  label: "XL",     value: "20px" },
-];
-
-const CURSOR_STYLES = [
-  { id: "blink",  label: "Parpadeante", icon: "▌" },
-  { id: "solid",  label: "Sólido",      icon: "█" },
-  { id: "line",   label: "Línea",       icon: "│" },
-];
-
-const ACCENT_COLORS = [
-  { id: "blue",   label: "Azul",    value: "var(--hl-blue)" },
-  { id: "green",  label: "Verde",   value: "var(--hl-green)" },
-  { id: "purple", label: "Morado",  value: "var(--hl-purple)" },
-  { id: "yellow", label: "Amarillo",value: "var(--hl-yellow)" },
-  { id: "orange", label: "Naranja", value: "var(--hl-orange)" },
-  { id: "red",    label: "Rojo",    value: "var(--hl-red)" },
-];
-
-function loadSettings() {
-  try {
-    const saved = localStorage.getItem("codetyper-settings");
-    return saved ? JSON.parse(saved) : {};
-  } catch { return {}; }
-}
-
-function saveSettings(settings) {
-  try {
-    localStorage.setItem("codetyper-settings", JSON.stringify(settings));
-  } catch {}
-}
 
 export default function SettingsScreen({ onClose }) {
   const { isDark, toggleTheme } = useTheme();
 
   const [settings, setSettings] = useState(() => ({
-    font:         "jetbrains",
-    fontSize:     "md",
-    cursorStyle:  "blink",
-    accentColor:  "blue",
-    soundEnabled: false,
-    showLineNumbers: true,
-    smoothScroll: true,
+    ...DEFAULT_SETTINGS,
     ...loadSettings(),
   }));
 
   const [saved, setSaved] = useState(false);
+
+  // Cada cambio se guarda y se aplica al momento — no hace falta pulsar
+  // "Guardar cambios" para que sobreviva a cerrar el panel o recargar.
+  useEffect(() => {
+    saveSettings(settings);
+    applyVisualSettings(settings);
+  }, [settings]);
 
   const update = (key, value) => {
     setSettings(prev => ({ ...prev, [key]: value }));
@@ -68,29 +31,12 @@ export default function SettingsScreen({ onClose }) {
   };
 
   const handleSave = () => {
-    saveSettings(settings);
-    // Aplicar fuente
-    const font = FONTS.find(f => f.id === settings.font);
-    if (font) document.documentElement.style.setProperty("--font-code", font.value);
-    // Aplicar tamaño
-    const size = FONT_SIZES.find(f => f.id === settings.fontSize);
-    if (size) document.documentElement.style.setProperty("--font-size-code", size.value);
-    // Aplicar color de acento
-    const accent = ACCENT_COLORS.find(c => c.id === settings.accentColor);
-    if (accent) document.documentElement.style.setProperty("--accent", accent.value);
-
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const handleReset = () => {
-    const defaults = {
-      font: "jetbrains", fontSize: "md", cursorStyle: "blink",
-      accentColor: "blue", soundEnabled: false,
-      showLineNumbers: true, smoothScroll: true,
-    };
-    setSettings(defaults);
-    saveSettings(defaults);
+    setSettings({ ...DEFAULT_SETTINGS });
     setSaved(false);
   };
 

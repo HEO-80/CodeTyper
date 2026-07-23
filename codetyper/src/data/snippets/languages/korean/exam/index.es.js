@@ -1,0 +1,55 @@
+// src/data/snippets/languages/korean/exam/index.es.js
+
+const examEs = {
+  "ko-exam-01": {
+    title: "Carta formal — solicitud de empleo",
+    lines: [
+      "Asunto: Solicitud para el puesto de Ingeniero de Software",
+      "",
+      "Estimado responsable de selección,",
+      "",
+      "Me pongo en contacto con relación al anuncio publicado en el portal de empleo.",
+      "Leí con interés la descripción del puesto y creo que mi experiencia",
+      "responde a los requisitos de su empresa.",
+      "",
+      "Tengo cinco años de experiencia en el desarrollo de aplicaciones web.",
+      "Me especializo en JavaScript, TypeScript y los frameworks de frontend más recientes.",
+      "He trabajado en equipos internacionales y conozco bien las metodologías ágiles.",
+      "",
+      "Mis puntos fuertes son la capacidad de aprender rápido nuevas tecnologías,",
+      "mis habilidades de comunicación y mi interés por el código limpio y la arquitectura.",
+      "Soy una persona motivada que asume con gusto la responsabilidad de su trabajo.",
+      "",
+      "Adjunto mi currículum y mi portafolio.",
+      "Estaré muy contento si me invitan a una entrevista personal.",
+      "Estoy disponible desde la próxima semana.",
+      "",
+      "Gracias,",
+      "Alex Kim",
+    ],
+  },
+  "ko-exam-02": {
+    title: "Ensayo — Tecnología y sociedad",
+    lines: [
+      "La tecnología como espejo de la sociedad",
+      "",
+      "Cada tecnología que adoptamos reorganiza nuestra atención,",
+      "transforma nuestras relaciones y renegocia en silencio",
+      "lo que consideramos natural, necesario o posible.",
+      "",
+      "La revolución digital trajo posibilidades sin precedentes de comunicación.",
+      "Nunca en la historia de la humanidad fue tan fácil compartir ideas,",
+      "colaborar a través de continentes o acceder al conocimiento.",
+      "",
+      "Sin embargo, al mismo tiempo trae consigo nuevos desafíos que generaciones anteriores no conocían:",
+      "sobrecarga de información, dependencia de la validación ajena,",
+      "fragmentación de la atención y erosión de la capacidad de concentración profunda.",
+      "",
+      "La pregunta no es si debemos adoptar o rechazar la tecnología.",
+      "Es cómo usarla de manera consciente e intencionada,",
+      "para que sirva a nuestros valores, en lugar de dejar que los moldeen por nosotros.",
+    ],
+  },
+};
+
+export default examEs;

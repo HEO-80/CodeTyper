@@ -8,6 +8,7 @@
 export const LANGUAGE_CATEGORIES = [
   "english", "french", "german", "italian",
   "portuguese", "romanian", "japan", "russian", "chinese", "czech",
+  "greek", "korean", "ukrainian",
 ];
 
 
@@ -92,6 +93,42 @@ const TRANSLATION_TOPICS = {
     b2: ["shangwu"],
     c1: ["jishu"],
     c2: ["wenxue"],
+    exam: ["index"],
+  },
+  russian: {
+    a1: ["privetstviya"],
+    a2: ["povsednevno"],
+    b1: ["razgovory"],
+    b2: ["delovoy"],
+    c1: ["tekhnicheskiy"],
+    c2: ["literaturnyy"],
+    exam: ["index"],
+  },
+  greek: {
+    a1: ["chairetismoi"],
+    a2: ["kathimerini"],
+    b1: ["synomilies"],
+    b2: ["epangelmatika"],
+    c1: ["texniki"],
+    c2: ["logotechnia"],
+    exam: ["index"],
+  },
+  korean: {
+    a1: ["insa"],
+    a2: ["ilsang"],
+    b1: ["daehwa"],
+    b2: ["bijeuniseu"],
+    c1: ["gisul"],
+    c2: ["munhak"],
+    exam: ["index"],
+  },
+  ukrainian: {
+    a1: ["vitannya"],
+    a2: ["povsyakdenne"],
+    b1: ["rozmovy"],
+    b2: ["dilove"],
+    c1: ["tekhnichne"],
+    c2: ["literatura"],
     exam: ["index"],
   },
 };
