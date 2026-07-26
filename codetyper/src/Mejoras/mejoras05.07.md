@@ -359,3 +359,38 @@ resto, para que el tratamiento sea idéntico en todos.
 Dark no se tocó (los !important y bloques nuevos están todos bajo [data-theme="light"]).
 
 ✻ Brewed for 4m 32s
+
+
+07-24-2026
+hay que arreglar el panel de traduccion tiene que seguir las letras cuando las escribes por que se queda parado y no sigue luego la parte de abajo llega y no se ve.
+
+- Hay que poner en instrucciones para que sirve el boton de personalizado , poern un texto personalizado que quieras practicar...
+
+- Hay que poner el bot de ayuda en la pantalla princpal para en vez de sacar las instrucciones para que te ayuen en un principiio por si quieres preguntarle alguna cosa y te la diga directamente como el que tenemos en la pagina de ainoha fitnes lo podemos portar aquii.
+
+- Falta completar algunos lenguajes de programacion interesantes como ppueden ser rust, dart, cobol, yy alguno mas para que este algo mas completos aunque ahora mismo tiene los principales..
+
+- Habria que poner tambien en mentalidad completar el resto de mentalidades para ventas, proramacion, felicidadd , shark, etc...
+
+- hay que hacer toda la pagina que te puedas mover ocn el teclado..
+
+- tendriamos que mirar la pagina de bilbao de gugenhein para ver lo de accesibilidad si podemos incororar algo a esta.. 
+
+- hay que añadir metodo de pago, que tendriamos que buscar y poner seguramente hay allgo que podemos poner por internet... y un modo previoi para que la gente lo pueda probar, que te puedas registrar,  y hacer todos los primeros niveles de todo y siga u registro. pero si no pagas no puedes pasar a los siguuinetes niveles.... o que te de acceso por haber contratado algun curso de la pagina.. tendria que poner los cursos en la pagina
+
+- claro esto tambien hay que indicarlo, en instruccioines indicar que tienes acceso a los primeros niveles y registro pero si quieres avanzar puedes hacerlo de dos maneras pagando a cuota mensual, que serian unos 5 euros en un pprincipio no? o si no la otra manera seria contratando algun curso de llos de la pagina que tenemos que adaptar estos cursos te dan acceso a esta aplicacion con el registro y podrias usar todos los niveles..
+
+- hacer un resumen de todo lo que tiene a pagina... y preguntar  o ver que le podria faltar para hacerla mas atractva accesible, mejor..
+
+- hay que mejorar el sistema de habilidad, conforme haces niveles mas avanzados que te de un poco mas de marjen o ventaja o mejojrarlo de alguna manera, tamppoco tiene que llegar pronto pero hay que hacer algo para que sea mas atractivo o visible aunque parece que esta ahi bien... hay que darle una vuelta.
+
+- En traducciin en mindset, no p9odemos dejar que solo sirva para traducir el texto, podriamos tambien traduciro en ingles, asi veriamos como se escribe en ingles interesante... o que estamos consiguiendo repitiendo este texto ... gratitudo.. etc...
+
+-  Hay que hacer toda la pagina traducida al ingles, eso de primeras.. luego ya veriamos si merece la pena algun  otro idioma
+
+- hay que añadir algun que otro sonido de teclado o maquina de escribir..
+
+- cuando acabas una practica y te sale la nota y las estadisticas que has realizado. tiene que haber un botoon para revisar por si quieres revisar el texto o fallos o algo...
+
+- el teclado español le faltan estar illuminadas en verde alugunas teclas... o azuul es azuul.. tiene que estar odas ilumunadas en azul las de los numeros  o no se porque estan iluminadas por caracteresa especiae34s o algo asi...
+
