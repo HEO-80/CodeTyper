@@ -45,10 +45,10 @@ I will create a ticket with all the details and steps to reproduce.`,
   },
   {
     id: "en-b1-conv-04",
-    title: "Real Easy English: Talking about houses",
+    title: "English: Talking about houses",
     difficulty: "b1",
     description: "A podcast conversation discussing houses and apartments",
-    code: `Hello and welcome to another episode of Real Easy English, the podcast where you learn English by listening to conversations about everyday topics.
+    code: `Hello and welcome to another day, the podcast where you learn English by listening to conversations about everyday topics.
 I'm Mitch, and joining me today is my co-host, Isabel.
 Isabel: Hi everyone!
 Mitch: Today we are going to talk about houses and apartments. Or flats as they say in the UK.
@@ -83,12 +83,12 @@ Mitch: Bye!`,
   },
   {
     id: "en-b1-conv-05",
-    title: "Real Easy English: Extended Families",
+    title: "English: Extended Families",
     difficulty: "b1",
     description: "A podcast conversation discussing extended families and family trees",
     code: `Phil: Hello, I'm Phil.
 Georgie: And I'm Georgie.
-Phil: Welcome to Real Easy English. Remember, you can find the vocabulary from this episode and test yourself with a free worksheet on our website, bbclearningenglish.com. Hi Georgie, how are you?
+Phil: Welcome. Remember, you can find the vocabulary from this episode and test yourself with a free worksheet on our website, bbclearningenglish.com. Hi Georgie, how are you?
 Georgie: I'm very well, thank you, Phil. How are you?
 Phil: I'm really good. Today we're going to talk about our families and particularly our extended families. Georgie, do you have a big family?
 Georgie: I don't actually. I have my two parents, a sister and then outside of that, my family is quite small. I've got one aunt, two uncles, and only one of my uncles has children, so I don't have many cousins. What about you? Do you have a big family?
@@ -104,15 +104,15 @@ Phil: Wow. So, your ancestors are from all over the world, it sounds like?
 Georgie: Quite a few places, yeah. Yeah, I also have not researched my family tree, but I really would like to because I do know that my great grandmother was Italian and my great grandfather was from the US, so I would love to, kind of, find some family members from those countries and maybe become close with them. I think that would be really interesting to, kind of, understand more about my history.
 Phil: If you want to know more about your family history, I think you can often look it up. You can... you can look it up in records in government offices, but also I think there's a lot of websites where you can look things up now and find... find out your family history – find out about your ancestors.
 Georgie: Yes. Well, actually, there is a story that my family tells that I'm not sure is true, but one of my ancestors apparently has a connection to royalty – a big event in history. But again, I don't know if it's true, so I'd love to look it up and find out the facts. I think that would be good.
-Phil: OK. Let's recap the vocabulary that we've looked at in this episode, starting with 'close'. If you're 'close with' or 'close to' a family member, then it's someone whom you see a lot and you get on well with. Your 'family tree' is a diagram or image which shows your family history. Your 'ancestors' are your relatives from a long time ago. Lots of people like to look up their ancestors. If you 'look something up', you try to find out information – for example, by searching online or reading books. That's it for this episode of Real Easy English. We'll be back next week with another episode in easy English. And if you want to learn to talk more about your family, we have a collection of episodes all about this topic. Go to bbclearningenglish.com. Bye for now!
+Phil: OK. Let's recap the vocabulary that we've looked at in this episode, starting with 'close'. If you're 'close with' or 'close to' a family member, then it's someone whom you see a lot and you get on well with. Your 'family tree' is a diagram or image which shows your family history. Your 'ancestors' are your relatives from a long time ago. Lots of people like to look up their ancestors. If you 'look something up', you try to find out information – for example, by searching online or reading books. That's it for this episode of Real Easy English. We'll be back next week. And if you want to learn to talk more about your family, we have a collection of episodes all about this topic. Bye for now!
 Georgie: Goodbye!`
   },
   {
     id: "en-b1-conv-06",
-    title: "Real Easy English: Mess and Tidying",
+    title: "English: Mess and Tidying",
     difficulty: "b1",
     description: "A podcast conversation discussing cleaning, chores, and being tidy or messy",
-    code: `Beth: Welcome to Real Easy English. Hello, Georgie. How are you today?
+    code: `Beth: Welcome . Hello, Georgie. How are you today?
 Georgie: I'm very well, thank you, Beth. How are you?
 Beth: I'm very good, very good. Today we are talking about mess. Now, mess is when something is untidy. I left my house in a bit of a mess this morning.
 Georgie: Oh dear, Beth. That's not very good.
@@ -128,15 +128,15 @@ Beth: I have a least favourite job and that is washing up. I hate washing the di
 Georgie: Is there any way that you make washing up a more enjoyable activity?
 Beth: There is. I put music on, I put a song on, and I make sure I've finished by the end of the song, and it just makes me happy because I can just sing along and not focus on hating washing up. And it's not even that bad.
 Georgie: I quite like tidying my room because I find it quite satisfying, because you... you end up with a good result at the end. You have a tidy space to relax in and spend time in. That's actually on my to-do list at the moment. Later I'm going to go home and tidy my room. Beth, do you have anything on your to-do list?
-Beth: I do need to hoover, so hoovering is on my to-do list. A 'to-do list' is a list of jobs that you need to do. So, I do need to hoover, but I'm not sure if I'll do it today. I might do it tomorrow. OK. Let's recap the vocabulary we heard during the conversation, starting with 'mess'. A mess is when something is untidy or dirty. For example, this morning I left my kitchen in a bit of a mess. We also used the adjective 'messy' to describe a dirty or untidy place. We can also describe a person as 'messy', which means that they don't clean things and they often make a mess. The opposite of 'messy' is 'tidy'. So, a place, like your bedroom, or Georgie's bedroom, can be 'tidy', and you can also be described as a 'tidy person'. That's if you usually clean things and don't make a mess. And a 'to-do list' is a list of jobs you need to do – sometimes jobs around the house, like cleaning. That's it for this episode of Real Easy English. If you've enjoyed this episode about mess and want to learn more vocabulary for cleaning, Georgie has made a video – phrasal verbs for housework. Find it on our website, bbclearningenglish.com. And don't forget to try the worksheet on our website to test what you've learned. We'll be back next week with another conversation in easy English. See you then. Bye!
+Beth: I do need to hoover, so hoovering is on my to-do list. A 'to-do list' is a list of jobs that you need to do. So, I do need to hoover, but I'm not sure if I'll do it today. I might do it tomorrow. OK. Let's recap the vocabulary we heard during the conversation, starting with 'mess'. A mess is when something is untidy or dirty. For example, this morning I left my kitchen in a bit of a mess. We also used the adjective 'messy' to describe a dirty or untidy place. We can also describe a person as 'messy', which means that they don't clean things and they often make a mess. The opposite of 'messy' is 'tidy'. So, a place, like your bedroom, or Georgie's bedroom, can be 'tidy', and you can also be described as a 'tidy person'. That's if you usually clean things and don't make a mess. And a 'to-do list' is a list of jobs you need to do – sometimes jobs around the house, like cleaning. That's it for this episode of Real Easy English. If you've enjoyed this episode about mess and want to learn more vocabulary for cleaning, Georgie has made a video – phrasal verbs for housework. Find it on our website, bbclearningenglish.com. And don't forget to try the worksheet on our website to test what you've learned. We'll be back next week with another conversation in English. See you then. Bye!
 Georgie: Bye!`
   },
   {
     id: "en-b1-conv-07",
-    title: "Real Easy English: Memory and the Brain",
+    title: "English: Memory and the Brain",
     difficulty: "b1",
     description: "A podcast conversation discussing memory, the brain, and keeping the mind active",
-    code: `Georgie: Welcome to Real Easy English. How are you today?
+    code: `Georgie: Welcome Neil. How are you today?
 Neil: I'm pretty good. How about you?
 Georgie: Yes. I'm good. It's the morning, so my brain is fresh and ready for the day.
 Neil: Excellent, because we're talking today about our brains.
@@ -160,15 +160,15 @@ Georgie: Yeah, and that's quite common for you, unfortunately, isn't it...?!
 Neil: Hey. That's life!
 Georgie: OK. Let's recap the language we heard during the conversation. We talked about our 'memories'. Your memory is your ability to remember things.
 Neil: Yes. And Georgie mentioned 'short' and 'long-term' memory. 'Short-term memory' is for things that happened recently. And 'long-term memory' is for things that happened a long time ago, even when you were a child. We also heard 'sharp', which is an adjective used to describe someone who thinks quickly.
-Georgie: We heard 'on the tip of your tongue', which is an expression which means that something is there that you want to say, but you can't say it quickly enough. We also heard 'screen time', so this is the amount of time someone spends looking at their screen – so, your phone, a tablet, a computer. That's it for this episode of Real Easy English. Why not try the worksheet on our website to test what you've learned? That's bbclearningenglish.com. See you then.
+Georgie: We heard 'on the tip of your tongue', which is an expression which means that something is there that you want to say, but you can't say it quickly enough. We also heard 'screen time', so this is the amount of time someone spends looking at their screen – so, your phone, a tablet, a computer. That's it. Why not try the worksheet See you then.
 Neil: Goodbye!`
   },
   {
     id: "en-b1-conv-08",
-    title: "Real Easy English: Hair",
+    title: "English: Hair",
     difficulty: "b1",
     description: "A podcast conversation discussing hair, hairstyles, and going to the hairdresser",
-    code: `Georgie: Welcome to Real Easy English. Hi Phil. How are you doing?
+    code: `Georgie: Welcome. Hi Phil. How are you doing?
 Phil: I'm doing really well, Georgie. I must say, your hair is looking fantastic today.
 Georgie: Thank you very much, Phil. Today we are talking about hair. Now, I can see your hair, but for our listeners maybe you can start by describing your hair.
 Phil: OK. Well, my hair – it's short, but it's not very short. I think it's fairly straight. And then the colour – it's kind of a light brown colour. The bits that aren't grey, that is!
@@ -194,34 +194,8 @@ Georgie: Ah, well, maybe green would be...
 Phil: ...the way forward!
 Georgie: Yeah.
 Phil: The other thing is there's less of it. When I get my hair cut, I can see it's higher up, and there's a bit going a little bit bald there, but hopefully no one notices.
-Georgie: Let's recap the language we heard during the conversation. If you dye your hair, and that's spelt 'D-Y-E', then you use chemicals to change the colour. Blonde hair is a light colour, a bit like yellow. Ginger hair is a bit like orange. If your hair is curly or wavy, it's not straight. It has curves. And if you're bald, you don't have any hair on your head. That's it for this episode of Real Easy English. We'll be back next week with another conversation in easy English. And don't forget to test what you've learned with the free worksheet on our website. Go to bbclearningenglish.com. Bye for now.
+Georgie: Let's recap the language we heard during the conversation. If you dye your hair, and that's spelt 'D-Y-E', then you use chemicals to change the colour. Blonde hair is a light colour, a bit like yellow. Ginger hair is a bit like orange. If your hair is curly or wavy, it's not straight. It has curves. And if you're bald, you don't have any hair on your head. That's it. We'll be back next week with another conversation in easy English. And don't forget to test what you've learned with the free worksheet. Bye for now.
 Phil: Goodbye!`
-  },
-  {
-    id: "en-b1-conv-09",
-    title: "6 Minute English: Behavioural Science",
-    difficulty: "b1",
-    description: "A podcast conversation discussing behavioural science, endorsements, and nudges",
-    code: `Pippa: Hello, this is 6 Minute English from BBC Learning English. I'm Pippa.
-Phil: And I'm Phil.
-Pippa: What's the last thing you bought and why did you buy it?
-Phil: I bought a new pair of headphones recently because my old ones broke, and I did lots of research to try and find a good pair. How about you?
-Pippa: I bought a soft drink on the way to work this morning. It might be because I saw someone I like promoting it in an advert. We call this a celebrity endorsement. But why do they work? Let's start by hearing from Ben Jones, a behavioural research expert, speaking to BBC World Service programme Business Daily.
-Ben: When we're unsure, we don't know what to do, it's kind of easy to follow the lead of those who we think are credible or knowledgeable. It's a mental shortcut. It's something that helps us navigate uncertain times or make quick choices. We start doing that from an early age. Our parents... for some people, it's about our teachers – you know, these people who help us learn and make sense of the world. And some businesses can draw on this through things like endorsements – you know, dentists recommending toothpaste, athletes endorsing sportswear.
-Phil: Ben says that endorsements work as a mental shortcut. This is something that helps us make a decision quickly. If we trust the endorsement, then we don't need to think about it that much. In this episode, we're going to look at the way that people can be convinced to do things. And as usual, we'll learn some useful new words and phrases. And remember, you'll find all the vocabulary and a quiz on our website, bbclearningenglish.com. OK. But first I have a question for you, Pippa. Today we're talking about behavioural science. What's the name of the theory that says people respond to small prompts? Is it: a) push theory, b) pull theory, or c) nudge theory?
-Pippa: Oh, I'm not sure. I'm going to say b) pull theory.
-Phil: OK. Well, we'll find out the answer at the end of the programme. In recent years, many fast-food chains have installed touchscreen machines for people to order their food. They've reported taking more money as a result. Could behavioural science tell us why this happens? Here's product designer Dean Ward speaking to BBC World Service's Business Daily.
-Dean: Firstly, the psychology of speaking to someone and feeling judged – we think is a key factor. So, would you like extra fries? Would you like to go large? Not all people, but I think there's definitely a large proportion of people who may feel judged in those instances and may say no. There's the fact that you've got more time to look. You can see the product, you can see what's in it, you can see all the products linked to it as well. And also around upsell as well. Would you like to add this? Would you like to do that? Because you've got more time and you're not being judged, you're very much more inclined to actually say yes to these things. And that's typically what we're seeing – an increased basket spend of typically 25–30%.
-Pippa: If people feel judged, then it means that they worry what other people will think of them. If we have to ask a human for extra fries, we might worry what they think of us, but no one feels judged by a computer screen. If you upsell something, then you get someone to spend more. For example, waiters often try to get people to buy larger portions, more drinks, or dessert. Dean says that upselling can increase people's basket spend. A basket spend is the total amount that someone spends in one transaction, on everything that's in their basket. Now, this is an example of a business using behavioural science to nudge people to do things. But it's not just businesses that use behavioural science in this way. In Tunisia, the United Nations World Food Programme wanted to encourage people to eat food together more often. They made a TV show set in a restaurant. Let's hear from Takwa Khelifi from the World Food Programme, talking to BBC World Service's Business Daily.
-Takwa: So, we needed something really creative and really different to think outside of the box, or to let people see themselves in those stories, because people are learning and changing by imitating and modelling and, like, observing others' behaviours and others' actions and emotional reactions to things. So, this is why we tried this project or this... tried this product or this TV series – in order that you impact people.
-Pippa: Takwa says that they needed to think outside the box. This means to try and think in a different way, to come up with something creative. The TV programme leads to people modelling behaviour. If you model behaviour, then you behave in a way that other people can copy. Now Phil, I think it's time to hear the answer to your question.
-Phil: Yes, it is. I asked what theory says that people respond to small prompts to change their behaviour.
-Pippa: I thought it was pull theory...
-Phil: ...which I'm afraid was the wrong answer. Nudge theory says that people's behaviour can be changed by small prompts or nudges.
-Pippa: OK. Let's recap the vocabulary we've learned, starting with mental shortcut, which is something that helps us make a decision quickly, usually because we don't need to think about it. If someone feels judged, then they're worried about what other people think about them.
-Phil: Upsell refers to persuading someone to buy something extra, like a dessert at a restaurant. Basket spend is what you spend in one transaction on the things in your shopping basket.
-Pippa: If you think outside the box, then you think about something in a different way to come up with a creative solution. And finally, modelling is behaving in a way that others can copy.
-Phil: Once again, our six minutes are up, but why not head over to our website, bbclearningenglish.com, to try the quiz and worksheet for this episode. See you again soon! Bye!`
   }
 ];
 
